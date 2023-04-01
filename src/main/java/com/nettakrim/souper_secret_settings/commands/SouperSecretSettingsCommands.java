@@ -6,6 +6,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.mojang.brigadier.tree.RootCommandNode;
+import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.mixin.GameRendererAccessor;
 
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
@@ -16,8 +17,7 @@ import net.minecraft.util.Identifier;
 public class SouperSecretSettingsCommands {
     public static SuggestionProvider<FabricClientCommandSource> shaders = (context, builder) -> {
         for (Identifier identifier : GameRendererAccessor.getSuperSecretSettings()) {
-            String id = identifier.toString();
-            builder.suggest(id.substring(23, id.length()-5));
+            builder.suggest(SouperSecretSettingsClient.cropID(identifier.toString()));
         }
         return CompletableFuture.completedFuture(builder.build());
     };
@@ -29,6 +29,7 @@ public class SouperSecretSettingsCommands {
             registerSetShaderNode(root);
             registerRandomShaderNode(root);
             registerClearShaderNode(root);
+            registerQueryShaderNode(root);
         });
     }
 
@@ -62,4 +63,13 @@ public class SouperSecretSettingsCommands {
 
         root.addChild(clearNode);
     }
+
+    public static void registerQueryShaderNode(RootCommandNode<FabricClientCommandSource> root) {
+        LiteralCommandNode<FabricClientCommandSource> queryNode = ClientCommandManager
+        .literal("soup:query")
+        .executes(new QueryShaderCommand())
+        .build();
+
+        root.addChild(queryNode);
+    }    
 }

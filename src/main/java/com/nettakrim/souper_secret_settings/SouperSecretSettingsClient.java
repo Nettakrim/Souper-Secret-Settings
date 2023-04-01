@@ -17,6 +17,9 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 	public static GameRendererAccessor gameRendererAccessor;
 	public static MinecraftClient client;
 
+	public static boolean isSouped;
+	public static Identifier currentShader;
+
 	@Override
 	public void onInitializeClient() {
 		client = MinecraftClient.getInstance();
@@ -31,25 +34,37 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 
 		if (id.equals("none")) {
 			client.gameRenderer.disablePostProcessor();
+			isSouped = false;
 		} else {
 			Identifier identifier = getShaderFromID(id);
 			if (identifier == null) return false;
 			gameRendererAccessor.invokeLoadPostProcessor(identifier);
+			currentShader = identifier;
+			isSouped = true;
 		}
 		return true;
 	}
 
 	public static Identifier getShaderFromID(String id) {
 		if (id.equals("random")) {
-			return GameRendererAccessor.getSuperSecretSettings()[gameRendererAccessor.getRandom().nextInt(GameRendererAccessor.getSuperSecretSettings().length)];
+			Identifier identifier = GameRendererAccessor.getSuperSecretSettings()[gameRendererAccessor.getRandom().nextInt(GameRendererAccessor.getSuperSecretSettings().length)];
+			return identifier == currentShader ? getShaderFromID(id) : identifier;
 		} else {
-			String reverseCroppedID = "minecraft:shaders/post/"+id+".json";
+			String uncroppedID = uncropID(id);
 			for (Identifier identifier : GameRendererAccessor.getSuperSecretSettings()) {
-				if (reverseCroppedID.equals(identifier.toString())) {
+				if (uncroppedID.equals(identifier.toString())) {
 					return identifier;
 				}
 			}
 			return null;
 		}
+	}
+
+	public static String cropID(String id) {
+		return id.substring(23, id.length()-5);
+	}
+
+	public static String uncropID(String id) {
+		return "minecraft:shaders/post/"+id+".json";
 	}
 }
