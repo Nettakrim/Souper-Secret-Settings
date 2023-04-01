@@ -20,6 +20,8 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 	public static boolean isSouped;
 	public static Identifier currentShader;
 
+	public static Identifier blurIdentifier = new Identifier("shaders/post/blur.json");
+
 	@Override
 	public void onInitializeClient() {
 		client = MinecraftClient.getInstance();
@@ -66,5 +68,9 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 
 	public static String uncropID(String id) {
 		return "minecraft:shaders/post/"+id+".json";
+	}
+
+	public static boolean removeVignette() {
+		return isSouped && currentShader.equals(blurIdentifier);
 	}
 }
