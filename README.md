@@ -13,3 +13,6 @@ In the probably likely case you do not have access to beetroot soup, you can use
 `/soup:set <x>` - Set to specific shader \<x>, with a suggested list of all the shaders.
 
 `/soup:query` - Get the name of the current shader
+
+### Optifine/Iris Shaders
+Souper secret settings are applied after shaderpacks, so you can get some cool looking screenshots if you use stylised shaderpacks to begin with (personally i found https://modrinth.com/shader/epoch can look really cool)
