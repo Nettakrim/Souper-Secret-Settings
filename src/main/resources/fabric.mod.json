@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "souper_secret_settings",
+  "version": "${version}",
+
+  "name": "Souper Secret Settings",
+  "description": "Re-adds the old super secret settings through the power of soup!",
+  "authors": [
+    "Nettakrim"
+  ],
+  "contact": {
+    "sources": "https://github.com/Nettakrim/souper-secret-settings"
+  },
+
+  "license": "LGPL-3.0",
+  "icon": "assets/souper_secret_settings/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.nettakrim.souper_secret_settings.SouperSecretSettingsClient"
+    ]
+  },
+  "mixins": [
+    "souper_secret_settings.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.11",
+    "fabric": "*",
+    "minecraft": ">=1.19.0",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
