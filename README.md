@@ -4,7 +4,7 @@ Re-adds the old super secret settings through the power of soup!
 Simply drink a beetroot soup to activate a random souper secret setting, then drink milk or relog to clear it
 
 ### Commands
-In case you *somehow* do not have access to beetroot soup, you can use a range of commands, all starting with `/soup:` to control the souper secret settings.
+In the probably likely case you do not have access to beetroot soup, you can use a range of commands, all starting with `/soup:` to control the souper secret settings.
 
 `/soup:random` - Randomise shader, same as drinking soup
 
