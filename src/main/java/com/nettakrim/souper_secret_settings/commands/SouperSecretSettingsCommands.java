@@ -6,18 +6,17 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.mojang.brigadier.tree.RootCommandNode;
+import com.nettakrim.souper_secret_settings.ShaderData;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
-import com.nettakrim.souper_secret_settings.mixin.GameRendererAccessor;
 
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.minecraft.util.Identifier;
 
 public class SouperSecretSettingsCommands {
     public static SuggestionProvider<FabricClientCommandSource> shaders = (context, builder) -> {
-        for (Identifier identifier : GameRendererAccessor.getSuperSecretSettings()) {
-            builder.suggest(SouperSecretSettingsClient.cropID(identifier.toString()));
+        for (ShaderData shaderData : SouperSecretSettingsClient.shader_datas) {
+            builder.suggest(shaderData.id);
         }
         return CompletableFuture.completedFuture(builder.build());
     };

@@ -15,9 +15,4 @@ public interface GameRendererAccessor {
 
     @Invoker("loadPostProcessor")
     public void invokeLoadPostProcessor(Identifier id);
-
-    @Accessor("SUPER_SECRET_SETTING_PROGRAMS")
-    public static Identifier[] getSuperSecretSettings() {
-        throw new AssertionError();
-    }
 }

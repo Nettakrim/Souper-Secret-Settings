@@ -14,7 +14,7 @@ public class QueryShaderCommand implements Command<FabricClientCommandSource> {
 		if (SouperSecretSettingsClient.currentShader == null || !SouperSecretSettingsClient.isSouped) {
 			SouperSecretSettingsClient.client.player.sendMessage(Text.literal("none"));
 		} else {
-			SouperSecretSettingsClient.client.player.sendMessage(Text.literal(SouperSecretSettingsClient.cropID(SouperSecretSettingsClient.currentShader.toString())));
+			SouperSecretSettingsClient.client.player.sendMessage(Text.literal(SouperSecretSettingsClient.currentShader.id));
 		}
         return 1;
 	}

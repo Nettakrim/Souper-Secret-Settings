@@ -1,0 +1,55 @@
+{
+    "targets": [
+        "0",
+        "1"
+    ],
+    "passes": [
+        {
+            "name": "sobel",
+            "intarget": "minecraft:main",
+            "outtarget": "0"
+        },
+        {
+            "name": "wobble",
+            "intarget": "0",
+            "outtarget": "1",
+            "uniforms": [
+                {
+                    "name": "WobbleAmount",
+                    "values": [ 0.0005, 0.0005 ]
+                },
+                {
+                    "name": "Frequency",
+                    "values": [ 11, 17 ]
+                }
+            ]
+        },
+        {
+            "name": "bits",
+            "intarget": "1",
+            "outtarget": "0",
+            "uniforms": [
+                {
+                    "name": "MosaicSize",
+                    "values": [16.0]
+                }
+            ]
+        },
+        {
+            "name": "outline_combine",
+            "intarget": "minecraft:main",
+            "outtarget": "1",
+            "auxtargets": [
+                {
+                    "name": "OutlineSampler",
+                    "id": "0"
+                }
+            ]
+        },
+        {
+            "name": "blit",
+            "intarget": "1",
+            "outtarget": "minecraft:main"
+        }
+    ]
+}

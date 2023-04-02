@@ -18,9 +18,43 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 	public static MinecraftClient client;
 
 	public static boolean isSouped;
-	public static Identifier currentShader;
+	public static ShaderData currentShader;
 
 	public static Identifier blurIdentifier = new Identifier("shaders/post/blur.json");
+
+	public static ShaderData[] shader_datas = new ShaderData[] {
+		new ShaderData("notch", false),
+		new ShaderData("fxaa", false),
+		new ShaderData("art", false),
+		new ShaderData("bumpy", false),
+		new ShaderData("blobs2", false),
+		new ShaderData("pencil", false),
+		new ShaderData("color_convolve", false),
+		new ShaderData("deconverge", false),
+		new ShaderData("flip", false),
+		new ShaderData("invert", false),
+		new ShaderData("ntsc", false),
+		new ShaderData("outline", false),
+		new ShaderData("phosphor", false),
+		new ShaderData("scan_pincushion", false),
+		new ShaderData("sobel", false),
+		new ShaderData("bits", false),
+		new ShaderData("desaturate", false),
+		new ShaderData("green", false),
+		new ShaderData("blur", true),
+		new ShaderData("wobble", false),
+		new ShaderData("blobs", false),
+		new ShaderData("antialias", false),
+		new ShaderData("creeper", false),
+		new ShaderData("spider", false),
+		//bonus shaders!
+		new ShaderData("blobs_sobel", MODID, false),
+		new ShaderData("color_blind", MODID, false),
+		new ShaderData("toxic_waste", MODID, false),
+		new ShaderData("blobs_outline", MODID, false),
+		new ShaderData("glitchy", MODID, false),
+		new ShaderData("retro", MODID, false)
+	};
 
 	@Override
 	public void onInitializeClient() {
@@ -38,39 +72,30 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 			client.gameRenderer.disablePostProcessor();
 			isSouped = false;
 		} else {
-			Identifier identifier = getShaderFromID(id);
-			if (identifier == null) return false;
-			gameRendererAccessor.invokeLoadPostProcessor(identifier);
-			currentShader = identifier;
+			ShaderData shaderData = getShaderFromID(id);
+			if (shaderData == null) return false;
+			gameRendererAccessor.invokeLoadPostProcessor(shaderData.shader);
+			currentShader = shaderData;
 			isSouped = true;
 		}
 		return true;
 	}
 
-	public static Identifier getShaderFromID(String id) {
+	public static ShaderData getShaderFromID(String id) {
 		if (id.equals("random")) {
-			Identifier identifier = GameRendererAccessor.getSuperSecretSettings()[gameRendererAccessor.getRandom().nextInt(GameRendererAccessor.getSuperSecretSettings().length)];
-			return identifier == currentShader ? getShaderFromID(id) : identifier;
+			ShaderData shaderData = shader_datas[gameRendererAccessor.getRandom().nextInt(shader_datas.length)];
+			return shaderData == currentShader ? getShaderFromID(id) : shaderData;
 		} else {
-			String uncroppedID = uncropID(id);
-			for (Identifier identifier : GameRendererAccessor.getSuperSecretSettings()) {
-				if (uncroppedID.equals(identifier.toString())) {
-					return identifier;
+			for (ShaderData shaderData : shader_datas) {
+				if (id.equals(shaderData.id)) {
+					return shaderData;
 				}
 			}
 			return null;
 		}
 	}
 
-	public static String cropID(String id) {
-		return id.substring(23, id.length()-5);
-	}
-
-	public static String uncropID(String id) {
-		return "minecraft:shaders/post/"+id+".json";
-	}
-
 	public static boolean removeVignette() {
-		return isSouped && currentShader.equals(blurIdentifier);
+		return isSouped && currentShader.disableVignette;
 	}
 }

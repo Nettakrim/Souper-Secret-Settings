@@ -1,0 +1,63 @@
+{
+    "targets": [
+        "0",
+        "1",
+        "2"
+    ],
+    "passes": [
+        {
+            "name": "color_convolve",
+            "intarget": "minecraft:main",
+            "outtarget": "0",
+            "uniforms": [
+                {
+                    "name": "RedMatrix",
+                    "values": [ 1.0, -0.25, -0.25 ]
+                },
+                {
+                    "name": "GreenMatrix",
+                    "values": [ -0.25, 1.0, -0.25 ]
+                },
+                {
+                    "name": "BlueMatrix",
+                    "values": [ -0.25, -0.25, 1.0 ]
+                }
+            ]
+        },
+        {
+            "name": "notch",
+            "intarget": "0",
+            "outtarget": "1",
+            "auxtargets": [
+                {
+                    "name": "DitherSampler",
+                    "id": "dither",
+                    "width": 4,
+                    "height": 4,
+                    "bilinear": true
+                }
+            ]
+        },
+        {
+            "name": "outline_watercolor",
+            "intarget": "minecraft:main",
+            "outtarget": "0"
+        },
+        {
+            "name": "outline_combine",
+            "intarget": "1",
+            "outtarget": "2",
+            "auxtargets": [
+                {
+                    "name": "OutlineSampler",
+                    "id": "0"
+                }
+            ]
+        },
+        {
+            "name": "blit",
+            "intarget": "2",
+            "outtarget": "minecraft:main"
+        }
+    ]
+}

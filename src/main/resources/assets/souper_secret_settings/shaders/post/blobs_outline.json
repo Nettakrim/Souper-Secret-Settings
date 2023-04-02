@@ -1,0 +1,35 @@
+{
+    "targets": [
+        "0",
+        "1",
+        "2"
+    ],
+    "passes": [
+        {
+            "name": "outline_watercolor",
+            "intarget": "minecraft:main",
+            "outtarget": "0"
+        },
+        {
+            "name": "blobs2",
+            "intarget": "minecraft:main",
+            "outtarget": "2"
+        },
+        {
+            "name": "outline_combine",
+            "intarget": "2",
+            "outtarget": "1",
+            "auxtargets": [
+                {
+                    "name": "OutlineSampler",
+                    "id": "0"
+                }
+            ]
+        },
+        {
+            "name": "blit",
+            "intarget": "1",
+            "outtarget": "minecraft:main"
+        }
+    ]
+}
