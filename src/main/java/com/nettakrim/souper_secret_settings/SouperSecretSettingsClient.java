@@ -63,7 +63,8 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 		new ShaderData("color_bleed", MODID),
 		new ShaderData("interference", MODID),
 		new ShaderData("thermal", MODID),
-		new ShaderData("kaleidoscope", MODID)
+		new ShaderData("kaleidoscope", MODID),
+		new ShaderData("ghost", MODID)
 	};
 
 	@Override
@@ -114,7 +115,15 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 	public static ShaderData getShaderFromID(String id) {
 		if (id.equals("random")) {
 			ShaderData shaderData = shader_datas[gameRendererAccessor.getRandom().nextInt(shader_datas.length)];
-			return shaderData == currentShader ? getShaderFromID(id) : shaderData;
+			int size = postProcessorStack.size();
+			if (size == 0) {
+				if (shaderData == currentShader) {
+					return getShaderFromID(id);
+				}
+			} else if (shaderData == postProcessorStack.get(size-1).data) {
+				return getShaderFromID(id);
+			}
+			return shaderData;
 		} else {
 			for (ShaderData shaderData : shader_datas) {
 				if (id.equals(shaderData.id)) {
