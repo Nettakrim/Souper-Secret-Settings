@@ -1,0 +1,71 @@
+{
+    "targets": [
+        "0",
+        "1"
+    ],
+    "passes": [
+        {
+            "name": "blur",
+            "intarget": "minecraft:main",
+            "outtarget": "0",
+            "uniforms": [
+                {
+                    "name": "BlurDir",
+                    "values": [ 1.0, 0.0 ]
+                },
+                {
+                    "name": "Radius",
+                    "values": [ 20.0 ]
+                }
+            ]
+        },
+        {
+            "name": "blur",
+            "intarget": "0",
+            "outtarget": "1",
+            "uniforms": [
+                {
+                    "name": "BlurDir",
+                    "values": [ 0.0, 1.0 ]
+                },
+                {
+                    "name": "Radius",
+                    "values": [ 20.0 ]
+                }
+            ]
+        },
+        {
+            "name": "outline_sepia",
+            "intarget": "1",
+            "outtarget": "0"
+        },
+        {
+            "name": "color_convolve",
+            "intarget": "0",
+            "outtarget": "1",
+            "uniforms": [
+                {
+                    "name": "RedMatrix",
+                    "values": [ 0.2, 0.0, -0.2 ]
+                },
+                {
+                    "name": "GreenMatrix",
+                    "values": [ 1.0, 1.0, 0.2 ]
+                },
+                {
+                    "name": "BlueMatrix",
+                    "values": [ 0.2, 0.0, 0.75 ]
+                },
+                {
+                    "name": "Saturation",
+                    "values": [ 0.5 ]
+                }
+            ]
+        },
+        {
+            "name": "blit",
+            "intarget": "1",
+            "outtarget": "minecraft:main"
+        }
+    ]
+}
