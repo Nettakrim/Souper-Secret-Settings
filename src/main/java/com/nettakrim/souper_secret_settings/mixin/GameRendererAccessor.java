@@ -5,6 +5,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
 
@@ -12,6 +13,9 @@ import net.minecraft.util.math.random.Random;
 public interface GameRendererAccessor {
     @Accessor
     Random getRandom();
+
+    @Accessor
+    ResourceManager getResourceManager();
 
     @Invoker("loadPostProcessor")
     public void invokeLoadPostProcessor(Identifier id);

@@ -1,0 +1,39 @@
+{
+    "targets": [
+        "0",
+        "1"
+    ],
+    "passes": [
+        {
+            "name": "deconverge",
+            "intarget": "minecraft:main",
+            "outtarget": "0"
+        },
+        {
+            "name": "sobel",
+            "intarget": "0",
+            "outtarget": "1"
+        },
+        {
+            "name": "blobs2",
+            "intarget": "1",
+            "outtarget": "0"
+        },      
+        {
+            "name": "outline_combine",
+            "intarget": "minecraft:main",
+            "outtarget": "1",
+            "auxtargets": [
+                {
+                    "name": "OutlineSampler",
+                    "id": "0"
+                }
+            ]
+        },
+        {
+            "name": "blit",
+            "intarget": "1",
+            "outtarget": "minecraft:main"
+        }
+    ]
+}

@@ -2,11 +2,15 @@ package com.nettakrim.souper_secret_settings;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.gl.PostEffectProcessor;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gson.JsonSyntaxException;
 import com.nettakrim.souper_secret_settings.commands.SouperSecretSettingsCommands;
 import com.nettakrim.souper_secret_settings.mixin.GameRendererAccessor;
 
@@ -18,42 +22,48 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 	public static MinecraftClient client;
 
 	public static boolean isSouped;
+	public static boolean canRestore;
 	public static ShaderData currentShader;
 
-	public static Identifier blurIdentifier = new Identifier("shaders/post/blur.json");
+	public static ArrayList<StackData> postProcessorStack = new ArrayList<StackData>();
 
 	public static ShaderData[] shader_datas = new ShaderData[] {
-		new ShaderData("notch", false),
-		new ShaderData("fxaa", false),
-		new ShaderData("art", false),
-		new ShaderData("bumpy", false),
-		new ShaderData("blobs2", false),
-		new ShaderData("pencil", false),
-		new ShaderData("color_convolve", false),
-		new ShaderData("deconverge", false),
-		new ShaderData("flip", false),
-		new ShaderData("invert", false),
-		new ShaderData("ntsc", false),
-		new ShaderData("outline", false),
-		new ShaderData("phosphor", false),
-		new ShaderData("scan_pincushion", false),
-		new ShaderData("sobel", false),
-		new ShaderData("bits", false),
-		new ShaderData("desaturate", false),
-		new ShaderData("green", false),
-		new ShaderData("blur", true),
-		new ShaderData("wobble", false),
-		new ShaderData("blobs", false),
-		new ShaderData("antialias", false),
-		new ShaderData("creeper", false),
-		new ShaderData("spider", false),
+		new ShaderData("notch"),
+		new ShaderData("fxaa"),
+		new ShaderData("art"),
+		new ShaderData("bumpy"),
+		new ShaderData("blobs2"),
+		new ShaderData("pencil"),
+		new ShaderData("color_convolve"),
+		new ShaderData("deconverge"),
+		new ShaderData("flip"),
+		new ShaderData("invert"),
+		new ShaderData("ntsc"),
+		new ShaderData("outline"),
+		new ShaderData("phosphor"),
+		new ShaderData("scan_pincushion"),
+		new ShaderData("sobel"),
+		new ShaderData("bits"),
+		new ShaderData("desaturate"),
+		new ShaderData("green"),
+		new ShaderData("blur"),
+		new ShaderData("wobble"),
+		new ShaderData("blobs"),
+		new ShaderData("antialias"),
+		new ShaderData("creeper"),
+		new ShaderData("spider"),
 		//bonus shaders!
-		new ShaderData("blobs_sobel", MODID, false),
-		new ShaderData("color_blind", MODID, false),
-		new ShaderData("toxic_waste", MODID, false),
-		new ShaderData("blobs_outline", MODID, false),
-		new ShaderData("glitchy", MODID, false),
-		new ShaderData("retro", MODID, false)
+		new ShaderData("sequins", MODID),
+		new ShaderData("color_blind", MODID),
+		new ShaderData("toxic_waste", MODID),
+		new ShaderData("blobs_outline", MODID),
+		new ShaderData("glitchy", MODID),
+		new ShaderData("retro", MODID),
+		new ShaderData("sepia", MODID),
+		new ShaderData("color_bleed", MODID),
+		new ShaderData("interference", MODID),
+		new ShaderData("thermal", MODID),
+		new ShaderData("kaleidoscope", MODID)
 	};
 
 	@Override
@@ -64,19 +74,39 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 	}
 
 	public static boolean setShader(String id) {
+		return setShader(id, false);
+	}
+
+	public static boolean setShader(String id, boolean stack) {
 		if (gameRendererAccessor == null) {
 			gameRendererAccessor = (GameRendererAccessor)client.gameRenderer;
 		}
 
 		if (id.equals("none")) {
 			client.gameRenderer.disablePostProcessor();
-			isSouped = false;
 		} else {
 			ShaderData shaderData = getShaderFromID(id);
 			if (shaderData == null) return false;
-			gameRendererAccessor.invokeLoadPostProcessor(shaderData.shader);
-			currentShader = shaderData;
-			isSouped = true;
+			if (!isSouped || !stack) {
+				gameRendererAccessor.invokeLoadPostProcessor(shaderData.shader);
+				currentShader = shaderData;
+				isSouped = true;
+				postProcessorStack.clear();
+			} else if (stack) {
+				try {
+					PostEffectProcessor postProcessor = new PostEffectProcessor(client.getTextureManager(), gameRendererAccessor.getResourceManager(), client.getFramebuffer(), shaderData.shader);
+					postProcessor.setupDimensions(client.getWindow().getFramebufferWidth(), client.getWindow().getFramebufferHeight());
+					postProcessorStack.add(new StackData(postProcessor, shaderData));
+					return true;
+				}
+				catch (IOException iOException) {
+					LOGGER.warn("Failed to load shader: {}", (Object)id, (Object)iOException);
+				}
+				catch (JsonSyntaxException jsonSyntaxException) {
+					LOGGER.warn("Failed to parse shader: {}", (Object)id, (Object)jsonSyntaxException);
+				}
+				return false;
+			}
 		}
 		return true;
 	}
@@ -95,7 +125,9 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 		}
 	}
 
-	public static boolean removeVignette() {
-		return isSouped && currentShader.disableVignette;
+	public static void clearShaders() {
+		isSouped = false;
+		canRestore = false;
+		postProcessorStack.clear();
 	}
 }

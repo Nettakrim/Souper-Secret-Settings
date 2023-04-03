@@ -29,6 +29,7 @@ public class SouperSecretSettingsCommands {
             registerRandomShaderNode(root);
             registerClearShaderNode(root);
             registerQueryShaderNode(root);
+            registerStackShaderNode(root);
         });
     }
 
@@ -70,5 +71,35 @@ public class SouperSecretSettingsCommands {
         .build();
 
         root.addChild(queryNode);
-    }    
+    }
+
+    public static void registerStackShaderNode(RootCommandNode<FabricClientCommandSource> root) {
+        LiteralCommandNode<FabricClientCommandSource> stackNode = ClientCommandManager
+        .literal("soup:stack")
+        .build();
+
+        LiteralCommandNode<FabricClientCommandSource> setNode = ClientCommandManager
+        .literal("add")
+        .then(
+            ClientCommandManager.argument("shader", StringArgumentType.string())
+            .suggests(shaders)
+            .executes(StackShaderCommand::add)
+        )
+        .build();
+
+        LiteralCommandNode<FabricClientCommandSource> randomNode = ClientCommandManager
+        .literal("random")
+        .executes(StackShaderCommand::random)
+        .build();
+
+        LiteralCommandNode<FabricClientCommandSource> popNode = ClientCommandManager
+        .literal("undo")
+        .executes(StackShaderCommand::pop)
+        .build();
+
+        root.addChild(stackNode);
+        stackNode.addChild(setNode);
+        stackNode.addChild(randomNode);
+        stackNode.addChild(popNode);
+    }
 }
