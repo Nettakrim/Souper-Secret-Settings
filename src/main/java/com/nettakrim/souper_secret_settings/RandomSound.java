@@ -24,7 +24,6 @@ public class RandomSound {
         SoundEvents.BLOCK_BEEHIVE_WORK,
         SoundEvents.BLOCK_BELL_RESONATE,
         SoundEvents.ITEM_AXE_SCRAPE,
-        SoundEvents.ENTITY_CAMEL_DEATH,
         SoundEvents.ENTITY_CAT_BEG_FOR_FOOD,
         SoundEvents.ENTITY_CAT_DEATH,
         SoundEvents.BLOCK_CHORUS_FLOWER_GROW,
