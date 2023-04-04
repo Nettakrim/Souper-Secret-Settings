@@ -7,6 +7,8 @@ You can use multiple souper secret settings at once using `/soup:stack`, and opt
 
 Souper secret settings also expands on vanillas super secret settings by adding some custom ones, have fun eating soup!
 
+![Kaleidoscope](https://cdn.modrinth.com/data/bzJkPbG1/images/e5320e13d8ab192c266c79dda2af46ec8414d77e.png)
+
 ## Commands
 In the likely case you do not have access to beetroot soup, you can use a range of commands, all starting with `/soup:` to control the souper secret settings.
 
