@@ -37,8 +37,10 @@ public class GameRendererMixin {
 	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/PostEffectProcessor;render(F)V", ordinal = 0), method = "render")
 	public void render(PostEffectProcessor processor, float tickDelta) {
 		processor.render(tickDelta);
-		for (StackData stackData : SouperSecretSettingsClient.postProcessorStack) {
-			stackData.processor.render(tickDelta);
+		if (SouperSecretSettingsClient.isSouped) {
+			for (StackData stackData : SouperSecretSettingsClient.postProcessorStack) {
+				stackData.processor.render(tickDelta);
+			}
 		}
 	}
 
