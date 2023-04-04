@@ -9,7 +9,6 @@ public class RandomSound {
         int size = soundEvents.length;
         Random random = SouperSecretSettingsClient.gameRendererAccessor.getRandom();
         SoundEvent sound = soundEvents[random.nextInt(size)];
-        SouperSecretSettingsClient.LOGGER.info(sound.getId().toString());
         SouperSecretSettingsClient.client.player.playSound(sound, 1, (random.nextFloat()*random.nextFloat()*2)+0.5f);
     }
 

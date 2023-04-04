@@ -17,7 +17,7 @@ public class QueryShaderCommand implements Command<FabricClientCommandSource> {
 		} else {
 			String text = SouperSecretSettingsClient.currentShader.id;
 			for(StackData stackData : SouperSecretSettingsClient.postProcessorStack) {
-				text += " > "+stackData.data.id;
+				text += " -> "+stackData.data.id;
 			}
 			SouperSecretSettingsClient.client.player.sendMessage(Text.literal(text));
 		}
