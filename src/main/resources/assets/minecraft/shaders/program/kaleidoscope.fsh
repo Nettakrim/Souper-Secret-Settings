@@ -33,10 +33,6 @@ void main(){
         coord = mirrorDiagonal(coord);
     }
 
-    // float s = sin(Time * 3.1415926535 * 2.0);
-    // float c = cos(Time * 3.1415926535 * 2.0);
-    // coord = vec2(coord.x*c - coord.y*s, coord.x*s + coord.y*c);
-
     vec4 col = texture(DiffuseSampler, vec2(coord.x+0.5, coord.y+0.5));
     fragColor = col;
 }
