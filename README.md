@@ -25,3 +25,5 @@ In the likely case you do not have access to beetroot soup, you can use a range 
 `/soup:stack undo` - Remove the topmost shader in the stack
 
 `/soup:query` - Get the names of the currently active shaders
+
+The list of available shaders, including the custom ones can be seen [Here](SuperSecretSettingsList.md)
