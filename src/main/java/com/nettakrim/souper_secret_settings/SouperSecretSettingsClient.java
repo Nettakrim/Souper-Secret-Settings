@@ -69,7 +69,9 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 		new ShaderData("pixels", MODID),
 		new ShaderData("harsh_dither", MODID),
 		new ShaderData("glass", MODID),
-		new ShaderData("hyperspace", MODID)
+		new ShaderData("hyperspace", MODID),
+		new ShaderData("plants", MODID),
+		new ShaderData("collapse", MODID)
 	};
 
 	@Override
