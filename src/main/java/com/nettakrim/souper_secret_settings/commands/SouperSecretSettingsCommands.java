@@ -30,6 +30,7 @@ public class SouperSecretSettingsCommands {
             registerClearShaderNode(root);
             registerQueryShaderNode(root);
             registerStackShaderNode(root);
+            registerToggleShadersNode(root);
         });
     }
 
@@ -101,5 +102,14 @@ public class SouperSecretSettingsCommands {
         stackNode.addChild(setNode);
         stackNode.addChild(randomNode);
         stackNode.addChild(popNode);
+    }
+
+    public static void registerToggleShadersNode(RootCommandNode<FabricClientCommandSource> root) {
+        LiteralCommandNode<FabricClientCommandSource> toggleNode = ClientCommandManager
+        .literal("soup:toggle")
+        .executes(new ToggleShadersCommand())
+        .build();
+
+        root.addChild(toggleNode);
     }
 }

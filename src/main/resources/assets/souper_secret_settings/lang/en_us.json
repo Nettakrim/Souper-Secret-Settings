@@ -1,0 +1,7 @@
+{
+    "souper_secret_settings.query" : "%s",
+    "souper_secret_settings.query.stack" : " -> %s",
+    "souper_secret_settings.query.none" : "none",
+
+    "souper_secret_settings.toggle_prompt" : "Soup is currently toggled off, run /soup:toggle again to see changes"
+}

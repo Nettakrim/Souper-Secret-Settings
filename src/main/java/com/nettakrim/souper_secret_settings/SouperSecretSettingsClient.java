@@ -28,6 +28,7 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 
 	public static boolean isSouped;
 	public static boolean canRestore;
+	public static boolean isSoupToggledOff;
 	public static ShaderData currentShader;
 
 	public static ArrayList<StackData> postProcessorStack = new ArrayList<StackData>();
@@ -54,6 +55,10 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 	public static boolean setShader(String id, boolean stack) {
 		if (gameRendererAccessor == null) {
 			gameRendererAccessor = (GameRendererAccessor)client.gameRenderer;
+		}
+
+		if (isSoupToggledOff) {
+			client.player.sendMessage(Text.translatable(MODID+".toggle_prompt"));
 		}
 
 		if (id.equals("none")) {
