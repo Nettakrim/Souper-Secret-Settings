@@ -11,7 +11,7 @@ public class ShaderData {
         this.shader = shader;
     }
 
-    public ShaderData(String id, String namespace) {
+    public ShaderData(String namespace, String id) {
         this(id, new Identifier(namespace, "shaders/post/"+id+".json"));
     }
 

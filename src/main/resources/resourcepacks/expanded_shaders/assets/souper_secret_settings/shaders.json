@@ -1,0 +1,30 @@
+{
+    "values": [
+        {
+            "replace": false,
+            "namespace": "souper_secret_settings",
+            "shaders": [
+                "sequins",
+                "color_blind",
+                "toxic_waste",
+                "blobs_outline",
+                "glitchy",
+                "retro",
+                "sepia",
+                "color_bleed",
+                "interference",
+                "thermal",
+                "kaleidoscope",
+                "ghost",
+                "dramatic",
+                "pixels",
+                "harsh_dither",
+                "glass",
+                "hyperspace",
+                "plants",
+                "collapse",
+                "rotate"
+            ]
+        }
+    ]
+}

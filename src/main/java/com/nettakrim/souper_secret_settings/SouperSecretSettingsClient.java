@@ -1,8 +1,13 @@
 package com.nettakrim.souper_secret_settings;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.PostEffectProcessor;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,57 +32,17 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 
 	public static ArrayList<StackData> postProcessorStack = new ArrayList<StackData>();
 
-	public static ShaderData[] shader_datas = new ShaderData[] {
-		new ShaderData("notch"),
-		new ShaderData("fxaa"),
-		new ShaderData("art"),
-		new ShaderData("bumpy"),
-		new ShaderData("blobs2"),
-		new ShaderData("pencil"),
-		new ShaderData("color_convolve"),
-		new ShaderData("deconverge"),
-		new ShaderData("flip"),
-		new ShaderData("invert"),
-		new ShaderData("ntsc"),
-		new ShaderData("outline"),
-		new ShaderData("phosphor"),
-		new ShaderData("scan_pincushion"),
-		new ShaderData("sobel"),
-		new ShaderData("bits"),
-		new ShaderData("desaturate"),
-		new ShaderData("green"),
-		new ShaderData("blur"),
-		new ShaderData("wobble"),
-		new ShaderData("blobs"),
-		new ShaderData("antialias"),
-		new ShaderData("creeper"),
-		new ShaderData("spider"),
-		//bonus shaders!
-		new ShaderData("sequins", MODID),
-		new ShaderData("color_blind", MODID),
-		new ShaderData("toxic_waste", MODID),
-		new ShaderData("blobs_outline", MODID),
-		new ShaderData("glitchy", MODID),
-		new ShaderData("retro", MODID),
-		new ShaderData("sepia", MODID),
-		new ShaderData("color_bleed", MODID),
-		new ShaderData("interference", MODID),
-		new ShaderData("thermal", MODID),
-		new ShaderData("kaleidoscope", MODID),
-		new ShaderData("ghost", MODID),
-		new ShaderData("dramatic", MODID),
-		new ShaderData("pixels", MODID),
-		new ShaderData("harsh_dither", MODID),
-		new ShaderData("glass", MODID),
-		new ShaderData("hyperspace", MODID),
-		new ShaderData("plants", MODID),
-		new ShaderData("collapse", MODID),
-		new ShaderData("rotate", MODID)
-	};
+	public static ShaderResourceLoader shaderResourceLoader;
+
+	public static ArrayList<ShaderData> shaderDatas = new ArrayList<ShaderData>();
 
 	@Override
 	public void onInitializeClient() {
 		client = MinecraftClient.getInstance();
+
+		shaderResourceLoader = new ShaderResourceLoader();
+
+		ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("expanded_shaders"), FabricLoader.getInstance().getModContainer(MODID).orElseThrow(), Text.literal("Expanded Shaders"), ResourcePackActivationType.DEFAULT_ENABLED);
 
 		SouperSecretSettingsCommands.initialize();
 	}
@@ -122,7 +87,7 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 
 	public static ShaderData getShaderFromID(String id) {
 		if (id.equals("random")) {
-			ShaderData shaderData = shader_datas[gameRendererAccessor.getRandom().nextInt(shader_datas.length)];
+			ShaderData shaderData = shaderDatas.get(gameRendererAccessor.getRandom().nextInt(shaderDatas.size()));
 			int size = postProcessorStack.size();
 			if (size == 0) {
 				if (shaderData == currentShader) {
@@ -133,7 +98,7 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 			}
 			return shaderData;
 		} else {
-			for (ShaderData shaderData : shader_datas) {
+			for (ShaderData shaderData : shaderDatas) {
 				if (id.equals(shaderData.id)) {
 					return shaderData;
 				}
@@ -146,5 +111,17 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 		isSouped = false;
 		canRestore = false;
 		postProcessorStack.clear();
+	}
+
+	public static void shaderListClear() {
+		shaderDatas.clear();
+	}
+
+	public static void shaderListAdd(String namespace, String id) {
+		shaderDatas.add(new ShaderData(namespace, id));
+	}
+
+	public static void shaderListClearNamespace(String namespace) {
+		shaderDatas.removeIf(data -> data.shader.getNamespace().equals(namespace));
 	}
 }

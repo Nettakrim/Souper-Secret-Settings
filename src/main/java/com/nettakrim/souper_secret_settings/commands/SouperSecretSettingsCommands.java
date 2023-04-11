@@ -15,7 +15,7 @@ import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
 public class SouperSecretSettingsCommands {
     public static SuggestionProvider<FabricClientCommandSource> shaders = (context, builder) -> {
-        for (ShaderData shaderData : SouperSecretSettingsClient.shader_datas) {
+        for (ShaderData shaderData : SouperSecretSettingsClient.shaderDatas) {
             builder.suggest(shaderData.id);
         }
         return CompletableFuture.completedFuture(builder.build());

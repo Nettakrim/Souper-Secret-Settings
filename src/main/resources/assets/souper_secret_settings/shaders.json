@@ -1,0 +1,34 @@
+{
+    "values": [
+        {
+            "replace": false,
+            "namespace": "minecraft",
+            "shaders": [
+                "notch",
+                "fxaa",
+                "art",
+                "bumpy",
+                "blobs2",
+                "pencil",
+                "color_convolve",
+                "deconverge",
+                "flip",
+                "invert",
+                "ntsc",
+                "outline",
+                "phosphor",
+                "scan_pincushion",
+                "sobel",
+                "bits",
+                "desaturate",
+                "green",
+                "blur",
+                "wobble",
+                "blobs",
+                "antialias",
+                "creeper",
+                "spider"                
+            ]
+        }
+    ]
+}
