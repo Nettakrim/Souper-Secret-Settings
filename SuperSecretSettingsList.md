@@ -20,7 +20,7 @@ desaturate       | hyperspace
 green            | plants
 blur             | collapse
 wobble           | rotate
-blobs            | 
+blobs            | suspicious
 antialias        | 
 creeper          | 
 spider           | 
