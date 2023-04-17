@@ -7,8 +7,6 @@ in vec2 oneTexel;
 
 out vec4 fragColor;
 
-uniform float Time;
-
 vec2 rotate(vec2 v, float angle) {
     float s = sin(angle / 57.2957795131);
     float c = cos(angle / 57.2957795131);

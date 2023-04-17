@@ -24,7 +24,8 @@
                 "plants",
                 "collapse",
                 "rotate",
-                "suspicious"
+                "suspicious",
+                "half_invert"
             ]
         }
     ]

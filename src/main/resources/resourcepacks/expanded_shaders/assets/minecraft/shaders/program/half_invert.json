@@ -5,7 +5,7 @@
         "dstrgb": "zero"
     },
     "vertex": "sobel",
-    "fragment": "rotate",
+    "fragment": "half_invert",
     "attributes": [ "Position" ],
     "samplers": [
         { "name": "DiffuseSampler" }

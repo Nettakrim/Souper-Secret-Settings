@@ -21,7 +21,7 @@ green            | plants
 blur             | collapse
 wobble           | rotate
 blobs            | suspicious
-antialias        | 
+antialias        | half_invert
 creeper          | 
 spider           | 
 
