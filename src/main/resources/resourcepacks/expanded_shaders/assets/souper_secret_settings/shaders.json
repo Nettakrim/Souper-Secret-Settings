@@ -25,7 +25,8 @@
                 "collapse",
                 "rotate",
                 "suspicious",
-                "half_invert"
+                "half_invert",
+                "movement"
             ]
         }
     ]

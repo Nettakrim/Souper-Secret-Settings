@@ -1,0 +1,39 @@
+{
+    "targets": [
+        "swap",
+        "previous_in",
+        "previous_out"
+    ],
+    "passes": [
+        {
+            "name": "movement",
+            "intarget": "minecraft:main",
+            "outtarget": "swap",
+            "auxtargets": [
+                {
+                    "name": "PrevInSampler",
+                    "id": "previous_in"
+                },
+                {
+                    "name": "PrevOutSampler",
+                    "id": "previous_out"
+                }
+            ]
+        },
+        {
+            "name": "blit",
+            "intarget": "minecraft:main",
+            "outtarget": "previous_in"
+        },
+        {
+            "name": "blit",
+            "intarget": "swap",
+            "outtarget": "previous_out"
+        },
+        {
+            "name": "blit",
+            "intarget": "swap",
+            "outtarget": "minecraft:main"
+        }
+    ]
+}

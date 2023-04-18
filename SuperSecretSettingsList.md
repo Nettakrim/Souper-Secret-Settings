@@ -1,5 +1,5 @@
-Vanilla          | Souper Secret Settings
------------------|------------------------
+Vanilla          | Expanded Shaders
+-----------------|------------------
 notch            | sequins
 fxaa             | color_blind
 art              | toxic_waste
@@ -22,6 +22,5 @@ blur             | collapse
 wobble           | rotate
 blobs            | suspicious
 antialias        | half_invert
-creeper          | 
+creeper          | movement
 spider           | 
-
