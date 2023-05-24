@@ -33,6 +33,7 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 	public static final ArrayList<StackData> postProcessorStack = new ArrayList<>();
 
 	public static ShaderResourceLoader shaderResourceLoader;
+	public static RecipeManager recipeManager;
 
 	public static final ArrayList<ShaderData> shaderDatas = new ArrayList<>();
 	public static final HashMap<String, String> entityLinks = new HashMap<>();
@@ -45,6 +46,8 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 		client = MinecraftClient.getInstance();
 
 		shaderResourceLoader = new ShaderResourceLoader();
+
+		recipeManager = new RecipeManager();
 
 		ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("expanded_shaders"), FabricLoader.getInstance().getModContainer(MODID).orElseThrow(), Text.literal("Expanded Shaders"), ResourcePackActivationType.DEFAULT_ENABLED);
 
@@ -65,6 +68,14 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 	public static boolean stackShader(String id, int stack) {
 		if (isSoupToggledOff) {
 			client.player.sendMessage(Text.translatable(MODID+".toggle_prompt").setStyle(Style.EMPTY.withColor(0xAAAAAA)));
+			return false;
+		}
+
+		if (warningPrimed && stack+postProcessorStack.size() > shaderLimit) {
+			client.player.sendMessage(Text.translatable(MODID+".warning", shaderLimit).setStyle(Style.EMPTY.withColor(0xFF5555)));
+			stack = shaderLimit-postProcessorStack.size();
+			warningPrimed = false;
+			if (stack <= 0) return false;
 		}
 
 		ShaderData shaderData = getShaderFromID(id);
@@ -72,16 +83,14 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 			client.player.sendMessage(Text.translatable(MODID+".no_shader", id).setStyle(Style.EMPTY.withColor(0xFF5555)));
 			return false;
 		}
+
+		return stackShaderData(shaderData, stack);
+	}
+
+	public static boolean stackShaderData(ShaderData shaderData, int stack) {
 		if (stack == 0) {
 			clearShaders();
 			stack = 1;
-		}
-
-		if (warningPrimed && stack+postProcessorStack.size() > shaderLimit) {
-			client.player.sendMessage(Text.translatable(MODID+".warning", shaderLimit).setStyle(Style.EMPTY.withColor(0xFF5555)));
-			stack = shaderLimit-postProcessorStack.size();
-			if (stack <= 0) return false;
-			warningPrimed = false;
 		}
 
 		try {
@@ -94,7 +103,7 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 			return true;
 		}
 		catch (IOException | JsonSyntaxException e) {
-			LOGGER.warn("Failed to load shader \"{}\":\n{}", id, e);
+			LOGGER.warn("Failed to load shader \"{}\":\n{}", shaderData.id, e);
 		}
 		return false;
 	}
@@ -118,28 +127,9 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 	}
 
 	public static boolean tryLoadEntityShader(String type) {
-		String ids = SouperSecretSettingsClient.entityLinks.get(type);
-		if (ids == null) return false;
-
-		String[] idArray = ids.split("\\+");
-
-		if (idArray.length == 1) {
-			String id = idArray[0];
-			ShaderData shader = SouperSecretSettingsClient.getShaderFromID(id);
-			if (shader != null) {
-				SouperSecretSettingsClient.getGameRendererAccessor().invokeLoadPostProcessor(shader.shader);
-			} else {
-				SouperSecretSettingsClient.client.gameRenderer.disablePostProcessor();
-			}
-			return false;
-		} else {
-			SouperSecretSettingsClient.clearShaders();
-			for (String id : idArray) {
-				if (id.equals("")) continue;
-				SouperSecretSettingsClient.stackShader(id, 1);
-			}
-			return true;
-		}
+		String recipeData = SouperSecretSettingsClient.entityLinks.get(type);
+		if (recipeData == null) return false;
+		return RecipeManager.loadFromRecipeData(recipeData);
 	}
 
 	public static void clearShaders() {

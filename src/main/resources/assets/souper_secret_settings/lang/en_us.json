@@ -7,5 +7,7 @@
 
     "souper_secret_settings.toggle_prompt" : "Soup is currently toggled off, run /soup:toggle again to see changes",
     "souper_secret_settings.warning" : "Stacking more than %s shaders might crash your game\n! Proceed with caution !",
-    "souper_secret_settings.no_shader" : "Cannot find shader named \"%s\""
+    "souper_secret_settings.no_shader" : "Cannot find shader named \"%s\"",
+    "souper_secret_settings.confirm_overwrite" : "Recipe named \"%s\" already exists, run again to confirm overwrite",
+    "souper_secret_settings.no_recipe" : "Cannot find recipe named \"%s\""
 }

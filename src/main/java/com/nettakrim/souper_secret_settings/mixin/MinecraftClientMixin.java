@@ -14,6 +14,7 @@ public class MinecraftClientMixin {
     @Inject(method = "disconnect(Lnet/minecraft/client/gui/screen/Screen;)V", at = @At("RETURN"))
     private void disconnect(CallbackInfo ci) {
         SouperSecretSettingsClient.clearShaders();
+        SouperSecretSettingsClient.recipeManager.save();
     }
 
     @Inject(method = "joinWorld(Lnet/minecraft/client/world/ClientWorld;)V", at = @At("RETURN"))

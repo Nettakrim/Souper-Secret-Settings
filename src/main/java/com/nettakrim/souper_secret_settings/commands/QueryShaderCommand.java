@@ -3,15 +3,26 @@ package com.nettakrim.souper_secret_settings.commands;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.StackData;
 
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 
 public class QueryShaderCommand implements Command<FabricClientCommandSource> {
+	public static LiteralCommandNode<FabricClientCommandSource> getCommandNode() {
+		LiteralCommandNode<FabricClientCommandSource> queryNode = ClientCommandManager
+			.literal("soup:query")
+			.executes(new QueryShaderCommand())
+			.build();
+
+		return queryNode;
+	}
+
 	@Override
 	public int run(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
 		if (SouperSecretSettingsClient.postProcessorStack.size() == 0) {
