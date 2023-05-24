@@ -1,34 +1,24 @@
 {
     "targets": [
         "swap",
-        "previous_in",
-        "previous_out"
+        "previous"
     ],
     "passes": [
         {
-            "name": "movement",
+            "name": "voronoi",
             "intarget": "minecraft:main",
             "outtarget": "swap",
             "auxtargets": [
                 {
-                    "name": "PrevInSampler",
-                    "id": "previous_in"
-                },
-                {
                     "name": "PrevOutSampler",
-                    "id": "previous_out"
+                    "id": "previous"
                 }
             ]
         },
         {
             "name": "blit",
-            "intarget": "minecraft:main",
-            "outtarget": "previous_in"
-        },
-        {
-            "name": "blit",
             "intarget": "swap",
-            "outtarget": "previous_out"
+            "outtarget": "previous"
         },
         {
             "name": "blit",

@@ -1,8 +1,9 @@
 package com.nettakrim.souper_secret_settings;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Map;
+import java.util.Set;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -15,20 +16,18 @@ import net.minecraft.util.JsonHelper;
 
 public class ShaderResourceLoader {
     public void reload(ResourceManager manager) {
-        SouperSecretSettingsClient.shaderListClear();
+        SouperSecretSettingsClient.clearResources();
 
         Identifier identifier = new Identifier(SouperSecretSettingsClient.MODID, "shaders.json");
 
         try {
             parseAll(manager, identifier);
-        } catch (FileNotFoundException fileNotFoundException) {
-            SouperSecretSettingsClient.LOGGER.warn("Failed to load shader List: {}", (Object)fileNotFoundException);
         } catch (IOException ioException) {
             SouperSecretSettingsClient.LOGGER.warn("Failed to load shader List: {}", (Object)ioException);
         }
     }
 
-    public void parseAll(ResourceManager manager, Identifier id) throws FileNotFoundException, IOException {
+    public void parseAll(ResourceManager manager, Identifier id) throws IOException {
         for (Resource resource : manager.getAllResources(id)) {
             parseResource(resource);
         }
@@ -44,11 +43,16 @@ public class ShaderResourceLoader {
         for (JsonElement jsonElement : jsonArray) {
             parseNamespaceList(jsonElement);
         }
+
+        JsonObject entityLinks = JsonHelper.getObject(jsonObject, "entity_links", null);
+        if (entityLinks != null) {
+            parseEntityLinks(entityLinks);
+        }
     }
 
     public void parseNamespaceList(JsonElement jsonNamespaceList) {
         JsonObject jsonObject = JsonHelper.asObject(jsonNamespaceList, "namespacelist");
-        Boolean replace = JsonHelper.getBoolean(jsonObject, "replace", false);
+        boolean replace = JsonHelper.getBoolean(jsonObject, "replace", false);
         String namespace = JsonHelper.getString(jsonObject, "namespace", "minecraft");
         JsonArray shaders = JsonHelper.getArray(jsonObject, "shaders", new JsonArray());
 
@@ -58,6 +62,13 @@ public class ShaderResourceLoader {
 
         for (JsonElement jsonShader : shaders) {
             SouperSecretSettingsClient.shaderListAdd(namespace, jsonShader.getAsString());
+        }
+    }
+
+    public void parseEntityLinks(JsonObject entityLinks) {
+        Set<Map.Entry<String, JsonElement>> entitySet = entityLinks.entrySet();
+        for (Map.Entry<String, JsonElement> entry: entitySet) {
+            SouperSecretSettingsClient.entityLinksAdd(entry.getKey(), JsonHelper.asString(entry.getValue(), "shader"));
         }
     }
 }

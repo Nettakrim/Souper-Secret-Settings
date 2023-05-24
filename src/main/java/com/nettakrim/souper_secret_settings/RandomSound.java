@@ -7,12 +7,12 @@ import net.minecraft.util.math.random.Random;
 public class RandomSound {
     public static void Play() {
         int size = soundEvents.length;
-        Random random = SouperSecretSettingsClient.gameRendererAccessor.getRandom();
+        Random random = SouperSecretSettingsClient.getGameRendererAccessor().getRandom();
         SoundEvent sound = soundEvents[random.nextInt(size)];
         SouperSecretSettingsClient.client.player.playSound(sound, 1, (random.nextFloat()*random.nextFloat()*2)+0.5f);
     }
 
-    private static SoundEvent[] soundEvents = {
+    private static final SoundEvent[] soundEvents = {
         SoundEvents.ENTITY_ALLAY_AMBIENT_WITHOUT_ITEM,
         SoundEvents.ENTITY_ALLAY_AMBIENT_WITH_ITEM,
         SoundEvents.AMBIENT_UNDERWATER_LOOP,

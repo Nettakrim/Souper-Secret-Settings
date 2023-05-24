@@ -18,5 +18,5 @@ public interface GameRendererAccessor {
     ResourceManager getResourceManager();
 
     @Invoker("loadPostProcessor")
-    public void invokeLoadPostProcessor(Identifier id);
+    void invokeLoadPostProcessor(Identifier id);
 }

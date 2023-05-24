@@ -5,11 +5,10 @@
         "dstrgb": "zero"
     },
     "vertex": "sobel",
-    "fragment": "movement",
+    "fragment": "voronoi",
     "attributes": [ "Position" ],
     "samplers": [
         { "name": "DiffuseSampler" },
-        { "name": "PrevInSampler" },
         { "name": "PrevOutSampler" }
     ],
     "uniforms": [

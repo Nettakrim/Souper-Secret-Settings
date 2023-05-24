@@ -1,6 +1,7 @@
 package com.nettakrim.souper_secret_settings.commands;
 
 import com.mojang.brigadier.Command;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -12,5 +13,13 @@ public class SetShaderCommand implements Command<FabricClientCommandSource> {
 	@Override
 	public int run(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
         return SouperSecretSettingsClient.setShader(StringArgumentType.getString(context, "shader")) ? 1 : -1;
+	}
+
+	public static int setMultiple(CommandContext<FabricClientCommandSource> context) {
+		String shader = StringArgumentType.getString(context, "shader");
+		int amount = IntegerArgumentType.getInteger(context, "amount");
+		SouperSecretSettingsClient.clearShaders();
+		SouperSecretSettingsClient.stackShader(shader, amount);
+		return 1;
 	}
 }

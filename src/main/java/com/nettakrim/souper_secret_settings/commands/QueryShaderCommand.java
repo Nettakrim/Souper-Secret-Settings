@@ -8,20 +8,44 @@ import com.nettakrim.souper_secret_settings.StackData;
 
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.text.MutableText;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 
 public class QueryShaderCommand implements Command<FabricClientCommandSource> {
 	@Override
 	public int run(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
-		if (SouperSecretSettingsClient.currentShader == null || !SouperSecretSettingsClient.isSouped) {
-			SouperSecretSettingsClient.client.player.sendMessage(Text.translatable(SouperSecretSettingsClient.MODID+".query.none"));
+		if (SouperSecretSettingsClient.postProcessorStack.size() == 0) {
+			SouperSecretSettingsClient.client.player.sendMessage(Text.translatable(SouperSecretSettingsClient.MODID+".query.none").setStyle(Style.EMPTY.withColor(0xAAAAAA)));
 		} else {
-			MutableText text = Text.translatable(SouperSecretSettingsClient.MODID+".query", SouperSecretSettingsClient.currentShader.id);
+			MutableText text = Text.empty();
+			String lastId = SouperSecretSettingsClient.postProcessorStack.get(0).data().id;
+			int stacks = 0;
+			boolean join = false;
 			for (StackData stackData : SouperSecretSettingsClient.postProcessorStack) {
-				text.append(Text.translatable(SouperSecretSettingsClient.MODID+".query.stack", stackData.data.id));
+				if (stackData.data().id.equals(lastId)) {
+					stacks++;
+				} else {
+					text.append(get(lastId, stacks, join));
+					lastId = stackData.data().id;
+					stacks = 1;
+					join = true;
+				}
 			}
+			text.append(get(lastId, stacks, join));
+			text.setStyle(Style.EMPTY.withColor(0xAAAAAA));
 			SouperSecretSettingsClient.client.player.sendMessage(text);
 		}
         return 1;
+	}
+
+	private Text get(String id, int stacks, boolean join) {
+		String key = ".query";
+		if (stacks > 1) {
+			key+=".multiple";
+		}
+		if (join) {
+			key+=".join";
+		}
+		return Text.translatable(SouperSecretSettingsClient.MODID+key, id, stacks);
 	}
 }

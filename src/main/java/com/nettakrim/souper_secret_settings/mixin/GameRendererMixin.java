@@ -1,46 +1,47 @@
 package com.nettakrim.souper_secret_settings.mixin;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.StackData;
 
-import net.minecraft.client.gl.PostEffectProcessor;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.Entity;
 
 @Mixin(GameRenderer.class)
 public class GameRendererMixin {
-    @Inject(at = @At("HEAD"), method = "onCameraEntitySet", cancellable = true)
+	private boolean clearOnCameraChange = false;
+
+    @Inject(at = @At("TAIL"), method = "onCameraEntitySet")
 	public void onCameraEntitySet(@Nullable Entity entity, CallbackInfo ci) {
-		if (SouperSecretSettingsClient.isSouped) {
-			if (entity != null && entity != SouperSecretSettingsClient.client.player) {
-				SouperSecretSettingsClient.isSouped = false;
-				SouperSecretSettingsClient.canRestore = true;
-			} else {
-				ci.cancel();
-			}
+		if (clearOnCameraChange) {
+			SouperSecretSettingsClient.clearShaders();
+			clearOnCameraChange = false;
 		}
-		if (SouperSecretSettingsClient.canRestore && entity == SouperSecretSettingsClient.client.player) {
-			SouperSecretSettingsClient.gameRendererAccessor.invokeLoadPostProcessor(SouperSecretSettingsClient.currentShader.shader);
-			SouperSecretSettingsClient.isSouped = true;
-			SouperSecretSettingsClient.canRestore = false;
-			ci.cancel();
+		if (entity == null) {
+			clearOnCameraChange = SouperSecretSettingsClient.tryLoadEntityShader("entity.minecraft.player");
+		} else {
+			clearOnCameraChange = SouperSecretSettingsClient.tryLoadEntityShader(entity.getType().toString());
 		}
 	}
 
-	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/PostEffectProcessor;render(F)V", ordinal = 0), method = "render")
-	public void render(PostEffectProcessor processor, float tickDelta) {
+	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/Framebuffer;beginWrite(Z)V", ordinal = 0), method = "render")
+	public void render(float tickDelta, long startTime, boolean tick, CallbackInfo ci) {
 		if (SouperSecretSettingsClient.isSoupToggledOff) return;
-		processor.render(tickDelta);
-		if (SouperSecretSettingsClient.isSouped) {
+
+		if (SouperSecretSettingsClient.postProcessorStack.size() != 0) {
+			RenderSystem.disableBlend();
+			RenderSystem.disableDepthTest();
+			RenderSystem.enableTexture();
+			RenderSystem.resetTextureMatrix();
+
 			for (StackData stackData : SouperSecretSettingsClient.postProcessorStack) {
-				stackData.processor.render(tickDelta);
+				stackData.processor().render(tickDelta);
 			}
 		}
 	}
@@ -48,12 +49,7 @@ public class GameRendererMixin {
 	@Inject(at = @At("HEAD"), method = "onResized")
 	public void onResized(int width, int height, CallbackInfo ci) {
 		for (StackData stackData : SouperSecretSettingsClient.postProcessorStack) {
-			stackData.processor.setupDimensions(width, height);
+			stackData.processor().setupDimensions(width, height);
 		}
-	}
-
-	@Inject(at = @At("HEAD"), method = "disablePostProcessor")
-	public void disablePostProcessor(CallbackInfo ci) {
-		SouperSecretSettingsClient.clearShaders();
 	}
 }
