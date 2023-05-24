@@ -16,6 +16,6 @@ import net.minecraft.world.World;
 public class MilkBucketItemMixin {
     @Inject(at = @At("HEAD"), method = "finishUsing")
 	private void finishUsing(ItemStack stack, World world, LivingEntity user, CallbackInfoReturnable<ItemStack> cir) {
-		if (world.isClient) SouperSecretSettingsClient.setShader("none");
+		if (world.isClient) SouperSecretSettingsClient.clearShaders();
 	}
 }

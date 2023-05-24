@@ -7,23 +7,32 @@ You can use multiple souper secret settings at once using `/soup:stack`, and opt
 
 Souper secret settings also expands on vanillas super secret settings by adding some custom ones, have fun eating soup!
 
-![Kaleidoscope](https://cdn.modrinth.com/data/bzJkPbG1/images/e5320e13d8ab192c266c79dda2af46ec8414d77e.png)
+![A collection of cool sights](https://cdn.modrinth.com/data/bzJkPbG1/images/e5320e13d8ab192c266c79dda2af46ec8414d77e.png)
 
 ## Commands
 In the likely case you do not have access to beetroot soup, you can use a range of commands, all starting with `/soup:` to control the souper secret settings.
 
-`/soup:random` - Randomise shader, same as drinking soup
+`/soup:set <name> (amount)` - Set to specific shader \<name>, with a suggested list of all the shaders, optionally specify an (amount) to stack at once
 
-`/soup:clear` - Reset shader to default, same as drinking milk
+`/soup:random (amount)` - Randomise shader, same as drinking soup, optionally specify an (amount) to stack at once
 
-`/soup:set <x>` - Set to specific shader \<x>, with a suggested list of all the shaders.
-
-`/soup:stack add <x>` - Stacks the specified shader, so you can have multiple souper secret settings active at once
-
-`/soup:stack random` - Adds a random shader to the stack
-
-`/soup:stack undo` - Remove the topmost shader in the stack
+`/soup:clear` - Clear shaders, same as drinking milk
 
 `/soup:query` - Get the names of the currently active shaders
 
-The list of available shaders, including the custom ones, can be seen [Here](SuperSecretSettingsList.md)
+`/soup:stack add <name> (amount)` - Stacks the specified shader \<name> (amount) times
+
+`/soup:stack random (amount)` - Adds a random (amount) shaders to the stack
+
+`/soup:stack remove <name>` - Remove all occurrences of a specific shader in the stack
+
+`/soup:stack undo (amount)` - Remove the top (amount) shaders in the stack
+
+`/soup:toggle (stay)` - Toggle the shaders on and off to allow yourself to see clearly again without clearing the stack, by default it will automatically un-toggle if the stack gets changed
+
+`/soup:recipe load|remove|save` - Manage presets for stacks of soup, so you can easily use them again later
+
+## Custom Shaders
+The list of available shaders, including the custom ones added by Souper Secret Settings, can be seen [Here](SuperSecretSettingsList.md)
+
+Custom shaders can be added through resourcepacks, look [Here](ResourcepackGuide.md) for a guide on how to make a compatible resourcepack
