@@ -16,12 +16,26 @@ public class ToggleShadersCommand implements Command<FabricClientCommandSource> 
 			.executes(new ToggleShadersCommand())
 			.build();
 
+		LiteralCommandNode<FabricClientCommandSource> stayNode = ClientCommandManager
+			.literal("stay")
+			.executes(ToggleShadersCommand::toggleStay)
+			.build();
+
+		toggleNode.addChild(stayNode);
 		return toggleNode;
 	}
 
 	@Override
 	public int run(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
         SouperSecretSettingsClient.isSoupToggledOff = !SouperSecretSettingsClient.isSoupToggledOff;
+		SouperSecretSettingsClient.soupToggleStay = false;
         return 1;
+	}
+
+	private static int toggleStay(CommandContext<FabricClientCommandSource> context) {
+		boolean to = !SouperSecretSettingsClient.isSoupToggledOff;
+		SouperSecretSettingsClient.isSoupToggledOff = to;
+		SouperSecretSettingsClient.soupToggleStay = to;
+		return 1;
 	}
 }

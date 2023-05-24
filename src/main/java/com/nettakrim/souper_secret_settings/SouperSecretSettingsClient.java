@@ -6,8 +6,10 @@ import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.PostEffectProcessor;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.minecraft.text.TextColor;
 import net.minecraft.util.Identifier;
 
 import java.io.IOException;
@@ -29,6 +31,7 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 	public static MinecraftClient client;
 
 	public static boolean isSoupToggledOff;
+	public static boolean soupToggleStay;
 
 	public static final ArrayList<StackData> postProcessorStack = new ArrayList<>();
 
@@ -40,6 +43,9 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 
 	private static boolean warningPrimed = true;
 	private final static int shaderLimit = 100;
+
+	private static final TextColor textColor = TextColor.fromRgb(0xAAAAAA);
+	private static final TextColor nameTextColor = TextColor.fromRgb(0xB6484C);
 
 	@Override
 	public void onInitializeClient() {
@@ -66,13 +72,8 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 	}
 
 	public static boolean stackShader(String id, int stack) {
-		if (isSoupToggledOff) {
-			client.player.sendMessage(Text.translatable(MODID+".toggle_prompt").setStyle(Style.EMPTY.withColor(0xAAAAAA)));
-			return false;
-		}
-
 		if (warningPrimed && stack+postProcessorStack.size() > shaderLimit) {
-			client.player.sendMessage(Text.translatable(MODID+".warning", shaderLimit).setStyle(Style.EMPTY.withColor(0xFF5555)));
+			say("shader.warn_stacking", shaderLimit);
 			stack = shaderLimit-postProcessorStack.size();
 			warningPrimed = false;
 			if (stack <= 0) return false;
@@ -80,7 +81,7 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 
 		ShaderData shaderData = getShaderFromID(id);
 		if (shaderData == null) {
-			client.player.sendMessage(Text.translatable(MODID+".no_shader", id).setStyle(Style.EMPTY.withColor(0xFF5555)));
+			say("shader.missing", id);
 			return false;
 		}
 
@@ -88,6 +89,8 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 	}
 
 	public static boolean stackShaderData(ShaderData shaderData, int stack) {
+		updateToggle();
+
 		if (stack == 0) {
 			clearShaders();
 			stack = 1;
@@ -135,6 +138,7 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 	public static void clearShaders() {
 		warningPrimed = true;
 		postProcessorStack.clear();
+		updateToggle();
 	}
 
 	public static void clearResources() {
@@ -152,5 +156,23 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 
 	public static void entityLinksAdd(String id, String shader) {
 		entityLinks.put(id, shader);
+	}
+
+	public static void say(String key, Object... args) {
+		if (client.player == null) return;
+		Text text = Text.translatable(MODID+".say").setStyle(Style.EMPTY.withColor(nameTextColor)).append(Text.translatable(MODID+"."+key, args).setStyle(Style.EMPTY.withColor(textColor)));
+		client.player.sendMessage(text);
+	}
+
+	public static void say(MutableText text) {
+		if (client.player == null) return;
+		client.player.sendMessage(Text.translatable(MODID+".say").setStyle(Style.EMPTY.withColor(nameTextColor)).append(text.setStyle(Style.EMPTY.withColor(textColor))));
+	}
+
+	public static void updateToggle() {
+		if (isSoupToggledOff && !soupToggleStay) {
+			say("shader.toggle_prompt");
+			isSoupToggledOff = false;
+		}
 	}
 }

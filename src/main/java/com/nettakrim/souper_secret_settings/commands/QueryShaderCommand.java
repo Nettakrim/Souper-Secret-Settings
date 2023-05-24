@@ -10,7 +10,6 @@ import com.nettakrim.souper_secret_settings.StackData;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.text.MutableText;
-import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 
 public class QueryShaderCommand implements Command<FabricClientCommandSource> {
@@ -26,7 +25,7 @@ public class QueryShaderCommand implements Command<FabricClientCommandSource> {
 	@Override
 	public int run(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
 		if (SouperSecretSettingsClient.postProcessorStack.size() == 0) {
-			SouperSecretSettingsClient.client.player.sendMessage(Text.translatable(SouperSecretSettingsClient.MODID+".query.none").setStyle(Style.EMPTY.withColor(0xAAAAAA)));
+			SouperSecretSettingsClient.say("query.none");
 		} else {
 			MutableText text = Text.empty();
 			String lastId = SouperSecretSettingsClient.postProcessorStack.get(0).data().id;
@@ -43,8 +42,7 @@ public class QueryShaderCommand implements Command<FabricClientCommandSource> {
 				}
 			}
 			text.append(get(lastId, stacks, join));
-			text.setStyle(Style.EMPTY.withColor(0xAAAAAA));
-			SouperSecretSettingsClient.client.player.sendMessage(text);
+			SouperSecretSettingsClient.say(text);
 		}
         return 1;
 	}

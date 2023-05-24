@@ -1,8 +1,6 @@
 package com.nettakrim.souper_secret_settings;
 
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -65,15 +63,16 @@ public class RecipeManager {
             return;
         }
         if (stopOverwrite && recipies.containsKey(name)) {
-            SouperSecretSettingsClient.client.player.sendMessage(Text.translatable(SouperSecretSettingsClient.MODID+".confirm_overwrite", name));
+            SouperSecretSettingsClient.say("recipe.warn_overwrite", name);
             stopOverwrite = false;
             return;
         }
         stopOverwrite = true;
         changesMade = true;
         if (data.equals("")) {
-            recipies.remove(name);
+            removeRecipe(name);
         } else {
+            SouperSecretSettingsClient.say("recipe.save", name);
             recipies.put(name, data);
         }
         save();
@@ -86,7 +85,7 @@ public class RecipeManager {
         } else {
             String data = recipies.get(name);
             if (data == null) {
-                SouperSecretSettingsClient.client.player.sendMessage(Text.translatable(SouperSecretSettingsClient.MODID+".no_recipe", name).setStyle(Style.EMPTY.withColor(0xFF5555)));
+                SouperSecretSettingsClient.say("recipe.missing", name);
             } else {
                 loadFromRecipeData(data);
             }
@@ -137,6 +136,7 @@ public class RecipeManager {
     }
 
     public void removeRecipe(String name) {
+        SouperSecretSettingsClient.say("recipe.remove", name);
         recipies.remove(name);
     }
 

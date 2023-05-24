@@ -89,7 +89,12 @@ public class StackShaderCommand {
 
 	private static int pop(CommandContext<FabricClientCommandSource> context) {
 		int size = SouperSecretSettingsClient.postProcessorStack.size();
-		SouperSecretSettingsClient.postProcessorStack.remove(size-1);
+		if (size > 1) {
+			SouperSecretSettingsClient.postProcessorStack.remove(size - 1);
+		} else {
+			SouperSecretSettingsClient.clearShaders();
+		}
+		SouperSecretSettingsClient.updateToggle();
         return 1;
     }
 
@@ -102,6 +107,7 @@ public class StackShaderCommand {
 			return 1;
 		}
 		SouperSecretSettingsClient.postProcessorStack.subList(index, size).clear();
+		SouperSecretSettingsClient.updateToggle();
 		return 1;
 	}
 
@@ -111,6 +117,7 @@ public class StackShaderCommand {
 		if (SouperSecretSettingsClient.postProcessorStack.size() == 0) {
 			SouperSecretSettingsClient.clearShaders();
 		}
+		SouperSecretSettingsClient.updateToggle();
 		return cleared ? 1 : -1;
 	}
 }
