@@ -7,11 +7,13 @@ in vec2 oneTexel;
 
 out vec4 fragColor;
 
-void main(){
-    vec2 ditherPosition = floor(texCoord/oneTexel / 6) * 6;
+uniform int PixelSize;
 
-    ditherPosition = ditherPosition*oneTexel;
-    vec4 ditherTarget = texture(DiffuseSampler, ditherPosition);
+void main(){
+    vec2 roundedPosition = floor(texCoord/oneTexel / PixelSize) * PixelSize;
+
+    roundedPosition = roundedPosition *oneTexel;
+    vec4 ditherTarget = texture(DiffuseSampler, roundedPosition);
 
     fragColor = vec4(ditherTarget.rgb, 1.0);
 }

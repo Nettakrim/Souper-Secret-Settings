@@ -8,6 +8,7 @@ in vec2 oneTexel;
 out vec4 fragColor;
 
 uniform float Time;
+uniform float MaxDistance;
 
 //https://www.shadertoy.com/view/XdXGW8
 vec2 grad( ivec2 z )
@@ -44,7 +45,7 @@ void main(){
     float t = fract(noise(randomPos*300.123)+Time);
 
     vec3 center = texture(DiffuseSampler, texCoord).rgb;
-    vec3 down = texture(DiffuseSampler, texCoord - vec2(0, oneTexel.y*t*20)).rgb;
+    vec3 down = texture(DiffuseSampler, texCoord - vec2(0, oneTexel.y*t*MaxDistance)).rgb;
 
     vec3 col = mix(down, center, t);
 

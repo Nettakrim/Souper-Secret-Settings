@@ -20,9 +20,7 @@ public class JsonEffectShaderProgramMixin {
 
     private static Identifier fixIdentifier(String id) {
         if (!id.contains(":")) return new Identifier(id);
-        String s = id.replace("shaders/program/","");
-        String[] halves = s.split("\\.");
-        String[] identifier = halves[0].split(":");
-        return new Identifier(identifier[0], "shaders/program/" + identifier[1] + "." + halves[1]);
+        String[] halves = id.substring(16).split(":");
+        return new Identifier(halves[0], "shaders/program/" + halves[1]);
     }
 }

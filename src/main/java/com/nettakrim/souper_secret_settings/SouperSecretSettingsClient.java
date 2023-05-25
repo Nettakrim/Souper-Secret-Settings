@@ -132,7 +132,7 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 	public static boolean tryLoadEntityShader(String type) {
 		String recipeData = SouperSecretSettingsClient.entityLinks.get(type);
 		if (recipeData == null) return false;
-		return RecipeManager.loadFromRecipeData(recipeData);
+		return RecipeManager.loadFromRecipeData(recipeData, false);
 	}
 
 	public static void clearShaders() {

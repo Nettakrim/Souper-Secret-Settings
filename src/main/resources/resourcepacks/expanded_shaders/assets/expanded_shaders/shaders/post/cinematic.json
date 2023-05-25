@@ -1,0 +1,23 @@
+{
+    "targets": [
+        "0"
+    ],
+    "passes": [
+        {
+            "name": "expanded_shaders:aspect_ratio",
+            "intarget": "minecraft:main",
+            "outtarget": "0",
+            "uniforms": [
+                {
+                    "name": "Ratio",
+                    "values": [ 21.0, 9.0 ]
+                }
+            ]
+        },
+        {
+            "name": "blit",
+            "intarget": "0",
+            "outtarget": "minecraft:main"
+        }
+    ]
+}

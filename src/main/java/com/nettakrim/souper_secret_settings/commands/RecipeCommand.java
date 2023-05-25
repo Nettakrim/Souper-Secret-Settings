@@ -33,6 +33,10 @@ public class RecipeCommand {
             .then(
                 ClientCommandManager.argument("name", StringArgumentType.string())
                 .suggests(recipesWithRandom)
+                .then(
+                    ClientCommandManager.literal("stack")
+                    .executes(RecipeCommand::loadStack)
+                )
                 .executes(RecipeCommand::load)
             )
             .build();
@@ -62,7 +66,13 @@ public class RecipeCommand {
 
     private static int load(CommandContext<FabricClientCommandSource> context) {
         String name = StringArgumentType.getString(context, "name");
-        SouperSecretSettingsClient.recipeManager.loadFromName(name);
+        SouperSecretSettingsClient.recipeManager.loadFromName(name, false);
+        return 1;
+    }
+
+    private static int loadStack(CommandContext<FabricClientCommandSource> context) {
+        String name = StringArgumentType.getString(context, "name");
+        SouperSecretSettingsClient.recipeManager.loadFromName(name, true);
         return 1;
     }
 

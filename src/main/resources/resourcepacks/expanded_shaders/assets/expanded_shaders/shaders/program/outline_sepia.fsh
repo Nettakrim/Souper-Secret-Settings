@@ -44,5 +44,5 @@ void main(){
     // Blend with outline
     centerLuma = centerLuma * sumLuma;
 
-    fragColor = vec4(centerLuma+max(0.4-centerLuma, 0), centerLuma+max(0.2-centerLuma, 0), centerLuma*0.75, 1.0);
+    fragColor = vec4(centerLuma+max(0.4-centerLuma, 0.0), centerLuma+max(0.2-centerLuma, 0.0), centerLuma*0.75, 1.0);
 }

@@ -16,6 +16,7 @@ import net.minecraft.util.JsonHelper;
 
 public class ShaderResourceLoader {
     public void reload(ResourceManager manager) {
+        SouperSecretSettingsClient.clearShaders();
         SouperSecretSettingsClient.clearResources();
 
         Identifier identifier = new Identifier(SouperSecretSettingsClient.MODID, "shaders.json");

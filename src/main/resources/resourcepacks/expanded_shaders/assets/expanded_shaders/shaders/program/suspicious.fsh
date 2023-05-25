@@ -13,7 +13,7 @@ uniform int YOffset [22] = int[22](-1, -1, -1, -1, -2, 2, -2, 2, 1, 1, 1, 1, 0, 
 void main(){
     vec2 pos = floor(texCoord/oneTexel);
 
-    int i = int(mod(pos.x + pos.y*4, 22));
+    int i = int(mod(pos.x + pos.y*4, 22.0));
 
     vec4 col = texture(DiffuseSampler, texCoord + oneTexel*vec2(XOffset[i], YOffset[i]));
 

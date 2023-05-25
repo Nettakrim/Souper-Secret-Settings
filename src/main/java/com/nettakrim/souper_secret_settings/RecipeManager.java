@@ -78,24 +78,26 @@ public class RecipeManager {
         save();
     }
 
-    public void loadFromName(String name) {
+    public void loadFromName(String name, boolean stack) {
         if (name.equals("random")) {
             int index = SouperSecretSettingsClient.getGameRendererAccessor().getRandom().nextInt(recipies.size());
-            loadFromRecipeData(recipies.get((String)recipies.keySet().toArray()[index]));
+            loadFromRecipeData(recipies.get((String)recipies.keySet().toArray()[index]), stack);
         } else {
             String data = recipies.get(name);
             if (data == null) {
                 SouperSecretSettingsClient.say("recipe.missing", name);
             } else {
-                loadFromRecipeData(data);
+                loadFromRecipeData(data, stack);
             }
         }
     }
 
-    public static boolean loadFromRecipeData(String data) {
+    public static boolean loadFromRecipeData(String data, boolean stack) {
         String[] idArray = data.split("(?<=\\D)(?=\\d)");
 
-        if (idArray.length == 1 && !Character.isDigit(idArray[0].charAt(0))) {
+        char start = idArray[0].charAt(0);
+        if (start == '+') stack = true;
+        if (!stack && idArray.length == 1 && !Character.isDigit(start)) {
             String id = idArray[0];
             ShaderData shader = SouperSecretSettingsClient.getShaderFromID(id);
             if (shader != null) {
@@ -105,7 +107,7 @@ public class RecipeManager {
             }
             return false;
         } else {
-            SouperSecretSettingsClient.clearShaders();
+            if (!stack) SouperSecretSettingsClient.clearShaders();
             for (String id : idArray) {
                 String[] recipeArray = id.split("(?<=\\d)(?=\\D)");
                 ShaderData shaderData = SouperSecretSettingsClient.getShaderFromID(recipeArray[1]);

@@ -11,6 +11,10 @@ uniform vec2 InSize;
 
 out vec4 fragColor;
 
+uniform float Last;
+uniform float Adjacent;
+uniform float Diagonal;
+
 void main() {
     vec4 col = texture(DiffuseSampler, texCoord);
 
@@ -27,9 +31,9 @@ void main() {
 
     vec4 d1 = max(max(u, d), max(l, r));
     vec4 d2 = max(max(ul, dl), max(ur, dr));
-    vec4 m = max(max(c, d1*0.95), (d1+d2)*0.485);
+    vec4 m = max(max(c, d1*Adjacent), (d1+d2)*Diagonal);
     
-    m=min(m-(0.5/255), m*0.99);
+    m=min(m-(0.5/255), m*Last);
 
     fragColor = vec4(max(m,col).rgb, 1.0);
 }

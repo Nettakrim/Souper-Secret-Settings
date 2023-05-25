@@ -28,7 +28,8 @@
                 "half_invert",
                 "voronoi",
                 "normalise",
-                "hue_rotate"
+                "hue_rotate",
+                "cinematic"
             ]
         }
     ]

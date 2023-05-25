@@ -7,7 +7,10 @@ in vec2 oneTexel;
 
 out vec4 fragColor;
 
-uniform float Time;
+uniform float OffsetScale;
+uniform float CloudScale;
+uniform float CloudDistance;
+uniform float CloudAmount;
 
 //https://www.shadertoy.com/view/XdXGW8
 vec2 grad( ivec2 z )
@@ -43,11 +46,11 @@ void main(){
     vec2 randomPos = (texCoord+vec2(100.123))*aspect;
     vec2 offset = vec2(noise(randomPos*400.123), noise(randomPos*399.987));
 
-    vec4 color = texture(DiffuseSampler, texCoord + offset/100);
+    vec4 color = texture(DiffuseSampler, texCoord + offset/OffsetScale);
 
     float distance = length(offset);
 
-    float vignetteAmount = max(length(vec2(texCoord.x-0.5, texCoord.y-0.5))-0.3, 0)/2;
+    float vignetteAmount = max(length(texCoord - vec2(0.5))-CloudDistance, 0.0)*CloudScale;
 
-    fragColor = vec4(mix(color.rgb, color.rgb + distance/2, vignetteAmount), 1.0);
+    fragColor = vec4(mix(color.rgb, color.rgb + distance*CloudAmount, vignetteAmount), 1.0);
 }

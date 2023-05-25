@@ -7,6 +7,9 @@ in vec2 oneTexel;
 
 out vec4 fragColor;
 
+uniform int Steps;
+uniform float Mix;
+
 float getPositionThreshold(vec2 positionInPattern) {
     if (positionInPattern.x == 3) {
         positionInPattern.x = 0;
@@ -45,13 +48,13 @@ void main(){
     vec4 target = texture(DiffuseSampler, texCoord);
 
     vec2 positionInPattern = floor(fract((texCoord/oneTexel)/6)*6);
-    
+
     positionInPattern.y = 5-positionInPattern.y;
     float positionThreshold = getPositionThreshold(positionInPattern);
 
     vec4 color = vec4(getChannelOutput(target.r, positionThreshold), getChannelOutput(target.g, positionThreshold), getChannelOutput(target.b, positionThreshold), 1.0);
 
-    color = (color+(floor(target*4)/4))/2;
+    color = mix(color, (floor(target*Steps)/Steps), Mix);
 
-    fragColor = color;
+    fragColor = vec4(color.rgb, 1);
 }

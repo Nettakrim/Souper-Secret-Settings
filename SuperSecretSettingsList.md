@@ -25,3 +25,4 @@
 | creeper         | voronoi          |
 | spider          | normalise        |
 |                 | hue_rotate       |
+|                 | cinematic        |

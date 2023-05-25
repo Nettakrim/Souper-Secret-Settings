@@ -48,7 +48,7 @@ void main(){
     float centerLuma = dot(center + (center - pow(center, vec4(LumaRamp))), gray);
 
     // Quantize the luma value
-    centerLuma = min(centerLuma - fract(centerLuma * LumaLevel) / LumaLevel, 1);
+    centerLuma = min(centerLuma - fract(centerLuma * LumaLevel) / LumaLevel, 1.0);
 
     float h = centerLuma * ((LumaLevel-1)/LumaLevel);
     vec3 color = HSVtoRGB(vec3(h, 1 , 1));
