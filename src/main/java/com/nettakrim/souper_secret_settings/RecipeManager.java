@@ -111,6 +111,8 @@ public class RecipeManager {
                 ShaderData shaderData = SouperSecretSettingsClient.getShaderFromID(recipeArray[1]);
                 if (shaderData != null) {
                     SouperSecretSettingsClient.stackShaderData(shaderData, Integer.parseInt(recipeArray[0]));
+                } else {
+                    SouperSecretSettingsClient.say("recipe.missing_part", recipeArray[1]);
                 }
             }
             return true;

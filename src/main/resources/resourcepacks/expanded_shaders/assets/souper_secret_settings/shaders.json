@@ -2,7 +2,7 @@
     "values": [
         {
             "replace": false,
-            "namespace": "souper_secret_settings",
+            "namespace": "expanded_shaders",
             "shaders": [
                 "sequins",
                 "color_blind",

@@ -11,6 +11,7 @@
     "souper_secret_settings.recipe.missing" : "Cannot find recipe named \"%s\"",
     "souper_secret_settings.recipe.remove" : "Removed recipe \"%s\"",
     "souper_secret_settings.recipe.save" : "Saved recipe \"%s\"",
+    "souper_secret_settings.recipe.missing_part" : "Recipe cannot find shader named \"%s\"",
 
     "souper_secret_settings.shader.toggle_prompt" : "Soup toggled back on automatically, use \"/soup:toggle stay\" if you want it to stay off",
     "souper_secret_settings.shader.warn_stacking" : "Stacking more than %s shaders might crash the game\n! Proceed with caution !",

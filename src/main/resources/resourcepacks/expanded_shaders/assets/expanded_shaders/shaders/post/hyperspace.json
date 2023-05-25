@@ -1,0 +1,17 @@
+{
+    "targets": [
+        "0"
+    ],
+    "passes": [
+        {
+            "name": "expanded_shaders:hyperspace",
+            "intarget": "minecraft:main",
+            "outtarget": "0"
+        },
+        {
+            "name": "blit",
+            "intarget": "0",
+            "outtarget": "minecraft:main"
+        }
+    ]
+}
