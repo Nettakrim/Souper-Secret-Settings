@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.PostEffectProcessor;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
@@ -46,6 +47,9 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 
 	private static final TextColor textColor = TextColor.fromRgb(0xAAAAAA);
 	private static final TextColor nameTextColor = TextColor.fromRgb(0xB6484C);
+
+	public static Framebuffer depthFrameBuffer;
+	public static boolean canFixDepth;
 
 	@Override
 	public void onInitializeClient() {
@@ -97,12 +101,14 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 		}
 
 		try {
+			canFixDepth = true;
 			PostEffectProcessor postProcessor = new PostEffectProcessor(client.getTextureManager(), getGameRendererAccessor().getResourceManager(), client.getFramebuffer(), shaderData.shader);
 			postProcessor.setupDimensions(client.getWindow().getFramebufferWidth(), client.getWindow().getFramebufferHeight());
 			StackData data = new StackData(postProcessor, shaderData);
 			for (int x = 0; x < stack; x++) {
 				postProcessorStack.add(data);
 			}
+			canFixDepth = false;
 			return true;
 		}
 		catch (IOException | JsonSyntaxException e) {

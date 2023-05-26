@@ -29,8 +29,13 @@
                 "voronoi",
                 "normalise",
                 "hue_rotate",
-                "cinematic"
+                "cinematic",
+                "horror",
+                "out_of_bounds"
             ]
         }
-    ]
+    ],
+    "entity_links": {
+        "entity.minecraft.warden": "horror"
+    }
 }

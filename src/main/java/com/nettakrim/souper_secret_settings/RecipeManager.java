@@ -93,15 +93,20 @@ public class RecipeManager {
     }
 
     public static boolean loadFromRecipeData(String data, boolean stack) {
+        char start = data.charAt(0);
+        if (start == '+') {
+            stack = true;
+            data = data.substring(1);
+        }
         String[] idArray = data.split("(?<=\\D)(?=\\d)");
 
-        char start = idArray[0].charAt(0);
-        if (start == '+') stack = true;
         if (!stack && idArray.length == 1 && !Character.isDigit(start)) {
             String id = idArray[0];
             ShaderData shader = SouperSecretSettingsClient.getShaderFromID(id);
             if (shader != null) {
+                SouperSecretSettingsClient.canFixDepth = true;
                 SouperSecretSettingsClient.getGameRendererAccessor().invokeLoadPostProcessor(shader.shader);
+                SouperSecretSettingsClient.canFixDepth = false;
             } else {
                 SouperSecretSettingsClient.client.gameRenderer.disablePostProcessor();
             }

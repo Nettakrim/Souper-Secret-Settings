@@ -1,6 +1,8 @@
 package com.nettakrim.souper_secret_settings.mixin;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.SimpleFramebuffer;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -39,7 +41,6 @@ public class GameRendererMixin {
 			RenderSystem.disableDepthTest();
 			RenderSystem.enableTexture();
 			RenderSystem.resetTextureMatrix();
-
 			for (StackData stackData : SouperSecretSettingsClient.postProcessorStack) {
 				stackData.processor().render(tickDelta);
 			}
@@ -50,6 +51,11 @@ public class GameRendererMixin {
 	public void onResized(int width, int height, CallbackInfo ci) {
 		for (StackData stackData : SouperSecretSettingsClient.postProcessorStack) {
 			stackData.processor().setupDimensions(width, height);
+		}
+		if (SouperSecretSettingsClient.depthFrameBuffer == null) {
+			SouperSecretSettingsClient.depthFrameBuffer = new SimpleFramebuffer(width, height, true, MinecraftClient.IS_SYSTEM_MAC);
+		} else {
+			SouperSecretSettingsClient.depthFrameBuffer.resize(width, height, false);
 		}
 	}
 }

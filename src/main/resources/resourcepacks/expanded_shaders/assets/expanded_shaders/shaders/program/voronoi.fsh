@@ -1,7 +1,6 @@
 #version 150
 
 uniform sampler2D DiffuseSampler;
-uniform sampler2D PrevInSampler;
 uniform sampler2D PrevOutSampler;
 
 in vec2 texCoord;

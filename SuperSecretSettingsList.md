@@ -26,3 +26,5 @@
 | spider          | normalise        |
 |                 | hue_rotate       |
 |                 | cinematic        |
+|                 | horror           |
+|                 | out_of_bounds    |

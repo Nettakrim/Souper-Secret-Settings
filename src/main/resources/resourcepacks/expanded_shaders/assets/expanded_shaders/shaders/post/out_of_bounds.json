@@ -1,0 +1,33 @@
+{
+    "targets": [
+        "swap",
+        "previous"
+    ],
+    "passes": [
+        {
+            "name": "expanded_shaders:out_of_bounds",
+            "intarget": "minecraft:main",
+            "outtarget": "swap",
+            "auxtargets": [
+                {
+                    "name": "DiffuseDepthSampler",
+                    "id": "minecraft:main:depth"
+                },
+                {
+                    "name": "PrevOutSampler",
+                    "id": "previous"
+                }
+            ]
+        },
+        {
+            "name": "blit",
+            "intarget": "swap",
+            "outtarget": "previous"
+        },
+        {
+            "name": "blit",
+            "intarget": "swap",
+            "outtarget": "minecraft:main"
+        }
+    ]
+}

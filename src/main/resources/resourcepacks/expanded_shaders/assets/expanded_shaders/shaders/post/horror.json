@@ -1,0 +1,23 @@
+{
+    "targets": [
+        "0"
+    ],
+    "passes": [
+        {
+            "name": "expanded_shaders:horror",
+            "intarget": "minecraft:main",
+            "outtarget": "0",
+            "auxtargets": [
+                {
+                    "name": "DiffuseDepthSampler",
+                    "id": "minecraft:main:depth"
+                }
+            ]
+        },
+        {
+            "name": "blit",
+            "intarget": "0",
+            "outtarget": "minecraft:main"
+        }
+    ]
+}
