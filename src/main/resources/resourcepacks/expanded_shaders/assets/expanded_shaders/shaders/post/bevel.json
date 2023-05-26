@@ -1,0 +1,51 @@
+{
+  "targets": [
+    "0",
+    "prev"
+  ],
+  "passes": [
+    {
+      "name": "spider",
+      "intarget": "minecraft:main",
+      "outtarget": "0",
+      "auxtargets": [
+        {
+          "name": "BlurSampler",
+          "id": "prev"
+        }
+      ],
+      "uniforms": [
+        {
+          "name": "InScale",
+          "values": [ 1.0, 1.0 ]
+        },
+        {
+          "name": "InOffset",
+          "values": [ 0.0, 0.0 ]
+        },
+        {
+          "name": "InRotation",
+          "values": [ 0.0 ]
+        },
+        {
+          "name": "Scissor",
+          "values": [ 0, 0, 1, 1 ]
+        },
+        {
+          "name": "Vignette",
+          "values": [ 0.1, 0.1, 0.9, 0.9 ]
+        }
+      ]
+    },
+    {
+      "name": "blit",
+      "intarget": "0",
+      "outtarget": "prev"
+    },
+    {
+      "name": "blit",
+      "intarget": "0",
+      "outtarget": "minecraft:main"
+    }
+  ]
+}

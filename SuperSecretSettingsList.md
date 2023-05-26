@@ -28,3 +28,5 @@
 |                 | cinematic        |
 |                 | horror           |
 |                 | out_of_bounds    |
+|                 | bevel            |
+|                 | fractal          |
