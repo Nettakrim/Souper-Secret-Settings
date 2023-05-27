@@ -1,5 +1,5 @@
 {
-    "values": [
+    "namespaces": [
         {
             "replace": false,
             "namespace": "expanded_shaders",

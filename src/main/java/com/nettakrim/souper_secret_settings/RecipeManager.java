@@ -98,7 +98,7 @@ public class RecipeManager {
             stack = true;
             data = data.substring(1);
         }
-        String[] idArray = data.split("(?<=\\D)(?=\\d)");
+        String[] idArray = data.split("/");
 
         if (!stack && idArray.length == 1 && !Character.isDigit(start)) {
             String id = idArray[0];
@@ -135,7 +135,7 @@ public class RecipeManager {
             if (stackData.data().id.equals(lastId)) {
                 stacks++;
             } else {
-                recipe.append(stacks).append(lastId);
+                recipe.append(stacks).append(lastId).append('/');
                 lastId = stackData.data().id;
                 stacks = 1;
             }

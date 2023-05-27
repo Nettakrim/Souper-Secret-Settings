@@ -38,15 +38,16 @@ public class ShaderResourceLoader {
         BufferedReader reader = resource.getReader();
         JsonArray jsonArray;
         JsonObject jsonObject = JsonHelper.deserialize(reader);
-        if (!JsonHelper.hasArray(jsonObject, "values")) return;
 
-        jsonArray = jsonObject.getAsJsonArray("values");
-        for (JsonElement jsonElement : jsonArray) {
-            parseNamespaceList(jsonElement);
+        if (JsonHelper.hasArray(jsonObject, "namespaces")) {
+            jsonArray = jsonObject.getAsJsonArray("namespaces");
+            for (JsonElement jsonElement : jsonArray) {
+                parseNamespaceList(jsonElement);
+            }
         }
 
-        JsonObject entityLinks = JsonHelper.getObject(jsonObject, "entity_links", null);
-        if (entityLinks != null) {
+        if (JsonHelper.hasJsonObject(jsonObject, "entity_links")) {
+            JsonObject entityLinks = JsonHelper.getObject(jsonObject, "entity_links");
             parseEntityLinks(entityLinks);
         }
     }
