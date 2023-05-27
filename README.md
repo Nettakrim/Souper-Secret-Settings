@@ -35,4 +35,4 @@ In the likely case you do not have access to beetroot soup, you can use a range 
 ## Custom Shaders
 The list of available shaders, including the custom ones added by Souper Secret Settings, can be seen [Here](SuperSecretSettingsList.md)
 
-Custom shaders can be added through resourcepacks, look [Here](ResourcepackGuide.md) for a guide on how to make a compatible resourcepack
+Custom shaders can be added through resourcepacks, look [Here](ResourcepackGuide/ResourcepackGuide.md) for a guide on how to make a compatible resourcepack

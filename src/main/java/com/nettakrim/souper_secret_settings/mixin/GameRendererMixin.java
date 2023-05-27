@@ -1,6 +1,5 @@
 package com.nettakrim.souper_secret_settings.mixin;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.SimpleFramebuffer;
 import org.jetbrains.annotations.Nullable;
@@ -37,10 +36,6 @@ public class GameRendererMixin {
 		if (SouperSecretSettingsClient.isSoupToggledOff) return;
 
 		if (SouperSecretSettingsClient.postProcessorStack.size() != 0) {
-			RenderSystem.disableBlend();
-			RenderSystem.disableDepthTest();
-			RenderSystem.enableTexture();
-			RenderSystem.resetTextureMatrix();
 			for (StackData stackData : SouperSecretSettingsClient.postProcessorStack) {
 				stackData.processor().render(tickDelta);
 			}
