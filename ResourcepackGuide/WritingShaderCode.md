@@ -18,9 +18,9 @@ assets/souper_secret_settings/shaders.json
 }
 ```
 
-Since we are using the same namespace, its easy to add onto our shaders.json from the [last section](AddingShaders.md)
+Since we are using the same namespace, it's easy to add onto our shaders.json from the [last section](AddingShaders.md)
 
-And we can get our post shader ready as well - Since we will be dealing with a lot more files im naming all my files `example_<type>` to make it clear what points where, but this is not nessecary, minecraft and my own expanded_shaders would just keep everything named `example`
+And we can get our post shader ready as well - Since we will be dealing with a lot more files im naming all my files `example_<type>` to make it clear what points where, but this is not necessary, minecraft and my own expanded_shaders would just keep everything named `example`
 
 ```json
 assets/tutorial_shader/shaders/post/example_post.json
@@ -81,7 +81,7 @@ assets/tutorial_shader/shaders/post/example_post.json
 }
 ```
 
-Lets go ahead and copy one of minecrafts shader programs into our example program, i'll use blur since we are already somewhat familiar with it and it will help explain how to use uniforms later on
+Let's go ahead and copy one of minecraft's shader programs into our example program, I'll use blur since we are already somewhat familiar with it, and it will help explain how to use uniforms later on
 
 ```json
 assets/tutorial_shader/shaders/program/example_program.json
@@ -107,7 +107,7 @@ assets/tutorial_shader/shaders/program/example_program.json
 }
 ```
 
-Now that this is copied in, the shader does work and it blurs the screen diagonally a small amount - which is to be expected, as the default BlurDir is [1.0, 1.0], and the radius is 5.0, but thats besides the point, lets see what each part of this json is doing
+Now that this is copied in, the shader does work, and it blurs the screen diagonally a small amount - which is to be expected, as the default BlurDir is [1.0, 1.0], and the radius is 5.0, but that's besides the point, lets see what each part of this json is doing
 
 ```json
 "blend": {
@@ -117,7 +117,7 @@ Now that this is copied in, the shader does work and it blurs the screen diagona
 }
 ```
 
-The first section is called blend, there isnt much of a reason to touch it, so lets ignore it and move on
+The first section is called blend, there isn't much of a reason to touch it, so let's ignore it and move on
 
 ```json
 "vertex": "sobel",
@@ -125,11 +125,11 @@ The first section is called blend, there isnt much of a reason to touch it, so l
 ```
 
 Ok, these are useful, the "vertex" field tells the program what vertex shader to use, so in this case it points to `minecraft/shaders/program/sobel.vsh` (.vsh meaning vertex shader)
-The "fragment" field tells the program what fragment shader to use, in this case thats `minecraft/shaders/program/blur.fsh` (.fsh meaning fragment shader)
+The "fragment" field tells the program what fragment shader to use, in this case that's `minecraft/shaders/program/blur.fsh` (.fsh meaning fragment shader)
 
 As with the program reference in the post shader, Souper Secret Settings allows us to namespace these, so `"fragment": "tutorial_shader:example_fragment"` would point to `assets/tutorial_shader/shaders/example_fragment.fsh`
 
-Most of vanillas shaders use the vertex shader "sobel", which is used by the sobel shader program, but isnt overly related to the sobel effect
+Most of vanilla's shaders use the vertex shader "sobel", which is used by the sobel shader program, but isn't overly related to the sobel effect
 
 ```json
 "attributes": [ "Position" ],
@@ -143,7 +143,7 @@ This never changes between shaders, and I cant figure out any other attributes, 
 ],
 ```
 
-We've already seen how samplers work, theres a list of samplers, DiffuseSampler is the main intarget, any others can be set in auxtargets
+We've already seen how samplers work, there's a list of samplers, DiffuseSampler is the main intarget, any others can be set in auxtargets
 
 ```json
 "uniforms": [
@@ -155,9 +155,9 @@ We've already seen how samplers work, theres a list of samplers, DiffuseSampler 
 ]
 ```
 
-We've also already seen uniforms, theres have a list of names, types, counts, and default values
+We've also already seen uniforms - there's a list of names, types, counts, and default values
 
-The ProjMat is a 4x4 projection matrix, which is theoretically used to transform the screen coordinates, but it doesnt seem to do anything, InSize and OutSize are used in the vertex shaders - I think they are controlled automatically by the game to determine how big the frame buffers are, but I have not verified this
+The ProjMat is a 4x4 projection matrix, which is theoretically used to transform the screen coordinates, but it doesn't seem to do anything, InSize and OutSize are used in the vertex shaders - I think they are controlled automatically by the game to determine how big the frame buffers are, but I have not verified this
 
 BlurDir and Radius are obviously exclusive to the blur fragment shader
 
@@ -206,7 +206,7 @@ void main(){
 }
 ```
 
-The language this is written in is called GLSL, I will cover some basic topics here, and I will also expect some knowledge in general programming, for more examples and tutorials, albeit outside of the context of minecraft, you can look at some of these:
+The language this is written in is called GLSL, I will cover some basic topics here, and I will also expect some knowledge in general programming, for more examples and tutorials, albeit outside the context of minecraft, you can look at some of these:
 
 GLSL Docs:
 https://docs.gl/sl4/abs
@@ -218,7 +218,7 @@ https://www.shadertoy.com/
 
 #
 
-First of all, i'll quickly explain the basic "do nothing" fragment shader above, it starts with a version number, this is the GLSL version, for our purposes this is always going to be 150
+First of all, I'll quickly explain the basic "do nothing" fragment shader above, it starts with a version number, this is the GLSL version, for our purposes this is always going to be 150
 
 Next up we list our samplers, as discovered previously, these are how we access the frame buffers
 
@@ -238,7 +238,7 @@ It is important that the final color is wrapped in a vec4(col.rgb, 1.0), as othe
 
 #
 
-The are quite a few different variables types, the table below is not a complete list, but it is every single variable type you can use in a uniform, and it covers the important types
+There are quite a few different variables types, the table below is not a complete list, but it is every single variable type you can use in a uniform, and it covers the important types
 
 | type      | count | GLSL type |
 |-----------|-------|-----------|
@@ -254,11 +254,11 @@ The are quite a few different variables types, the table below is not a complete
 | matrix3x3 | 9     | mat3      |
 | matrix4x4 | 16    | mat4      |
 
-If you are familiar with C based languages, GLSL syntax wont be too complicated
+If you are familiar with C based languages, GLSL syntax won't be too complicated
 
-It is reccomended you use and IDE with support for GLSL, that way it can tell you if youre making a mistake, and help you find the function you want
+It is recommended you use an IDE with support for GLSL, that way it can tell you if you're making a mistake, and help you find the function you want
 
-Heres a range of "things you can do" so you can get a feel for how it works
+Here's a range of "things you can do" so you can get a feel for how it works
 
 ```c#
 //float maths
@@ -422,7 +422,7 @@ assets/tutorial_shader/shaders/post/example_post.json
 
 ![](uniforms.png)
 
-Yeah thats looking better!, now, what if instead of the difference being based on color, its based on depth? lets setup an auxtarget!
+Yeah! that's looking better!, now, what if instead of the difference being based on color, it's based on depth? let's set up an auxtarget!
 
 ## Setting up an Auxtarget
 
@@ -478,7 +478,7 @@ assets/tutorial_shader/shaders/post/example_post.json
 
 We use minecraft:main:depth to reference the depth buffer, of course, this could be set to any other render targets (other than "0" in this case, since that is our outtarget)
 
-It's worth noting that usually the depth buffer gets messed with by the hand rendering before spider.json, creeper.json etc can be rendered, so you can only use it in the fabulous graphics' transparency.json shader - However, Souper Secret Settings fixes this!
+It's worth noting that usually the depth buffer gets messed with by the hand rendering before spider.json, creeper.json etc. can be rendered, so you can only use it in the fabulous graphics' transparency.json shader - However, Souper Secret Settings fixes this!
 
 ## Using an AuxTarget
 
@@ -506,13 +506,13 @@ void main(){
 
 ![](depth_fail.png)
 
-Well thats weird, my outlines are all red, and i had to set the BumpScale to 100 to even see them!
+Well that's weird, my outlines are all red, and I had to set the BumpScale to 100 to even see them!
 
 This is because the depth buffer only exists on the red channel, so to get the depth of a pixel we should do `float depth = texture(DepthSampler, texCoord).r` instead
 
-While this fixes the color, the brightness is still way too low for further away objects, thats because the depth buffer uses a weird scale which is something along the lines of 0.0 = in your face, 1.0 = really far away - this can be useful, but often you want it measured in blocks instead
+While this fixes the color, the brightness is still way too low for further away objects, that's because the depth buffer uses a weird scale which is something along the lines of 0.0 = in your face, 1.0 = really far away - this can be useful, but often you want it measured in blocks instead
 
-thankfully, someone else has already encounted this problem, so ill just use their function
+thankfully, someone else has already uncounted this problem, so ill just use their function
 
 ```c#
 float near = 0.1;
@@ -539,7 +539,7 @@ void main(){
 
 ![](depth.png)
 
-Yeah! now theres an outline that fades in as long as the change in distance is around a block, the mod(0.5) colors are a little ugly, so i'll try something else
+Yeah! now there's an outline that fades in as long as the change in distance is around a block, the mod(0.5) colors are a little ugly, so I'll try something else
 
 ```c#
 void main(){
@@ -560,9 +560,9 @@ void main(){
 
 ![](depth_2.png)
 
-Yeah this looks cool! The overall shader code is mostly the same as before, only instead of using a fixed mod(0.5), I do a funky effect where the further away a pixel is, the less color precision it has, creating an interesting fade out of color into geometry only
+Yeah! this looks cool! The overall shader code is mostly the same as before, only instead of using a fixed mod(0.5), I do a funky effect where the further away a pixel is, the less color precision it has, creating an interesting fade out of color into geometry only
 
-In fact thatll be what i call it, so now just to rename of the files to "geometry_fade"
+In fact that'll be what I call it, so now just to rename of the files to "geometry_fade"
 
 ## Fragment Shaders
 
@@ -570,4 +570,4 @@ WIP
 
 #
 
-You can dowload the resourcepack made in this guide for reference [Here](TutorialShader.zip)
+You can download the resourcepack made in this guide for reference [Here](https://github.com/Nettakrim/Souper-Secret-Settings/raw/main/ResourcepackGuide/TutorialShader.zip)

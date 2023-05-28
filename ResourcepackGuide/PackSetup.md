@@ -58,9 +58,9 @@ Just looking at a single element of "namespaces", there are 3 parts, "replace", 
 ]
 ```
 
-namespace controls what namespace the list of shaders is referencing, and therefore what `<namespace>/shaders/post/<shader>` file to reference
+"namespace" controls what namespace the list of shaders is referencing, and therefore what `<namespace>/shaders/post/<shader>` file to reference
 
-if replace is true, then any shaders previously loaded into the namespace get cleared
+If replace is true, then any shaders previously loaded into the namespace get cleared
 this means that if we wanted to get rid of all but a select few vanilla shaders, we could do something like this:
 
 ```json
@@ -119,7 +119,7 @@ Entities can be linked to shaders, making certain shaders get applied when spect
 }
 ```
 
-This can be used to add shaders to entities that dont normally get shaders, clear shaders from enties that do, or change what shader they get
+This can be used to add shaders to entities that dont normally get shaders, clear shaders from entities that do, or change what shader they get
 
 These shaders are loaded using vanillas system, so wont show up on `/soup:query` and cant be cleared with `/soup:clear` etc
 
@@ -131,7 +131,7 @@ If do want it them to have `/soup` functionality, or want to stack shaders, you 
 "entity.minecraft.sheep": "2deconverge/1blur/1deconverge"
 ```
 
-If you get a stack ingame which you want to apply to an entity, you can do `/soup:recipe save <name>`, then look in `<appdata>/.minecraft/.souper_secret_settings.txt`
+If you get a stack in-game which you want to apply to an entity, you can do `/soup:recipe save <name>`, then look in `<appdata>/.minecraft/.souper_secret_settings.txt`
 
 These shaders are not namespaced, so if you wanted to link a shader like kaleidoscope from the builtin expanded_shaders resourcepack, you just do `"entity.<...>": "kaleidoscope"`
 
@@ -139,4 +139,4 @@ setting the entity as `"entity.minecraft.player"` will make the shader always ap
 
 ## Adding Shaders
 
-Now that your resourcepack is setup to work with souper secret settings, you can [Add Shaders](AddingShaders.md)
+Now that your resourcepack is set up to work with souper secret settings, you can [Add Shaders](AddingShaders.md)

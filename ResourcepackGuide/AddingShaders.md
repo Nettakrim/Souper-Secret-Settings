@@ -33,7 +33,7 @@ assets/souper_secret_settings/shaders.json
 
 Now that Souper Secret Settings knows about the shader, the shader needs its render passes setup, so add a file in `<namespace>/shaders/post` called `<name>.json`
 
-Its very useful to be able able to reference minecrafts shader assets while doing this - if you cant be bothered to unzip the jar yourself, you can look at https://mcasset.cloud/1.19.3/assets/minecraft/shaders or  the builtin [expanded shaders](https://github.com/Nettakrim/Souper-Secret-Settings/tree/main/src/main/resources/resourcepacks/expanded_shaders) resourcepack
+It's very useful to be able to reference minecraft's shader assets while doing this - if you cant be bothered to unzip the jar yourself, you can look at https://mcasset.cloud/1.19.3/assets/minecraft/shaders or  the builtin [expanded shaders](https://github.com/Nettakrim/Souper-Secret-Settings/tree/main/src/main/resources/resourcepacks/expanded_shaders) resourcepack
 
 *This section will explain how to add a modified vanilla shader program, to see how to write custom shaders, skip to the section on [writing shader code](WritingShaderCode.md), which will assume you have understanding of how the post shader files covered in this section work.*
 
@@ -71,7 +71,7 @@ There are 2 parts to the post shader, a list of targets, and a list of passes:
 
 A rendering pass requires something to render to or from, so in the "targets" list we put the names of all our frame buffers - which can be thought of as images we can write to and read from.
 
-Generally minecraft's shaders follow the standard where if theres only one target its called "swap", otherwise they are named "0", "1", "2" etc, or rarely named based on their purpose, but their names can be anything!
+Generally minecraft's shaders follow the standard where if there's only one target its called "swap", otherwise they are named "0", "1", "2" etc., or rarely named based on their purpose, but their names can be anything!
 
 ## Passes
 
@@ -98,10 +98,10 @@ The name tells the render pass to use the program in `minecraft/shaders/program/
 
 The input target is what the shader program reads, and the output is what it writes to
 
-The target "minecraft:main" represents the screen, so a post shader should generally end with the outtarget being minecraft:main - otherwise you wont see anything change!
+The target "minecraft:main" represents the screen, so a post shader should generally end with the outtarget being minecraft:main - otherwise you won't see anything change!
 - Souper Secret Settings also allows for "minecraft:main:depth" to work on post shaders other than transparency.json, allowing for fun depth based shaders - however this only works for auxtargets (more detail later)
 
-The `blit` program copies one target to another, so once weve rendered a sobelled minecraft:main to the "swap" frame buffer, we then copy it back to the main buffer with
+The `blit` program copies one target to another, so once we've rendered a sobelled minecraft:main to the "swap" frame buffer, we then copy it back to the main buffer with
 
 ```json
 {
@@ -115,7 +115,7 @@ The in and out targets cannot be the same, as a buffer cant be read from and wri
 
 
 # The fun bit!
-Ok now that you hopefully know how the render passes work, its time to combine them in some fun ways!
+Ok now that you hopefully know how the render passes work, it's time to combine them in some fun ways!
 
 So i have my sobel shader from before, and saw that stacking "blur" on top of it gives everything a weird ghostly look, so lets make that into a single shader
 
@@ -179,9 +179,9 @@ Uniforms are another part of each render pass, and they allow for the settings o
 ]
 ```
 
-Each elemet in the list of uniforms has 2 parts, a name, and a value
+Each element in the list of uniforms has 2 parts, a name, and a value
 
-To see what uniforms a program has, we can go to it's file!
+To see what uniforms a program has, we can go to its file!
 ```
 minecraft/shaders/program/blur.json
 {
@@ -241,7 +241,7 @@ The name is what we use to change them back in our render pass
 
 the values are what its set to by default, which can give us an idea of what a reasonable input for the uniform is
 
-the type is what type of number is in the "values" list - "float" means its a floating point number, which is a number with a decimal point like 1.0, -0.5, 0.123 etc. You may also see "int", which is an integer, meaning its whole numbers only, like 0, 42, -1 etc
+the type is what type of number is in the "values" list - "float" means it's a floating point number, which is a number with a decimal point like 1.0, -0.5, 0.123 etc. You may also see "int", which is an integer, meaning its whole numbers only, like 0, 42, -1 etc
 
 the count is how many of that number is in the "values" list
 - a count of 2 often means the uniform represents a vector (position in 2d space)
@@ -249,7 +249,7 @@ the count is how many of that number is in the "values" list
 
 ## Ok, diversion over
 
-So looking back at the blur render passes, it seems as though it first blurs the image on the horizontal axis with a radius of 20, then does the same on the y axis
+So looking back at the blur render passes, it seems as though it first blurs the image on the x-axis with a radius of 20, then does the same on the y-axis
 
 This should mean that if I change my example.json shader to
 
@@ -284,15 +284,15 @@ assets/tutorial_shader/shaders/post/example.json
 }
 ```
 
-it should blur the sobel slightly horizontally, creating 6-7 pixel wide lines
+it will blur the sobel slightly horizontally, creating 6-7 pixel wide lines
 
 ![](bug.png)
 
-Hmm that doesnt look good, but wait, pressing f1 fixes it?
+Hmm, that doesn't look good, but wait, pressing f1 fixes it?
 
 ![](bugfixf1.png)
 
-Lucky for you, i have already suffered through figuring out what the problem here is, and the soloution is simple, if mysterious!
+Lucky for you, I have already suffered through figuring out what the problem here is, and the solution is simple, if mysterious!
 
 Simply make sure the final pass is a blit, and everything fixes itself
 
@@ -333,13 +333,13 @@ assets/tutorial_shader/shaders/post/example.json
 }
 ```
 
-Interestingly, you dont actually need to reload resources (F3+T) after making a change to the render pass files and just reapplying the shader with /soup:set will work - you do need to reload if you're making changes to shaders.json though
+Interestingly, you don't actually need to reload resources (F3+T) after making a change to the render pass files and just reapplying the shader with /soup:set will work - you do need to reload if you're making changes to shaders.json though
 
 Ok this is looking cool, plus if you stack phosphor you get some funky trails that are helped by the increased width from the blur
 
 ![](phosphor.png)
 
-Wait, how does phosphor work? lets take a look
+Wait, how does phosphor work? let's take a look
 
 ```json
 minecraft/shaders/post/phosphor.json
@@ -383,7 +383,7 @@ minecraft/shaders/post/phosphor.json
 Interesting, it seems to take 2 targets, one for the current frame and one for the previous frame, which it then combines with a slight decay to create a trail
 
 This gives two useful bits of information
-- render targets dont get cleared between frames
+- render targets don't get cleared between frames
 - some programs have multiple inputs
 
 ## Auxtargets
@@ -414,7 +414,7 @@ minecraft/shaders/program/phosphor.json
 }
 ```
 
-The important part here is the "samplers" section, which shows two samplers "DiffuseSampler" and "PrevSampler" - usually theres just "DiffuseSampler" - so we can infer that the DiffuseSampler is the intarget, and any extra samplers can be set up with auxtargets
+The important part here is the "samplers" section, which shows two samplers "DiffuseSampler" and "PrevSampler" - usually there's just "DiffuseSampler" - so we can infer that the DiffuseSampler is the intarget, and any extra samplers can be set up with auxtargets
 
 ```json
 "auxtargets": [
@@ -427,11 +427,11 @@ The important part here is the "samplers" section, which shows two samplers "Dif
 
 The auxtarget syntax back in the render pass is simple enough, it has a name which matches the one in the program file, and an id which is the name of the render target we are inputting
 
-Most shader programs only have one auxtarget if any, but some (like transparency.json) have quite a few, theres not a strict limit
+Most shader programs only have one auxtarget if any, but some (like transparency.json) have quite a few, there's not a strict limit
 
 - Souper Secret Settings allows for depth shaders by setting the auxtarget's id to "minecraft:main:depth"
 
-Lets take a quick peek at the fragment shader to see if we can figure out how PrevSampler is used
+Let's take a quick peek at the fragment shader to see if we can figure out how PrevSampler is used
 
 ```
 minecraft/shaders/program/phosphor.fsh
@@ -458,17 +458,17 @@ void main() {
 }
 ```
 
-Ok this doesnt look too compilcated - looking just at the main() function at the bottom, we can see a few things
+Ok this doesn't look too complicated - looking just at the main() function at the bottom, we can see a few things
 - CurrTexel involves the DiffuseSampler - so it probably means Current Texel
 - PrevTexel involves the PrevSampler - so it probably means Previous Texel
 - fragColor is set to something involving CurrTexel and PrevTexel
 
 Lets try reverse engineer what this does:
 - Just before the main function, we see `out vec4 fragColor;`, so fragColor is probably the color which is outputted
-- PrevTexel and CurrTexel are both used with a .rgb - so theyre definately colours
-- The color on the screen obviously varies from pixel to pixel, which means PrevTexel and CurrTexel need to be varying too, so texture(Sampler, texCoord) probably means "get the color at this Coordinate" - we see `in vec2 texCoord;` so its presumably an input to the function in some way - "Texture Coordinate" seems like a reasonable expansion of texCoord
+- PrevTexel and CurrTexel are both used with a .rgb - so they're definitely colours
+- The color on the screen obviously varies from pixel to pixel, which means PrevTexel and CurrTexel need to be varying too, so texture(Sampler, texCoord) probably means "get the color at this Coordinate" - we see `in vec2 texCoord;` so it's presumably an input to the function in some way - "Texture Coordinate" seems like a reasonable expansion of texCoord
 - We know that the uniform Phosphor is set to [0.95, 0.95, 0.95], and its being multiplied by the rgb value of the previous frame, this lines up with what we see in game - every frame the trail gets a little darker
-- The max() function appears to wrap around the decayed previous color, and the current color, so the overall color of each pixel should be the highest between the current pixel and the previous pixel but a little smaller, this lines up with what we see in game - if we look at some red and green blocks and shake our head, the green channel from the green blocks leaks into the red but slowly decays as its not being refreshed by CurrTexel and each frame it gets multiplied by 0.95, the red channel stays however, as every frame the red value from the red block is higher than the decayed red value of the previous frame
+- The max() function appears to wrap around the decayed previous color, and the current color, so the overall color of each pixel should be the highest between the current pixel and the previous pixel but a little smaller, this lines up with what we see in game - if we look at some red and green blocks and shake our head, the green channel from the green blocks leaks into the red but slowly decays as it's not being refreshed by CurrTexel and each frame it gets multiplied by 0.95, the red channel stays however, as every frame the red value from the red block is higher than the decayed red value of the previous frame
 
 ![](redandgreen.png)
 
@@ -476,11 +476,11 @@ Interestingly, despite being used as motion blur, the overall function is really
 
 ## Ok, diversion over
 
-So that gives me an idea, what if i set the intarget on a phosphor pass to minecraft:main, and the aux target to the fun blurred sobel, if our theory on how the shader works is correct, the phosphor program should be able to combine the two with a per channel max() function, and it will also have a builtin per channel multiplier for our sobel frame buffer
+So that gives me an idea, what if I set the intarget on a phosphor pass to minecraft:main, and the aux target to the fun blurred sobel, if our theory on how the shader works is correct, the phosphor program should be able to combine the two with a per channel max() function, and it will also have a builtin per channel multiplier for our sobel frame buffer
 
 ![](example_shader1.png)
 
-Yeah! that looks cool, the horizontal blur makes walls have an interesting 3d effect, and the strong rgb colors after the high Phosphor uniform multiplication i used makes it look very "simulationy"
+Yeah! that looks cool, the horizontal blur makes walls have an interesting 3d effect, and the strong rgb colors after the high Phosphor uniform multiplication I used makes it look very "simulation-y"
 
 ```json
 assets/tutorial_shader/shaders/post/example.json
@@ -536,10 +536,10 @@ assets/tutorial_shader/shaders/post/example.json
 }
 ```
 
-Notice how the this uses the same amount of frame buffers as before as I can reuse "0" - since its contents are no longer needed I can write over it and it doesnt matter
+Notice how this uses the same amount of frame buffers as before as I can reuse "0" - since its contents are no longer needed I can write over it and it doesn't matter
 
 Now just to give it a better name than "example", im thinking "simulation" since it does look a bit like the world is a simulation that is breaking down, this is easy enough to do as I just need to change the name in shaders.json, and then rename the file in tutorial_shader/shaders/post to match
 
 We've already looked a little at the program files, but how do we make them? and what do they actually do? well, for that we need to learn how to [Write Shader Code](WritingShaderCode.md)
 
-You can dowload the resourcepack made in this guide for reference [Here](TutorialShader.zip)
+You can download the resourcepack made in this guide for reference [Here](https://github.com/Nettakrim/Souper-Secret-Settings/raw/main/ResourcepackGuide/TutorialShader.zip)
