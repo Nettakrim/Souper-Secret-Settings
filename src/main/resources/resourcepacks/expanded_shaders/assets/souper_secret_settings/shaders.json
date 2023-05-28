@@ -33,7 +33,8 @@
                 "horror",
                 "out_of_bounds",
                 "fractal",
-                "bevel"
+                "bevel",
+                "depth_outline"
             ]
         }
     ],

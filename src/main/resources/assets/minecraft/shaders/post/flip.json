@@ -4,7 +4,7 @@
     ],
     "passes": [
         {
-            "name": "stack_friendly:bits",
+            "name": "stack_friendly:flip",
             "intarget": "minecraft:main",
             "outtarget": "swap"
         },

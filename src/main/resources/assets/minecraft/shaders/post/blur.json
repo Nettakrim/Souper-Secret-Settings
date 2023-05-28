@@ -5,7 +5,7 @@
     ],
     "passes": [
         {
-            "name": "blur",
+            "name": "stack_friendly:blur",
             "intarget": "minecraft:main",
             "outtarget": "0",
             "uniforms": [
@@ -20,7 +20,7 @@
             ]
         },
         {
-            "name": "blur",
+            "name": "stack_friendly:blur",
             "intarget": "0",
             "outtarget": "1",
             "uniforms": [

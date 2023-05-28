@@ -30,7 +30,7 @@ float noise( in vec2 p )
 {
     ivec2 i = ivec2(floor( p ));
      vec2 f =       fract( p );
-	
+
 	vec2 u = f*f*(3.0-2.0*f); // feel free to replace by a quintic smoothstep instead
 
     return mix( mix( dot( grad( i+ivec2(0,0) ), f-vec2(0.0,0.0) ), 
