@@ -30,7 +30,11 @@ In the likely case you do not have access to beetroot soup, you can use a range 
 
 `/soup:toggle (stay)` - Toggle the shaders on and off to allow yourself to see clearly again without clearing the stack, by default it will automatically un-toggle if the stack gets changed
 
-`/soup:recipe load|remove|save` - Manage presets for stacks of soup, so you can easily use them again later, optionally use `/soup:recipe load <name> (stack)` to stack the preset when loading it
+`/soup:recipe remove|save <name>` - Manage presets for stacks of soup, so you can easily use them again later
+
+`/soup:recipe load <name>` - Load preset, if you want the preset to stack use `/soup:recipe stack <name>`
+
+`/soup:recipe share <name>` - Share a specified recipe through chat, if \<name> is left blank it will share the current stack - if the stack is too large it will instead copy to the clipboard so that others can load it with `/soup:recipe load clipboard`
 
 ## Custom Shaders
 The list of available shaders, including the custom ones added by Souper Secret Settings, can be seen [Here](SuperSecretSettingsList.md)

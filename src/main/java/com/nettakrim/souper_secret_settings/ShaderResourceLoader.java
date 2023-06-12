@@ -2,6 +2,7 @@ package com.nettakrim.souper_secret_settings;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -9,6 +10,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import net.minecraft.client.gl.ShaderStage;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
@@ -26,6 +28,25 @@ public class ShaderResourceLoader {
         } catch (IOException ioException) {
             SouperSecretSettingsClient.LOGGER.warn("Failed to load shader List: {}", (Object)ioException);
         }
+
+        releaseFromType(ShaderStage.Type.FRAGMENT);
+        releaseFromType(ShaderStage.Type.VERTEX);
+    }
+
+    private void releaseFromType(ShaderStage.Type type) {
+        StringBuilder log = new StringBuilder("Releasing from type \"").append(type.toString()).append("\":");
+        List<Map.Entry<String,ShaderStage>> array = type.getLoadedShaders().entrySet().stream().toList();
+
+        for (int i = array.size()-1; i>-1; i--) {
+            Map.Entry<String,ShaderStage> entry = array.get(i);
+            String name = entry.getKey();
+            if (name.startsWith("rendertype_")) continue;
+            if (name.startsWith("position_")) continue;
+            if (name.equals("position") || name.equals("particle")) continue;
+            log.append(" ").append(name);
+            entry.getValue().release();
+        }
+        SouperSecretSettingsClient.LOGGER.info(log.toString());
     }
 
     public void parseAll(ResourceManager manager, Identifier id) throws IOException {

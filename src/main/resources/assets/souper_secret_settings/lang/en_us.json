@@ -13,6 +13,12 @@
     "souper_secret_settings.recipe.save" : "Saved recipe \"%s\"",
     "souper_secret_settings.recipe.missing_part" : "Recipe cannot find shader named \"%s\"",
 
+    "souper_secret_settings.share.click" : "[Click Here] ",
+    "souper_secret_settings.share.send" : "To share recipe \"%s\"",
+    "souper_secret_settings.share.send.current" : "To share the currently active stack",
+    "souper_secret_settings.share.receive" : "To apply recipe with %s different shaders",
+    "souper_secret_settings.share.long" : "Recipe is too long to send in chat - copied to clipboard instead",
+
     "souper_secret_settings.shader.toggle_prompt" : "Soup toggled back on automatically, use \"/soup:toggle stay\" if you want it to stay off",
     "souper_secret_settings.shader.warn_stacking" : "Stacking more than %s shaders might crash the game\n! Proceed with caution !",
     "souper_secret_settings.shader.missing" : "Cannot find shader named \"%s\""

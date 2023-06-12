@@ -7,10 +7,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.PostEffectProcessor;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import net.minecraft.text.TextColor;
+import net.minecraft.text.*;
 import net.minecraft.util.Identifier;
 
 import java.io.IOException;
@@ -138,7 +135,7 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 	public static boolean tryLoadEntityShader(String type) {
 		String recipeData = SouperSecretSettingsClient.entityLinks.get(type);
 		if (recipeData == null) return false;
-		return RecipeManager.loadFromRecipeData(recipeData, false);
+		return recipeManager.loadFromRecipeData(recipeData, false);
 	}
 
 	public static void clearShaders() {
@@ -180,5 +177,17 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 			say("shader.toggle_prompt");
 			isSoupToggledOff = false;
 		}
+	}
+
+	public static void sayClickHere(String actionKey, String command, boolean run, Object... formatting) {
+		Text message = Text.translatable(MODID+".say").setStyle(Style.EMPTY.withColor(textColor)).append(
+		    Text.translatable(SouperSecretSettingsClient.MODID+".share.click").setStyle(Style.EMPTY
+		    .withClickEvent(
+		    	new ClickEvent(run ? ClickEvent.Action.RUN_COMMAND : ClickEvent.Action.SUGGEST_COMMAND, command)
+		    )
+		    .withColor(nameTextColor))
+		    .append(Text.translatable(MODID+"."+actionKey, formatting).setStyle(Style.EMPTY.withColor(textColor)))
+		);
+		client.player.sendMessage(message);
 	}
 }

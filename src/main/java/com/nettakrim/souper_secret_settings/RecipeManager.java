@@ -83,19 +83,19 @@ public class RecipeManager {
             int index = SouperSecretSettingsClient.getGameRendererAccessor().getRandom().nextInt(recipies.size());
             loadFromRecipeData(recipies.get((String)recipies.keySet().toArray()[index]), stack);
         } else {
-            String data = recipies.get(name);
-            if (data == null) {
-                SouperSecretSettingsClient.say("recipe.missing", name);
-            } else {
+            String data = getRecipeData(name);
+            if (data != null) {
                 loadFromRecipeData(data, stack);
             }
         }
     }
 
-    public static boolean loadFromRecipeData(String data, boolean stack) {
+    public boolean loadFromRecipeData(String data, boolean stack) {
         char start = data.charAt(0);
         if (start == '+') {
             stack = true;
+            data = data.substring(1);
+        } else if (start == '/') {
             data = data.substring(1);
         }
         String[] idArray = data.split("/");
@@ -126,7 +126,7 @@ public class RecipeManager {
         }
     }
 
-    public static String getCurrentRecipeData() {
+    public String getCurrentRecipeData() {
         StringBuilder recipe = new StringBuilder();
         if (SouperSecretSettingsClient.postProcessorStack.size() == 0) return "";
         String lastId = SouperSecretSettingsClient.postProcessorStack.get(0).data().id;
@@ -154,5 +154,13 @@ public class RecipeManager {
             builder.suggest(key);
         }
         return recipies.size() > 1;
+    }
+
+    public String getRecipeData(String name) {
+        String data = recipies.get(name);
+        if (data == null) {
+            SouperSecretSettingsClient.say("recipe.missing", name);
+        }
+        return data;
     }
 }

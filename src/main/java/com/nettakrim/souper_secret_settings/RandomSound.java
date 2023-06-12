@@ -118,6 +118,14 @@ public class RandomSound {
         SoundEvents.ENTITY_ZOMBIE_HORSE_DEATH,
         SoundEvents.ENTITY_ZOMBIE_VILLAGER_CONVERTED,
         SoundEvents.ENTITY_ZOMBIE_VILLAGER_CURE,
-        SoundEvents.ENTITY_ZOMBIE_VILLAGER_DEATH
+        SoundEvents.ENTITY_ZOMBIE_VILLAGER_DEATH,
+        SoundEvents.ENTITY_CAMEL_AMBIENT,
+        SoundEvents.ENTITY_CAMEL_DEATH,
+        SoundEvents.ENTITY_CAMEL_DASH,
+        SoundEvents.ENTITY_SNIFFER_SNIFFING,
+        SoundEvents.ENTITY_SNIFFER_DEATH,
+        SoundEvents.ENTITY_SNIFFER_IDLE,
+        SoundEvents.ENTITY_SNIFFER_DIGGING_STOP,
+        SoundEvents.ENTITY_SNIFFER_HAPPY,
     };
 }

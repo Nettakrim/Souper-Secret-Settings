@@ -349,6 +349,10 @@ void main(){
 
 ![](mod.png)
 
+- Souper Secret Settings allows changes to be made to the fragment and vertex shaders without needing to relaunch the game, just reload resources (F3 + T) and then reapply your shader
+- This doesn't work on most core shaders, specifically if the name of the fragment/vertex shader starts with `"position_"` or `"rendertype_"` - or if the name *is* `"position"` or `"particle"` then it probably won't recompile
+
+
 We can use oneTexel to get adjacent pixels, here I add on the difference between the current pixel and the one above to see how it looks - if, for example, I wanted to look 2 pixels to the left, I could do `texCoord+vec2(oneTexel.x*2.0, 0.0)`
 
 ```c#
