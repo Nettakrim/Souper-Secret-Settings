@@ -7,6 +7,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.PostEffectProcessor;
+import net.minecraft.resource.ResourceType;
 import net.minecraft.text.*;
 import net.minecraft.util.Identifier;
 
@@ -53,6 +54,7 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 		client = MinecraftClient.getInstance();
 
 		shaderResourceLoader = new ShaderResourceLoader();
+		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(shaderResourceLoader);
 
 		recipeManager = new RecipeManager();
 
@@ -155,6 +157,10 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 
 	public static void shaderListClearNamespace(String namespace) {
 		shaderDatas.removeIf(data -> data.shader.getNamespace().equals(namespace));
+	}
+
+	public static void shaderListRemove(String namespace, String id) {
+		shaderDatas.removeIf(data -> data.id.equals(id) && data.shader.getNamespace().equals(namespace));
 	}
 
 	public static void entityLinksAdd(String id, String shader) {

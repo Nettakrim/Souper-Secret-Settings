@@ -6,31 +6,49 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.minecraft.client.gl.ShaderStage;
+import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
+import net.minecraft.util.profiler.Profiler;
 
-public class ShaderResourceLoader {
-    public void reload(ResourceManager manager) {
+public class ShaderResourceLoader extends JsonDataLoader implements IdentifiableResourceReloadListener {
+    public ShaderResourceLoader() {
+        super(new Gson(), "shaders/shaders");
+    }
+
+    @Override
+    public void apply(Map<Identifier, JsonElement> prepared, ResourceManager manager, Profiler profiler) {
         SouperSecretSettingsClient.clearShaders();
         SouperSecretSettingsClient.clearResources();
 
-        Identifier identifier = new Identifier(SouperSecretSettingsClient.MODID, "shaders.json");
-
-        try {
-            parseAll(manager, identifier);
-        } catch (IOException ioException) {
-            SouperSecretSettingsClient.LOGGER.warn("Failed to load shader List: {}", (Object)ioException);
-        }
-
         releaseFromType(ShaderStage.Type.FRAGMENT);
         releaseFromType(ShaderStage.Type.VERTEX);
+
+        parseAll(manager);
+
+        //Perspective has its own resourcepack support with slightly different syntax, but its fundamentally about the same as mine, so it's easy to add support
+        prepared.forEach((identifier, jsonElement) -> {
+            try{
+                JsonObject jsonObject = jsonElement.getAsJsonObject();
+                parsePerspectiveShader(jsonObject);
+            } catch (Exception e) {
+                SouperSecretSettingsClient.LOGGER.warn("Failed to load Perspective shader: {}", (Object)e);
+            }
+        });
+    }
+
+    @Override
+    public Identifier getFabricId() {
+        return new Identifier(SouperSecretSettingsClient.MODID, "shaders/shaders");
     }
 
     private void releaseFromType(ShaderStage.Type type) {
@@ -49,17 +67,25 @@ public class ShaderResourceLoader {
         SouperSecretSettingsClient.LOGGER.info(log.toString());
     }
 
-    public void parseAll(ResourceManager manager, Identifier id) throws IOException {
-        for (Resource resource : manager.getAllResources(id)) {
-            parseResource(resource);
+    public void parseAll(ResourceManager manager) {
+        Identifier identifier = new Identifier(SouperSecretSettingsClient.MODID, "shaders.json");
+        try {
+            for (Resource resource : manager.getAllResources(identifier)) {
+                parseResource(resource);
+            }
+        } catch (IOException ioException) {
+            SouperSecretSettingsClient.LOGGER.warn("Failed to load shader List: {}", (Object)ioException);
         }
     }
 
     public void parseResource(Resource resource) throws IOException {
         BufferedReader reader = resource.getReader();
-        JsonArray jsonArray;
         JsonObject jsonObject = JsonHelper.deserialize(reader);
+        parseShaderList(jsonObject);
+    }
 
+    public void parseShaderList(JsonObject jsonObject) {
+        JsonArray jsonArray;
         if (JsonHelper.hasArray(jsonObject, "namespaces")) {
             jsonArray = jsonObject.getAsJsonArray("namespaces");
             for (JsonElement jsonElement : jsonArray) {
@@ -93,5 +119,14 @@ public class ShaderResourceLoader {
         for (Map.Entry<String, JsonElement> entry: entitySet) {
             SouperSecretSettingsClient.entityLinksAdd(entry.getKey(), JsonHelper.asString(entry.getValue(), "shader"));
         }
+    }
+
+    //https://github.com/MCLegoMan/Perspective/blob/master/src/main/java/com/mclegoman/perspective/client/dataloader/PerspectiveSuperSecretSettingsDataLoader.java
+    public void parsePerspectiveShader(JsonObject jsonObject) {
+        String namespace = JsonHelper.getString(jsonObject, "namespace");
+        String shader = JsonHelper.getString(jsonObject, "shader");
+        boolean enabled = JsonHelper.getBoolean(jsonObject, "enabled");
+        if (enabled) SouperSecretSettingsClient.shaderListAdd(namespace, shader);
+        else SouperSecretSettingsClient.shaderListRemove(namespace, shader);
     }
 }

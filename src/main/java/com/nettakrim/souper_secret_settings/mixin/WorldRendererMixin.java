@@ -19,7 +19,7 @@ import net.minecraft.resource.ResourceManager;
 public class WorldRendererMixin {
     @Inject(at = @At("HEAD"), method = "reload(Lnet/minecraft/resource/ResourceManager;)V")
 	public void reload(ResourceManager manager, CallbackInfo ci) {
-        SouperSecretSettingsClient.shaderResourceLoader.reload(manager);
+        //SouperSecretSettingsClient.shaderResourceLoader.reload(manager);
 	}
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/PostEffectProcessor;render(F)V", ordinal = 1), method = "render")
