@@ -61,7 +61,7 @@ Just looking at a single element of "namespaces", there are 3 parts, "replace", 
 "namespace" controls what namespace the list of shaders is referencing, and therefore what `<namespace>/shaders/post/<shader>` file to reference
 
 If replace is true, then any shaders previously loaded into the namespace get cleared
-this means that if we wanted to get rid of all but a select few vanilla shaders, we could do something like this:
+this, means that if we wanted to get rid of all but a select few vanilla shaders, we could do something like this:
 
 ```json
 {

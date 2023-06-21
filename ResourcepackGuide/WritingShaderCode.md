@@ -516,7 +516,7 @@ This is because the depth buffer only exists on the red channel, so to get the d
 
 While this fixes the color, the brightness is still way too low for further away objects, that's because the depth buffer uses a weird scale which is something along the lines of 0.0 = in your face, 1.0 = really far away - this can be useful, but often you want it measured in blocks instead
 
-thankfully, someone else has already uncounted this problem, so ill just use their function
+thankfully, someone else has already encountered this problem, so ill just use their function
 
 ```c#
 float near = 0.1;

@@ -182,7 +182,7 @@ Uniforms are another part of each render pass, and they allow for the settings o
 Each element in the list of uniforms has 2 parts, a name, and a value
 
 To see what uniforms a program has, we can go to its file!
-```
+```json
 minecraft/shaders/program/blur.json
 {
     "blend": {
