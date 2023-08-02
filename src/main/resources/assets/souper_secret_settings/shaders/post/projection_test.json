@@ -1,0 +1,70 @@
+{
+  "targets": [
+    "0",
+    "1"
+  ],
+  "passes": [
+    {
+      "name": "souper_secret_settings:projection",
+      "intarget": "minecraft:main",
+      "outtarget": "0",
+      "uniforms": [
+        {
+          "name": "Corner00",
+          "values": [ 0.25, 0.25 ]
+        },
+        {
+          "name": "Corner01",
+          "values": [ 0.25, 0.75 ]
+        },
+        {
+          "name": "Corner10",
+          "values": [ 0.75, 0.25 ]
+        },
+        {
+          "name": "Corner11",
+          "values": [ 0.75, 0.75 ]
+        }
+      ]
+    },
+    {
+      "name": "blobs2",
+      "intarget": "0",
+      "outtarget": "1"
+    },
+    {
+      "name": "souper_secret_settings:projection_merge",
+      "intarget": "1",
+      "outtarget": "0",
+      "uniforms": [
+        {
+          "name": "Corner00",
+          "values": [ 0.25, 0.25 ]
+        },
+        {
+          "name": "Corner01",
+          "values": [ 0.25, 0.75 ]
+        },
+        {
+          "name": "Corner10",
+          "values": [ 0.75, 0.25 ]
+        },
+        {
+          "name": "Corner11",
+          "values": [ 0.75, 0.75 ]
+        }
+      ],
+      "auxtargets": [
+        {
+          "name": "BaseSampler",
+          "id": "minecraft:main"
+        }
+      ]
+    },
+    {
+      "name": "blit",
+      "intarget": "0",
+      "outtarget": "minecraft:main"
+    }
+  ]
+}

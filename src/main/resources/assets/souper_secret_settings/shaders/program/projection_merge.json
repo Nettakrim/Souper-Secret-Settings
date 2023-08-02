@@ -1,0 +1,23 @@
+{
+  "blend": {
+    "func": "add",
+    "srcrgb": "one",
+    "dstrgb": "zero"
+  },
+  "vertex": "sobel",
+  "fragment": "souper_secret_settings:projection_merge",
+  "attributes": [ "Position" ],
+  "samplers": [
+    { "name": "DiffuseSampler" },
+    { "name": "BaseSampler" }
+  ],
+  "uniforms": [
+    { "name": "ProjMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
+    { "name": "InSize",  "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
+    { "name": "OutSize", "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
+    { "name": "Corner00", "type": "float",     "count": 2,  "values": [ 0.0, 0.0 ] },
+    { "name": "Corner01", "type": "float",     "count": 2,  "values": [ 0.0, 1.0 ] },
+    { "name": "Corner10", "type": "float",     "count": 2,  "values": [ 1.0, 0.0 ] },
+    { "name": "Corner11", "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] }
+  ]
+}

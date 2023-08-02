@@ -17,11 +17,6 @@ import net.minecraft.resource.ResourceManager;
 
 @Mixin(WorldRenderer.class)
 public class WorldRendererMixin {
-    @Inject(at = @At("HEAD"), method = "reload(Lnet/minecraft/resource/ResourceManager;)V")
-	public void reload(ResourceManager manager, CallbackInfo ci) {
-        //SouperSecretSettingsClient.shaderResourceLoader.reload(manager);
-	}
-
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/PostEffectProcessor;render(F)V", ordinal = 1), method = "render")
     public void saveDepthFabulous(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f positionMatrix, CallbackInfo ci) {
         SouperSecretSettingsClient.depthFrameBuffer.copyDepthFrom(SouperSecretSettingsClient.client.getFramebuffer());
