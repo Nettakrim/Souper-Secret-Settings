@@ -21,10 +21,10 @@ public class SouperSecretSettingsMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        //architectury api fixes the namespace bug themselves, so soup's mixin can be disabled
-        if(mixinClassName.equals("com.nettakrim.souper_secret_settings.mixin.JsonEffectShaderProgramMixin")) {
-            return !FabricLoader.getInstance().isModLoaded("architectury");
-        }
+        //architectury api and satin both fix the namespace bug themselves, so soup's mixin can be disabled
+        if (mixinClassName.equals("com.nettakrim.souper_secret_settings.mixin.JsonEffectShaderProgramMixin")) {
+            return FabricLoader.getInstance().isModLoaded("architectury") || FabricLoader.getInstance().isModLoaded("satin");
+        };
         return true;
     }
 
