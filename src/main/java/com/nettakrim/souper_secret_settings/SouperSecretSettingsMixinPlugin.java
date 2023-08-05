@@ -24,7 +24,7 @@ public class SouperSecretSettingsMixinPlugin implements IMixinConfigPlugin {
         //architectury api and satin both fix the namespace bug themselves, so soup's mixin can be disabled
         if (mixinClassName.equals("com.nettakrim.souper_secret_settings.mixin.JsonEffectShaderProgramMixin")) {
             return FabricLoader.getInstance().isModLoaded("architectury") || FabricLoader.getInstance().isModLoaded("satin");
-        };
+        }
         return true;
     }
 
