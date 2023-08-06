@@ -29,13 +29,6 @@
                 "creeper",
                 "spider"                
             ]
-        },
-        {
-            "replace": false,
-            "namespace": "souper_secret_settings",
-            "shaders": [
-                "projection_test"
-            ]
         }
     ]
 }

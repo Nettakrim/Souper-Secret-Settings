@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 
 import net.minecraft.client.render.WorldRenderer;
-import net.minecraft.resource.ResourceManager;
 
 @Mixin(WorldRenderer.class)
 public class WorldRendererMixin {
