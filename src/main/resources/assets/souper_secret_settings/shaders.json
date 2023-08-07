@@ -28,6 +28,10 @@
                 "antialias",
                 "creeper",
                 "spider"                
+            ],
+            "disable_screen_mode": [
+                "flip",
+                "spider"
             ]
         }
     ]

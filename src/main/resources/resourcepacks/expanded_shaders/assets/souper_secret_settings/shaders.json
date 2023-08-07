@@ -35,6 +35,18 @@
                 "fractal",
                 "bevel",
                 "depth_outline"
+            ],
+            "disable_screen_mode": [
+                "sequins",
+                "kaleidoscope",
+                "ghost",
+                "dramatic",
+                "rotate",
+                "cinematic",
+                "horror",
+                "out_of_bounds",
+                "fractal",
+                "depth_outline"
             ]
         }
     ],
