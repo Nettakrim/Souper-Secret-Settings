@@ -151,8 +151,13 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 		entityLinks.clear();
 	}
 
-	public static void shaderListAdd(String namespace, String id, boolean disableScreenMode) {
+	public static void shaderListAdd(String namespace, String id) {
 		shaderDatas.add(new ShaderData(namespace, id));
+	}
+
+	public static void disableScreenModeListAdd(String id) {
+		//make these act different?
+		getShaderFromID(id);
 	}
 
 	public static void shaderListClearNamespace(String namespace) {

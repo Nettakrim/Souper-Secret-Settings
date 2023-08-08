@@ -111,11 +111,11 @@ public class ShaderResourceLoader extends JsonDataLoader implements Identifiable
         }
 
         for (JsonElement jsonShader : shaders) {
-            SouperSecretSettingsClient.shaderListAdd(namespace, jsonShader.getAsString(), false);
+            SouperSecretSettingsClient.shaderListAdd(namespace, jsonShader.getAsString());
         }
 
         for (JsonElement jsonShader : disableScreenModeShaders) {
-            SouperSecretSettingsClient.shaderListAdd(namespace, jsonShader.getAsString(), true);
+            SouperSecretSettingsClient.disableScreenModeListAdd(jsonShader.getAsString());
         }
     }
 
@@ -132,7 +132,11 @@ public class ShaderResourceLoader extends JsonDataLoader implements Identifiable
         String shader = JsonHelper.getString(jsonObject, "shader");
         boolean enabled = JsonHelper.getBoolean(jsonObject, "enabled", true);
         boolean disableScreenMode = JsonHelper.getBoolean(jsonObject, "disable_screen_mode", false);
-        if (enabled) SouperSecretSettingsClient.shaderListAdd(namespace, shader, disableScreenMode);
-        else SouperSecretSettingsClient.shaderListRemove(namespace, shader);
+        if (enabled) {
+            SouperSecretSettingsClient.shaderListAdd(namespace, shader);
+            if (disableScreenMode) SouperSecretSettingsClient.disableScreenModeListAdd(shader);
+        } else {
+            SouperSecretSettingsClient.shaderListRemove(namespace, shader);
+        }
     }
 }
