@@ -104,13 +104,18 @@ public class ShaderResourceLoader extends JsonDataLoader implements Identifiable
         boolean replace = JsonHelper.getBoolean(jsonObject, "replace", false);
         String namespace = JsonHelper.getString(jsonObject, "namespace", "minecraft");
         JsonArray shaders = JsonHelper.getArray(jsonObject, "shaders", new JsonArray());
+        JsonArray disableScreenModeShaders = JsonHelper.getArray(jsonObject, "disable_screen_mode", new JsonArray());
 
         if (replace) {
             SouperSecretSettingsClient.shaderListClearNamespace(namespace);
         }
 
         for (JsonElement jsonShader : shaders) {
-            SouperSecretSettingsClient.shaderListAdd(namespace, jsonShader.getAsString());
+            SouperSecretSettingsClient.shaderListAdd(namespace, jsonShader.getAsString(), false);
+        }
+
+        for (JsonElement jsonShader : disableScreenModeShaders) {
+            SouperSecretSettingsClient.shaderListAdd(namespace, jsonShader.getAsString(), true);
         }
     }
 
@@ -121,12 +126,13 @@ public class ShaderResourceLoader extends JsonDataLoader implements Identifiable
         }
     }
 
-    //https://github.com/MCLegoMan/Perspective/blob/master/src/main/java/com/mclegoman/perspective/client/dataloader/PerspectiveSuperSecretSettingsDataLoader.java
+    //https://github.com/MCLegoMan/Perspective/blob/1.20.x/src/main/java/com/mclegoman/perspective/client/shaders/PerspectiveShaderDataLoader.java
     public void parsePerspectiveShader(JsonObject jsonObject) {
-        String namespace = JsonHelper.getString(jsonObject, "namespace");
+        String namespace = JsonHelper.getString(jsonObject, "namespace", "perspective");
         String shader = JsonHelper.getString(jsonObject, "shader");
-        boolean enabled = JsonHelper.getBoolean(jsonObject, "enabled");
-        if (enabled) SouperSecretSettingsClient.shaderListAdd(namespace, shader);
+        boolean enabled = JsonHelper.getBoolean(jsonObject, "enabled", true);
+        boolean disableScreenMode = JsonHelper.getBoolean(jsonObject, "disable_screen_mode", false);
+        if (enabled) SouperSecretSettingsClient.shaderListAdd(namespace, shader, disableScreenMode);
         else SouperSecretSettingsClient.shaderListRemove(namespace, shader);
     }
 }
