@@ -104,7 +104,7 @@ public class ShaderResourceLoader extends JsonDataLoader implements Identifiable
         boolean replace = JsonHelper.getBoolean(jsonObject, "replace", false);
         String namespace = JsonHelper.getString(jsonObject, "namespace", "minecraft");
         JsonArray shaders = JsonHelper.getArray(jsonObject, "shaders", new JsonArray());
-        JsonArray disableScreenModeShaders = JsonHelper.getArray(jsonObject, "disable_screen_mode", new JsonArray());
+        JsonArray layerEffects = JsonHelper.getArray(jsonObject, "layer_effects", new JsonArray());
 
         if (replace) {
             SouperSecretSettingsClient.shaderListClearNamespace(namespace);
@@ -114,8 +114,8 @@ public class ShaderResourceLoader extends JsonDataLoader implements Identifiable
             SouperSecretSettingsClient.shaderListAdd(namespace, jsonShader.getAsString());
         }
 
-        for (JsonElement jsonShader : disableScreenModeShaders) {
-            SouperSecretSettingsClient.disableScreenModeListAdd(jsonShader.getAsString());
+        for (JsonElement jsonEffect : layerEffects) {
+            SouperSecretSettingsClient.layerEffectListAdd(namespace, jsonEffect.getAsString());
         }
     }
 
@@ -131,10 +131,8 @@ public class ShaderResourceLoader extends JsonDataLoader implements Identifiable
         String namespace = JsonHelper.getString(jsonObject, "namespace", "perspective");
         String shader = JsonHelper.getString(jsonObject, "shader");
         boolean enabled = JsonHelper.getBoolean(jsonObject, "enabled", true);
-        boolean disableScreenMode = JsonHelper.getBoolean(jsonObject, "disable_screen_mode", false);
         if (enabled) {
             SouperSecretSettingsClient.shaderListAdd(namespace, shader);
-            if (disableScreenMode) SouperSecretSettingsClient.disableScreenModeListAdd(shader);
         } else {
             SouperSecretSettingsClient.shaderListRemove(namespace, shader);
         }

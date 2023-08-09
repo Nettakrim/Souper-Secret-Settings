@@ -71,6 +71,20 @@ public class LayerData {
         return true;
     }
 
+    public boolean addLayerEffect(AbstractLayerEffect layerEffect) {
+        if (layerEffect == null) return false;
+        layerEffects.add(layerEffect);
+        return true;
+    }
+
+    public boolean addLayerEffectFromShader(ShaderData shaderData) {
+        PostLayerEffect postLayerEffect = SouperSecretSettingsClient.getLayerEffect(shaderData.shader);
+        if (postLayerEffect == null) return false;
+
+        layerEffects.add(postLayerEffect);
+        return true;
+    }
+
     public ShaderData getRandomNotTop(Random random, ArrayList<ShaderData> shaderDatas) {
         int randomSize = shaderDatas.size();
         if (randomSize == 0) return null;
@@ -109,9 +123,5 @@ public class LayerData {
         int start = postProcessorStack.size();
         postProcessorStack.removeIf(x -> (x.data().id.equals(shader)));
         return start-postProcessorStack.size();
-    }
-
-    public void addLayerEffect(AbstractLayerEffect effect) {
-        layerEffects.add(effect);
     }
 }

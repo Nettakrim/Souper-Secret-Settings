@@ -40,7 +40,8 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 	public static ShaderResourceLoader shaderResourceLoader;
 	public static RecipeManager recipeManager;
 
-	public static final ArrayList<ShaderData> shaderDatas = new ArrayList<>();
+	public static final ArrayList<ShaderData> postShaders = new ArrayList<>();
+	public static final ArrayList<ShaderData> layerEffects = new ArrayList<>();
 	public static final HashMap<String, String> entityLinks = new HashMap<>();
 
 	private static boolean warningPrimed = true;
@@ -78,15 +79,6 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 	}
 
 	public static boolean stackShader(String id, int stack) {
-		if (id.equals("projection_test")) {
-			PostLayerEffect postLayerEffect = getPostLayerEffect(new Identifier(MODID, "shaders/layer_effects/"+id+".json"));
-			if (postLayerEffect == null) {
-				return false;
-			}
-			layer.addLayerEffect(postLayerEffect);
-			return true;
-		}
-
 		if (warningPrimed && stack+layer.getShaderCount() > shaderLimit) {
 			say("shader.warn_stacking", shaderLimit);
 			stack = shaderLimit-layer.getShaderCount();
@@ -94,7 +86,7 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 			if (stack <= 0) return false;
 		}
 
-		ShaderData shaderData = getShaderFromID(id);
+		ShaderData shaderData = getPostShaderFromID(id);
 		if (shaderData == null) {
 			say("shader.missing", id);
 			return false;
@@ -108,11 +100,34 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 		return layer.stackShaderData(shaderData, stack);
 	}
 
-	public static ShaderData getShaderFromID(String id) {
+	public static ShaderData getPostShaderFromID(String id) {
 		if (id.equals("random")) {
-			return layer.getRandomNotTop(getGameRendererAccessor().getRandom(), shaderDatas);
+			return layer.getRandomNotTop(getGameRendererAccessor().getRandom(), postShaders);
 		} else {
-			for (ShaderData shaderData : shaderDatas) {
+			for (ShaderData shaderData : postShaders) {
+				if (id.equals(shaderData.id)) {
+					return shaderData;
+				}
+			}
+			return null;
+		}
+	}
+
+	public static boolean addLayerEffect(String id) {
+		ShaderData shaderData = getLayerEffectFromID(id);
+		if (shaderData == null) {
+			say("shader.missing", id);
+			return false;
+		}
+
+		return layer.addLayerEffectFromShader(shaderData);
+	}
+
+	public static ShaderData getLayerEffectFromID(String id) {
+		if (id.equals("random")) {
+			return layerEffects.get(getGameRendererAccessor().getRandom().nextInt(layerEffects.size()));
+		} else {
+			for (ShaderData shaderData : layerEffects) {
 				if (id.equals(shaderData.id)) {
 					return shaderData;
 				}
@@ -140,7 +155,7 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 		return recipeManager.loadFromRecipeData(recipeData, false);
 	}
 
-	public static PostLayerEffect getPostLayerEffect(Identifier identifier) {
+	public static PostLayerEffect getLayerEffect(Identifier identifier) {
 		try {
 			PostLayerEffect postLayerEffect = new PostLayerEffect(client.getTextureManager(), getGameRendererAccessor().getResourceManager(), client.getFramebuffer(), identifier);
 			postLayerEffect.resize(client.getWindow().getFramebufferWidth(), client.getWindow().getFramebufferHeight());
@@ -158,25 +173,24 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 	}
 
 	public static void clearResources() {
-		shaderDatas.clear();
+		postShaders.clear();
 		entityLinks.clear();
 	}
 
-	public static void shaderListAdd(String namespace, String id) {
-		shaderDatas.add(new ShaderData(namespace, id));
+	public static void layerEffectListAdd(String namespace, String id) {
+		layerEffects.add(new ShaderData(namespace, id, true));
 	}
 
-	public static void disableScreenModeListAdd(String id) {
-		//make these act different?
-		getShaderFromID(id);
+	public static void shaderListAdd(String namespace, String id) {
+		postShaders.add(new ShaderData(namespace, id, false));
 	}
 
 	public static void shaderListClearNamespace(String namespace) {
-		shaderDatas.removeIf(data -> data.shader.getNamespace().equals(namespace));
+		postShaders.removeIf(data -> data.shader.getNamespace().equals(namespace));
 	}
 
 	public static void shaderListRemove(String namespace, String id) {
-		shaderDatas.removeIf(data -> data.id.equals(id) && data.shader.getNamespace().equals(namespace));
+		postShaders.removeIf(data -> data.id.equals(id) && data.shader.getNamespace().equals(namespace));
 	}
 
 	public static void entityLinksAdd(String id, String shader) {

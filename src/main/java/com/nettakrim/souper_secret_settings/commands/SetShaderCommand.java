@@ -17,7 +17,7 @@ public class SetShaderCommand implements Command<FabricClientCommandSource> {
 			.literal("soup:set")
 			.then(
 				ClientCommandManager.argument("shader", StringArgumentType.string())
-				.suggests(SouperSecretSettingsCommands.shaders)
+				.suggests(SouperSecretSettingsCommands.postShaders)
 				.executes(new SetShaderCommand())
 				.then(
 					ClientCommandManager.argument("amount", IntegerArgumentType.integer(1))

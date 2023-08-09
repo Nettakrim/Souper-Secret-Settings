@@ -33,6 +33,17 @@
                 "flip",
                 "spider"
             ]
+        },
+        {
+            "replace": false,
+            "namespace": "souper_secret_settings",
+            "layer_effects": [
+                "projection_test",
+                "focus_near",
+                "focus_far",
+                "vignette",
+                "vignette_inverted"
+            ]
         }
     ]
 }

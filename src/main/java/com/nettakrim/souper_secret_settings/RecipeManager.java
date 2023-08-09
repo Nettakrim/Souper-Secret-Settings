@@ -105,7 +105,7 @@ public class RecipeManager {
 
         if (!stack && idArray.length == 1 && !Character.isDigit(start)) {
             String id = idArray[0];
-            ShaderData shader = SouperSecretSettingsClient.getShaderFromID(id);
+            ShaderData shader = SouperSecretSettingsClient.getPostShaderFromID(id);
             if (shader != null) {
                 SouperSecretSettingsClient.canFixDepth = true;
                 SouperSecretSettingsClient.getGameRendererAccessor().invokeLoadPostProcessor(shader.shader);
@@ -118,7 +118,7 @@ public class RecipeManager {
             if (!stack) SouperSecretSettingsClient.clearShaders();
             for (String id : idArray) {
                 String[] recipeArray = id.split("(?<=\\d)(?=\\D)");
-                ShaderData shaderData = SouperSecretSettingsClient.getShaderFromID(recipeArray[1]);
+                ShaderData shaderData = SouperSecretSettingsClient.getPostShaderFromID(recipeArray[1]);
                 if (shaderData != null) {
                     SouperSecretSettingsClient.stackShaderData(shaderData, Integer.parseInt(recipeArray[0]));
                 } else {

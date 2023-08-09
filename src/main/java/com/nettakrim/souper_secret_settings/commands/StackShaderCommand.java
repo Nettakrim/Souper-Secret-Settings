@@ -9,8 +9,10 @@ import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
-import static com.nettakrim.souper_secret_settings.commands.SouperSecretSettingsCommands.activeShaders;
-import static com.nettakrim.souper_secret_settings.commands.SouperSecretSettingsCommands.shaders;
+import static com.nettakrim.souper_secret_settings.commands.SouperSecretSettingsCommands.activePostShaders;
+import static com.nettakrim.souper_secret_settings.commands.SouperSecretSettingsCommands.postShaders;
+import static com.nettakrim.souper_secret_settings.commands.SouperSecretSettingsCommands.layerEffects;
+
 
 public class StackShaderCommand {
 	public static LiteralCommandNode<FabricClientCommandSource> getCommandNode() {
@@ -22,7 +24,7 @@ public class StackShaderCommand {
 			.literal("add")
 			.then(
 				ClientCommandManager.argument("shader", StringArgumentType.string())
-				.suggests(shaders)
+				.suggests(postShaders)
 				.executes(StackShaderCommand::add)
 				.then(
 					ClientCommandManager.argument("amount", IntegerArgumentType.integer(1))
@@ -53,7 +55,7 @@ public class StackShaderCommand {
 			.literal("remove")
 			.then(
 				ClientCommandManager.argument("shader", StringArgumentType.string())
-				.suggests(activeShaders)
+				.suggests(activePostShaders)
 				.executes(StackShaderCommand::remove)
 			)
 			.build();
@@ -62,6 +64,23 @@ public class StackShaderCommand {
 		stackNode.addChild(randomNode);
 		stackNode.addChild(removeNode);
 		stackNode.addChild(setNode);
+
+
+		LiteralCommandNode<FabricClientCommandSource> effectNode = ClientCommandManager
+			.literal("effect")
+			.build();
+
+		LiteralCommandNode<FabricClientCommandSource> effectAddNode = ClientCommandManager
+			.literal("add")
+			.then(
+				ClientCommandManager.argument("shader", StringArgumentType.string())
+				.suggests(layerEffects)
+				.executes(StackShaderCommand::addLayer)
+			)
+			.build();
+
+		stackNode.addChild(effectNode);
+		effectNode.addChild(effectAddNode);
 		return stackNode;
 	}
 
@@ -88,7 +107,7 @@ public class StackShaderCommand {
 	}
 
 	private static int pop(CommandContext<FabricClientCommandSource> context) {
-		SouperSecretSettingsClient.layer.pop(0);
+		SouperSecretSettingsClient.layer.pop(1);
 		SouperSecretSettingsClient.updateToggle();
         return 1;
     }
@@ -105,5 +124,11 @@ public class StackShaderCommand {
 		SouperSecretSettingsClient.layer.remove(shader);
 		SouperSecretSettingsClient.updateToggle();
 		return 1;
+	}
+
+	private static int addLayer(CommandContext<FabricClientCommandSource> context) {
+		String shader = StringArgumentType.getString(context, "shader");
+		SouperSecretSettingsClient.updateToggle();
+		return SouperSecretSettingsClient.addLayerEffect(shader) ? 1 : 0;
 	}
 }

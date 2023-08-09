@@ -1,0 +1,41 @@
+{
+  "targets": [
+    "0",
+    "base"
+  ],
+  "beforestackrender": [
+    {
+      "name": "blit",
+      "intarget": "minecraft:main",
+      "outtarget": "base"
+    }
+  ],
+  "afterstackrender": [
+    {
+      "name": "souper_secret_settings:vignette_layer_effect",
+      "intarget": "minecraft:main",
+      "outtarget": "0",
+      "auxtargets": [
+        {
+          "name": "BaseSampler",
+          "id": "base"
+        }
+      ],
+      "uniforms": [
+        {
+          "name": "Scale",
+          "values": [ 2.0 ]
+        },
+        {
+          "name": "Offset",
+          "values": [ 0.0 ]
+        }
+      ]
+    },
+    {
+      "name": "blit",
+      "intarget": "0",
+      "outtarget": "minecraft:main"
+    }
+  ]
+}

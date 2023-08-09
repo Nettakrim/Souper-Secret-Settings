@@ -11,7 +11,7 @@ public class ShaderData {
         this.shader = shader;
     }
 
-    public ShaderData(String namespace, String id) {
-        this(id, new Identifier(namespace, "shaders/post/"+id+".json"));
+    public ShaderData(String namespace, String id, boolean isLayerEffect) {
+        this(id, new Identifier(namespace, "shaders/"+(isLayerEffect ? "layer_effects" : "post")+"/"+id+".json"));
     }
 }

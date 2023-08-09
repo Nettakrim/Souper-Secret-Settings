@@ -14,20 +14,29 @@ import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.command.argument.MessageArgumentType.MessageFormat;
 
 public class SouperSecretSettingsCommands {
-    public static final SuggestionProvider<FabricClientCommandSource> shaders = (context, builder) -> {
-        for (ShaderData shaderData : SouperSecretSettingsClient.shaderDatas) {
+    public static final SuggestionProvider<FabricClientCommandSource> postShaders = (context, builder) -> {
+        for (ShaderData shaderData : SouperSecretSettingsClient.postShaders) {
             builder.suggest(shaderData.id);
         }
-        if (SouperSecretSettingsClient.shaderDatas.size() > 1) builder.suggest("random");
+        if (SouperSecretSettingsClient.postShaders.size() > 1) builder.suggest("random");
         return CompletableFuture.completedFuture(builder.build());
     };
 
-    public static final SuggestionProvider<FabricClientCommandSource> activeShaders = (context, builder) -> {
+    public static final SuggestionProvider<FabricClientCommandSource> activePostShaders = (context, builder) -> {
         for (StackData stackData : SouperSecretSettingsClient.layer.postProcessorStack) {
             builder.suggest(stackData.data().id);
         }
         return CompletableFuture.completedFuture(builder.build());
     };
+
+    public static final SuggestionProvider<FabricClientCommandSource> layerEffects = (context, builder) -> {
+        for (ShaderData shaderData : SouperSecretSettingsClient.layerEffects) {
+            builder.suggest(shaderData.id);
+        }
+        if (SouperSecretSettingsClient.layerEffects.size() > 1) builder.suggest("random");
+        return CompletableFuture.completedFuture(builder.build());
+    };
+
 
     public static void initialize() {
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
