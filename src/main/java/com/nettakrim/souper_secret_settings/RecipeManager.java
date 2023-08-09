@@ -1,11 +1,14 @@
 package com.nettakrim.souper_secret_settings;
 
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
+import com.nettakrim.souper_secret_settings.shaders.ShaderData;
+import com.nettakrim.souper_secret_settings.shaders.StackData;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -55,7 +58,7 @@ public class RecipeManager {
     }
 
     public void setCurrentRecipe(String name) {
-        setRecipe(name, getCurrentRecipeData());
+        setRecipe(name, getRecipeData(SouperSecretSettingsClient.layer.postProcessorStack));
     }
 
     public void setRecipe(String name, String data) {
@@ -126,12 +129,12 @@ public class RecipeManager {
         }
     }
 
-    public String getCurrentRecipeData() {
+    public String getRecipeData(List<StackData> stack) {
         StringBuilder recipe = new StringBuilder();
-        if (SouperSecretSettingsClient.postProcessorStack.size() == 0) return "";
-        String lastId = SouperSecretSettingsClient.postProcessorStack.get(0).data().id;
+        if (stack.size() == 0) return "";
+        String lastId = stack.get(0).data().id;
         int stacks = 0;
-        for (StackData stackData : SouperSecretSettingsClient.postProcessorStack) {
+        for (StackData stackData : stack) {
             if (stackData.data().id.equals(lastId)) {
                 stacks++;
             } else {

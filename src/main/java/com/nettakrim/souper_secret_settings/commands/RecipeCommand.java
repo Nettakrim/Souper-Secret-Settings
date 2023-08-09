@@ -129,7 +129,7 @@ public class RecipeCommand {
     }
 
     private static int shareCurrent(CommandContext<FabricClientCommandSource> context) {
-        String recipe = SouperSecretSettingsClient.recipeManager.getCurrentRecipeData();
+        String recipe = SouperSecretSettingsClient.recipeManager.getRecipeData(SouperSecretSettingsClient.layer.postProcessorStack);
         return share("share.send.current", recipe);
     }
 

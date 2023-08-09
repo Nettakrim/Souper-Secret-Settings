@@ -1,5 +1,8 @@
 package com.nettakrim.souper_secret_settings;
 
+import com.nettakrim.souper_secret_settings.shaders.LayerData;
+import com.nettakrim.souper_secret_settings.shaders.PostLayerEffect;
+import com.nettakrim.souper_secret_settings.shaders.ShaderData;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
@@ -32,7 +35,7 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 	public static boolean isSoupToggledOff;
 	public static boolean soupToggleStay;
 
-	public static final ArrayList<StackData> postProcessorStack = new ArrayList<>();
+	public static final LayerData layer = new LayerData();
 
 	public static ShaderResourceLoader shaderResourceLoader;
 	public static RecipeManager recipeManager;
@@ -75,9 +78,18 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 	}
 
 	public static boolean stackShader(String id, int stack) {
-		if (warningPrimed && stack+postProcessorStack.size() > shaderLimit) {
+		if (id.equals("projection_test")) {
+			PostLayerEffect postLayerEffect = getPostLayerEffect(new Identifier(MODID, "shaders/layer_effects/"+id+".json"));
+			if (postLayerEffect == null) {
+				return false;
+			}
+			layer.addLayerEffect(postLayerEffect);
+			return true;
+		}
+
+		if (warningPrimed && stack+layer.getShaderCount() > shaderLimit) {
 			say("shader.warn_stacking", shaderLimit);
-			stack = shaderLimit-postProcessorStack.size();
+			stack = shaderLimit-layer.getShaderCount();
 			warningPrimed = false;
 			if (stack <= 0) return false;
 		}
@@ -93,37 +105,12 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 
 	public static boolean stackShaderData(ShaderData shaderData, int stack) {
 		updateToggle();
-
-		if (stack == 0) {
-			clearShaders();
-			stack = 1;
-		}
-
-		try {
-			canFixDepth = true;
-			PostEffectProcessor postProcessor = new PostEffectProcessor(client.getTextureManager(), getGameRendererAccessor().getResourceManager(), client.getFramebuffer(), shaderData.shader);
-			postProcessor.setupDimensions(client.getWindow().getFramebufferWidth(), client.getWindow().getFramebufferHeight());
-			StackData data = new StackData(postProcessor, shaderData);
-			for (int x = 0; x < stack; x++) {
-				postProcessorStack.add(data);
-			}
-			canFixDepth = false;
-			return true;
-		}
-		catch (IOException | JsonSyntaxException e) {
-			LOGGER.warn("Failed to load shader \"{}\":\n{}", shaderData.id, e);
-		}
-		return false;
+		return layer.stackShaderData(shaderData, stack);
 	}
 
 	public static ShaderData getShaderFromID(String id) {
 		if (id.equals("random")) {
-			ShaderData shaderData = shaderDatas.get(getGameRendererAccessor().getRandom().nextInt(shaderDatas.size()));
-			int size = postProcessorStack.size();
-			if (size > 0 && shaderData == postProcessorStack.get(size-1).data()) {
-				return getShaderFromID(id);
-			}
-			return shaderData;
+			return layer.getRandomNotTop(getGameRendererAccessor().getRandom(), shaderDatas);
 		} else {
 			for (ShaderData shaderData : shaderDatas) {
 				if (id.equals(shaderData.id)) {
@@ -134,15 +121,39 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 		}
 	}
 
+	public static PostEffectProcessor getPostProcessor(Identifier identifier) {
+		try {
+			canFixDepth = true;
+			PostEffectProcessor postProcessor = new PostEffectProcessor(client.getTextureManager(), getGameRendererAccessor().getResourceManager(), client.getFramebuffer(), identifier);
+			postProcessor.setupDimensions(client.getWindow().getFramebufferWidth(), client.getWindow().getFramebufferHeight());
+			canFixDepth = false;
+			return postProcessor;
+		} catch (IOException | JsonSyntaxException e) {
+			LOGGER.warn("Failed to load shader \"{}\":\n{}", identifier, e);
+			return null;
+		}
+	}
+
 	public static boolean tryLoadEntityShader(String type) {
 		String recipeData = SouperSecretSettingsClient.entityLinks.get(type);
 		if (recipeData == null) return false;
 		return recipeManager.loadFromRecipeData(recipeData, false);
 	}
 
+	public static PostLayerEffect getPostLayerEffect(Identifier identifier) {
+		try {
+			PostLayerEffect postLayerEffect = new PostLayerEffect(client.getTextureManager(), getGameRendererAccessor().getResourceManager(), client.getFramebuffer(), identifier);
+			postLayerEffect.resize(client.getWindow().getFramebufferWidth(), client.getWindow().getFramebufferHeight());
+			return postLayerEffect;
+		} catch (IOException | JsonSyntaxException e) {
+			LOGGER.warn("Failed to load layer effect \"{}\":\n{}", identifier, e);
+			return null;
+		}
+	}
+
 	public static void clearShaders() {
 		warningPrimed = true;
-		postProcessorStack.clear();
+		layer.clear();
 		updateToggle();
 	}
 

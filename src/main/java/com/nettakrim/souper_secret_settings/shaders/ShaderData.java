@@ -1,4 +1,4 @@
-package com.nettakrim.souper_secret_settings;
+package com.nettakrim.souper_secret_settings.shaders;
 
 import net.minecraft.util.Identifier;
 

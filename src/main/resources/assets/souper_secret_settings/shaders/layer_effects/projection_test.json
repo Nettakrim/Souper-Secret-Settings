@@ -1,9 +1,14 @@
 {
   "targets": [
     "0",
-    "1"
+    "base"
   ],
-  "passes": [
+  "beforestackrender": [
+    {
+      "name": "blit",
+      "intarget": "minecraft:main",
+      "outtarget": "base"
+    },
     {
       "name": "souper_secret_settings:projection",
       "intarget": "minecraft:main",
@@ -28,13 +33,15 @@
       ]
     },
     {
-      "name": "scan_pincushion",
+      "name": "blit",
       "intarget": "0",
-      "outtarget": "1"
-    },
+      "outtarget": "minecraft:main"
+    }
+  ],
+  "afterstackrender": [
     {
       "name": "souper_secret_settings:projection_merge",
-      "intarget": "1",
+      "intarget": "minecraft:main",
       "outtarget": "0",
       "uniforms": [
         {
@@ -57,7 +64,7 @@
       "auxtargets": [
         {
           "name": "BaseSampler",
-          "id": "minecraft:main"
+          "id": "base"
         }
       ]
     },

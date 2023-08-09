@@ -5,12 +5,14 @@ import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import net.minecraft.client.gl.PostEffectProcessor;
 import net.minecraft.client.texture.TextureManager;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PostEffectProcessor.class)
 public class PostEffectProcessorMixin {
+    @Unique
     private boolean useDepth;
 
     @Inject(at = @At(value = "INVOKE", target = "Ljava/lang/String;substring(II)Ljava/lang/String;"), method = "parsePass")

@@ -4,18 +4,19 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.SimpleFramebuffer;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
-import com.nettakrim.souper_secret_settings.StackData;
 
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.Entity;
 
 @Mixin(GameRenderer.class)
 public class GameRendererMixin {
+	@Unique
 	private boolean clearOnCameraChange = false;
 
     @Inject(at = @At("TAIL"), method = "onCameraEntitySet")
@@ -35,18 +36,12 @@ public class GameRendererMixin {
 	public void render(float tickDelta, long startTime, boolean tick, CallbackInfo ci) {
 		if (SouperSecretSettingsClient.isSoupToggledOff) return;
 
-		if (SouperSecretSettingsClient.postProcessorStack.size() != 0) {
-			for (StackData stackData : SouperSecretSettingsClient.postProcessorStack) {
-				stackData.processor().render(tickDelta);
-			}
-		}
+		SouperSecretSettingsClient.layer.render(tickDelta);
 	}
 
 	@Inject(at = @At("HEAD"), method = "onResized")
 	public void onResized(int width, int height, CallbackInfo ci) {
-		for (StackData stackData : SouperSecretSettingsClient.postProcessorStack) {
-			stackData.processor().setupDimensions(width, height);
-		}
+		SouperSecretSettingsClient.layer.resize(width, height);
 		if (SouperSecretSettingsClient.depthFrameBuffer == null) {
 			SouperSecretSettingsClient.depthFrameBuffer = new SimpleFramebuffer(width, height, true, MinecraftClient.IS_SYSTEM_MAC);
 		} else {
