@@ -78,7 +78,7 @@ public class LayerData {
     }
 
     public boolean addLayerEffectFromShader(ShaderData shaderData) {
-        PostLayerEffect postLayerEffect = SouperSecretSettingsClient.getLayerEffect(shaderData.shader);
+        PostLayerEffect postLayerEffect = SouperSecretSettingsClient.getLayerEffect(shaderData);
         if (postLayerEffect == null) return false;
 
         layerEffects.add(postLayerEffect);
@@ -110,18 +110,26 @@ public class LayerData {
     }
 
     public void pop(int amount) {
-        int size = postProcessorStack.size();
-        int index = size-amount;
-        if (index <= 0) {
-            postProcessorStack.clear();
-        } else {
-            postProcessorStack.subList(index, size).clear();
-        }
+        pop(postProcessorStack, amount);
     }
 
     public int remove(String shader) {
         int start = postProcessorStack.size();
         postProcessorStack.removeIf(x -> (x.data().id.equals(shader)));
         return start-postProcessorStack.size();
+    }
+
+    public void popLayerEffect(int amount) {
+        pop(layerEffects, amount);
+    }
+
+    private void pop(ArrayList<?> list, int amount) {
+        int size = list.size();
+        int index = size-amount;
+        if (index <= 0) {
+            list.clear();
+        } else {
+            list.subList(index, size).clear();
+        }
     }
 }

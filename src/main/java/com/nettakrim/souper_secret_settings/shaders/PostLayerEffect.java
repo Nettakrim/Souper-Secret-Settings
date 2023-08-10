@@ -4,7 +4,6 @@ import com.google.gson.JsonSyntaxException;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.resource.ResourceManager;
-import net.minecraft.util.Identifier;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,8 +11,9 @@ import java.util.List;
 public class PostLayerEffect extends AbstractLayerEffect {
     protected final LayeredPostEffectProcessor layeredPostEffectProcessor;
 
-    public PostLayerEffect(TextureManager textureManager, ResourceManager resourceManager, Framebuffer framebuffer, Identifier id) throws IOException, JsonSyntaxException {
-        layeredPostEffectProcessor = new LayeredPostEffectProcessor(textureManager, resourceManager, framebuffer, id);
+    public PostLayerEffect(TextureManager textureManager, ResourceManager resourceManager, Framebuffer framebuffer, ShaderData shaderData) throws IOException, JsonSyntaxException {
+        super(shaderData);
+        layeredPostEffectProcessor = new LayeredPostEffectProcessor(textureManager, resourceManager, framebuffer, shaderData.shader);
     }
 
     public void resize(int width, int height) {

@@ -155,13 +155,13 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 		return recipeManager.loadFromRecipeData(recipeData, false);
 	}
 
-	public static PostLayerEffect getLayerEffect(Identifier identifier) {
+	public static PostLayerEffect getLayerEffect(ShaderData shaderData) {
 		try {
-			PostLayerEffect postLayerEffect = new PostLayerEffect(client.getTextureManager(), getGameRendererAccessor().getResourceManager(), client.getFramebuffer(), identifier);
+			PostLayerEffect postLayerEffect = new PostLayerEffect(client.getTextureManager(), getGameRendererAccessor().getResourceManager(), client.getFramebuffer(), shaderData);
 			postLayerEffect.resize(client.getWindow().getFramebufferWidth(), client.getWindow().getFramebufferHeight());
 			return postLayerEffect;
 		} catch (IOException | JsonSyntaxException e) {
-			LOGGER.warn("Failed to load layer effect \"{}\":\n{}", identifier, e);
+			LOGGER.warn("Failed to load layer effect \"{}\":\n{}", shaderData.shader, e);
 			return null;
 		}
 	}

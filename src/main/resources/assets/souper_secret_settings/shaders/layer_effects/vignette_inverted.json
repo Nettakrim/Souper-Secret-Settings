@@ -24,11 +24,7 @@
       "uniforms": [
         {
           "name": "Scale",
-          "values": [ 2.0 ]
-        },
-        {
-          "name": "Offset",
-          "values": [ 0.0 ]
+          "values": [ -0.7 ]
         }
       ]
     },

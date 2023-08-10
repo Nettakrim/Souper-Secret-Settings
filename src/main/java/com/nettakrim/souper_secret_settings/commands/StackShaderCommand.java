@@ -75,12 +75,22 @@ public class StackShaderCommand {
 			.then(
 				ClientCommandManager.argument("shader", StringArgumentType.string())
 				.suggests(layerEffects)
-				.executes(StackShaderCommand::addLayer)
+				.executes(StackShaderCommand::addLayerEffect)
+			)
+			.build();
+
+		LiteralCommandNode<FabricClientCommandSource> effectPopNode = ClientCommandManager
+			.literal("undo")
+			.executes(StackShaderCommand::popLayerEffect)
+			.then(
+				ClientCommandManager.argument("amount", IntegerArgumentType.integer(1))
+				.executes(StackShaderCommand::popMultipleLayerEffect)
 			)
 			.build();
 
 		stackNode.addChild(effectNode);
 		effectNode.addChild(effectAddNode);
+		effectNode.addChild(effectPopNode);
 		return stackNode;
 	}
 
@@ -126,9 +136,22 @@ public class StackShaderCommand {
 		return 1;
 	}
 
-	private static int addLayer(CommandContext<FabricClientCommandSource> context) {
+	private static int addLayerEffect(CommandContext<FabricClientCommandSource> context) {
 		String shader = StringArgumentType.getString(context, "shader");
 		SouperSecretSettingsClient.updateToggle();
 		return SouperSecretSettingsClient.addLayerEffect(shader) ? 1 : 0;
+	}
+
+	private static int popMultipleLayerEffect(CommandContext<FabricClientCommandSource> context) {
+		int amount = IntegerArgumentType.getInteger(context, "amount");
+		SouperSecretSettingsClient.layer.popLayerEffect(amount);
+		SouperSecretSettingsClient.updateToggle();
+		return 1;
+	}
+
+	private static int popLayerEffect(CommandContext<FabricClientCommandSource> context) {
+		SouperSecretSettingsClient.layer.popLayerEffect(1);
+		SouperSecretSettingsClient.updateToggle();
+		return 1;
 	}
 }

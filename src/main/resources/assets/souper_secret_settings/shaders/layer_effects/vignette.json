@@ -13,22 +13,18 @@
   "afterstackrender": [
     {
       "name": "souper_secret_settings:vignette_layer_effect",
-      "intarget": "minecraft:main",
+      "intarget": "base",
       "outtarget": "0",
       "auxtargets": [
         {
           "name": "BaseSampler",
-          "id": "base"
+          "id": "minecraft:main"
         }
       ],
       "uniforms": [
         {
           "name": "Scale",
-          "values": [ -2.0 ]
-        },
-        {
-          "name": "Offset",
-          "values": [ 1.0 ]
+          "values": [ 3.0 ]
         }
       ]
     },

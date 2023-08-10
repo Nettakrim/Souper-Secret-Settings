@@ -13,7 +13,7 @@
   "afterstackrender": [
     {
       "name": "souper_secret_settings:depth_layer_effect",
-      "intarget": "minecraft:main",
+      "intarget": "base",
       "outtarget": "0",
       "auxtargets": [
         {
@@ -22,17 +22,17 @@
         },
         {
           "name": "BaseSampler",
-          "id": "base"
+          "id": "minecraft:main"
         }
       ],
       "uniforms": [
         {
           "name": "Scale",
-          "values": [ -2.0 ]
+          "values": [ 10.0 ]
         },
         {
           "name": "Offset",
-          "values": [ 5.0 ]
+          "values": [ 0.0 ]
         }
       ]
     },
