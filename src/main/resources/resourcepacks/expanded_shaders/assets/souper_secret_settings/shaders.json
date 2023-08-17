@@ -39,7 +39,8 @@
                 "frigid",
                 "color_shuffle",
                 "film_grain",
-                "fisheye"
+                "fisheye",
+                "stereogram"
             ],
             "disable_screen_mode": [
                 "sequins",
