@@ -31,3 +31,6 @@
 |                 | fractal          |
 |                 | bevel            |
 |                 | depth_outline    |
+|                 | autumnal         |
+|                 | frigid           |
+|                 | noise            |

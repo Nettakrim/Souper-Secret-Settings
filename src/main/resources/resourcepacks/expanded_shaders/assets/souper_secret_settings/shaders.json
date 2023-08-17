@@ -34,7 +34,10 @@
                 "out_of_bounds",
                 "fractal",
                 "bevel",
-                "depth_outline"
+                "depth_outline",
+                "autumnal",
+                "frigid",
+                "noise"
             ],
             "disable_screen_mode": [
                 "sequins",
@@ -46,7 +49,8 @@
                 "horror",
                 "out_of_bounds",
                 "fractal",
-                "depth_outline"
+                "depth_outline",
+                "noise"
             ]
         }
     ],
