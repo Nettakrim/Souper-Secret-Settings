@@ -5,6 +5,7 @@ import java.util.concurrent.CompletableFuture;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.tree.RootCommandNode;
+import com.nettakrim.souper_secret_settings.shaders.AbstractLayerEffect;
 import com.nettakrim.souper_secret_settings.shaders.ShaderData;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 
@@ -37,6 +38,12 @@ public class SouperSecretSettingsCommands {
         return CompletableFuture.completedFuture(builder.build());
     };
 
+    public static final SuggestionProvider<FabricClientCommandSource> activeLayerEffects = (context, builder) -> {
+        for (AbstractLayerEffect abstractLayerEffect : SouperSecretSettingsClient.layer.layerEffects) {
+            builder.suggest(abstractLayerEffect.shaderData.id);
+        }
+        return CompletableFuture.completedFuture(builder.build());
+    };
 
     public static void initialize() {
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {

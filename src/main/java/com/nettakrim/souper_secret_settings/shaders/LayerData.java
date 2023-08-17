@@ -113,10 +113,16 @@ public class LayerData {
         pop(postProcessorStack, amount);
     }
 
-    public int remove(String shader) {
+    public int removeShader(String shader) {
         int start = postProcessorStack.size();
         postProcessorStack.removeIf(x -> (x.data().id.equals(shader)));
         return start-postProcessorStack.size();
+    }
+
+    public int removeLayerEffect(String shader) {
+        int start = layerEffects.size();
+        layerEffects.removeIf(x -> (x.shaderData.id.equals(shader)));
+        return start-layerEffects.size();
     }
 
     public void popLayerEffect(int amount) {

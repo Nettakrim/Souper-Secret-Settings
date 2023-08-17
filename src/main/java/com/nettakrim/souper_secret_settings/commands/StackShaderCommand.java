@@ -9,9 +9,7 @@ import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
-import static com.nettakrim.souper_secret_settings.commands.SouperSecretSettingsCommands.activePostShaders;
-import static com.nettakrim.souper_secret_settings.commands.SouperSecretSettingsCommands.postShaders;
-import static com.nettakrim.souper_secret_settings.commands.SouperSecretSettingsCommands.layerEffects;
+import static com.nettakrim.souper_secret_settings.commands.SouperSecretSettingsCommands.*;
 
 
 public class StackShaderCommand {
@@ -88,9 +86,25 @@ public class StackShaderCommand {
 			)
 			.build();
 
+		LiteralCommandNode<FabricClientCommandSource> effectClearNode = ClientCommandManager
+			.literal("clear")
+			.executes(StackShaderCommand::clearLayerEffect)
+			.build();
+
+		LiteralCommandNode<FabricClientCommandSource> effectRemoveNode = ClientCommandManager
+			.literal("remove")
+			.then(
+				ClientCommandManager.argument("shader", StringArgumentType.string())
+				.suggests(activeLayerEffects)
+				.executes(StackShaderCommand::removeLayerEffect)
+			)
+			.build();
+
 		stackNode.addChild(effectNode);
 		effectNode.addChild(effectAddNode);
 		effectNode.addChild(effectPopNode);
+		effectNode.addChild(effectClearNode);
+		effectNode.addChild(effectRemoveNode);
 		return stackNode;
 	}
 
@@ -131,7 +145,7 @@ public class StackShaderCommand {
 
 	private static int remove(CommandContext<FabricClientCommandSource> context) {
 		String shader = StringArgumentType.getString(context, "shader");
-		SouperSecretSettingsClient.layer.remove(shader);
+		SouperSecretSettingsClient.layer.removeShader(shader);
 		SouperSecretSettingsClient.updateToggle();
 		return 1;
 	}
@@ -151,6 +165,18 @@ public class StackShaderCommand {
 
 	private static int popLayerEffect(CommandContext<FabricClientCommandSource> context) {
 		SouperSecretSettingsClient.layer.popLayerEffect(1);
+		SouperSecretSettingsClient.updateToggle();
+		return 1;
+	}
+
+	private static int clearLayerEffect(CommandContext<FabricClientCommandSource> context) {
+		SouperSecretSettingsClient.layer.layerEffects.clear();
+		return 1;
+	}
+
+	private static int removeLayerEffect(CommandContext<FabricClientCommandSource> context) {
+		String shader = StringArgumentType.getString(context, "shader");
+		SouperSecretSettingsClient.layer.removeLayerEffect(shader);
 		SouperSecretSettingsClient.updateToggle();
 		return 1;
 	}
