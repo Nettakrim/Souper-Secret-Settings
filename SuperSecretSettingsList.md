@@ -34,3 +34,5 @@
 |                 | autumnal         |
 |                 | frigid           |
 |                 | color_shuffle    |
+|                 | film_grain       |
+|                 | fisheye          |

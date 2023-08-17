@@ -1,0 +1,24 @@
+{
+    "blend": {
+        "func": "add",
+        "srcrgb": "one",
+        "dstrgb": "zero"
+    },
+    "vertex": "sobel",
+    "fragment": "expanded_shaders:film_grain",
+    "attributes": [ "Position" ],
+    "samplers": [
+        { "name": "DiffuseSampler" }
+    ],
+    "uniforms": [
+        { "name": "ProjMat",       "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
+        { "name": "InSize",        "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
+        { "name": "OutSize",       "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
+        { "name": "Time",          "type": "float",     "count": 1,  "values": [ 1.0 ] },
+        { "name": "Rate",          "type": "float",     "count": 1,  "values": [ 123.456 ] },
+        { "name": "Pitch",         "type": "float",     "count": 1,  "values": [ 1.0 ] },
+        { "name": "Strength",      "type": "float",     "count": 1,  "values": [ 1.0 ] },
+        { "name": "ColorStrength", "type": "float",     "count": 1,  "values": [ 1.0 ] },
+        { "name": "MixMode",       "type": "float",     "count": 1,  "values": [ 0.1 ] }
+    ]
+}

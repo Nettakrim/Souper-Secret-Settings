@@ -37,7 +37,9 @@
                 "depth_outline",
                 "autumnal",
                 "frigid",
-                "color_shuffle"
+                "color_shuffle",
+                "film_grain",
+                "fisheye"
             ],
             "disable_screen_mode": [
                 "sequins",
