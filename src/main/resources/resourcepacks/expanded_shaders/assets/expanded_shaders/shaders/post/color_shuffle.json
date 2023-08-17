@@ -10,7 +10,7 @@
       "auxtargets": [
         {
           "name": "LookupSampler",
-          "id": "noise",
+          "id": "expanded_shaders:noise",
           "width": 512,
           "height": 512,
           "bilinear": false

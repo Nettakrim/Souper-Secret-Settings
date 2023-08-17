@@ -37,7 +37,7 @@
                 "depth_outline",
                 "autumnal",
                 "frigid",
-                "noise"
+                "color_shuffle"
             ],
             "disable_screen_mode": [
                 "sequins",
@@ -50,7 +50,7 @@
                 "out_of_bounds",
                 "fractal",
                 "depth_outline",
-                "noise"
+                "color_shuffle"
             ]
         }
     ],

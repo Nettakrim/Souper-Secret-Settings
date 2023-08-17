@@ -10,7 +10,7 @@
       "auxtargets": [
         {
           "name": "LookupSampler",
-          "id": "frigid",
+          "id": "expanded_shaders:frigid",
           "width": 512,
           "height": 512,
           "bilinear": false

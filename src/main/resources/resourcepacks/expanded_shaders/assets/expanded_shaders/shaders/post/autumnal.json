@@ -10,7 +10,7 @@
       "auxtargets": [
         {
           "name": "LookupSampler",
-          "id": "autumnal",
+          "id": "expanded_shaders:autumnal",
           "width": 512,
           "height": 512,
           "bilinear": false

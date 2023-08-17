@@ -33,4 +33,4 @@
 |                 | depth_outline    |
 |                 | autumnal         |
 |                 | frigid           |
-|                 | noise            |
+|                 | color_shuffle    |
