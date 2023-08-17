@@ -1,0 +1,37 @@
+{
+  "targets": [
+    "0",
+    "base"
+  ],
+  "beforestackrender": [
+    {
+      "name": "blit",
+      "intarget": "minecraft:main",
+      "outtarget": "base"
+    }
+  ],
+  "afterstackrender": [
+    {
+      "name": "souper_secret_settings:mix_layer_effect",
+      "intarget": "base",
+      "outtarget": "0",
+      "auxtargets": [
+        {
+          "name": "BaseSampler",
+          "id": "minecraft:main"
+        }
+      ],
+      "uniforms": [
+        {
+          "name": "Amount",
+          "values": [ 0.9 ]
+        }
+      ]
+    },
+    {
+      "name": "blit",
+      "intarget": "0",
+      "outtarget": "minecraft:main"
+    }
+  ]
+}

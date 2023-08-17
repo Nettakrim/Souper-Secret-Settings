@@ -181,6 +181,10 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 		layerEffects.add(new ShaderData(namespace, id, true));
 	}
 
+	public static void layerEffectListClearNamespace(String namespace) {
+		layerEffects.removeIf(data -> data.shader.getNamespace().equals(namespace));
+	}
+
 	public static void shaderListAdd(String namespace, String id) {
 		postShaders.add(new ShaderData(namespace, id, false));
 	}

@@ -108,6 +108,7 @@ public class ShaderResourceLoader extends JsonDataLoader implements Identifiable
 
         if (replace) {
             SouperSecretSettingsClient.shaderListClearNamespace(namespace);
+            SouperSecretSettingsClient.layerEffectListClearNamespace(namespace);
         }
 
         for (JsonElement jsonShader : shaders) {

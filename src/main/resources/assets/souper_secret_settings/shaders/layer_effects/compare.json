@@ -1,0 +1,31 @@
+{
+  "targets": [
+    "0",
+    "base"
+  ],
+  "beforestackrender": [
+    {
+      "name": "blit",
+      "intarget": "minecraft:main",
+      "outtarget": "base"
+    }
+  ],
+  "afterstackrender": [
+    {
+      "name": "souper_secret_settings:compare_layer_effect",
+      "intarget": "base",
+      "outtarget": "0",
+      "auxtargets": [
+        {
+          "name": "BaseSampler",
+          "id": "minecraft:main"
+        }
+      ]
+    },
+    {
+      "name": "blit",
+      "intarget": "0",
+      "outtarget": "minecraft:main"
+    }
+  ]
+}

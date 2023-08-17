@@ -1,0 +1,63 @@
+{
+  "targets": [
+    "0",
+    "1",
+    "base"
+  ],
+  "beforestackrender": [
+    {
+      "name": "blit",
+      "intarget": "minecraft:main",
+      "outtarget": "base"
+    }
+  ],
+  "afterstackrender": [
+    {
+      "name": "souper_secret_settings:depth_layer_effect",
+      "intarget": "minecraft:main",
+      "outtarget": "0",
+      "auxtargets": [
+        {
+          "name": "DiffuseDepthSampler",
+          "id": "minecraft:main:depth"
+        },
+        {
+          "name": "BaseSampler",
+          "id": "base"
+        }
+      ],
+      "uniforms": [
+        {
+          "name": "Scale",
+          "values": [ 1.0 ]
+        },
+        {
+          "name": "Offset",
+          "values": [ 0.0 ]
+        }
+      ]
+    },
+    {
+      "name": "souper_secret_settings:vignette_layer_effect",
+      "intarget": "0",
+      "outtarget": "1",
+      "auxtargets": [
+        {
+          "name": "BaseSampler",
+          "id": "minecraft:main"
+        }
+      ],
+      "uniforms": [
+        {
+          "name": "Scale",
+          "values": [ 3.0 ]
+        }
+      ]
+    },
+    {
+      "name": "blit",
+      "intarget": "1",
+      "outtarget": "minecraft:main"
+    }
+  ]
+}
