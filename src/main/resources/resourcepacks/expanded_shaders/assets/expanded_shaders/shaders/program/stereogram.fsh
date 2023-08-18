@@ -9,6 +9,7 @@ in vec2 oneTexel;
 out vec4 fragColor;
 
 uniform float Stripes;
+uniform float Time;
 
 float near = 0.1;
 float far = 1000.0;
@@ -52,7 +53,9 @@ float noise( in vec2 p )
 float sampleHeightmap(vec2 position) {
     float depth = LinearizeDepth(texture(DiffuseDepthSampler, position).r);
 
-    return max(min(1.0-(depth/10.0), 1.0), 0.0);
+    depth = max(min(1.0-(depth/10.0), 1.0), 0.0);
+
+    return depth*depth;
 }
 
 vec2 originalPosition(vec2 position) {
@@ -71,16 +74,24 @@ vec2 originalPosition(vec2 position) {
 }
 
 vec4 sampleTile(vec2 coords) {
-    float x = fract(coords.x*Stripes);
-    float y = coords.y*Stripes*(oneTexel.y/oneTexel.x);
+    float x = fract(coords.x*Stripes)/Stripes;
+    float y = coords.y*(oneTexel.x/oneTexel.y);
 
-    return vec4(noise(vec2(x,y)*20));
+    vec2 random = vec2(Time*123.456, Time*456.789);
+
+    return vec4(noise((vec2(x,y)+random)*400));
 }
 
 void main(){
-    vec2 position = originalPosition(texCoord);
+    vec2 dotCalc = (texCoord - vec2(0.5, 0.95))*vec2(1,oneTexel.x/oneTexel.y);
+    float dotRadius = 0.005;
+    if (min(distance(dotCalc, vec2(0.5/Stripes, 0)), distance(dotCalc, vec2(-(0.5/Stripes), 0))) < dotRadius) {
+        fragColor = vec4(vec3(1.0), 1.0);
+    } else {
+        vec2 position = originalPosition(texCoord);
 
-    vec4 color = sampleTile(position);
+        vec4 color = sampleTile(position);
 
-    fragColor = vec4(color.rgb, 1.0);
+        fragColor = vec4(color.rgb, 1.0);
+    }
 }
