@@ -40,7 +40,9 @@
                 "color_shuffle",
                 "film_grain",
                 "fisheye",
-                "stereogram"
+                "stereogram",
+                "mouse",
+                "anaglyph"
             ],
             "disable_screen_mode": [
                 "sequins",
@@ -54,7 +56,9 @@
                 "fractal",
                 "depth_outline",
                 "color_shuffle",
-                "stereogram"
+                "stereogram",
+                "mouse",
+                "anaglyph"
             ]
         }
     ],
