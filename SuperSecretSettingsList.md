@@ -36,3 +36,5 @@
 |                 | color_shuffle    |
 |                 | film_grain       |
 |                 | fisheye          |
+|                 | mouse            |
+|                 | anaglyph         |
