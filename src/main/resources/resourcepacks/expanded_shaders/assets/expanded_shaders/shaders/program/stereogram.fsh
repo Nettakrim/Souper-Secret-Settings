@@ -73,13 +73,13 @@ vec2 originalPosition(vec2 position) {
     return position;
 }
 
-vec4 sampleTile(vec2 coords) {
+float sampleNoise(vec2 coords) {
     float x = fract(coords.x*Stripes)/Stripes;
     float y = coords.y*(oneTexel.x/oneTexel.y);
 
     vec2 random = vec2(Time*123.456, Time*456.789);
 
-    return vec4(noise((vec2(x,y)+random)*400));
+    return noise((vec2(x,y)+random)*400);
 }
 
 void main(){
@@ -90,7 +90,18 @@ void main(){
     } else {
         vec2 position = originalPosition(texCoord);
 
-        vec4 color = sampleTile(position);
+        float noise = sampleNoise(position);
+
+        noise = (noise+1.0)/2.0;
+        noise = noise*noise*(3.0-2.0*noise);
+        noise = 2*noise - 1.0;
+
+        vec2 offset = vec2(1.0/Stripes, 0.0);
+        vec4 color = mix(texture(DiffuseSampler, texCoord + offset), texture(DiffuseSampler, texCoord), 0.65);
+
+        if (noise < 0) color *= noise+1.0;
+        else color = vec4(1.0)-((vec4(1.0)-color)*(1.0-noise));
+        color = mix(color, vec4((noise+1.0)/2.0), 0.85);
 
         fragColor = vec4(color.rgb, 1.0);
     }

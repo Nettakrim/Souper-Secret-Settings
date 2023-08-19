@@ -53,7 +53,8 @@
                 "out_of_bounds",
                 "fractal",
                 "depth_outline",
-                "color_shuffle"
+                "color_shuffle",
+                "stereogram"
             ]
         }
     ],
