@@ -42,7 +42,9 @@
                 "fisheye",
                 "stereogram",
                 "mouse",
-                "anaglyph"
+                "anaglyph",
+                "brightness",
+                "contrast"
             ],
             "disable_screen_mode": [
                 "sequins",
