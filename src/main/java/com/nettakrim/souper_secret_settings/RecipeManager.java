@@ -19,7 +19,7 @@ public class RecipeManager {
 
     private boolean changesMade = false;
 
-    private boolean stopOverwrite = true;
+    private String allowOverwrite = "";
 
     public RecipeManager() {
         data = new File(SouperSecretSettingsClient.client.runDirectory+"/souper_secret_settings.txt");
@@ -65,12 +65,12 @@ public class RecipeManager {
         if (name.contains(": ") || name.equals("random")) {
             return;
         }
-        if (stopOverwrite && recipies.containsKey(name)) {
+        if (!allowOverwrite.equals(name) && recipies.containsKey(name)) {
             SouperSecretSettingsClient.say("recipe.warn_overwrite", name);
-            stopOverwrite = false;
+            allowOverwrite = name;
             return;
         }
-        stopOverwrite = true;
+        allowOverwrite = "";
         changesMade = true;
         if (data.equals("")) {
             removeRecipe(name);
