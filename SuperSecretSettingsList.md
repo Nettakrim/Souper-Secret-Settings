@@ -42,3 +42,4 @@
 |                 | contrast         |
 |                 | gaussian         |
 |                 | toon             |
+|                 | halftone         |

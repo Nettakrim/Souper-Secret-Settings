@@ -1,0 +1,47 @@
+{
+    "targets": [
+        "0"
+    ],
+    "passes": [
+        {
+            "name": "expanded_shaders:gaussian",
+            "intarget": "minecraft:main",
+            "outtarget": "0",
+            "uniforms": [
+                {
+                    "name": "Direction",
+                    "values": [ 1.0, 0.0 ]
+                },
+                {
+                    "name": "Sigma",
+                    "values": [ 5.0 ]
+                }
+            ]
+        },
+        {
+            "name": "expanded_shaders:gaussian",
+            "intarget": "0",
+            "outtarget": "minecraft:main",
+            "uniforms": [
+                {
+                    "name": "Direction",
+                    "values": [ 0.0, 1.0 ]
+                },
+                {
+                    "name": "Sigma",
+                    "values": [ 5.0 ]
+                }
+            ]
+        },
+        {
+            "name": "expanded_shaders:halftone",
+            "intarget": "minecraft:main",
+            "outtarget": "0"
+        },
+        {
+            "name": "blit",
+            "intarget": "0",
+            "outtarget": "minecraft:main"
+        }
+    ]
+}

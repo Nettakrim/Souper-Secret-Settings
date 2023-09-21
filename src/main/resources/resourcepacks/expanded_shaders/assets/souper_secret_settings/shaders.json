@@ -46,7 +46,8 @@
                 "brightness",
                 "contrast",
                 "gaussian",
-                "toon"
+                "toon",
+                "halftone"
             ],
             "disable_screen_mode": [
                 "sequins",
