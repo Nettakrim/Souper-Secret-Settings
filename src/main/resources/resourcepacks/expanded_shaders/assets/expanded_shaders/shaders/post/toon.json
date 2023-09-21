@@ -1,0 +1,89 @@
+{
+    "targets": [
+        "0",
+        "A",
+        "B"
+    ],
+    "passes": [
+        {
+            "name": "expanded_shaders:gaussian",
+            "intarget": "minecraft:main",
+            "outtarget": "0",
+            "uniforms": [
+                {
+                    "name": "Direction",
+                    "values": [ 1.0, 0.0 ]
+                },
+                {
+                    "name": "Sigma",
+                    "values": [ 3.0 ]
+                }
+            ]
+        },
+        {
+            "name": "expanded_shaders:gaussian",
+            "intarget": "0",
+            "outtarget": "A",
+            "uniforms": [
+                {
+                    "name": "Direction",
+                    "values": [ 0.0, 1.0 ]
+                },
+                {
+                    "name": "Sigma",
+                    "values": [ 3.0 ]
+                }
+            ]
+        },
+        {
+            "name": "expanded_shaders:gaussian",
+            "intarget": "minecraft:main",
+            "outtarget": "0",
+            "uniforms": [
+                {
+                    "name": "Direction",
+                    "values": [ 1.0, 0.0 ]
+                },
+                {
+                    "name": "Sigma",
+                    "values": [ 5.0 ]
+                }
+            ]
+        },
+        {
+            "name": "expanded_shaders:gaussian",
+            "intarget": "0",
+            "outtarget": "B",
+            "uniforms": [
+                {
+                    "name": "Direction",
+                    "values": [ 0.0, 1.0 ]
+                },
+                {
+                    "name": "Sigma",
+                    "values": [ 5.0 ]
+                }
+            ]
+        },
+        {
+            "name": "expanded_shaders:toon",
+            "intarget": "minecraft:main",
+            "outtarget": "0",
+            "auxtargets": [
+                {
+                    "name": "ASampler",
+                    "id": "A"
+                },
+                {
+                    "name": "BSampler",
+                    "id": "B"
+                }
+            ]
+        },
+        {
+            "name": "blit",
+            "intarget": "0",
+            "outtarget": "minecraft:main"
+        }
+    ]
+}

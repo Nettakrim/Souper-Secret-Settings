@@ -44,7 +44,9 @@
                 "mouse",
                 "anaglyph",
                 "brightness",
-                "contrast"
+                "contrast",
+                "gaussian",
+                "toon"
             ],
             "disable_screen_mode": [
                 "sequins",

@@ -38,3 +38,7 @@
 |                 | fisheye          |
 |                 | mouse            |
 |                 | anaglyph         |
+|                 | brightness       |
+|                 | contrast         |
+|                 | gaussian         |
+|                 | toon             |
