@@ -77,28 +77,30 @@ public class LayeredPostEffectProcessor {
         for(this.lastTickDelta = tickDelta; this.time > 20.0F; this.time -= 20.0F) {}
     }
 
-    public void beforeStackRender() {
-        renderPasses(beforeStackRenderPasses);
+    public void beforeStackRender(int layerEffectValue) {
+        renderPasses(beforeStackRenderPasses, layerEffectValue);
     }
 
-    public void afterStackRender() {
-        renderPasses(afterStackRenderPasses);
+    public void afterStackRender(int layerEffectValue) {
+        renderPasses(afterStackRenderPasses, layerEffectValue);
     }
 
-    public void beforeShaderRender() {
-        renderPasses(beforeShaderRenderPasses);
+    public void beforeShaderRender(int layerEffectValue) {
+        renderPasses(beforeShaderRenderPasses, layerEffectValue);
     }
 
-    public void afterShaderRender() {
-        renderPasses(afterShaderRenderPasses);
+    public void afterShaderRender(int layerEffectValue) {
+        renderPasses(afterShaderRenderPasses, layerEffectValue);
     }
 
-    private void renderPasses(List<PostEffectPass> passes) {
+    private void renderPasses(List<PostEffectPass> passes, int layerEffectValue) {
         if (passes.size() == 0) return;
         if (useDepth) {
             SouperSecretSettingsClient.client.getFramebuffer().copyDepthFrom(SouperSecretSettingsClient.depthFrameBuffer);
         }
         for (PostEffectPass postEffectPass : passes) {
+            GlUniform uniform = postEffectPass.getProgram().getUniformByName("LayerEffectValue");
+            if (uniform != null) uniform.set(layerEffectValue);
             postEffectPass.render(this.time);
         }
     }

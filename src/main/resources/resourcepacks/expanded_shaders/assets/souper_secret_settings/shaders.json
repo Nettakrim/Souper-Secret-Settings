@@ -59,6 +59,10 @@
                 "stereogram",
                 "mouse",
                 "anaglyph"
+            ],
+            "layer_effects": [
+                "channel_cycle_additive",
+                "channel_cycle_exclusive"
             ]
         }
     ],

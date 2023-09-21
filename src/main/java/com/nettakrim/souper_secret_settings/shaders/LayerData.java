@@ -13,7 +13,8 @@ public class LayerData {
     public final ArrayList<AbstractLayerEffect> layerEffects = new ArrayList<>();
 
     public void render(float tickDelta) {
-        if (postProcessorStack.size() == 0) return;
+        int stackSize = postProcessorStack.size();
+        if (stackSize == 0) return;
 
         if (layerEffects.size() == 0) {
             for (StackData stackData : postProcessorStack) {
@@ -26,23 +27,25 @@ public class LayerData {
         Collections.reverse(reversed);
 
         for (AbstractLayerEffect abstractLayerEffect : reversed) {
-            abstractLayerEffect.beforeStackRender(postProcessorStack, tickDelta);
+            abstractLayerEffect.beforeStackRender(postProcessorStack, tickDelta, stackSize);
         }
 
+        int i = 0;
         for (StackData stackData : postProcessorStack) {
             for (AbstractLayerEffect abstractLayerEffect : reversed) {
-                abstractLayerEffect.beforeShaderRender(stackData, tickDelta);
+                abstractLayerEffect.beforeShaderRender(stackData, tickDelta, i);
             }
 
             stackData.processor().render(tickDelta);
 
             for (AbstractLayerEffect abstractLayerEffect : layerEffects) {
-                abstractLayerEffect.afterShaderRender(stackData, tickDelta);
+                abstractLayerEffect.afterShaderRender(stackData, tickDelta, i);
             }
+            i++;
         }
 
         for (AbstractLayerEffect abstractLayerEffect : layerEffects) {
-            abstractLayerEffect.afterStackRender(postProcessorStack, tickDelta);
+            abstractLayerEffect.afterStackRender(postProcessorStack, tickDelta, stackSize);
         }
     }
 

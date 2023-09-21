@@ -11,11 +11,11 @@ public abstract class AbstractLayerEffect {
 
     public abstract void resize(int width, int height);
 
-    public abstract void beforeStackRender(List<StackData> postProcessorStack, float tickDelta);
+    public abstract void beforeStackRender(List<StackData> postProcessorStack, float tickDelta, int layerEffectValue);
 
-    public abstract void afterStackRender(List<StackData> postProcessorStack, float tickDelta);
+    public abstract void afterStackRender(List<StackData> postProcessorStack, float tickDelta, int layerEffectValue);
 
-    public abstract void beforeShaderRender(StackData stackData, float tickDelta);
+    public abstract void beforeShaderRender(StackData stackData, float tickDelta, int layerEffectValue);
 
-    public abstract void afterShaderRender(StackData stackData, float tickDelta);
+    public abstract void afterShaderRender(StackData stackData, float tickDelta, int layerEffectValue);
 }

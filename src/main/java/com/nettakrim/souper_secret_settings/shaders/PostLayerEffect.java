@@ -20,20 +20,20 @@ public class PostLayerEffect extends AbstractLayerEffect {
         layeredPostEffectProcessor.setupDimensions(width, height);
     }
 
-    public void beforeStackRender(List<StackData> postProcessorStack, float tickDelta) {
+    public void beforeStackRender(List<StackData> postProcessorStack, float tickDelta, int layerEffectValue) {
         layeredPostEffectProcessor.updateTime(tickDelta);
-        layeredPostEffectProcessor.beforeStackRender();
+        layeredPostEffectProcessor.beforeStackRender(layerEffectValue);
     }
 
-    public void afterStackRender(List<StackData> postProcessorStack, float tickDelta) {
-        layeredPostEffectProcessor.afterStackRender();
+    public void afterStackRender(List<StackData> postProcessorStack, float tickDelta, int layerEffectValue) {
+        layeredPostEffectProcessor.afterStackRender(layerEffectValue);
     }
 
-    public void beforeShaderRender(StackData stackData, float tickDelta) {
-        layeredPostEffectProcessor.beforeShaderRender();
+    public void beforeShaderRender(StackData stackData, float tickDelta, int layerEffectValue) {
+        layeredPostEffectProcessor.beforeShaderRender(layerEffectValue);
     }
 
-    public void afterShaderRender(StackData stackData, float tickDelta) {
-        layeredPostEffectProcessor.afterShaderRender();
+    public void afterShaderRender(StackData stackData, float tickDelta, int layerEffectValue) {
+        layeredPostEffectProcessor.afterShaderRender(layerEffectValue);
     }
 }

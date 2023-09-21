@@ -1,0 +1,45 @@
+{
+  "targets": [
+    "0",
+    "1"
+  ],
+  "beforestackrender": [
+    {
+      "name": "blit",
+      "intarget": "minecraft:main",
+      "outtarget": "0"
+    }
+  ],
+  "beforeshaderrender": [
+    {
+      "name": "expanded_shaders:layer_effects/cycle_additive",
+      "intarget": "0",
+      "outtarget": "minecraft:main"
+    },
+    {
+      "name": "blit",
+      "intarget": "0",
+      "outtarget": "1"
+    }
+  ],
+  "aftershaderrender": [
+    {
+      "name": "expanded_shaders:layer_effects/cycle_additive_combine",
+      "intarget": "minecraft:main",
+      "outtarget": "0",
+      "auxtargets": [
+        {
+          "name": "PrevSampler",
+          "id": "1"
+        }
+      ]
+    }
+  ],
+  "afterstackrender": [
+    {
+      "name": "blit",
+      "intarget": "0",
+      "outtarget": "minecraft:main"
+    }
+  ]
+}
