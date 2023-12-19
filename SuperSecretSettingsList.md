@@ -2,7 +2,7 @@ Vanilla shaders use the name they have in files
 
 Expanded Shaders are builtin with Souper Secret Settings, but may need to be enabled in resourcepacks
 
-[Perspective](https://modrinth.com/mod/mclegoman-perspective) adds its own shaders which soup can recognise, although some need to be enabled in resource packs (marked with *)
+[Perspective](https://modrinth.com/mod/mclegoman-perspective) adds its own shaders which soup can recognise, although some need to be enabled in resource packs (marked with *), this list may be outdated
 
 | Vanilla         | Expanded Shaders | Perspective    |
 |-----------------|------------------|----------------|
