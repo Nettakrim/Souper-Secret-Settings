@@ -81,11 +81,7 @@ public class LayerData {
     }
 
     public boolean addLayerEffectFromShader(ShaderData shaderData) {
-        PostLayerEffect postLayerEffect = SouperSecretSettingsClient.getLayerEffect(shaderData);
-        if (postLayerEffect == null) return false;
-
-        layerEffects.add(postLayerEffect);
-        return true;
+        return addLayerEffect(SouperSecretSettingsClient.getLayerEffect(shaderData));
     }
 
     public ShaderData getRandomNotTop(Random random, ArrayList<ShaderData> shaderDatas, boolean ignoreSoupFriendly) {
