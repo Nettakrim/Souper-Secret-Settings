@@ -1,6 +1,7 @@
 {
   "pack": {
     "pack_format": 15,
-    "description": ""
+    "description": "",
+    "supported_formats": [0,1000]
   }
 }
