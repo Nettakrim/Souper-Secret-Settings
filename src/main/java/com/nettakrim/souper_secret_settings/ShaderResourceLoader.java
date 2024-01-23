@@ -68,19 +68,25 @@ public class ShaderResourceLoader extends JsonDataLoader implements Identifiable
     }
 
     public void parseAll(ResourceManager manager) {
-        Identifier identifier = new Identifier(SouperSecretSettingsClient.MODID, "shaders.json");
-        try {
-            for (Resource resource : manager.getAllResources(identifier)) {
-                parseResource(resource);
+        for (String namespace : manager.getAllNamespaces()) {
+            Identifier identifier = new Identifier(namespace, "shaders.json");
+            try {
+                for (Resource resource : manager.getAllResources(identifier)) {
+                    parseResource(resource);
+                }
+            } catch (IOException ioException) {
+                SouperSecretSettingsClient.LOGGER.warn("Failed to load shader List: {}", (Object)ioException);
             }
-        } catch (IOException ioException) {
-            SouperSecretSettingsClient.LOGGER.warn("Failed to load shader List: {}", (Object)ioException);
         }
     }
 
     public void parseResource(Resource resource) throws IOException {
         BufferedReader reader = resource.getReader();
         JsonObject jsonObject = JsonHelper.deserialize(reader);
+
+        boolean replace = JsonHelper.getBoolean(jsonObject, "replace", false);
+        if (replace) SouperSecretSettingsClient.clearResources();
+
         parseShaderList(jsonObject);
     }
 
@@ -127,7 +133,7 @@ public class ShaderResourceLoader extends JsonDataLoader implements Identifiable
         }
     }
 
-    //https://github.com/MCLegoMan/Perspective/blob/1.20.x/src/main/java/com/mclegoman/perspective/client/shaders/PerspectiveShaderDataLoader.java
+    //https://github.com/MCLegoMan/Perspective/blob/release-1.20.3-4/src/main/java/com/mclegoman/perspective/client/shaders/ShaderDataLoader.java
     public void parsePerspectiveShader(JsonObject jsonObject) {
         String namespace = JsonHelper.getString(jsonObject, "namespace", "perspective");
         String shader = JsonHelper.getString(jsonObject, "shader");
