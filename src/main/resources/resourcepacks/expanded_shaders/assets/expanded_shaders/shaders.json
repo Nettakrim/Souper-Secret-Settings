@@ -65,6 +65,9 @@
                 "mouse",
                 "anaglyph"
             ],
+            "disable_soup": [
+                "stereogram"
+            ],
             "layer_effects": [
                 "channel_cycle_additive",
                 "channel_cycle_exclusive"

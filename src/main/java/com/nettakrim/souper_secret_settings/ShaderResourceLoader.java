@@ -2,6 +2,7 @@ package com.nettakrim.souper_secret_settings;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -117,8 +118,16 @@ public class ShaderResourceLoader extends JsonDataLoader implements Identifiable
             SouperSecretSettingsClient.layerEffectListClearNamespace(namespace);
         }
 
+        JsonArray disableSoupJson = JsonHelper.getArray(jsonObject, "disable_soup", new JsonArray());
+        List<String> disableSoup = new ArrayList<>(disableSoupJson.size());
+
+        for (JsonElement disable : disableSoupJson) {
+            disableSoup.add(disable.getAsString());
+        }
+
         for (JsonElement jsonShader : shaders) {
-            SouperSecretSettingsClient.shaderListAdd(namespace, jsonShader.getAsString());
+            String shader = jsonShader.getAsString();
+            SouperSecretSettingsClient.shaderListAdd(namespace, shader,  !disableSoup.contains(shader));
         }
 
         for (JsonElement jsonEffect : layerEffects) {
@@ -138,8 +147,9 @@ public class ShaderResourceLoader extends JsonDataLoader implements Identifiable
         String namespace = JsonHelper.getString(jsonObject, "namespace", "perspective");
         String shader = JsonHelper.getString(jsonObject, "shader");
         boolean enabled = JsonHelper.getBoolean(jsonObject, "enabled", true);
+        boolean disableSoup = JsonHelper.getBoolean(jsonObject, "disable_soup", false);
         if (enabled) {
-            SouperSecretSettingsClient.shaderListAdd(namespace, shader);
+            SouperSecretSettingsClient.shaderListAdd(namespace, shader, !disableSoup);
         } else {
             SouperSecretSettingsClient.shaderListRemove(namespace, shader);
         }

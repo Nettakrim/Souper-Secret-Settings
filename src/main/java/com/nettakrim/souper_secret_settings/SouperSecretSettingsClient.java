@@ -102,7 +102,9 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 
 	public static ShaderData getPostShaderFromID(String id) {
 		if (id.equals("random")) {
-			return layer.getRandomNotTop(getGameRendererAccessor().getRandom(), postShaders);
+			return layer.getRandomNotTop(getGameRendererAccessor().getRandom(), postShaders, true);
+		} else if (id.equals("random_soup")) {
+			return layer.getRandomNotTop(getGameRendererAccessor().getRandom(), postShaders, false);
 		} else {
 			for (ShaderData shaderData : postShaders) {
 				if (id.equals(shaderData.id)) {
@@ -178,15 +180,15 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 	}
 
 	public static void layerEffectListAdd(String namespace, String id) {
-		layerEffects.add(new ShaderData(namespace, id, true));
+		layerEffects.add(new ShaderData(namespace, id, false, true));
 	}
 
 	public static void layerEffectListClearNamespace(String namespace) {
 		layerEffects.removeIf(data -> data.shader.getNamespace().equals(namespace));
 	}
 
-	public static void shaderListAdd(String namespace, String id) {
-		postShaders.add(new ShaderData(namespace, id, false));
+	public static void shaderListAdd(String namespace, String id, boolean soupFriendly) {
+		postShaders.add(new ShaderData(namespace, id, soupFriendly, false));
 	}
 
 	public static void shaderListClearNamespace(String namespace) {

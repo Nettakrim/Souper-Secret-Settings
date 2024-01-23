@@ -19,7 +19,7 @@ public class StewItemMixin {
 	@Inject(at = @At("HEAD"), method = "finishUsing")
 	private void finishUsing(ItemStack stack, World world, LivingEntity user, CallbackInfoReturnable<ItemStack> cir) {
 		if (world.isClient && stack.isOf(Items.BEETROOT_SOUP)) {
-			SouperSecretSettingsClient.setShader("random");
+			SouperSecretSettingsClient.setShader("random_soup");
 			RandomSound.Play();
 		}
 	}

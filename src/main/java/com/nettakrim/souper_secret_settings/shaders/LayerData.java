@@ -88,9 +88,10 @@ public class LayerData {
         return true;
     }
 
-    public ShaderData getRandomNotTop(Random random, ArrayList<ShaderData> shaderDatas) {
+    public ShaderData getRandomNotTop(Random random, ArrayList<ShaderData> shaderDatas, boolean ignoreSoupFriendly) {
         int randomSize = shaderDatas.size();
         if (randomSize == 0) return null;
+        if (randomSize == 1) return shaderDatas.get(0);
         int stackSize = postProcessorStack.size();
         if (stackSize == 0) return shaderDatas.get(random.nextInt(randomSize));
 
@@ -98,7 +99,7 @@ public class LayerData {
 
         for (int x = 0; x < 50; x++) {
             ShaderData s = shaderDatas.get(random.nextInt(randomSize));
-            if (s != top || randomSize == 1) return s;
+            if ((ignoreSoupFriendly || s.soupFriendly) && (s != top)) return s;
         }
         return shaderDatas.get(random.nextInt(randomSize));
     }
