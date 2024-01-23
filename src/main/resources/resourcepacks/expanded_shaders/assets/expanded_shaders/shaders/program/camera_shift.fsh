@@ -62,18 +62,19 @@ vec2 ExponentialRaycast(mat4 projection, float xSlope, float ySlope, vec3 offset
 }
 
 void main(){
-    //somewhere the x axis is getting messed up slightly on different aspect ratios
     float aspect = oneTexel.x/oneTexel.y;
 
-    float XFov = YFov*aspect;
+    // convert = 57.2958 // convert*2 = 114.591559
+    // XFov = atan(aspect*(YFov/90))*convert*2
+    // xSlope = tan(XFov/2.0 / convert) * ...
+    // this simplifies, so the calculation for xSlope looks different to ySlope
 
-    const float convert = 57.2958;
-
-    float yTan = tan(YFov/2.0 / convert);
-    float xSlope = tan(XFov/2.0 / convert) * (texCoord.x*2.0 - 1.0);
-    float ySlope = yTan * (texCoord.y*2.0 - 1.0);
-
+    float yTan = tan(YFov/114.591559);
     float yCotan = 1.0/yTan;
+
+    float ySlope = yTan * (texCoord.y*2.0 - 1.0);
+    float xSlope = aspect*(YFov/90) * (texCoord.x*2.0 - 1.0);
+
     //https://registry.khronos.org/OpenGL-Refpages/gl2.1/xhtml/gluPerspective.xml
     mat4 projection = mat4(yCotan/aspect, 0, 0, 0, 0, yCotan, 0, 0, 0, 0, (far+near)/(near-far), (2*far*near)/(near-far), 0, 0, -1, 0);
 
