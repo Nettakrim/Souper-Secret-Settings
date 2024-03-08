@@ -10,6 +10,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.PostEffectProcessor;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.text.*;
 import net.minecraft.util.Identifier;
@@ -52,6 +53,7 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 
 	public static Framebuffer depthFrameBuffer;
 	public static boolean canFixDepth;
+	public static MatrixStack renderHandMatrixStack = new MatrixStack();
 
 	@Override
 	public void onInitializeClient() {

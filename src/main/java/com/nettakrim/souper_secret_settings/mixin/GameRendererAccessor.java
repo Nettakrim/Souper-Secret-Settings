@@ -1,5 +1,7 @@
 package com.nettakrim.souper_secret_settings.mixin;
 
+import net.minecraft.client.render.Camera;
+import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
@@ -19,4 +21,7 @@ public interface GameRendererAccessor {
 
     @Invoker("loadPostProcessor")
     void invokeLoadPostProcessor(Identifier id);
+
+    @Invoker("renderHand")
+    void invokeRenderHand(MatrixStack matrices, Camera camera, float tickDelta);
 }
