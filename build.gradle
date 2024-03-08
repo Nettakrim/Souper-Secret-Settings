@@ -75,3 +75,13 @@ publishing {
 		// retrieving dependencies.
 	}
 }
+tasks.register("quickPlaySingleplayer") {
+	group = 'quickPlay'
+	description = 'Uses Quick Play to join singleplayer world `New World` on launch.'
+	dependsOn(tasks.runClient.args(['--quickPlaySingleplayer', "New World"]))
+}
+tasks.register("quickPlayMultiplayer") {
+	group = 'quickPlay'
+	description = 'Uses Quick Play to join multiplayer server `localhost:25565` on launch.'
+	dependsOn(tasks.runClient.args(['--quickPlayMultiplayer', "localhost:25565"]))
+}
