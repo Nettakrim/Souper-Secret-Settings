@@ -1,7 +1,10 @@
 package com.nettakrim.souper_secret_settings.mixin;
 
+import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.SimpleFramebuffer;
+import net.minecraft.client.render.GameRenderer;
+import net.minecraft.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -9,13 +12,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
-
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.entity.Entity;
-
 @Mixin(GameRenderer.class)
-public class GameRendererMixin {
+public abstract class GameRendererMixin {
 	@Unique
 	private boolean clearOnCameraChange = false;
 

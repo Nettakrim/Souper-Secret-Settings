@@ -157,7 +157,7 @@ public class LayeredPostEffectProcessor {
         } catch (Exception e) {
             InvalidHierarchicalFileException invalidHierarchicalFileException2 = InvalidHierarchicalFileException.wrap(e);
             String path = id.getPath();
-            invalidHierarchicalFileException2.addInvalidFile(path + " (" + resource.getResourcePackName() + ")");
+            invalidHierarchicalFileException2.addInvalidFile(path + " (" + resource.getPackId() + ")");
             throw invalidHierarchicalFileException2;
         }
     }
@@ -358,7 +358,7 @@ public class LayeredPostEffectProcessor {
     }
 
     public PostEffectPass addPass(String programName, Framebuffer source, Framebuffer dest, List<PostEffectPass> passes) throws IOException {
-        PostEffectPass postEffectPass = new PostEffectPass(this.resourceManager, programName, source, dest);
+        PostEffectPass postEffectPass = new PostEffectPass(this.resourceManager, programName, source, dest, false);
         passes.add(postEffectPass);
         return postEffectPass;
     }

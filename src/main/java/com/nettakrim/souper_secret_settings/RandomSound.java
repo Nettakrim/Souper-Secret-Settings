@@ -9,7 +9,7 @@ public class RandomSound {
         int size = soundEvents.length;
         Random random = SouperSecretSettingsClient.getGameRendererAccessor().getRandom();
         SoundEvent sound = soundEvents[random.nextInt(size)];
-        SouperSecretSettingsClient.client.player.playSound(sound, 1, (random.nextFloat()*random.nextFloat()*2)+0.5f);
+        if (SouperSecretSettingsClient.client.player != null) SouperSecretSettingsClient.client.player.playSound(sound, 1, (random.nextFloat() * random.nextFloat() * 2) + 0.5f);
     }
 
     private static final SoundEvent[] soundEvents = {
@@ -52,7 +52,7 @@ public class RandomSound {
         SoundEvents.ENTITY_FIREWORK_ROCKET_TWINKLE,
         SoundEvents.ENTITY_FOX_DEATH,
         SoundEvents.ENTITY_FOX_SCREECH,
-        SoundEvents.ENTITY_GENERIC_EXPLODE,
+        SoundEvents.ENTITY_GENERIC_EXPLODE.value(),
         SoundEvents.ENTITY_GHAST_AMBIENT,
         SoundEvents.ENTITY_GHAST_HURT,
         SoundEvents.ENTITY_GHAST_SCREAM,
