@@ -4,12 +4,12 @@
     ],
     "passes": [
         {
-            "name": "stack_friendly:bits",
+            "name": "minecraft:bits_fix",
             "intarget": "minecraft:main",
             "outtarget": "swap"
         },
         {
-            "name": "blit",
+            "name": "minecraft:blit",
             "intarget": "swap",
             "outtarget": "minecraft:main"
         }

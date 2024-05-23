@@ -2,6 +2,7 @@ package com.nettakrim.souper_secret_settings.mixin;
 
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.DownloadingTerrainScreen;
 import net.minecraft.client.world.ClientWorld;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,8 +18,8 @@ public class MinecraftClientMixin {
         SouperSecretSettingsClient.recipeManager.save();
     }
 
-    @Inject(method = "joinWorld(Lnet/minecraft/client/world/ClientWorld;)V", at = @At("RETURN"))
-    private void join(ClientWorld world, CallbackInfo ci) {
+    @Inject(method = "joinWorld(Lnet/minecraft/client/world/ClientWorld;Lnet/minecraft/client/gui/screen/DownloadingTerrainScreen$WorldEntryReason;)V", at = @At("RETURN"))
+    private void join(ClientWorld world, DownloadingTerrainScreen.WorldEntryReason worldEntryReason, CallbackInfo ci) {
         SouperSecretSettingsClient.tryLoadEntityShader("entity.minecraft.player");
     }
 }

@@ -62,6 +62,6 @@ public class SouperSecretSettingsCommands {
     public static String getMessageText(CommandContext<FabricClientCommandSource> context, String name) {
         //a lot of digging through #SayCommand to make a MessageArgumentType that works clientside
         MessageFormat messageFormat = context.getArgument(name, MessageFormat.class);
-        return messageFormat.getContents();
+        return messageFormat.contents();
     }
 }

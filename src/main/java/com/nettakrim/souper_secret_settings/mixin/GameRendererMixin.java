@@ -3,16 +3,13 @@ package com.nettakrim.souper_secret_settings.mixin;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.SimpleFramebuffer;
-import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameRenderer.class)
@@ -48,11 +45,5 @@ public abstract class GameRendererMixin {
 		} else {
 			SouperSecretSettingsClient.depthFrameBuffer.resize(width, height, false);
 		}
-	}
-
-	@Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;renderHand(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/Camera;F)V"), method = "renderWorld")
-	public void disableVanillaHand(GameRenderer instance, MatrixStack matrices, Camera camera, float tickDelta) {
-		SouperSecretSettingsClient.renderHandMatrixStack = matrices;
-		SouperSecretSettingsClient.getGameRendererAccessor().invokeRenderHand(matrices, camera, tickDelta);
 	}
 }
