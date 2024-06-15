@@ -30,7 +30,7 @@
                 "creeper",
                 "invert",
                 "spider",
-                "box_blur"
+                "blur"
             ],
             "disable_screen_mode": [
                 "art",
