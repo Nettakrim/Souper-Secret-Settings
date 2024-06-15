@@ -47,7 +47,8 @@
                 "contrast",
                 "gaussian",
                 "halftone",
-                "toon"
+                "toon",
+                "checkerboard"
             ],
             "disable_screen_mode": [
                 "sequins",
@@ -63,7 +64,8 @@
                 "color_shuffle",
                 "stereogram",
                 "mouse",
-                "anaglyph"
+                "anaglyph",
+                "checkerboard"
             ],
             "disable_soup": [
                 "stereogram"
