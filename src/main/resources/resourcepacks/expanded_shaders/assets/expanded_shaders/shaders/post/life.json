@@ -1,0 +1,43 @@
+{
+    "targets": [
+        "swap",
+        "previous"
+    ],
+    "passes": [
+        {
+            "name": "expanded_shaders:life",
+            "intarget": "minecraft:main",
+            "outtarget": "swap",
+            "auxtargets": [
+                {
+                    "name": "PrevSampler",
+                    "id": "previous"
+                }
+            ],
+            "uniforms": [
+                {
+                    "name": "MinPopulation",
+                    "values": [ 2 ]
+                },
+                {
+                    "name": "MaxPopulation",
+                    "values": [ 3 ]
+                },
+                {
+                    "name": "Creation",
+                    "values": [ 3 ]
+                }
+            ]
+        },
+        {
+            "name": "minecraft:blit",
+            "intarget": "swap",
+            "outtarget": "previous"
+        },
+        {
+            "name": "minecraft:blit",
+            "intarget": "swap",
+            "outtarget": "minecraft:main"
+        }
+    ]
+}
