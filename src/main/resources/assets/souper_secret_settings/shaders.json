@@ -29,8 +29,7 @@
                 "wobble",
                 "creeper",
                 "invert",
-                "spider",
-                "blur"
+                "spider"
             ],
             "disable_screen_mode": [
                 "art",
@@ -59,6 +58,13 @@
                 "mix",
                 "window",
                 "compare"
+            ]
+        },
+        {
+            "replace": false,
+            "namespace": "stack_friendly",
+            "shaders": [
+                "blur"
             ]
         }
     ]
