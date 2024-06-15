@@ -9,10 +9,11 @@ out vec4 fragColor;
 
 uniform float ThresholdBrightness;
 uniform float ThresholdSlope;
+uniform vec3 Luminance;
 
 void main(){
     vec4 color = texture(DiffuseSampler, texCoord);
-    float luminance = dot(vec3(0.2126, 0.7152, 0.0722), color.rgb);
+    float luminance = dot(Luminance, color.rgb);
     if (luminance > ThresholdBrightness) {
         fragColor = (color/max(max(color.r, color.g), color.b))*min(((luminance-ThresholdBrightness)/(1.0-ThresholdBrightness)*ThresholdSlope), 1.0);
     } else {

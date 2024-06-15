@@ -51,7 +51,8 @@
                 "checkerboard",
                 "rings",
                 "life",
-                "bloom_spike"
+                "bloom_spike",
+                "bloom_color"
             ],
             "disable_screen_mode": [
                 "sequins",

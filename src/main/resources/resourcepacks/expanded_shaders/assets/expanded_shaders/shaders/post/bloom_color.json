@@ -1,0 +1,79 @@
+{
+    "targets": [
+        "bloom_clip",
+        "blur"
+    ],
+    "passes": [
+        {
+            "name": "expanded_shaders:color_brightness_threshold",
+            "intarget": "minecraft:main",
+            "outtarget": "bloom_clip",
+            "uniforms": [
+                {
+                    "name": "ThresholdBrightness",
+                    "values": [ 0.5 ]
+                },
+                {
+                    "name": "ThresholdSlope",
+                    "values": [ 1.5 ]
+                },
+                {
+                    "name": "Luminance",
+                    "values": [ 0.5, 0.5, 0.55 ]
+                }
+            ]
+        },
+        {
+            "name": "expanded_shaders:gaussian",
+            "intarget": "bloom_clip",
+            "outtarget": "blur",
+            "uniforms": [
+                {
+                    "name": "Direction",
+                    "values": [ 1.0, 0.0 ]
+                },
+                {
+                    "name": "Sigma",
+                    "values": [ 8.0 ]
+                }
+            ]
+        },
+        {
+            "name": "expanded_shaders:gaussian",
+            "intarget": "blur",
+            "outtarget": "bloom_clip",
+            "uniforms": [
+                {
+                    "name": "Direction",
+                    "values": [ 0.0, 1.0 ]
+                },
+                {
+                    "name": "Sigma",
+                    "values": [ 8.0 ]
+                }
+            ]
+        },
+        {
+            "name": "expanded_shaders:add",
+            "intarget": "minecraft:main",
+            "outtarget": "blur",
+            "auxtargets": [
+                {
+                    "name": "AddSampler",
+                    "id": "bloom_clip"
+                }
+            ],
+            "uniforms": [
+                {
+                    "name": "Mix",
+                    "values": [ 0.5 ]
+                }
+            ]
+        },
+        {
+            "name": "blit",
+            "intarget": "blur",
+            "outtarget": "minecraft:main"
+        }
+    ]
+}
