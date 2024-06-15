@@ -67,7 +67,8 @@
                 "stereogram",
                 "mouse",
                 "anaglyph",
-                "checkerboard"
+                "checkerboard",
+                "life"
             ],
             "disable_soup": [
                 "stereogram"

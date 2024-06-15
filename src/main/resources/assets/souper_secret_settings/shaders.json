@@ -26,7 +26,11 @@
                 "scan_pincushion",
                 "shareware",
                 "sobel",
-                "wobble"
+                "wobble",
+                "creeper",
+                "invert",
+                "spider",
+                "box_blur"
             ],
             "disable_screen_mode": [
                 "art",
