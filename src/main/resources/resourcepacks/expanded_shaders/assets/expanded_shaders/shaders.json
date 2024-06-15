@@ -48,7 +48,8 @@
                 "gaussian",
                 "halftone",
                 "toon",
-                "checkerboard"
+                "checkerboard",
+                "rings"
             ],
             "disable_screen_mode": [
                 "sequins",
@@ -65,7 +66,8 @@
                 "stereogram",
                 "mouse",
                 "anaglyph",
-                "checkerboard"
+                "checkerboard",
+                "rings"
             ],
             "disable_soup": [
                 "stereogram"
