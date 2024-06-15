@@ -1,0 +1,107 @@
+{
+    "targets": [
+        "bloom_clip",
+        "blur0",
+        "blur1",
+        "blur2"
+    ],
+    "passes": [
+        {
+            "name": "expanded_shaders:color_brightness_threshold",
+            "intarget": "minecraft:main",
+            "outtarget": "bloom_clip",
+            "uniforms": [
+                {
+                    "name": "ThresholdBrightness",
+                    "values": [ 0.75 ]
+                }
+            ]
+        },
+        {
+            "name": "expanded_shaders:one_way_blur",
+            "intarget": "bloom_clip",
+            "outtarget": "blur0",
+            "use_linear_filter": true,
+            "uniforms": [
+                {
+                    "name": "BlurDir",
+                    "values": [ 1.0, 1.0 ]
+                },
+                {
+                    "name": "Radius",
+                    "values": [ 100.0 ]
+                }
+            ]
+        },
+        {
+            "name": "expanded_shaders:one_way_blur",
+            "intarget": "bloom_clip",
+            "outtarget": "blur1",
+            "use_linear_filter": true,
+            "uniforms": [
+                {
+                    "name": "BlurDir",
+                    "values": [ -1.0, 0.25 ]
+                },
+                {
+                    "name": "Radius",
+                    "values": [ 100.0 ]
+                }
+            ]
+        },
+        {
+            "name": "expanded_shaders:one_way_blur",
+            "intarget": "bloom_clip",
+            "outtarget": "blur2",
+            "use_linear_filter": true,
+            "uniforms": [
+                {
+                    "name": "BlurDir",
+                    "values": [ 0.25, -1.0 ]
+                },
+                {
+                    "name": "Radius",
+                    "values": [ 100.0 ]
+                }
+            ]
+        },
+        {
+            "name": "expanded_shaders:add",
+            "intarget": "blur0",
+            "outtarget": "bloom_clip",
+            "auxtargets": [
+                {
+                    "name": "AddSampler",
+                    "id": "blur1"
+                }
+            ]
+        },
+        {
+            "name": "expanded_shaders:add",
+            "intarget": "bloom_clip",
+            "outtarget": "blur0",
+            "auxtargets": [
+                {
+                    "name": "AddSampler",
+                    "id": "blur2"
+                }
+            ]
+        },
+        {
+            "name": "expanded_shaders:add",
+            "intarget": "minecraft:main",
+            "outtarget": "bloom_clip",
+            "auxtargets": [
+                {
+                    "name": "AddSampler",
+                    "id": "blur0"
+                }
+            ]
+        },
+        {
+            "name": "blit",
+            "intarget": "bloom_clip",
+            "outtarget": "minecraft:main"
+        }
+    ]
+}

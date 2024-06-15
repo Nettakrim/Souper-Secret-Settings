@@ -50,7 +50,8 @@
                 "toon",
                 "checkerboard",
                 "rings",
-                "life"
+                "life",
+                "bloom_spike"
             ],
             "disable_screen_mode": [
                 "sequins",

@@ -1,0 +1,21 @@
+#version 150
+
+uniform sampler2D DiffuseSampler;
+
+in vec2 texCoord;
+in vec2 oneTexel;
+
+out vec4 fragColor;
+
+uniform float ThresholdBrightness;
+uniform float ThresholdSlope;
+
+void main(){
+    vec4 color = texture(DiffuseSampler, texCoord);
+    float luminance = dot(vec3(0.2126, 0.7152, 0.0722), color.rgb);
+    if (luminance > ThresholdBrightness) {
+        fragColor = (color/max(max(color.r, color.g), color.b))*min(((luminance-ThresholdBrightness)/(1.0-ThresholdBrightness)*ThresholdSlope), 1.0);
+    } else {
+        fragColor = vec4(0.0);
+    }
+}
