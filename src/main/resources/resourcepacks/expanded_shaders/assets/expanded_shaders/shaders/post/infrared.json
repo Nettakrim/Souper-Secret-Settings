@@ -1,0 +1,32 @@
+{
+  "targets": [
+    "0"
+  ],
+  "passes": [
+    {
+      "name": "expanded_shaders:color_lookup",
+      "intarget": "minecraft:main",
+      "outtarget": "0",
+      "auxtargets": [
+        {
+          "name": "LookupSampler",
+          "id": "expanded_shaders:infrared",
+          "width": 512,
+          "height": 512,
+          "bilinear": false
+        }
+      ],
+      "uniforms": [
+        {
+          "name": "GridSize",
+          "values": [ 8.0 ]
+        }
+      ]
+    },
+    {
+      "name": "blit",
+      "intarget": "0",
+      "outtarget": "minecraft:main"
+    }
+  ]
+}

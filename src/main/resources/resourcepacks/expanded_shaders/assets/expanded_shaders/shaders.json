@@ -52,7 +52,8 @@
                 "rings",
                 "life",
                 "bloom_spike",
-                "bloom_color"
+                "bloom_color",
+                "infrared"
             ],
             "disable_screen_mode": [
                 "sequins",
