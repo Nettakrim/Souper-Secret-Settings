@@ -10,8 +10,10 @@ uniform vec2 InSize;
 
 out vec4 fragColor;
 
-void main() {
-    vec4 col = texture(DiffuseSampler, texCoord) - texture(SubtractSampler, texCoord);
+uniform vec3 Color;
+uniform float Scale;
 
-    fragColor = vec4(col.rgb, 1.0);
+void main() {
+    vec3 col = Color + (texture(DiffuseSampler, texCoord).rgb - texture(SubtractSampler, texCoord).rgb) * Scale;
+    fragColor = vec4(col, 1.0);
 }

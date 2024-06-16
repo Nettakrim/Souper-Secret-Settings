@@ -30,8 +30,8 @@ Expanded Shaders are builtin with Souper Secret Settings, but may need to be ena
 | antialias       | half_invert      |                |
 | creeper         | voronoi          |                |
 | spider          | normalise        |                |
-|                 | hue_rotate       |                |
-|                 | cinematic        |                |
+| bloom           | hue_rotate       |                |
+| love            | cinematic        |                |
 |                 | horror           |                |
 |                 | out_of_bounds    |                |
 |                 | fractal          |                |
@@ -47,5 +47,12 @@ Expanded Shaders are builtin with Souper Secret Settings, but may need to be ena
 |                 | brightness       |                |
 |                 | contrast         |                |
 |                 | gaussian         |                |
-|                 | toon             |                |
 |                 | halftone         |                |
+|                 | toon             |                |
+|                 | checkerboard     |                |
+|                 | rings            |                |
+|                 | life             |                |
+|                 | bloom_spike      |                |
+|                 | bloom_color      |                |
+|                 | infrared         |                |
+|                 | highpass         |                |

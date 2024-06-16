@@ -53,7 +53,8 @@
                 "life",
                 "bloom_spike",
                 "bloom_color",
-                "infrared"
+                "infrared",
+                "highpass"
             ],
             "disable_screen_mode": [
                 "sequins",

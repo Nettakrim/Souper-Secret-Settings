@@ -11,6 +11,7 @@ uniform vec2 InSize;
 uniform float MinPopulation;
 uniform float MaxPopulation;
 uniform float Creation;
+uniform vec3 AliveThreshold;
 
 out vec4 fragColor;
 
@@ -27,7 +28,7 @@ float life(float current, float neighbours) {
 }
 
 void main() {
-    vec3 new = step(vec3(0.5), texture(DiffuseSampler, texCoord).rgb);
+    vec3 new = step(AliveThreshold, texture(DiffuseSampler, texCoord).rgb);
 
     vec3 count = texture(PrevSampler, texCoord+vec2( oneTexel.x,  oneTexel.y)).rgb
                + texture(PrevSampler, texCoord+vec2( oneTexel.x,  0         )).rgb
