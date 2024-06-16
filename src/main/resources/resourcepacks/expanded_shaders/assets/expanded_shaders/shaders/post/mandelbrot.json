@@ -1,0 +1,23 @@
+{
+    "targets": [
+        "0"
+    ],
+    "passes": [
+        {
+            "name": "expanded_shaders:mandelbrot",
+            "intarget": "minecraft:main",
+            "outtarget": "0",
+            "uniforms": [
+                {
+                    "name": "Iterations",
+                    "values": [ 100.0 ]
+                }
+            ]
+        },
+        {
+            "name": "blit",
+            "intarget": "0",
+            "outtarget": "minecraft:main"
+        }
+    ]
+}

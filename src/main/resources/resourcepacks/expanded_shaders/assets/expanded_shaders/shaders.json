@@ -55,7 +55,8 @@
                 "bloom_color",
                 "infrared",
                 "highpass",
-                "rolling_shutter"
+                "rolling_shutter",
+                "mandelbrot"
             ],
             "disable_screen_mode": [
                 "sequins",
