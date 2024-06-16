@@ -57,3 +57,4 @@ Expanded Shaders are builtin with Souper Secret Settings, but may need to be ena
 |                 | infrared         |                |
 |                 | highpass         |                |
 |                 | rolling_shutter  |                |
+|                 | mandelbrot       |                |
