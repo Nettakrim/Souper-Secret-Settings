@@ -1,0 +1,29 @@
+{
+    "targets": [
+        "0",
+        "previous"
+    ],
+    "passes": [
+        {
+            "name": "expanded_shaders:rolling_shutter",
+            "intarget": "minecraft:main",
+            "outtarget": "0",
+            "auxtargets": [
+                {
+                    "name": "PrevSampler",
+                    "id": "previous"
+                }
+            ]
+        },
+        {
+            "name": "minecraft:blit",
+            "intarget": "0",
+            "outtarget": "previous"
+        },
+        {
+            "name": "minecraft:blit",
+            "intarget": "0",
+            "outtarget": "minecraft:main"
+        }
+    ]
+}

@@ -54,7 +54,8 @@
                 "bloom_spike",
                 "bloom_color",
                 "infrared",
-                "highpass"
+                "highpass",
+                "rolling_shutter"
             ],
             "disable_screen_mode": [
                 "sequins",
@@ -71,7 +72,6 @@
                 "stereogram",
                 "mouse",
                 "anaglyph",
-                "checkerboard",
                 "life"
             ],
             "disable_soup": [

@@ -56,3 +56,4 @@ Expanded Shaders are builtin with Souper Secret Settings, but may need to be ena
 |                 | bloom_color      |                |
 |                 | infrared         |                |
 |                 | highpass         |                |
+|                 | rolling_shutter  |                |
