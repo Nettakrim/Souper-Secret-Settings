@@ -13,10 +13,13 @@ public class LayerData {
     public final ArrayList<AbstractLayerEffect> layerEffects = new ArrayList<>();
 
     public void render(float tickDelta) {
+        //TODO fix speed properly (luminance will probably do this, this seems to work close enough)
+        tickDelta *= 0.325f;
+
         int stackSize = postProcessorStack.size();
         if (stackSize == 0) return;
 
-        if (layerEffects.size() == 0) {
+        if (layerEffects.isEmpty()) {
             for (StackData stackData : postProcessorStack) {
                 stackData.processor().render(tickDelta);
             }

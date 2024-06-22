@@ -64,7 +64,7 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 
 		recipeManager = new RecipeManager();
 
-		ResourceManagerHelper.registerBuiltinResourcePack(new Identifier("expanded_shaders"), FabricLoader.getInstance().getModContainer(MODID).orElseThrow(), Text.literal("Expanded Shaders"), ResourcePackActivationType.DEFAULT_ENABLED);
+		ResourceManagerHelper.registerBuiltinResourcePack(Identifier.of("expanded_shaders"), FabricLoader.getInstance().getModContainer(MODID).orElseThrow(), Text.literal("Expanded Shaders"), ResourcePackActivationType.DEFAULT_ENABLED);
 
 		SouperSecretSettingsCommands.initialize();
 	}

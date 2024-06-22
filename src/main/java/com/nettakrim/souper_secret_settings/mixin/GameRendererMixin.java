@@ -4,6 +4,7 @@ import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.SimpleFramebuffer;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -31,10 +32,10 @@ public abstract class GameRendererMixin {
 	}
 
 	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/Framebuffer;beginWrite(Z)V", ordinal = 0), method = "render")
-	public void render(float tickDelta, long startTime, boolean tick, CallbackInfo ci) {
+	public void render(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
 		if (SouperSecretSettingsClient.isSoupToggledOff) return;
 
-		SouperSecretSettingsClient.layer.render(tickDelta);
+		SouperSecretSettingsClient.layer.render(tickCounter.getTickDelta(false));
 	}
 
 	@Inject(at = @At("HEAD"), method = "onResized")

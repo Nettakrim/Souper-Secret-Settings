@@ -14,6 +14,6 @@ public class ShaderData {
     }
 
     public ShaderData(String namespace, String id, boolean soupFriendly, boolean isLayerEffect) {
-        this(id, new Identifier(namespace, "shaders/"+(isLayerEffect ? "layer_effects" : "post")+"/"+id+".json"), soupFriendly);
+        this(id, Identifier.of(namespace, "shaders/"+(isLayerEffect ? "layer_effects" : "post")+"/"+id+".json"), soupFriendly);
     }
 }

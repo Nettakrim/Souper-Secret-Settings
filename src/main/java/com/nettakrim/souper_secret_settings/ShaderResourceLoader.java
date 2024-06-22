@@ -49,7 +49,7 @@ public class ShaderResourceLoader extends JsonDataLoader implements Identifiable
 
     @Override
     public Identifier getFabricId() {
-        return new Identifier(SouperSecretSettingsClient.MODID, "shaders/shaders");
+        return Identifier.of(SouperSecretSettingsClient.MODID, "shaders/shaders");
     }
 
     private void releaseFromType(ShaderStage.Type type) {
@@ -70,7 +70,7 @@ public class ShaderResourceLoader extends JsonDataLoader implements Identifiable
 
     public void parseAll(ResourceManager manager) {
         for (String namespace : manager.getAllNamespaces()) {
-            Identifier identifier = new Identifier(namespace, "shaders.json");
+            Identifier identifier = Identifier.of(namespace, "shaders.json");
             try {
                 for (Resource resource : manager.getAllResources(identifier)) {
                     parseResource(resource);

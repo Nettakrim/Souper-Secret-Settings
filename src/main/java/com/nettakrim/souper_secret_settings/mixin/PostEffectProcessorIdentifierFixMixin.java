@@ -9,15 +9,15 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(PostEffectProcessor.class)
 public class PostEffectProcessorIdentifierFixMixin {
-    @Redirect(method = "parsePass", at = @At(value = "NEW", target = "(Ljava/lang/String;)Lnet/minecraft/util/Identifier;"))
-    private static Identifier fixShaderIdentifier(String id) {
+    @Redirect(method = "parsePass", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Identifier;ofVanilla(Ljava/lang/String;)Lnet/minecraft/util/Identifier;"))
+    private Identifier fixShaderIdentifier(String id) {
         return fixIdentifier(id);
     }
 
     @Unique
     private static Identifier fixIdentifier(String id) {
-        if (!id.contains(":")) return new Identifier(id);
+        if (!id.contains(":")) return Identifier.of(id);
         String[] halves = id.substring(16).split(":");
-        return new Identifier(halves[0], "textures/effect/" + halves[1]);
+        return Identifier.of(halves[0], "textures/effect/" + halves[1]);
     }
 }

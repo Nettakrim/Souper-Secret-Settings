@@ -235,7 +235,7 @@ public class LayeredPostEffectProcessor {
                                 throw new InvalidHierarchicalFileException("Render target '" + targetID + "' can't be used as depth buffer");
                             }
 
-                            Identifier effectTexture = new Identifier("textures/effect/" + targetID + ".png");
+                            Identifier effectTexture = Identifier.of("textures/effect/" + targetID + ".png");
                             this.resourceManager.getResource(effectTexture).orElseThrow(() -> new InvalidHierarchicalFileException("Render target or texture '" + targetID + "' does not exist"));
                             RenderSystem.setShaderTexture(0, effectTexture);
                             textureManager.bindTexture(effectTexture);
