@@ -6,7 +6,7 @@
     },
     "passes": [
         {
-            "program": "expanded_shaders:gaussian",
+            "program": "expanded_shaders:post/gaussian",
             "intarget": "minecraft:main",
             "output": "0",
             "uniforms": [
@@ -21,7 +21,7 @@
             ]
         },
         {
-            "program": "expanded_shaders:gaussian",
+            "program": "expanded_shaders:post/gaussian",
             "intarget": "0",
             "output": "A",
             "uniforms": [
@@ -36,7 +36,7 @@
             ]
         },
         {
-            "program": "expanded_shaders:gaussian",
+            "program": "expanded_shaders:post/gaussian",
             "intarget": "minecraft:main",
             "output": "0",
             "uniforms": [
@@ -51,7 +51,7 @@
             ]
         },
         {
-            "program": "expanded_shaders:gaussian",
+            "program": "expanded_shaders:post/gaussian",
             "intarget": "0",
             "output": "B",
             "uniforms": [
@@ -66,7 +66,7 @@
             ]
         },
         {
-            "program": "expanded_shaders:toon",
+            "program": "expanded_shaders:post/toon",
             "intarget": "minecraft:main",
             "output": "0",
             "auxtargets": [
@@ -81,7 +81,7 @@
             ]
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "0",
             "output": "minecraft:main"
         }

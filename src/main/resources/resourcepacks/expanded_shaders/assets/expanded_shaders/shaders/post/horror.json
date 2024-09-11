@@ -4,7 +4,7 @@
     },
     "passes": [
         {
-            "program": "expanded_shaders:horror",
+            "program": "expanded_shaders:post/horror",
             "intarget": "minecraft:main",
             "output": "0",
             "auxtargets": [
@@ -15,7 +15,7 @@
             ]
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "0",
             "output": "minecraft:main"
         }

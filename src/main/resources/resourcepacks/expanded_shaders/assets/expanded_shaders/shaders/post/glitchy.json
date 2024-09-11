@@ -5,12 +5,12 @@
     },
     "passes": [
         {
-            "program": "sobel",
+            "program": "minecraft:post/sobel",
             "intarget": "minecraft:main",
             "output": "0"
         },
         {
-            "program": "wobble",
+            "program": "minecraft:post/wobble",
             "intarget": "0",
             "output": "1",
             "uniforms": [
@@ -25,7 +25,7 @@
             ]
         },
         {
-            "program": "bits",
+            "program": "minecraft:post/bits",
             "intarget": "1",
             "output": "0",
             "uniforms": [
@@ -36,7 +36,7 @@
             ]
         },
         {
-            "program": "outline_combine",
+            "program": "minecraft:post/outline_combine",
             "intarget": "minecraft:main",
             "output": "1",
             "auxtargets": [
@@ -47,7 +47,7 @@
             ]
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "1",
             "output": "minecraft:main"
         }

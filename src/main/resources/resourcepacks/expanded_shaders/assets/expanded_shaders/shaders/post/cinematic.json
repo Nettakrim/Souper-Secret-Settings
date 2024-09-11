@@ -4,7 +4,7 @@
     },
     "passes": [
         {
-            "program": "expanded_shaders:aspect_ratio",
+            "program": "expanded_shaders:post/aspect_ratio",
             "intarget": "minecraft:main",
             "output": "0",
             "uniforms": [
@@ -15,7 +15,7 @@
             ]
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "0",
             "output": "minecraft:main"
         }

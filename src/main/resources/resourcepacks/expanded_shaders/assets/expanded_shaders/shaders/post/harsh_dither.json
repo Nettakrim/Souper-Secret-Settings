@@ -4,12 +4,12 @@
     },
     "passes": [
         {
-            "program": "expanded_shaders:harsh_dither",
+            "program": "expanded_shaders:post/harsh_dither",
             "intarget": "minecraft:main",
             "output": "0"
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "0",
             "output": "minecraft:main"
         }

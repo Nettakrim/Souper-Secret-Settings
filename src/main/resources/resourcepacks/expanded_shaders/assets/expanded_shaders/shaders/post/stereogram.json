@@ -5,7 +5,7 @@
     },
     "passes": [
         {
-            "program": "blur",
+            "program": "minecraft:post/blur",
             "intarget": "minecraft:main",
             "output": "0",
             "uniforms": [
@@ -25,7 +25,7 @@
             ]
         },
         {
-            "program": "blur",
+            "program": "minecraft:post/blur",
             "intarget": "0",
             "output": "1",
             "uniforms": [
@@ -45,7 +45,7 @@
             ]
         },
         {
-            "program": "expanded_shaders:stereogram",
+            "program": "expanded_shaders:post/stereogram",
             "intarget": "1",
             "output": "0",
             "auxtargets": [
@@ -56,7 +56,7 @@
             ]
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "0",
             "output": "minecraft:main"
         }

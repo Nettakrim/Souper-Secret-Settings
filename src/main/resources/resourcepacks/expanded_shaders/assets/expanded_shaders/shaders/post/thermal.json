@@ -4,7 +4,7 @@
     },
     "passes": [
         {
-            "program": "expanded_shaders:thermal",
+            "program": "expanded_shaders:post/thermal",
             "intarget": "minecraft:main",
             "output": "0",
             "uniforms": [
@@ -15,7 +15,7 @@
             ]
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "0",
             "output": "minecraft:main"
         }

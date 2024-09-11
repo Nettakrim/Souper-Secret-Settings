@@ -6,7 +6,7 @@
     },
     "passes": [
         {
-            "program": "color_convolve",
+            "program": "minecraft:post/color_convolve",
             "intarget": "minecraft:main",
             "output": "0",
             "uniforms": [
@@ -25,7 +25,7 @@
             ]
         },
         {
-            "program": "notch",
+            "program": "minecraft:post/notch",
             "intarget": "0",
             "output": "1",
             "auxtargets": [
@@ -39,12 +39,12 @@
             ]
         },
         {
-            "program": "outline_watercolor",
+            "program": "minecraft:post/outline_watercolor",
             "intarget": "minecraft:main",
             "output": "0"
         },
         {
-            "program": "outline_combine",
+            "program": "minecraft:post/outline_combine",
             "intarget": "1",
             "output": "2",
             "auxtargets": [
@@ -55,7 +55,7 @@
             ]
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "2",
             "output": "minecraft:main"
         }

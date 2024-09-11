@@ -4,7 +4,7 @@
     },
     "passes": [
         {
-            "program": "expanded_shaders:depth_outline",
+            "program": "expanded_shaders:post/depth_outline",
             "intarget": "minecraft:main",
             "output": "0",
             "auxtargets": [
@@ -21,7 +21,7 @@
             ]
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "0",
             "output": "minecraft:main"
         }

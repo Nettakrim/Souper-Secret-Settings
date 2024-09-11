@@ -5,7 +5,7 @@
     },
     "passes": [
         {
-            "program": "expanded_shaders:life",
+            "program": "expanded_shaders:post/life",
             "intarget": "minecraft:main",
             "output": "swap",
             "auxtargets": [
@@ -30,12 +30,12 @@
             ]
         },
         {
-            "program": "minecraft:blit",
+            "program": "minecraft:post/blit",
             "intarget": "swap",
             "output": "previous"
         },
         {
-            "program": "minecraft:blit",
+            "program": "minecraft:post/blit",
             "intarget": "swap",
             "output": "minecraft:main"
         }

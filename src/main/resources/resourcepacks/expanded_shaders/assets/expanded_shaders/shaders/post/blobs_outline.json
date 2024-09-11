@@ -6,17 +6,17 @@
     },
     "passes": [
         {
-            "program": "outline_watercolor",
+            "program": "minecraft:post/outline_watercolor",
             "intarget": "minecraft:main",
             "output": "0"
         },
         {
-            "program": "blobs2",
+            "program": "minecraft:post/blobs2",
             "intarget": "minecraft:main",
             "output": "2"
         },
         {
-            "program": "outline_combine",
+            "program": "minecraft:post/outline_combine",
             "intarget": "2",
             "output": "1",
             "auxtargets": [
@@ -27,7 +27,7 @@
             ]
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "1",
             "output": "minecraft:main"
         }

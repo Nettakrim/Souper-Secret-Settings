@@ -5,7 +5,7 @@
     },
     "passes": [
         {
-            "program": "expanded_shaders:color_brightness_threshold",
+            "program": "expanded_shaders:post/color_brightness_threshold",
             "intarget": "minecraft:main",
             "output": "bloom_clip",
             "uniforms": [
@@ -24,7 +24,7 @@
             ]
         },
         {
-            "program": "expanded_shaders:gaussian",
+            "program": "expanded_shaders:post/gaussian",
             "intarget": "bloom_clip",
             "output": "blur",
             "uniforms": [
@@ -39,7 +39,7 @@
             ]
         },
         {
-            "program": "expanded_shaders:gaussian",
+            "program": "expanded_shaders:post/gaussian",
             "intarget": "blur",
             "output": "bloom_clip",
             "uniforms": [
@@ -54,7 +54,7 @@
             ]
         },
         {
-            "program": "expanded_shaders:add",
+            "program": "expanded_shaders:post/add",
             "intarget": "minecraft:main",
             "output": "blur",
             "auxtargets": [
@@ -71,7 +71,7 @@
             ]
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "blur",
             "output": "minecraft:main"
         }

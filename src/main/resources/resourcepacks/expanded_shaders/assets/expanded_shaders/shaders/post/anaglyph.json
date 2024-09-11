@@ -6,7 +6,7 @@
     },
     "passes": [
         {
-            "program": "expanded_shaders:camera_shift",
+            "program": "expanded_shaders:post/camera_shift",
             "intarget": "minecraft:main",
             "output": "left",
             "auxtargets": [
@@ -27,7 +27,7 @@
             ]
         },
         {
-            "program": "expanded_shaders:camera_shift",
+            "program": "expanded_shaders:post/camera_shift",
             "intarget": "minecraft:main",
             "output": "right",
             "auxtargets": [
@@ -48,7 +48,7 @@
             ]
         },
         {
-            "program": "expanded_shaders:channel_combine",
+            "program": "expanded_shaders:post/channel_combine",
             "intarget": "left",
             "output": "combined",
             "auxtargets": [
@@ -77,7 +77,7 @@
             ]
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "combined",
             "output": "minecraft:main"
         }

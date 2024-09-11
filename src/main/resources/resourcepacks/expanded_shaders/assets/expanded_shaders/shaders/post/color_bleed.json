@@ -5,22 +5,22 @@
     },
     "passes": [
         {
-            "program": "deconverge",
+            "program": "minecraft:post/deconverge",
             "intarget": "minecraft:main",
             "output": "0"
         },
         {
-            "program": "sobel",
+            "program": "minecraft:post/sobel",
             "intarget": "0",
             "output": "1"
         },
         {
-            "program": "blobs2",
+            "program": "minecraft:post/blobs2",
             "intarget": "1",
             "output": "0"
         },      
         {
-            "program": "outline_combine",
+            "program": "minecraft:post/outline_combine",
             "intarget": "minecraft:main",
             "output": "1",
             "auxtargets": [
@@ -31,7 +31,7 @@
             ]
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "1",
             "output": "minecraft:main"
         }

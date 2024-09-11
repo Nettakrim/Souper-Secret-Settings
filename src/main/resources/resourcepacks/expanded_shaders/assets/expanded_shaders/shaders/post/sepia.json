@@ -6,7 +6,7 @@
     },
     "passes": [
         {
-            "program": "expanded_shaders:outline_sepia",
+            "program": "expanded_shaders:post/outline_sepia",
             "intarget": "minecraft:main",
             "output": "0",
             "uniforms": [
@@ -17,7 +17,7 @@
             ]
         },
         {
-            "program": "notch",
+            "program": "minecraft:post/notch",
             "intarget": "0",
             "output": "1",
             "auxtargets": [
@@ -31,7 +31,7 @@
             ]
         },
         {
-            "program": "color_convolve",
+            "program": "minecraft:post/color_convolve",
             "intarget": "1",
             "output": "0",
             "uniforms": [
@@ -54,7 +54,7 @@
             ]
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "0",
             "output": "minecraft:main"
         }

@@ -4,12 +4,12 @@
     },
     "passes": [
         {
-            "program": "sobel",
+            "program": "minecraft:post/sobel",
             "intarget": "minecraft:main",
             "output": "swap"
         },
         {
-            "program": "blur",
+            "program": "minecraft:post/blur",
             "intarget": "swap",
             "output": "minecraft:main",
             "uniforms": [
@@ -24,12 +24,12 @@
             ]
         },
         {
-            "program": "blobs2",
+            "program": "minecraft:post/blobs2",
             "intarget": "minecraft:main",
             "output": "swap"
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "swap",
             "output": "minecraft:main"
         }

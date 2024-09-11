@@ -5,7 +5,7 @@
     },
     "passes": [
         {
-            "program": "expanded_shaders:fractal",
+            "program": "expanded_shaders:post/fractal",
             "intarget": "minecraft:main",
             "output": "swap",
             "auxtargets": [
@@ -16,12 +16,12 @@
             ]
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "swap",
             "output": "previous"
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "swap",
             "output": "minecraft:main"
         }

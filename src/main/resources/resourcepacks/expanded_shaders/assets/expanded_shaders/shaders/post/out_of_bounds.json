@@ -5,7 +5,7 @@
     },
     "passes": [
         {
-            "program": "expanded_shaders:out_of_bounds",
+            "program": "expanded_shaders:post/out_of_bounds",
             "intarget": "minecraft:main",
             "output": "swap",
             "auxtargets": [
@@ -20,12 +20,12 @@
             ]
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "swap",
             "output": "previous"
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "swap",
             "output": "minecraft:main"
         }

@@ -4,12 +4,12 @@
     },
     "passes": [
         {
-            "program": "expanded_shaders:glass",
+            "program": "expanded_shaders:post/glass",
             "intarget": "minecraft:main",
             "output": "0"
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "0",
             "output": "minecraft:main"
         }

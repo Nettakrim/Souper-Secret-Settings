@@ -4,7 +4,7 @@
     },
     "passes": [
         {
-            "program": "expanded_shaders:color_filter",
+            "program": "expanded_shaders:post/color_filter",
             "intarget": "minecraft:main",
             "output": "0",
             "uniforms": [
@@ -19,7 +19,7 @@
             ]
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "0",
             "output": "minecraft:main"
         }

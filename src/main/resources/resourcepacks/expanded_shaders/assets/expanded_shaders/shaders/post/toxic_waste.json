@@ -4,7 +4,7 @@
     },
     "passes": [
         {
-            "program": "color_convolve",
+            "program": "minecraft:post/color_convolve",
             "intarget": "minecraft:main",
             "output": "swap",
             "uniforms": [
@@ -31,7 +31,7 @@
             ]
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "swap",
             "output": "minecraft:main"
         }

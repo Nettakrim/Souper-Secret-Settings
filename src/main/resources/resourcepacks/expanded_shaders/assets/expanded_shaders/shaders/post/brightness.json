@@ -4,12 +4,12 @@
     },
     "passes": [
         {
-            "program": "expanded_shaders:brightness",
+            "program": "expanded_shaders:post/brightness",
             "intarget": "minecraft:main",
             "output": "0"
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "0",
             "output": "minecraft:main"
         }

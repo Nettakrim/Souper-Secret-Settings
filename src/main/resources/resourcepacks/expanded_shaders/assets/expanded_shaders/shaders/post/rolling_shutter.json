@@ -5,7 +5,7 @@
     },
     "passes": [
         {
-            "program": "expanded_shaders:rolling_shutter",
+            "program": "expanded_shaders:post/rolling_shutter",
             "intarget": "minecraft:main",
             "output": "0",
             "auxtargets": [
@@ -16,12 +16,12 @@
             ]
         },
         {
-            "program": "minecraft:blit",
+            "program": "minecraft:post/blit",
             "intarget": "0",
             "output": "previous"
         },
         {
-            "program": "minecraft:blit",
+            "program": "minecraft:post/blit",
             "intarget": "0",
             "output": "minecraft:main"
         }

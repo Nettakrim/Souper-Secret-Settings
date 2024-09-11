@@ -4,12 +4,12 @@
     },
     "passes": [
         {
-            "program": "expanded_shaders:checkerboard",
+            "program": "expanded_shaders:post/checkerboard",
             "intarget": "minecraft:main",
             "output": "0"
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "0",
             "output": "minecraft:main"
         }

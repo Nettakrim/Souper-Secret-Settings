@@ -5,7 +5,7 @@
     },
     "passes": [
         {
-            "program": "expanded_shaders:gaussian",
+            "program": "expanded_shaders:post/gaussian",
             "intarget": "minecraft:main",
             "output": "0",
             "uniforms": [
@@ -20,7 +20,7 @@
             ]
         },
         {
-            "program": "expanded_shaders:gaussian",
+            "program": "expanded_shaders:post/gaussian",
             "intarget": "0",
             "output": "1",
             "uniforms": [
@@ -35,7 +35,7 @@
             ]
         },
         {
-            "program": "expanded_shaders:difference",
+            "program": "expanded_shaders:post/difference",
             "intarget": "minecraft:main",
             "output": "0",
             "auxtargets": [
@@ -46,7 +46,7 @@
             ]
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "0",
             "output": "minecraft:main"
         }

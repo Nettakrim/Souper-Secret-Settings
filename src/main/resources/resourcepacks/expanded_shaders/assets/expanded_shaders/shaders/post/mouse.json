@@ -4,7 +4,7 @@
     },
     "passes": [
         {
-            "program": "expanded_shaders:camera_shift",
+            "program": "expanded_shaders:post/camera_shift",
             "intarget": "minecraft:main",
             "output": "0",
             "auxtargets": [
@@ -25,7 +25,7 @@
             ]
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "0",
             "output": "minecraft:main"
         }

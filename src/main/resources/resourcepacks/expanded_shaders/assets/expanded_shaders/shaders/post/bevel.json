@@ -5,7 +5,7 @@
     },
     "passes": [
         {
-            "program": "spider",
+            "program": "minecraft:post/spider",
             "intarget": "minecraft:main",
             "output": "0",
             "auxtargets": [
@@ -56,12 +56,12 @@
             ]
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "0",
             "output": "prev"
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "0",
             "output": "minecraft:main"
         }

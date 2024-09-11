@@ -4,12 +4,12 @@
     },
     "passes": [
         {
-            "program": "expanded_shaders:pixels",
+            "program": "expanded_shaders:post/pixels",
             "intarget": "minecraft:main",
             "output": "0"
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "0",
             "output": "minecraft:main"
         }

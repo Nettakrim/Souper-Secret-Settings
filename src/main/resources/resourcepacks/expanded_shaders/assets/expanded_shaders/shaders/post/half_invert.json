@@ -4,12 +4,12 @@
     },
     "passes": [
         {
-            "program": "expanded_shaders:half_invert",
+            "program": "expanded_shaders:post/half_invert",
             "intarget": "minecraft:main",
             "output": "0"
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "0",
             "output": "minecraft:main"
         }

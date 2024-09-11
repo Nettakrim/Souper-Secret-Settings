@@ -6,12 +6,12 @@
     },
     "passes": [
         {
-            "program": "ntsc_encode",
+            "program": "minecraft:post/ntsc_encode",
             "intarget": "minecraft:main",
             "output": "0"
         },
         {
-            "program": "ntsc_decode",
+            "program": "minecraft:post/ntsc_decode",
             "intarget": "0",
             "output": "1",
             "auxtargets": [
@@ -22,12 +22,12 @@
             ]
         },
         {
-            "program": "bumpy",
+            "program": "minecraft:post/bumpy",
             "intarget": "1",
             "output": "0"
         },
         {
-            "program": "color_convolve",
+            "program": "minecraft:post/color_convolve",
             "intarget": "0",
             "output": "1",
             "uniforms": [
@@ -38,7 +38,7 @@
             ]
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "1",
             "output": "minecraft:main"
         }

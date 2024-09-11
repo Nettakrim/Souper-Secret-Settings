@@ -7,7 +7,7 @@
     },
     "passes": [
         {
-            "program": "expanded_shaders:color_brightness_threshold",
+            "program": "expanded_shaders:post/color_brightness_threshold",
             "intarget": "minecraft:main",
             "output": "bloom_clip",
             "uniforms": [
@@ -18,7 +18,7 @@
             ]
         },
         {
-            "program": "expanded_shaders:one_way_blur",
+            "program": "expanded_shaders:post/one_way_blur",
             "intarget": "bloom_clip",
             "output": "blur0",
             "use_linear_filter": true,
@@ -34,7 +34,7 @@
             ]
         },
         {
-            "program": "expanded_shaders:one_way_blur",
+            "program": "expanded_shaders:post/one_way_blur",
             "intarget": "bloom_clip",
             "output": "blur1",
             "use_linear_filter": true,
@@ -50,7 +50,7 @@
             ]
         },
         {
-            "program": "expanded_shaders:one_way_blur",
+            "program": "expanded_shaders:post/one_way_blur",
             "intarget": "bloom_clip",
             "output": "blur2",
             "use_linear_filter": true,
@@ -66,7 +66,7 @@
             ]
         },
         {
-            "program": "expanded_shaders:add",
+            "program": "expanded_shaders:post/add",
             "intarget": "blur0",
             "output": "bloom_clip",
             "auxtargets": [
@@ -77,7 +77,7 @@
             ]
         },
         {
-            "program": "expanded_shaders:add",
+            "program": "expanded_shaders:post/add",
             "intarget": "bloom_clip",
             "output": "blur0",
             "auxtargets": [
@@ -88,7 +88,7 @@
             ]
         },
         {
-            "program": "expanded_shaders:add",
+            "program": "expanded_shaders:post/add",
             "intarget": "minecraft:main",
             "output": "bloom_clip",
             "auxtargets": [
@@ -99,7 +99,7 @@
             ]
         },
         {
-            "program": "blit",
+            "program": "minecraft:post/blit",
             "intarget": "bloom_clip",
             "output": "minecraft:main"
         }
