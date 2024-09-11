@@ -7,28 +7,46 @@
     "passes": [
         {
             "program": "minecraft:post/ntsc_encode",
-            "intarget": "minecraft:main",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
             "output": "0"
         },
         {
             "program": "minecraft:post/ntsc_decode",
-            "intarget": "0",
-            "output": "1",
-            "auxtargets": [
+            "inputs": [
                 {
-                    "name": "BaseSampler",
-                    "id": "minecraft:main"
+                    "sampler_name": "In",
+                    "target": "0"
+                },
+                {
+                    "sampler_name": "Base",
+                    "target": "minecraft:main"
                 }
-            ]
+            ],
+            "output": "1"
         },
         {
             "program": "minecraft:post/bumpy",
-            "intarget": "1",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "1"
+                }
+            ],
             "output": "0"
         },
         {
             "program": "minecraft:post/color_convolve",
-            "intarget": "0",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
             "output": "1",
             "uniforms": [
                 {
@@ -39,7 +57,12 @@
         },
         {
             "program": "minecraft:post/blit",
-            "intarget": "1",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "1"
+                }
+            ],
             "output": "minecraft:main"
         }
     ]

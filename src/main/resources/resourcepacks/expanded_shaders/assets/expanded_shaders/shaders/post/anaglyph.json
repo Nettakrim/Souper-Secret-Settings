@@ -7,14 +7,17 @@
     "passes": [
         {
             "program": "expanded_shaders:post/camera_shift",
-            "intarget": "minecraft:main",
-            "output": "left",
-            "auxtargets": [
+            "inputs": [
                 {
-                    "name": "DiffuseDepthSampler",
-                    "id": "minecraft:main:depth"
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                },
+                {
+                    "sampler_name": "DiffuseDepth",
+                    "target": "minecraft:main:depth"
                 }
             ],
+            "output": "left",
             "uniforms": [
                 {
                     "name": "Offset",
@@ -28,14 +31,17 @@
         },
         {
             "program": "expanded_shaders:post/camera_shift",
-            "intarget": "minecraft:main",
-            "output": "right",
-            "auxtargets": [
+            "inputs": [
                 {
-                    "name": "DiffuseDepthSampler",
-                    "id": "minecraft:main:depth"
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                },
+                {
+                    "sampler_name": "DiffuseDepth",
+                    "target": "minecraft:main:depth"
                 }
             ],
+            "output": "right",
             "uniforms": [
                 {
                     "name": "Offset",
@@ -49,14 +55,17 @@
         },
         {
             "program": "expanded_shaders:post/channel_combine",
-            "intarget": "left",
-            "output": "combined",
-            "auxtargets": [
+            "inputs": [
                 {
-                    "name": "SecondSampler",
-                    "id": "right"
+                    "sampler_name": "In",
+                    "target": "left"
+                },
+                {
+                    "sampler_name": "Second",
+                    "target": "right"
                 }
             ],
+            "output": "combined",
             "uniforms": [
                 {
                     "name": "Color1",
@@ -78,7 +87,12 @@
         },
         {
             "program": "minecraft:post/blit",
-            "intarget": "combined",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "combined"
+                }
+            ],
             "output": "minecraft:main"
         }
     ]

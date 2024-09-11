@@ -6,27 +6,40 @@
     "passes": [
         {
             "program": "expanded_shaders:post/out_of_bounds",
-            "intarget": "minecraft:main",
-            "output": "swap",
-            "auxtargets": [
+            "inputs": [
                 {
-                    "name": "DiffuseDepthSampler",
-                    "id": "minecraft:main:depth"
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
                 },
                 {
-                    "name": "PrevOutSampler",
-                    "id": "previous"
+                    "sampler_name": "DiffuseDepth",
+                    "target": "minecraft:main:depth"
+                },
+                {
+            "output": "swap",
+                    "sampler_name": "PrevOut",
+                    "target": "previous"
                 }
             ]
         },
         {
             "program": "minecraft:post/blit",
-            "intarget": "swap",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "swap"
+                }
+            ],
             "output": "previous"
         },
         {
             "program": "minecraft:post/blit",
-            "intarget": "swap",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "swap"
+                }
+            ],
             "output": "minecraft:main"
         }
     ]

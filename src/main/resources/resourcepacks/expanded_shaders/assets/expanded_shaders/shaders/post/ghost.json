@@ -6,7 +6,12 @@
     "passes": [
         {
             "program": "minecraft:post/blur",
-            "intarget": "minecraft:main",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
             "output": "0",
             "uniforms": [
                 {
@@ -21,7 +26,12 @@
         },
         {
             "program": "minecraft:post/blur",
-            "intarget": "0",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
             "output": "1",
             "uniforms": [
                 {
@@ -36,12 +46,22 @@
         },
         {
             "program": "expanded_shaders:post/outline_sepia",
-            "intarget": "1",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "1"
+                }
+            ],
             "output": "0"
         },
         {
             "program": "minecraft:post/color_convolve",
-            "intarget": "0",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
             "output": "1",
             "uniforms": [
                 {
@@ -64,7 +84,12 @@
         },
         {
             "program": "minecraft:post/blit",
-            "intarget": "1",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "1"
+                }
+            ],
             "output": "minecraft:main"
         }
     ]

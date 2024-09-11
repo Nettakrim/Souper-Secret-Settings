@@ -6,12 +6,22 @@
     "passes": [
         {
             "program": "minecraft:post/sobel",
-            "intarget": "minecraft:main",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
             "output": "0"
         },
         {
             "program": "minecraft:post/wobble",
-            "intarget": "0",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
             "output": "1",
             "uniforms": [
                 {
@@ -26,7 +36,12 @@
         },
         {
             "program": "minecraft:post/bits",
-            "intarget": "1",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "1"
+                }
+            ],
             "output": "0",
             "uniforms": [
                 {
@@ -37,18 +52,26 @@
         },
         {
             "program": "minecraft:post/outline_combine",
-            "intarget": "minecraft:main",
-            "output": "1",
-            "auxtargets": [
+            "inputs": [
                 {
-                    "name": "OutlineSampler",
-                    "id": "0"
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                },
+                {
+                    "sampler_name": "Outline",
+                    "target": "0"
                 }
-            ]
+            ],
+            "output": "1"
         },
         {
             "program": "minecraft:post/blit",
-            "intarget": "1",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "1"
+                }
+            ],
             "output": "minecraft:main"
         }
     ]

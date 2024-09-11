@@ -5,12 +5,22 @@
     "passes": [
         {
             "program": "minecraft:post/sobel",
-            "intarget": "minecraft:main",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
             "output": "swap"
         },
         {
             "program": "minecraft:post/blur",
-            "intarget": "swap",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "swap"
+                }
+            ],
             "output": "minecraft:main",
             "uniforms": [
                 {
@@ -25,12 +35,22 @@
         },
         {
             "program": "minecraft:post/blobs2",
-            "intarget": "minecraft:main",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
             "output": "swap"
         },
         {
             "program": "minecraft:post/blit",
-            "intarget": "swap",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "swap"
+                }
+            ],
             "output": "minecraft:main"
         }
     ]

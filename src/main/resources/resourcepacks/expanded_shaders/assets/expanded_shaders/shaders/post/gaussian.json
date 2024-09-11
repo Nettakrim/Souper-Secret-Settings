@@ -6,7 +6,12 @@
     "passes": [
         {
             "program": "expanded_shaders:post/gaussian",
-            "intarget": "minecraft:main",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
             "output": "0",
             "uniforms": [
                 {
@@ -21,7 +26,12 @@
         },
         {
             "program": "expanded_shaders:post/gaussian",
-            "intarget": "0",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
             "output": "1",
             "uniforms": [
                 {
@@ -36,7 +46,12 @@
         },
         {
             "program": "minecraft:post/blit",
-            "intarget": "1",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "1"
+                }
+            ],
             "output": "minecraft:main"
         }
     ]

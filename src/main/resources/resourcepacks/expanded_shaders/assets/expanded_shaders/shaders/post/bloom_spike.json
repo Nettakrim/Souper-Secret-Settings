@@ -8,7 +8,12 @@
     "passes": [
         {
             "program": "expanded_shaders:post/color_brightness_threshold",
-            "intarget": "minecraft:main",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
             "output": "bloom_clip",
             "uniforms": [
                 {
@@ -19,9 +24,14 @@
         },
         {
             "program": "expanded_shaders:post/one_way_blur",
-            "intarget": "bloom_clip",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "bloom_clip"
+                }
+            ],
             "output": "blur0",
-            "use_linear_filter": true,
+            "bilinear": true,
             "uniforms": [
                 {
                     "name": "BlurDir",
@@ -35,9 +45,14 @@
         },
         {
             "program": "expanded_shaders:post/one_way_blur",
-            "intarget": "bloom_clip",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "bloom_clip"
+                }
+            ],
             "output": "blur1",
-            "use_linear_filter": true,
+            "bilinear": true,
             "uniforms": [
                 {
                     "name": "BlurDir",
@@ -51,9 +66,14 @@
         },
         {
             "program": "expanded_shaders:post/one_way_blur",
-            "intarget": "bloom_clip",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "bloom_clip"
+                }
+            ],
             "output": "blur2",
-            "use_linear_filter": true,
+            "bilinear": true,
             "uniforms": [
                 {
                     "name": "BlurDir",
@@ -67,40 +87,54 @@
         },
         {
             "program": "expanded_shaders:post/add",
-            "intarget": "blur0",
-            "output": "bloom_clip",
-            "auxtargets": [
+            "inputs": [
                 {
-                    "name": "AddSampler",
-                    "id": "blur1"
+                    "sampler_name": "In",
+                    "target": "blur0"
+                },
+                {
+                    "sampler_name": "Add",
+                    "target": "blur1"
                 }
-            ]
+            ],
+            "output": "bloom_clip"
         },
         {
             "program": "expanded_shaders:post/add",
-            "intarget": "bloom_clip",
-            "output": "blur0",
-            "auxtargets": [
+            "inputs": [
                 {
-                    "name": "AddSampler",
-                    "id": "blur2"
+                    "sampler_name": "In",
+                    "target": "bloom_clip"
+                },
+                {
+                    "sampler_name": "Add",
+                    "target": "blur2"
                 }
-            ]
+            ],
+            "output": "blur0"
         },
         {
             "program": "expanded_shaders:post/add",
-            "intarget": "minecraft:main",
-            "output": "bloom_clip",
-            "auxtargets": [
+            "inputs": [
                 {
-                    "name": "AddSampler",
-                    "id": "blur0"
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                },
+                {
+                    "sampler_name": "Add",
+                    "target": "blur0"
                 }
-            ]
+            ],
+            "output": "bloom_clip"
         },
         {
             "program": "minecraft:post/blit",
-            "intarget": "bloom_clip",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "bloom_clip"
+                }
+            ],
             "output": "minecraft:main"
         }
     ]

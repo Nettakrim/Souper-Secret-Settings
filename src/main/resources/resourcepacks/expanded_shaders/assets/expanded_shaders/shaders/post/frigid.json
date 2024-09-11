@@ -5,17 +5,20 @@
     "passes": [
         {
             "program": "expanded_shaders:post/color_lookup",
-            "intarget": "minecraft:main",
-            "output": "0",
-            "auxtargets": [
+            "inputs": [
                 {
-                    "name": "LookupSampler",
-                    "id": "expanded_shaders:frigid",
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                },
+                {
+                    "sampler_name": "Lookup",
+                    "location": "expanded_shaders:frigid",
                     "width": 512,
                     "height": 512,
                     "bilinear": false
                 }
             ],
+            "output": "0",
             "uniforms": [
                 {
                     "name": "GridSize",
@@ -27,7 +30,12 @@
         },
         {
             "program": "minecraft:post/blit",
-            "intarget": "0",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
             "output": "minecraft:main"
         }
     ]

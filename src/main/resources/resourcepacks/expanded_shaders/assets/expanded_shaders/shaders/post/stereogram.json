@@ -6,7 +6,12 @@
     "passes": [
         {
             "program": "minecraft:post/blur",
-            "intarget": "minecraft:main",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
             "output": "0",
             "uniforms": [
                 {
@@ -26,7 +31,12 @@
         },
         {
             "program": "minecraft:post/blur",
-            "intarget": "0",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
             "output": "1",
             "uniforms": [
                 {
@@ -46,18 +56,26 @@
         },
         {
             "program": "expanded_shaders:post/stereogram",
-            "intarget": "1",
-            "output": "0",
-            "auxtargets": [
+            "inputs": [
                 {
-                    "name": "DiffuseDepthSampler",
-                    "id": "minecraft:main:depth"
+                    "sampler_name": "In",
+                    "target": "1"
+                },
+                {
+                    "sampler_name": "DiffuseDepth",
+                    "target": "minecraft:main:depth"
                 }
-            ]
+            ],
+            "output": "0"
         },
         {
             "program": "minecraft:post/blit",
-            "intarget": "0",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
             "output": "minecraft:main"
         }
     ]

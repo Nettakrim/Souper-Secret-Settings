@@ -7,7 +7,12 @@
     "passes": [
         {
             "program": "expanded_shaders:post/gaussian",
-            "intarget": "minecraft:main",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
             "output": "0",
             "uniforms": [
                 {
@@ -22,7 +27,12 @@
         },
         {
             "program": "expanded_shaders:post/gaussian",
-            "intarget": "0",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
             "output": "A",
             "uniforms": [
                 {
@@ -37,7 +47,12 @@
         },
         {
             "program": "expanded_shaders:post/gaussian",
-            "intarget": "minecraft:main",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
             "output": "0",
             "uniforms": [
                 {
@@ -52,7 +67,12 @@
         },
         {
             "program": "expanded_shaders:post/gaussian",
-            "intarget": "0",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
             "output": "B",
             "uniforms": [
                 {
@@ -67,22 +87,30 @@
         },
         {
             "program": "expanded_shaders:post/toon",
-            "intarget": "minecraft:main",
-            "output": "0",
-            "auxtargets": [
+            "inputs": [
                 {
-                    "name": "ASampler",
-                    "id": "A"
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
                 },
                 {
-                    "name": "BSampler",
-                    "id": "B"
+                    "sampler_name": "A",
+                    "target": "A"
+                },
+                {
+            "output": "0",
+                    "sampler_name": "B",
+                    "target": "B"
                 }
             ]
         },
         {
             "program": "minecraft:post/blit",
-            "intarget": "0",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
             "output": "minecraft:main"
         }
     ]

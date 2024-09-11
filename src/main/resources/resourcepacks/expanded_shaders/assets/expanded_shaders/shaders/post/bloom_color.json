@@ -6,7 +6,12 @@
     "passes": [
         {
             "program": "expanded_shaders:post/color_brightness_threshold",
-            "intarget": "minecraft:main",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
             "output": "bloom_clip",
             "uniforms": [
                 {
@@ -25,7 +30,12 @@
         },
         {
             "program": "expanded_shaders:post/gaussian",
-            "intarget": "bloom_clip",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "bloom_clip"
+                }
+            ],
             "output": "blur",
             "uniforms": [
                 {
@@ -40,7 +50,12 @@
         },
         {
             "program": "expanded_shaders:post/gaussian",
-            "intarget": "blur",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "blur"
+                }
+            ],
             "output": "bloom_clip",
             "uniforms": [
                 {
@@ -55,14 +70,17 @@
         },
         {
             "program": "expanded_shaders:post/add",
-            "intarget": "minecraft:main",
-            "output": "blur",
-            "auxtargets": [
+            "inputs": [
                 {
-                    "name": "AddSampler",
-                    "id": "bloom_clip"
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                },
+                {
+                    "sampler_name": "Add",
+                    "target": "bloom_clip"
                 }
             ],
+            "output": "blur",
             "uniforms": [
                 {
                     "name": "Mix",
@@ -72,7 +90,12 @@
         },
         {
             "program": "minecraft:post/blit",
-            "intarget": "blur",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "blur"
+                }
+            ],
             "output": "minecraft:main"
         }
     ]

@@ -6,14 +6,17 @@
     "passes": [
         {
             "program": "minecraft:post/spider",
-            "intarget": "minecraft:main",
-            "output": "0",
-            "auxtargets": [
+            "inputs": [
                 {
-                    "name": "BlurSampler",
-                    "id": "prev"
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                },
+                {
+                    "sampler_name": "Blur",
+                    "target": "prev"
                 }
             ],
+            "output": "0",
             "uniforms": [
                 {
                     "name": "InScale",
@@ -57,12 +60,22 @@
         },
         {
             "program": "minecraft:post/blit",
-            "intarget": "0",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
             "output": "prev"
         },
         {
             "program": "minecraft:post/blit",
-            "intarget": "0",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
             "output": "minecraft:main"
         }
     ]

@@ -5,7 +5,12 @@
     "passes": [
         {
             "program": "minecraft:post/color_convolve",
-            "intarget": "minecraft:main",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
             "output": "swap",
             "uniforms": [
                 {
@@ -28,7 +33,12 @@
         },
         {
             "program": "minecraft:post/blit",
-            "intarget": "swap",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "swap"
+                }
+            ],
             "output": "minecraft:main"
         }
     ]

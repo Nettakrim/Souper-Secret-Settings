@@ -6,7 +6,12 @@
     "passes": [
         {
             "program": "expanded_shaders:post/gaussian",
-            "intarget": "minecraft:main",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
             "output": "0",
             "uniforms": [
                 {
@@ -21,7 +26,12 @@
         },
         {
             "program": "expanded_shaders:post/gaussian",
-            "intarget": "0",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
             "output": "1",
             "uniforms": [
                 {
@@ -36,18 +46,26 @@
         },
         {
             "program": "expanded_shaders:post/difference",
-            "intarget": "minecraft:main",
-            "output": "0",
-            "auxtargets": [
+            "inputs": [
                 {
-                    "name": "SubtractSampler",
-                    "id": "1"
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                },
+                {
+                    "sampler_name": "Subtract",
+                    "target": "1"
                 }
-            ]
+            ],
+            "output": "0"
         },
         {
             "program": "minecraft:post/blit",
-            "intarget": "0",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
             "output": "minecraft:main"
         }
     ]

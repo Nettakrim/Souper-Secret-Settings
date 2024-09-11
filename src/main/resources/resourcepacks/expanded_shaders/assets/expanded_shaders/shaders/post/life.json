@@ -6,14 +6,17 @@
     "passes": [
         {
             "program": "expanded_shaders:post/life",
-            "intarget": "minecraft:main",
-            "output": "swap",
-            "auxtargets": [
+            "inputs": [
                 {
-                    "name": "PrevSampler",
-                    "id": "previous"
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                },
+                {
+                    "sampler_name": "Prev",
+                    "target": "previous"
                 }
             ],
+            "output": "swap",
             "uniforms": [
                 {
                     "name": "MinPopulation",
@@ -31,12 +34,22 @@
         },
         {
             "program": "minecraft:post/blit",
-            "intarget": "swap",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "swap"
+                }
+            ],
             "output": "previous"
         },
         {
             "program": "minecraft:post/blit",
-            "intarget": "swap",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "swap"
+                }
+            ],
             "output": "minecraft:main"
         }
     ]

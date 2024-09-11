@@ -7,28 +7,46 @@
     "passes": [
         {
             "program": "minecraft:post/outline_watercolor",
-            "intarget": "minecraft:main",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
             "output": "0"
         },
         {
             "program": "minecraft:post/blobs2",
-            "intarget": "minecraft:main",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
             "output": "2"
         },
         {
             "program": "minecraft:post/outline_combine",
-            "intarget": "2",
-            "output": "1",
-            "auxtargets": [
+            "inputs": [
                 {
-                    "name": "OutlineSampler",
-                    "id": "0"
+                    "sampler_name": "In",
+                    "target": "2"
+                },
+                {
+                    "sampler_name": "Outline",
+                    "target": "0"
                 }
-            ]
+            ],
+            "output": "1"
         },
         {
             "program": "minecraft:post/blit",
-            "intarget": "1",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "1"
+                }
+            ],
             "output": "minecraft:main"
         }
     ]

@@ -6,23 +6,36 @@
     "passes": [
         {
             "program": "expanded_shaders:post/rolling_shutter",
-            "intarget": "minecraft:main",
-            "output": "0",
-            "auxtargets": [
+            "inputs": [
                 {
-                    "name": "PrevSampler",
-                    "id": "previous"
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                },
+                {
+                    "sampler_name": "Prev",
+                    "target": "previous"
                 }
-            ]
+            ],
+            "output": "0"
         },
         {
             "program": "minecraft:post/blit",
-            "intarget": "0",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
             "output": "previous"
         },
         {
             "program": "minecraft:post/blit",
-            "intarget": "0",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
             "output": "minecraft:main"
         }
     ]

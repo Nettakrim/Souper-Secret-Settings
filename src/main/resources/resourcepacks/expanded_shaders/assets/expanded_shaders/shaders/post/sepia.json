@@ -7,7 +7,12 @@
     "passes": [
         {
             "program": "expanded_shaders:post/outline_sepia",
-            "intarget": "minecraft:main",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
             "output": "0",
             "uniforms": [
                 {
@@ -18,21 +23,29 @@
         },
         {
             "program": "minecraft:post/notch",
-            "intarget": "0",
-            "output": "1",
-            "auxtargets": [
+            "inputs": [
                 {
-                    "name": "DitherSampler",
-                    "id": "dither",
+                    "sampler_name": "In",
+                    "target": "0"
+                },
+                {
+                    "sampler_name": "Dither",
+                    "target": "dither",
                     "width": 4,
                     "height": 4,
                     "bilinear": false
                 }
-            ]
+            ],
+            "output": "1"
         },
         {
             "program": "minecraft:post/color_convolve",
-            "intarget": "1",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "1"
+                }
+            ],
             "output": "0",
             "uniforms": [
                 {
@@ -55,7 +68,12 @@
         },
         {
             "program": "minecraft:post/blit",
-            "intarget": "0",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
             "output": "minecraft:main"
         }
     ]

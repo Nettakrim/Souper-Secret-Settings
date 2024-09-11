@@ -7,7 +7,12 @@
     "passes": [
         {
             "program": "minecraft:post/color_convolve",
-            "intarget": "minecraft:main",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
             "output": "0",
             "uniforms": [
                 {
@@ -26,37 +31,53 @@
         },
         {
             "program": "minecraft:post/notch",
-            "intarget": "0",
-            "output": "1",
-            "auxtargets": [
+            "inputs": [
                 {
-                    "name": "DitherSampler",
-                    "id": "dither",
+                    "sampler_name": "In",
+                    "target": "0"
+                },
+                {
+                    "sampler_name": "Dither",
+                    "target": "dither",
                     "width": 4,
                     "height": 4,
                     "bilinear": true
                 }
-            ]
+            ],
+            "output": "1"
         },
         {
             "program": "minecraft:post/outline_watercolor",
-            "intarget": "minecraft:main",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
             "output": "0"
         },
         {
             "program": "minecraft:post/outline_combine",
-            "intarget": "1",
-            "output": "2",
-            "auxtargets": [
+            "inputs": [
                 {
-                    "name": "OutlineSampler",
-                    "id": "0"
+                    "sampler_name": "In",
+                    "target": "1"
+                },
+                {
+                    "sampler_name": "Outline",
+                    "target": "0"
                 }
-            ]
+            ],
+            "output": "2"
         },
         {
             "program": "minecraft:post/blit",
-            "intarget": "2",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "2"
+                }
+            ],
             "output": "minecraft:main"
         }
     ]
