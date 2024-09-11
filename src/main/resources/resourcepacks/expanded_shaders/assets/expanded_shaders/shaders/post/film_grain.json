@@ -1,7 +1,7 @@
 {
-    "targets": [
-        "0"
-    ],
+    "targets": {
+        "0": {}
+    },
     "passes": [
         {
             "program": "expanded_shaders:film_grain",

@@ -1,9 +1,9 @@
 {
-    "targets": [
-        "0",
-        "1",
-        "2"
-    ],
+    "targets": {
+        "0": {},
+        "1": {},
+        "2": {}
+    },
     "passes": [
         {
             "program": "color_convolve",

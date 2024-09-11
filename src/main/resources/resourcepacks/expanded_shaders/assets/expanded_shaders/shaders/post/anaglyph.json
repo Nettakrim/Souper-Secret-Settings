@@ -1,9 +1,9 @@
 {
-    "targets": [
-        "left",
-        "right",
-        "combined"
-    ],
+    "targets": {
+        "left": {},
+        "right": {},
+        "combined": {}
+    },
     "passes": [
         {
             "program": "expanded_shaders:camera_shift",

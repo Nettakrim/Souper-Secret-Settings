@@ -1,9 +1,9 @@
 {
-    "targets": [
-        "0",
-        "A",
-        "B"
-    ],
+    "targets": {
+        "0": {},
+        "A": {},
+        "B": {}
+    },
     "passes": [
         {
             "program": "expanded_shaders:gaussian",

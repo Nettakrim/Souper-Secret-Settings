@@ -1,10 +1,10 @@
 {
-    "targets": [
-        "bloom_clip",
-        "blur0",
-        "blur1",
-        "blur2"
-    ],
+    "targets": {
+        "bloom_clip": {},
+        "blur0": {},
+        "blur1": {},
+        "blur2": {}
+    },
     "passes": [
         {
             "program": "expanded_shaders:color_brightness_threshold",

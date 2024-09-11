@@ -1,8 +1,8 @@
 {
-    "targets": [
-        "0",
-        "previous"
-    ],
+    "targets": {
+        "0": {},
+        "previous": {}
+    },
     "passes": [
         {
             "program": "expanded_shaders:rolling_shutter",
