@@ -4,14 +4,14 @@
     ],
     "passes": [
         {
-            "name": "expanded_shaders:contrast",
+            "program": "expanded_shaders:contrast",
             "intarget": "minecraft:main",
-            "outtarget": "0"
+            "output": "0"
         },
         {
-            "name": "blit",
+            "program": "blit",
             "intarget": "0",
-            "outtarget": "minecraft:main"
+            "output": "minecraft:main"
         }
     ]
 }

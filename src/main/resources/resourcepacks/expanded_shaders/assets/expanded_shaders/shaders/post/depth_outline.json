@@ -4,9 +4,9 @@
     ],
     "passes": [
         {
-            "name": "expanded_shaders:depth_outline",
+            "program": "expanded_shaders:depth_outline",
             "intarget": "minecraft:main",
-            "outtarget": "0",
+            "output": "0",
             "auxtargets": [
                 {
                     "name": "DepthSampler",
@@ -21,9 +21,9 @@
             ]
         },
         {
-            "name": "blit",
+            "program": "blit",
             "intarget": "0",
-            "outtarget": "minecraft:main"
+            "output": "minecraft:main"
         }
     ]
 }

@@ -4,14 +4,14 @@
     ],
     "passes": [
         {
-            "name": "expanded_shaders:rings",
+            "program": "expanded_shaders:rings",
             "intarget": "minecraft:main",
-            "outtarget": "0"
+            "output": "0"
         },
         {
-            "name": "blit",
+            "program": "blit",
             "intarget": "0",
-            "outtarget": "minecraft:main"
+            "output": "minecraft:main"
         }
     ]
 }

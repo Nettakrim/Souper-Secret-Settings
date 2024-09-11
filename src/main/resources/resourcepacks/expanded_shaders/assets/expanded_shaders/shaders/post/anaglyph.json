@@ -1,69 +1,85 @@
 {
-  "targets": [
-    "left",
-    "right",
-    "combined"
-  ],
-  "passes": [
-    {
-      "name": "expanded_shaders:camera_shift",
-      "intarget": "minecraft:main",
-      "outtarget": "left",
-      "auxtargets": [
+    "targets": [
+        "left",
+        "right",
+        "combined"
+    ],
+    "passes": [
         {
-          "name": "DiffuseDepthSampler",
-          "id": "minecraft:main:depth"
-        }
-      ],
-      "uniforms": [
-        {
-          "name": "Offset",
-          "values": [ -0.05, 0.0, 0.0 ]
-        }
-      ]
-    },
-    {
-      "name": "expanded_shaders:camera_shift",
-      "intarget": "minecraft:main",
-      "outtarget": "right",
-      "auxtargets": [
-        {
-          "name": "DiffuseDepthSampler",
-          "id": "minecraft:main:depth"
-        }
-      ],
-      "uniforms": [
-        {
-          "name": "Offset",
-          "values": [ 0.05, 0.0, 0.0 ]
-        }
-      ]
-    },
-    {
-      "name": "expanded_shaders:channel_combine",
-      "intarget": "left",
-      "outtarget": "combined",
-      "auxtargets": [
-        {
-          "name": "SecondSampler",
-          "id": "right"
-        }
-      ],
-      "uniforms": [
-        {
-          "name": "Color1",
-          "values": [ 1.0, 0.0, 0.0 ]
+            "program": "expanded_shaders:camera_shift",
+            "intarget": "minecraft:main",
+            "output": "left",
+            "auxtargets": [
+                {
+                    "name": "DiffuseDepthSampler",
+                    "id": "minecraft:main:depth"
+                }
+            ],
+            "uniforms": [
+                {
+                    "name": "Offset",
+                    "values": [
+                        -0.05,
+                        0,
+                        0
+                    ]
+                }
+            ]
         },
         {
-          "name": "Color2",
-          "values": [ 0.0, 1.0, 1.0 ]
+            "program": "expanded_shaders:camera_shift",
+            "intarget": "minecraft:main",
+            "output": "right",
+            "auxtargets": [
+                {
+                    "name": "DiffuseDepthSampler",
+                    "id": "minecraft:main:depth"
+                }
+            ],
+            "uniforms": [
+                {
+                    "name": "Offset",
+                    "values": [
+                        0.05,
+                        0,
+                        0
+                    ]
+                }
+            ]
+        },
+        {
+            "program": "expanded_shaders:channel_combine",
+            "intarget": "left",
+            "output": "combined",
+            "auxtargets": [
+                {
+                    "name": "SecondSampler",
+                    "id": "right"
+                }
+            ],
+            "uniforms": [
+                {
+                    "name": "Color1",
+                    "values": [
+                        1,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "name": "Color2",
+                    "values": [
+                        0,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "program": "blit",
+            "intarget": "combined",
+            "output": "minecraft:main"
         }
-      ]
-    },
-    {
-      "name": "blit",
-      "intarget": "combined",
-      "outtarget": "minecraft:main"
-    }
-  ]
+    ]
 }

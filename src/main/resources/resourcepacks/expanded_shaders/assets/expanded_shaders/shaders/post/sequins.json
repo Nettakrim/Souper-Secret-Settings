@@ -4,14 +4,14 @@
     ],
     "passes": [
         {
-            "name": "sobel",
+            "program": "sobel",
             "intarget": "minecraft:main",
-            "outtarget": "swap"
+            "output": "swap"
         },
         {
-            "name": "blur",
+            "program": "blur",
             "intarget": "swap",
-            "outtarget": "minecraft:main",
+            "output": "minecraft:main",
             "uniforms": [
                 {
                     "name": "BlurDir",
@@ -24,14 +24,14 @@
             ]
         },
         {
-            "name": "blobs2",
+            "program": "blobs2",
             "intarget": "minecraft:main",
-            "outtarget": "swap"
+            "output": "swap"
         },
         {
-            "name": "blit",
+            "program": "blit",
             "intarget": "swap",
-            "outtarget": "minecraft:main"
+            "output": "minecraft:main"
         }
     ]
 }

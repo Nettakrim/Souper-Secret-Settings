@@ -1,32 +1,34 @@
 {
-  "targets": [
-    "0"
-  ],
-  "passes": [
-    {
-      "name": "expanded_shaders:color_lookup",
-      "intarget": "minecraft:main",
-      "outtarget": "0",
-      "auxtargets": [
+    "targets": [
+        "0"
+    ],
+    "passes": [
         {
-          "name": "LookupSampler",
-          "id": "expanded_shaders:noise",
-          "width": 512,
-          "height": 512,
-          "bilinear": false
-        }
-      ],
-      "uniforms": [
+            "program": "expanded_shaders:color_lookup",
+            "intarget": "minecraft:main",
+            "output": "0",
+            "auxtargets": [
+                {
+                    "name": "LookupSampler",
+                    "id": "expanded_shaders:noise",
+                    "width": 512,
+                    "height": 512,
+                    "bilinear": false
+                }
+            ],
+            "uniforms": [
+                {
+                    "name": "GridSize",
+                    "values": [
+                        8
+                    ]
+                }
+            ]
+        },
         {
-          "name": "GridSize",
-          "values": [ 8.0 ]
+            "program": "blit",
+            "intarget": "0",
+            "output": "minecraft:main"
         }
-      ]
-    },
-    {
-      "name": "blit",
-      "intarget": "0",
-      "outtarget": "minecraft:main"
-    }
-  ]
+    ]
 }

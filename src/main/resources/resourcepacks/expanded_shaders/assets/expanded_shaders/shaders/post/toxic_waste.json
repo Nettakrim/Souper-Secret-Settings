@@ -4,9 +4,9 @@
     ],
     "passes": [
         {
-            "name": "color_convolve",
+            "program": "color_convolve",
             "intarget": "minecraft:main",
-            "outtarget": "swap",
+            "output": "swap",
             "uniforms": [
                 {
                     "name": "RedMatrix",
@@ -31,9 +31,9 @@
             ]
         },
         {
-            "name": "blit",
+            "program": "blit",
             "intarget": "swap",
-            "outtarget": "minecraft:main"
+            "output": "minecraft:main"
         }
     ]
 }

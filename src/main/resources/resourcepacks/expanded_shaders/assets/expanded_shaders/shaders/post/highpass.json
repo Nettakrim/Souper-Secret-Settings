@@ -5,9 +5,9 @@
     ],
     "passes": [
         {
-            "name": "expanded_shaders:gaussian",
+            "program": "expanded_shaders:gaussian",
             "intarget": "minecraft:main",
-            "outtarget": "0",
+            "output": "0",
             "uniforms": [
                 {
                     "name": "Direction",
@@ -20,9 +20,9 @@
             ]
         },
         {
-            "name": "expanded_shaders:gaussian",
+            "program": "expanded_shaders:gaussian",
             "intarget": "0",
-            "outtarget": "1",
+            "output": "1",
             "uniforms": [
                 {
                     "name": "Direction",
@@ -35,9 +35,9 @@
             ]
         },
         {
-            "name": "expanded_shaders:difference",
+            "program": "expanded_shaders:difference",
             "intarget": "minecraft:main",
-            "outtarget": "0",
+            "output": "0",
             "auxtargets": [
                 {
                     "name": "SubtractSampler",
@@ -46,9 +46,9 @@
             ]
         },
         {
-            "name": "blit",
+            "program": "blit",
             "intarget": "0",
-            "outtarget": "minecraft:main"
+            "output": "minecraft:main"
         }
     ]
 }

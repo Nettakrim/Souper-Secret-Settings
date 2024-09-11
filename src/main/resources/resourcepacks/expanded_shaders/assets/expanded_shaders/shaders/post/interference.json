@@ -6,14 +6,14 @@
     ],
     "passes": [
         {
-            "name": "ntsc_encode",
+            "program": "ntsc_encode",
             "intarget": "minecraft:main",
-            "outtarget": "0"
+            "output": "0"
         },
         {
-            "name": "ntsc_decode",
+            "program": "ntsc_decode",
             "intarget": "0",
-            "outtarget": "1",
+            "output": "1",
             "auxtargets": [
                 {
                     "name": "BaseSampler",
@@ -22,14 +22,14 @@
             ]
         },
         {
-            "name": "bumpy",
+            "program": "bumpy",
             "intarget": "1",
-            "outtarget": "0"
+            "output": "0"
         },
         {
-            "name": "color_convolve",
+            "program": "color_convolve",
             "intarget": "0",
-            "outtarget": "1",
+            "output": "1",
             "uniforms": [
                 {
                     "name": "Saturation",
@@ -38,9 +38,9 @@
             ]
         },
         {
-            "name": "blit",
+            "program": "blit",
             "intarget": "1",
-            "outtarget": "minecraft:main"
+            "output": "minecraft:main"
         }
     ]
 }

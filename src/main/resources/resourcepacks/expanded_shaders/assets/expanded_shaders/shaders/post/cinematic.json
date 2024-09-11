@@ -4,9 +4,9 @@
     ],
     "passes": [
         {
-            "name": "expanded_shaders:aspect_ratio",
+            "program": "expanded_shaders:aspect_ratio",
             "intarget": "minecraft:main",
-            "outtarget": "0",
+            "output": "0",
             "uniforms": [
                 {
                     "name": "Ratio",
@@ -15,9 +15,9 @@
             ]
         },
         {
-            "name": "blit",
+            "program": "blit",
             "intarget": "0",
-            "outtarget": "minecraft:main"
+            "output": "minecraft:main"
         }
     ]
 }

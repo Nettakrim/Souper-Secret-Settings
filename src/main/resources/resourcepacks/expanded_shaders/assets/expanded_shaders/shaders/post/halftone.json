@@ -4,9 +4,9 @@
     ],
     "passes": [
         {
-            "name": "expanded_shaders:gaussian",
+            "program": "expanded_shaders:gaussian",
             "intarget": "minecraft:main",
-            "outtarget": "0",
+            "output": "0",
             "uniforms": [
                 {
                     "name": "Direction",
@@ -19,9 +19,9 @@
             ]
         },
         {
-            "name": "expanded_shaders:gaussian",
+            "program": "expanded_shaders:gaussian",
             "intarget": "0",
-            "outtarget": "minecraft:main",
+            "output": "minecraft:main",
             "uniforms": [
                 {
                     "name": "Direction",
@@ -34,14 +34,14 @@
             ]
         },
         {
-            "name": "expanded_shaders:halftone",
+            "program": "expanded_shaders:halftone",
             "intarget": "minecraft:main",
-            "outtarget": "0"
+            "output": "0"
         },
         {
-            "name": "blit",
+            "program": "blit",
             "intarget": "0",
-            "outtarget": "minecraft:main"
+            "output": "minecraft:main"
         }
     ]
 }

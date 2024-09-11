@@ -4,9 +4,9 @@
     ],
     "passes": [
         {
-            "name": "expanded_shaders:horror",
+            "program": "expanded_shaders:horror",
             "intarget": "minecraft:main",
-            "outtarget": "0",
+            "output": "0",
             "auxtargets": [
                 {
                     "name": "DiffuseDepthSampler",
@@ -15,9 +15,9 @@
             ]
         },
         {
-            "name": "blit",
+            "program": "blit",
             "intarget": "0",
-            "outtarget": "minecraft:main"
+            "output": "minecraft:main"
         }
     ]
 }

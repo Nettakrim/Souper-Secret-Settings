@@ -6,9 +6,9 @@
     ],
     "passes": [
         {
-            "name": "color_convolve",
+            "program": "color_convolve",
             "intarget": "minecraft:main",
-            "outtarget": "0",
+            "output": "0",
             "uniforms": [
                 {
                     "name": "RedMatrix",
@@ -25,9 +25,9 @@
             ]
         },
         {
-            "name": "notch",
+            "program": "notch",
             "intarget": "0",
-            "outtarget": "1",
+            "output": "1",
             "auxtargets": [
                 {
                     "name": "DitherSampler",
@@ -39,14 +39,14 @@
             ]
         },
         {
-            "name": "outline_watercolor",
+            "program": "outline_watercolor",
             "intarget": "minecraft:main",
-            "outtarget": "0"
+            "output": "0"
         },
         {
-            "name": "outline_combine",
+            "program": "outline_combine",
             "intarget": "1",
-            "outtarget": "2",
+            "output": "2",
             "auxtargets": [
                 {
                     "name": "OutlineSampler",
@@ -55,9 +55,9 @@
             ]
         },
         {
-            "name": "blit",
+            "program": "blit",
             "intarget": "2",
-            "outtarget": "minecraft:main"
+            "output": "minecraft:main"
         }
     ]
 }

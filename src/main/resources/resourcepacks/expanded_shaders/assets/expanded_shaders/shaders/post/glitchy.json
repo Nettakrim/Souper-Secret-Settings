@@ -5,14 +5,14 @@
     ],
     "passes": [
         {
-            "name": "sobel",
+            "program": "sobel",
             "intarget": "minecraft:main",
-            "outtarget": "0"
+            "output": "0"
         },
         {
-            "name": "wobble",
+            "program": "wobble",
             "intarget": "0",
-            "outtarget": "1",
+            "output": "1",
             "uniforms": [
                 {
                     "name": "WobbleAmount",
@@ -25,9 +25,9 @@
             ]
         },
         {
-            "name": "bits",
+            "program": "bits",
             "intarget": "1",
-            "outtarget": "0",
+            "output": "0",
             "uniforms": [
                 {
                     "name": "MosaicSize",
@@ -36,9 +36,9 @@
             ]
         },
         {
-            "name": "outline_combine",
+            "program": "outline_combine",
             "intarget": "minecraft:main",
-            "outtarget": "1",
+            "output": "1",
             "auxtargets": [
                 {
                     "name": "OutlineSampler",
@@ -47,9 +47,9 @@
             ]
         },
         {
-            "name": "blit",
+            "program": "blit",
             "intarget": "1",
-            "outtarget": "minecraft:main"
+            "output": "minecraft:main"
         }
     ]
 }

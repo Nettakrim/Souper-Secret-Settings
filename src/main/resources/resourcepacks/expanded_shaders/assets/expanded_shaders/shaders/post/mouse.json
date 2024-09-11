@@ -1,29 +1,33 @@
 {
-  "targets": [
-    "0"
-  ],
-  "passes": [
-    {
-      "name": "expanded_shaders:camera_shift",
-      "intarget": "minecraft:main",
-      "outtarget": "0",
-      "auxtargets": [
+    "targets": [
+        "0"
+    ],
+    "passes": [
         {
-          "name": "DiffuseDepthSampler",
-          "id": "minecraft:main:depth"
-        }
-      ],
-      "uniforms": [
+            "program": "expanded_shaders:camera_shift",
+            "intarget": "minecraft:main",
+            "output": "0",
+            "auxtargets": [
+                {
+                    "name": "DiffuseDepthSampler",
+                    "id": "minecraft:main:depth"
+                }
+            ],
+            "uniforms": [
+                {
+                    "name": "Offset",
+                    "values": [
+                        0,
+                        -1,
+                        0
+                    ]
+                }
+            ]
+        },
         {
-          "name": "Offset",
-          "values": [ 0.0, -1.0, 0.0 ]
+            "program": "blit",
+            "intarget": "0",
+            "output": "minecraft:main"
         }
-      ]
-    },
-    {
-      "name": "blit",
-      "intarget": "0",
-      "outtarget": "minecraft:main"
-    }
-  ]
+    ]
 }

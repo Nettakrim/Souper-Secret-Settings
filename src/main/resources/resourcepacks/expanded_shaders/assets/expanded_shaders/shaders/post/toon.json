@@ -6,9 +6,9 @@
     ],
     "passes": [
         {
-            "name": "expanded_shaders:gaussian",
+            "program": "expanded_shaders:gaussian",
             "intarget": "minecraft:main",
-            "outtarget": "0",
+            "output": "0",
             "uniforms": [
                 {
                     "name": "Direction",
@@ -21,9 +21,9 @@
             ]
         },
         {
-            "name": "expanded_shaders:gaussian",
+            "program": "expanded_shaders:gaussian",
             "intarget": "0",
-            "outtarget": "A",
+            "output": "A",
             "uniforms": [
                 {
                     "name": "Direction",
@@ -36,9 +36,9 @@
             ]
         },
         {
-            "name": "expanded_shaders:gaussian",
+            "program": "expanded_shaders:gaussian",
             "intarget": "minecraft:main",
-            "outtarget": "0",
+            "output": "0",
             "uniforms": [
                 {
                     "name": "Direction",
@@ -51,9 +51,9 @@
             ]
         },
         {
-            "name": "expanded_shaders:gaussian",
+            "program": "expanded_shaders:gaussian",
             "intarget": "0",
-            "outtarget": "B",
+            "output": "B",
             "uniforms": [
                 {
                     "name": "Direction",
@@ -66,9 +66,9 @@
             ]
         },
         {
-            "name": "expanded_shaders:toon",
+            "program": "expanded_shaders:toon",
             "intarget": "minecraft:main",
-            "outtarget": "0",
+            "output": "0",
             "auxtargets": [
                 {
                     "name": "ASampler",
@@ -81,9 +81,9 @@
             ]
         },
         {
-            "name": "blit",
+            "program": "blit",
             "intarget": "0",
-            "outtarget": "minecraft:main"
+            "output": "minecraft:main"
         }
     ]
 }

@@ -6,9 +6,9 @@
     ],
     "passes": [
         {
-            "name": "expanded_shaders:outline_sepia",
+            "program": "expanded_shaders:outline_sepia",
             "intarget": "minecraft:main",
-            "outtarget": "0",
+            "output": "0",
             "uniforms": [
                 {
                     "name": "LumaLevel",
@@ -17,9 +17,9 @@
             ]
         },
         {
-            "name": "notch",
+            "program": "notch",
             "intarget": "0",
-            "outtarget": "1",
+            "output": "1",
             "auxtargets": [
                 {
                     "name": "DitherSampler",
@@ -31,9 +31,9 @@
             ]
         },
         {
-            "name": "color_convolve",
+            "program": "color_convolve",
             "intarget": "1",
-            "outtarget": "0",
+            "output": "0",
             "uniforms": [
                 {
                     "name": "RedMatrix",
@@ -54,9 +54,9 @@
             ]
         },
         {
-            "name": "blit",
+            "program": "blit",
             "intarget": "0",
-            "outtarget": "minecraft:main"
+            "output": "minecraft:main"
         }
     ]
 }

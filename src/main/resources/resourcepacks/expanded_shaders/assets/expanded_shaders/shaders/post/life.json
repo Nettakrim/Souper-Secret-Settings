@@ -5,9 +5,9 @@
     ],
     "passes": [
         {
-            "name": "expanded_shaders:life",
+            "program": "expanded_shaders:life",
             "intarget": "minecraft:main",
-            "outtarget": "swap",
+            "output": "swap",
             "auxtargets": [
                 {
                     "name": "PrevSampler",
@@ -30,14 +30,14 @@
             ]
         },
         {
-            "name": "minecraft:blit",
+            "program": "minecraft:blit",
             "intarget": "swap",
-            "outtarget": "previous"
+            "output": "previous"
         },
         {
-            "name": "minecraft:blit",
+            "program": "minecraft:blit",
             "intarget": "swap",
-            "outtarget": "minecraft:main"
+            "output": "minecraft:main"
         }
     ]
 }

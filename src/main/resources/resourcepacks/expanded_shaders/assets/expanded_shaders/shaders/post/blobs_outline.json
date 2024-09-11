@@ -6,19 +6,19 @@
     ],
     "passes": [
         {
-            "name": "outline_watercolor",
+            "program": "outline_watercolor",
             "intarget": "minecraft:main",
-            "outtarget": "0"
+            "output": "0"
         },
         {
-            "name": "blobs2",
+            "program": "blobs2",
             "intarget": "minecraft:main",
-            "outtarget": "2"
+            "output": "2"
         },
         {
-            "name": "outline_combine",
+            "program": "outline_combine",
             "intarget": "2",
-            "outtarget": "1",
+            "output": "1",
             "auxtargets": [
                 {
                     "name": "OutlineSampler",
@@ -27,9 +27,9 @@
             ]
         },
         {
-            "name": "blit",
+            "program": "blit",
             "intarget": "1",
-            "outtarget": "minecraft:main"
+            "output": "minecraft:main"
         }
     ]
 }

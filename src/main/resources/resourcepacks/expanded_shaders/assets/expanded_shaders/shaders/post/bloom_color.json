@@ -5,9 +5,9 @@
     ],
     "passes": [
         {
-            "name": "expanded_shaders:color_brightness_threshold",
+            "program": "expanded_shaders:color_brightness_threshold",
             "intarget": "minecraft:main",
-            "outtarget": "bloom_clip",
+            "output": "bloom_clip",
             "uniforms": [
                 {
                     "name": "ThresholdBrightness",
@@ -24,9 +24,9 @@
             ]
         },
         {
-            "name": "expanded_shaders:gaussian",
+            "program": "expanded_shaders:gaussian",
             "intarget": "bloom_clip",
-            "outtarget": "blur",
+            "output": "blur",
             "uniforms": [
                 {
                     "name": "Direction",
@@ -39,9 +39,9 @@
             ]
         },
         {
-            "name": "expanded_shaders:gaussian",
+            "program": "expanded_shaders:gaussian",
             "intarget": "blur",
-            "outtarget": "bloom_clip",
+            "output": "bloom_clip",
             "uniforms": [
                 {
                     "name": "Direction",
@@ -54,9 +54,9 @@
             ]
         },
         {
-            "name": "expanded_shaders:add",
+            "program": "expanded_shaders:add",
             "intarget": "minecraft:main",
-            "outtarget": "blur",
+            "output": "blur",
             "auxtargets": [
                 {
                     "name": "AddSampler",
@@ -71,9 +71,9 @@
             ]
         },
         {
-            "name": "blit",
+            "program": "blit",
             "intarget": "blur",
-            "outtarget": "minecraft:main"
+            "output": "minecraft:main"
         }
     ]
 }

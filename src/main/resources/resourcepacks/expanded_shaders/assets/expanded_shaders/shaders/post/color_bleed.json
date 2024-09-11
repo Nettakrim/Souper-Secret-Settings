@@ -5,24 +5,24 @@
     ],
     "passes": [
         {
-            "name": "deconverge",
+            "program": "deconverge",
             "intarget": "minecraft:main",
-            "outtarget": "0"
+            "output": "0"
         },
         {
-            "name": "sobel",
+            "program": "sobel",
             "intarget": "0",
-            "outtarget": "1"
+            "output": "1"
         },
         {
-            "name": "blobs2",
+            "program": "blobs2",
             "intarget": "1",
-            "outtarget": "0"
+            "output": "0"
         },      
         {
-            "name": "outline_combine",
+            "program": "outline_combine",
             "intarget": "minecraft:main",
-            "outtarget": "1",
+            "output": "1",
             "auxtargets": [
                 {
                     "name": "OutlineSampler",
@@ -31,9 +31,9 @@
             ]
         },
         {
-            "name": "blit",
+            "program": "blit",
             "intarget": "1",
-            "outtarget": "minecraft:main"
+            "output": "minecraft:main"
         }
     ]
 }
