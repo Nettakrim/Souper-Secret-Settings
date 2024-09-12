@@ -97,11 +97,11 @@
                     "target": "A"
                 },
                 {
-            "output": "0",
                     "sampler_name": "B",
                     "target": "B"
                 }
-            ]
+            ],
+            "output": "0"
         },
         {
             "program": "minecraft:post/blit",

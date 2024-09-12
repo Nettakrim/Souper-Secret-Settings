@@ -13,14 +13,15 @@
                 },
                 {
                     "sampler_name": "DiffuseDepth",
-                    "target": "minecraft:main:depth"
+                    "target": "minecraft:main",
+                    "use_depth_buffer": true
                 },
                 {
-            "output": "swap",
                     "sampler_name": "PrevOut",
                     "target": "previous"
                 }
-            ]
+            ],
+            "output": "swap"
         },
         {
             "program": "minecraft:post/blit",

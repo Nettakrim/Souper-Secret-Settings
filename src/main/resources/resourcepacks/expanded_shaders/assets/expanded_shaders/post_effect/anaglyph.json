@@ -14,7 +14,8 @@
                 },
                 {
                     "sampler_name": "DiffuseDepth",
-                    "target": "minecraft:main:depth"
+                    "target": "minecraft:main",
+                    "use_depth_buffer": true
                 }
             ],
             "output": "left",
@@ -38,7 +39,8 @@
                 },
                 {
                     "sampler_name": "DiffuseDepth",
-                    "target": "minecraft:main:depth"
+                    "target": "minecraft:main",
+                    "use_depth_buffer": true
                 }
             ],
             "output": "right",
