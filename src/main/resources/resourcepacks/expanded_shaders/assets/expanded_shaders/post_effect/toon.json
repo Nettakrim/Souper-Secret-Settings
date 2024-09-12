@@ -1,8 +1,8 @@
 {
     "targets": {
         "0": {},
-        "A": {},
-        "B": {}
+        "a": {},
+        "b": {}
     },
     "passes": [
         {
@@ -33,7 +33,7 @@
                     "target": "0"
                 }
             ],
-            "output": "A",
+            "output": "a",
             "uniforms": [
                 {
                     "name": "Direction",
@@ -73,7 +73,7 @@
                     "target": "0"
                 }
             ],
-            "output": "B",
+            "output": "b",
             "uniforms": [
                 {
                     "name": "Direction",
@@ -94,11 +94,11 @@
                 },
                 {
                     "sampler_name": "A",
-                    "target": "A"
+                    "target": "a"
                 },
                 {
                     "sampler_name": "B",
-                    "target": "B"
+                    "target": "b"
                 }
             ],
             "output": "0"
