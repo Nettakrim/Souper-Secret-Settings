@@ -15,7 +15,7 @@ import net.minecraft.command.argument.MessageArgumentType.MessageFormat;
 public class SouperSecretSettingsCommands {
     public static final SuggestionProvider<FabricClientCommandSource> postShaders = (context, builder) -> {
         for (ShaderRegistry shaderRegistry : ShaderDataloader.registry) {
-            builder.suggest(shaderRegistry.getNamespace()+":"+shaderRegistry.getKey());
+            builder.suggest(shaderRegistry.getID().toString());
         }
         if (ShaderDataloader.getShaderAmount() > 1) builder.suggest("random");
         return CompletableFuture.completedFuture(builder.build());

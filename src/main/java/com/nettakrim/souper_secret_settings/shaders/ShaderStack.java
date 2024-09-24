@@ -9,7 +9,17 @@ public class ShaderStack {
         shaderDatas = new ArrayList<>();
     }
 
+    public void render() {
+        for (ShaderData shaderData : shaderDatas) {
+            shaderData.render();
+        }
+    }
+
     public void addShaderData(ShaderData shaderData) {
         shaderDatas.add(shaderData);
+    }
+
+    public void clear() {
+        shaderDatas.clear();
     }
 }
