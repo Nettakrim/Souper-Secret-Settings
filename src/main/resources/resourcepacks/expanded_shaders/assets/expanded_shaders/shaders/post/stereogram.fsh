@@ -9,7 +9,7 @@ in vec2 oneTexel;
 out vec4 fragColor;
 
 uniform float Stripes;
-uniform float Time;
+uniform float GameTime;
 
 float near = 0.1;
 float far = 1000.0;
@@ -77,7 +77,7 @@ float sampleNoise(vec2 coords) {
     float x = fract(coords.x*Stripes)/Stripes;
     float y = coords.y*(oneTexel.x/oneTexel.y);
 
-    vec2 random = vec2(Time*123.456, Time*456.789);
+    vec2 random = vec2(mod(GameTime*123456.789, 1), mod(GameTime*456789.123, 1));
 
     return noise((vec2(x,y)+random)*400);
 }

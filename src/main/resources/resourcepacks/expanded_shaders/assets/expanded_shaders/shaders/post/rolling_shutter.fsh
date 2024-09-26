@@ -10,7 +10,7 @@ uniform vec2 InSize;
 
 out vec4 fragColor;
 
-uniform float Time;
+uniform float GameTime;
 uniform float Threshold;
 
 void main() {
@@ -19,5 +19,5 @@ void main() {
 
     float d = texCoord.y;
 
-    fragColor = vec4(mix(prev, col, mod(Time+d, 1.0) < Threshold ? 1.0 : 0.0), 1.0);
+    fragColor = vec4(mix(prev, col, mod((GameTime*1200)+d, 1.0) < Threshold ? 1.0 : 0.0), 1.0);
 }

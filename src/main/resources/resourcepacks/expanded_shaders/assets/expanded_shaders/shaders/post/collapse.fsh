@@ -7,7 +7,7 @@ in vec2 oneTexel;
 
 out vec4 fragColor;
 
-uniform float Time;
+uniform float GameTime;
 uniform float MaxDistance;
 
 //https://www.shadertoy.com/view/XdXGW8
@@ -42,7 +42,7 @@ float noise( in vec2 p )
 void main(){
     vec2 aspect = vec2(1, oneTexel.x/oneTexel.y);
     vec2 randomPos = ((texCoord*vec2(100,0.1))+vec2(43.123))*aspect;
-    float t = fract(noise(randomPos*300.123)+Time);
+    float t = fract(noise(randomPos*300.123)+mod(GameTime*1200, 1));
 
     vec3 center = texture(InSampler, texCoord).rgb;
     vec3 down = texture(InSampler, texCoord - vec2(0, oneTexel.y*t*MaxDistance)).rgb;
