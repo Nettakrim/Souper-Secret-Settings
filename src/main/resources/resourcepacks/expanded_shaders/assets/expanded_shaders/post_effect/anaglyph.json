@@ -22,11 +22,7 @@
             "uniforms": [
                 {
                     "name": "Offset",
-                    "values": [
-                        -0.05,
-                        0,
-                        0
-                    ]
+                    "values": [ -0.05, 0, 0 ]
                 }
             ]
         },
@@ -47,11 +43,7 @@
             "uniforms": [
                 {
                     "name": "Offset",
-                    "values": [
-                        0.05,
-                        0,
-                        0
-                    ]
+                    "values": [ 0.05, 0, 0 ]
                 }
             ]
         },
@@ -71,19 +63,11 @@
             "uniforms": [
                 {
                     "name": "Color1",
-                    "values": [
-                        1,
-                        0,
-                        0
-                    ]
+                    "values": [ 1, 0, 0 ]
                 },
                 {
                     "name": "Color2",
-                    "values": [
-                        0,
-                        1,
-                        1
-                    ]
+                    "values": [ 0, 1, 1 ]
                 }
             ]
         },

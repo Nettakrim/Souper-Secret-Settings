@@ -16,16 +16,11 @@
             "uniforms": [
                 {
                     "name": "BlurDir",
-                    "values": [
-                        1,
-                        0
-                    ]
+                    "values": [ 1, 0 ]
                 },
                 {
                     "name": "Radius",
-                    "values": [
-                        40
-                    ]
+                    "values": [ 40 ]
                 }
             ]
         },
@@ -41,16 +36,11 @@
             "uniforms": [
                 {
                     "name": "BlurDir",
-                    "values": [
-                        0,
-                        1
-                    ]
+                    "values": [ 0, 1 ]
                 },
                 {
                     "name": "Radius",
-                    "values": [
-                        40
-                    ]
+                    "values": [ 40 ]
                 }
             ]
         },

@@ -22,9 +22,7 @@
             "uniforms": [
                 {
                     "name": "GridSize",
-                    "values": [
-                        8
-                    ]
+                    "values": [ 8 ]
                 }
             ]
         },
