@@ -1,14 +1,8 @@
 {
-    "blend": {
-        "func": "add",
-        "srcrgb": "one",
-        "dstrgb": "zero"
-    },
-    "vertex": "sobel",
+    "vertex": "minecraft:post/sobel",
     "fragment": "expanded_shaders:layer_effects/cycle_additive_combine",
-    "attributes": [ "Position" ],
     "samplers": [
-        { "name": "DiffuseSampler" },
+        { "name": "InSampler" },
         { "name": "PrevSampler" }
     ],
     "uniforms": [

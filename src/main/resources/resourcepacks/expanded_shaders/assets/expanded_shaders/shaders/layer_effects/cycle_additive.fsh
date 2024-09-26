@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 
 in vec2 texCoord;
 in vec2 oneTexel;
@@ -10,7 +10,7 @@ out vec4 fragColor;
 uniform int LayerEffectValue;
 
 void main(){
-    vec4 color = texture(DiffuseSampler, texCoord);
+    vec4 color = texture(InSampler, texCoord);
     int channel = LayerEffectValue%3;
     if (channel == 0) {
         color.g = 0;

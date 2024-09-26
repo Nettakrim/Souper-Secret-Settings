@@ -1,7 +1,7 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
-uniform sampler2D DiffuseDepthSampler;
+uniform sampler2D InSampler;
+uniform sampler2D InDepthSampler;
 
 in vec2 texCoord;
 in vec2 oneTexel;
@@ -28,7 +28,7 @@ vec3 OffsetRaycast(mat4 projection, vec3 direction, vec3 startPos, float startin
 
         vec4 projected = projection*vec4(pos, 0.0);
         vec2 screen = ((projected.xy/projected.z) + vec2(1.0))/2;
-        float depth = LinearizeDepth(texture(DiffuseDepthSampler, screen).r);
+        float depth = LinearizeDepth(texture(InDepthSampler, screen).r);
 
         if (depth < startingDepth) {
             return pos-startPos;
@@ -59,10 +59,10 @@ void main(){
     //https://registry.khronos.org/OpenGL-Refpages/gl2.1/xhtml/gluPerspective.xml
     mat4 projection = mat4(yCotan/aspect, 0, 0, 0, 0, yCotan, 0, 0, 0, 0, (far+near)/(near-far), (2*far*near)/(near-far), 0, 0, -1, 0);
 
-    float d = LinearizeDepth(texture(DiffuseDepthSampler, texCoord).r);
+    float d = LinearizeDepth(texture(InDepthSampler, texCoord).r);
     vec3 pos = GetScreenPos(projection, xSlope, ySlope, Offset, d);
     vec3 hitOffset = OffsetRaycast(projection, vec3(0,1,0), pos, d, 0.001, 1.07, 128, 10);
-    vec4 color = texture(DiffuseSampler, texCoord) * (hitOffset.y / (hitOffset.y + 1));
+    vec4 color = texture(InSampler, texCoord) * (hitOffset.y / (hitOffset.y + 1));
 
     fragColor = vec4(color.rgb, 1.0);
 }

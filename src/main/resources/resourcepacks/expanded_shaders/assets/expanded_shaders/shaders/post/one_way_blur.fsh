@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 
 in vec2 texCoord;
 in vec2 oneTexel;
@@ -18,7 +18,7 @@ void main(){
         float weight = 1.0-(i/Radius);
         weight = mix(weight, weight * weight, Curve);
         total += weight;
-        col += texture(DiffuseSampler, texCoord-(BlurDir*oneTexel*i)).rgb * weight;
+        col += texture(InSampler, texCoord-(BlurDir*oneTexel*i)).rgb * weight;
     }
     col /= total;
 

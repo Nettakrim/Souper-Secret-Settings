@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 uniform sampler2D ASampler;
 uniform sampler2D BSampler;
 
@@ -22,7 +22,7 @@ float maxV(vec3 v) {
 }
 
 void main() {
-    vec3 color = texture(DiffuseSampler, texCoord).rgb;
+    vec3 color = texture(InSampler, texCoord).rgb;
     vec3 a = texture(ASampler, texCoord).rgb;
     vec3 b = texture(BSampler, texCoord).rgb;
 

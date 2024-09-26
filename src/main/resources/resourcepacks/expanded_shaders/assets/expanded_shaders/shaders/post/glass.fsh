@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 
 in vec2 texCoord;
 in vec2 oneTexel;
@@ -46,7 +46,7 @@ void main(){
     vec2 randomPos = (texCoord+vec2(100.123))*aspect;
     vec2 offset = vec2(noise(randomPos*400.123), noise(randomPos*399.987));
 
-    vec4 color = texture(DiffuseSampler, texCoord + offset/OffsetScale);
+    vec4 color = texture(InSampler, texCoord + offset/OffsetScale);
 
     float distance = length(offset);
 

@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 uniform sampler2D PrevSampler;
 
 in vec2 texCoord;
@@ -20,6 +20,6 @@ void main(){
     } else {
         color.b = 0;
     }
-    color += texture(DiffuseSampler, texCoord);
+    color += texture(InSampler, texCoord);
     fragColor = vec4(color.rgb, 1);
 }

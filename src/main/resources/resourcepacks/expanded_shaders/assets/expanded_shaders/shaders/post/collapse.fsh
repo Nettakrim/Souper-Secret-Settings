@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 
 in vec2 texCoord;
 in vec2 oneTexel;
@@ -44,8 +44,8 @@ void main(){
     vec2 randomPos = ((texCoord*vec2(100,0.1))+vec2(43.123))*aspect;
     float t = fract(noise(randomPos*300.123)+Time);
 
-    vec3 center = texture(DiffuseSampler, texCoord).rgb;
-    vec3 down = texture(DiffuseSampler, texCoord - vec2(0, oneTexel.y*t*MaxDistance)).rgb;
+    vec3 center = texture(InSampler, texCoord).rgb;
+    vec3 down = texture(InSampler, texCoord - vec2(0, oneTexel.y*t*MaxDistance)).rgb;
 
     vec3 col = mix(down, center, t);
 

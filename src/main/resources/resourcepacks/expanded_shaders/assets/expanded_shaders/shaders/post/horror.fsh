@@ -1,7 +1,7 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
-uniform sampler2D DiffuseDepthSampler;
+uniform sampler2D InSampler;
+uniform sampler2D InDepthSampler;
 
 in vec2 texCoord;
 
@@ -17,8 +17,8 @@ float LinearizeDepth(float depth) {
 }
 
 void main(){
-    vec4 col = texture(DiffuseSampler, texCoord);
-    float depth = LinearizeDepth(texture(DiffuseDepthSampler, texCoord).r);
+    vec4 col = texture(InSampler, texCoord);
+    float depth = LinearizeDepth(texture(InDepthSampler, texCoord).r);
     float brightness = min((Scale/depth), 1.0);
     float s = (brightness*brightness);
     fragColor = vec4(col.rgb*(s+brightness-s*brightness), 1.0);

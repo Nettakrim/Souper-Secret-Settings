@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 uniform sampler2D DepthSampler;
 
 in vec2 texCoord;
@@ -19,7 +19,7 @@ float LinearizeDepth(float depth) {
 }
 
 void main(){
-    vec4 col = texture(DiffuseSampler, texCoord);
+    vec4 col = texture(InSampler, texCoord);
 
     float depth = LinearizeDepth(texture(DepthSampler, texCoord).r);
     float depthUp = LinearizeDepth(texture(DepthSampler, texCoord+vec2(0.0, oneTexel.y)).r);

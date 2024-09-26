@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 
 in vec2 texCoord;
 in vec2 oneTexel;
@@ -62,7 +62,7 @@ void main(){
     vec3 grain = vec3(rg, gg, bg);
     grain = mix(vec3(dot(grain, vec3(0.2126, 0.7152, 0.0722))), grain, ColorStrength);
 
-    vec3 color = texture(DiffuseSampler, texCoord).rgb;
+    vec3 color = texture(InSampler, texCoord).rgb;
     color = max(mix(color*grain, color+(grain-1.0), MixMode), 0.0);
 
     fragColor = vec4(color.rgb, 1);

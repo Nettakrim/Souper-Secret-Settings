@@ -1,7 +1,7 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
-uniform sampler2D DiffuseDepthSampler;
+uniform sampler2D InSampler;
+uniform sampler2D InDepthSampler;
 
 in vec2 texCoord;
 in vec2 oneTexel;
@@ -51,7 +51,7 @@ float noise( in vec2 p )
 //https://www.shadertoy.com/view/XtlGRn
 
 float sampleHeightmap(vec2 position) {
-    float depth = LinearizeDepth(texture(DiffuseDepthSampler, position).r);
+    float depth = LinearizeDepth(texture(InDepthSampler, position).r);
 
     depth = max(min(1.0-(depth/10.0), 1.0), 0.0);
 
@@ -97,7 +97,7 @@ void main(){
         noise = 2*noise - 1.0;
 
         vec2 offset = vec2(1.0/Stripes, 0.0);
-        vec4 color = mix(texture(DiffuseSampler, texCoord + offset), texture(DiffuseSampler, texCoord), 0.65);
+        vec4 color = mix(texture(InSampler, texCoord + offset), texture(InSampler, texCoord), 0.65);
 
         if (noise < 0) color *= noise+1.0;
         else color = vec4(1.0)-((vec4(1.0)-color)*(1.0-noise));

@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 
 in vec2 texCoord;
 in vec2 oneTexel;
@@ -23,15 +23,15 @@ vec3 HSVtoRGB(vec3 hsv) {
 }
 
 void main(){
-    vec4 center = texture(DiffuseSampler, texCoord);
-    vec4 up     = texture(DiffuseSampler, texCoord + vec2(        0.0, -oneTexel.y*OutlineBlur));
-    vec4 up2    = texture(DiffuseSampler, texCoord + vec2(        0.0, -oneTexel.y*OutlineBlur) * 2.0);
-    vec4 down   = texture(DiffuseSampler, texCoord + vec2( oneTexel.x*OutlineBlur,         0.0));
-    vec4 down2  = texture(DiffuseSampler, texCoord + vec2( oneTexel.x*OutlineBlur,         0.0) * 2.0);
-    vec4 left   = texture(DiffuseSampler, texCoord + vec2(-oneTexel.x*OutlineBlur,         0.0));
-    vec4 left2  = texture(DiffuseSampler, texCoord + vec2(-oneTexel.x*OutlineBlur,         0.0) * 2.0);
-    vec4 right  = texture(DiffuseSampler, texCoord + vec2(        0.0,  oneTexel.y*OutlineBlur));
-    vec4 right2 = texture(DiffuseSampler, texCoord + vec2(        0.0,  oneTexel.y*OutlineBlur) * 2.0);
+    vec4 center = texture(InSampler, texCoord);
+    vec4 up     = texture(InSampler, texCoord + vec2(        0.0, -oneTexel.y*OutlineBlur));
+    vec4 up2    = texture(InSampler, texCoord + vec2(        0.0, -oneTexel.y*OutlineBlur) * 2.0);
+    vec4 down   = texture(InSampler, texCoord + vec2( oneTexel.x*OutlineBlur,         0.0));
+    vec4 down2  = texture(InSampler, texCoord + vec2( oneTexel.x*OutlineBlur,         0.0) * 2.0);
+    vec4 left   = texture(InSampler, texCoord + vec2(-oneTexel.x*OutlineBlur,         0.0));
+    vec4 left2  = texture(InSampler, texCoord + vec2(-oneTexel.x*OutlineBlur,         0.0) * 2.0);
+    vec4 right  = texture(InSampler, texCoord + vec2(        0.0,  oneTexel.y*OutlineBlur));
+    vec4 right2 = texture(InSampler, texCoord + vec2(        0.0,  oneTexel.y*OutlineBlur) * 2.0);
     vec4 uDiff = abs(center - up);
     vec4 dDiff = abs(center - down);
     vec4 lDiff = abs(center - left);

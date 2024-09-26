@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 uniform sampler2D PrevSampler;
 
 in vec2 texCoord;
@@ -28,7 +28,7 @@ float life(float current, float neighbours) {
 }
 
 void main() {
-    vec3 new = step(AliveThreshold, texture(DiffuseSampler, texCoord).rgb);
+    vec3 new = step(AliveThreshold, texture(InSampler, texCoord).rgb);
 
     vec3 count = texture(PrevSampler, texCoord+vec2( oneTexel.x,  oneTexel.y)).rgb
                + texture(PrevSampler, texCoord+vec2( oneTexel.x,  0         )).rgb

@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 uniform sampler2D PrevSampler;
 
 in vec2 texCoord;
@@ -11,7 +11,7 @@ out vec4 fragColor;
 uniform int LayerEffectValue;
 
 void main(){
-    vec4 targetColor = texture(DiffuseSampler, texCoord);
+    vec4 targetColor = texture(InSampler, texCoord);
     vec4 color = texture(PrevSampler, texCoord);
     int channel = LayerEffectValue%3;
     if (channel == 0) {

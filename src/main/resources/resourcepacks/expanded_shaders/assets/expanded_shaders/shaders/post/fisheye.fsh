@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 
 in vec2 texCoord;
 in vec2 oneTexel;
@@ -22,7 +22,7 @@ void main(){
 
     coord = vec2(r*cos(phi),r*sin(phi)) + vec2(0.5);
 
-    vec4 color = texture(DiffuseSampler, coord);
+    vec4 color = texture(InSampler, coord);
 
     fragColor = vec4(color.rgb, 1.0);
 }

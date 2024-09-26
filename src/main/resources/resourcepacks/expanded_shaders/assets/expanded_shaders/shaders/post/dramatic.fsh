@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 
 in vec2 texCoord;
 
@@ -11,7 +11,7 @@ uniform float Clamp;
 uniform vec3 Gray;
 
 void main(){
-    vec4 col = texture(DiffuseSampler, texCoord);
+    vec4 col = texture(InSampler, texCoord);
     
     float scale = min((col.r*Gray.r + col.g*Gray.g + col.b*Gray.b)*Boost, Clamp);
 

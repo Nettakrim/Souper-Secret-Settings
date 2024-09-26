@@ -13,7 +13,7 @@
                     "target": "minecraft:main"
                 },
                 {
-                    "sampler_name": "DiffuseDepth",
+                    "sampler_name": "InDepth",
                     "target": "minecraft:main",
                     "use_depth_buffer": true
                 }
@@ -38,7 +38,7 @@
                     "target": "minecraft:main"
                 },
                 {
-                    "sampler_name": "DiffuseDepth",
+                    "sampler_name": "InDepth",
                     "target": "minecraft:main",
                     "use_depth_buffer": true
                 }

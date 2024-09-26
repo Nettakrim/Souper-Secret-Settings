@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 
 in vec2 texCoord;
 in vec2 oneTexel;
@@ -15,7 +15,7 @@ void main(){
 
     int i = int(mod(pos.x + pos.y*4, 22.0));
 
-    vec4 col = texture(DiffuseSampler, texCoord + oneTexel*vec2(XOffset[i], YOffset[i]));
+    vec4 col = texture(InSampler, texCoord + oneTexel*vec2(XOffset[i], YOffset[i]));
 
     fragColor = vec4(col.rgb, 1.0);
 }

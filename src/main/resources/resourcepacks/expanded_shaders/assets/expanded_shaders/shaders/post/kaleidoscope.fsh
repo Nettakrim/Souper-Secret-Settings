@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 
 in vec2 texCoord;
 
@@ -33,6 +33,6 @@ void main(){
         coord = mirrorDiagonal(coord);
     }
 
-    vec4 col = texture(DiffuseSampler, vec2(coord.x+0.5, coord.y+0.5));
+    vec4 col = texture(InSampler, vec2(coord.x+0.5, coord.y+0.5));
     fragColor = col;
 }

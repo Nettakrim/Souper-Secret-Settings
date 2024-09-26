@@ -1,15 +1,9 @@
 {
-    "blend": {
-        "func": "add",
-        "srcrgb": "one",
-        "dstrgb": "zero"
-    },
-    "vertex": "sobel",
-    "fragment": "expanded_shaders:out_of_bounds",
-    "attributes": [ "Position" ],
+    "vertex": "minecraft:post/sobel",
+    "fragment": "expanded_shaders:post/out_of_bounds",
     "samplers": [
-        { "name": "DiffuseSampler" },
-        { "name": "DiffuseDepthSampler" },
+        { "name": "InSampler" },
+        { "name": "InDepthSampler" },
         { "name": "PrevOutSampler" }
     ],
     "uniforms": [

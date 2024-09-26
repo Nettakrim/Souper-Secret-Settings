@@ -1,7 +1,7 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
-uniform sampler2D DiffuseDepthSampler;
+uniform sampler2D InSampler;
+uniform sampler2D InDepthSampler;
 
 in vec2 texCoord;
 in vec2 oneTexel;
@@ -32,7 +32,7 @@ vec2 SubStepRaycast(mat4 projection, float xSlope, float ySlope, vec3 offset, fl
 
         float d = mix(start, end, t);
         screen = GetRayPos(projection, xSlope, ySlope, offset, d);
-        float depth = LinearizeDepth(texture(DiffuseDepthSampler, screen).r);
+        float depth = LinearizeDepth(texture(InDepthSampler, screen).r);
 
         if (depth < d) {
             return screen;
@@ -48,7 +48,7 @@ vec2 ExponentialRaycast(mat4 projection, float xSlope, float ySlope, vec3 offset
         float d = i*zStep;
 
         screen = GetRayPos(projection, xSlope, ySlope, offset, d);
-        float depth = LinearizeDepth(texture(DiffuseDepthSampler, screen).r);
+        float depth = LinearizeDepth(texture(InDepthSampler, screen).r);
 
         if (depth < d) {
             if (depth < subThreshold) {
@@ -79,7 +79,7 @@ void main(){
     mat4 projection = mat4(yCotan/aspect, 0, 0, 0, 0, yCotan, 0, 0, 0, 0, (far+near)/(near-far), (2*far*near)/(near-far), 0, 0, -1, 0);
 
     vec2 hitPos = ExponentialRaycast(projection, xSlope, ySlope, Offset, 0.001, 1.07, 128, 10);
-    vec4 color = texture(DiffuseSampler, hitPos);
+    vec4 color = texture(InSampler, hitPos);
 
     fragColor = vec4(color.rgb, 1.0);
 }

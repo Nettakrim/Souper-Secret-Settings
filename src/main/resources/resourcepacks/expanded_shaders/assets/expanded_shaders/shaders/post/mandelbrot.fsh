@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 
 in vec2 texCoord;
 in vec2 oneTexel;
@@ -27,7 +27,7 @@ void main() {
         }
     }
 
-    vec4 col = texture(DiffuseSampler, mod(lastPos + vec2(0.5), 1.0))*(duration/Iterations);
+    vec4 col = texture(InSampler, mod(lastPos + vec2(0.5), 1.0))*(duration/Iterations);
 
     fragColor = vec4(col.rgb, 1.0);
 }

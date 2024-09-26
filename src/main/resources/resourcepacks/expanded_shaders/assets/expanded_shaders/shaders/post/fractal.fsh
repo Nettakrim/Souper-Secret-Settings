@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 uniform sampler2D PrevOutSampler;
 
 in vec2 texCoord;
@@ -22,14 +22,14 @@ void main() {
     bool y = abs(coord.y) < 0.5;
 
     if (x && y) {
-        col = texture(DiffuseSampler, coord+vec2(0.5));
+        col = texture(InSampler, coord+vec2(0.5));
         col = mix(col, texture(PrevOutSampler, coord+vec2(0.5)).brga, 0.5);
     } else if (x != y) {
         col = texture(PrevOutSampler, mod(rotate(coord, 180)+vec2(0.5), 1.0)).gbra;
-        col = mix(col, texture(DiffuseSampler, texCoord), 0.25);
+        col = mix(col, texture(InSampler, texCoord), 0.25);
     } else {
         col = texture(PrevOutSampler, mod(coord+vec2(0.5), 1.0)).gbra;
-        col = mix(col, texture(DiffuseSampler, texCoord).brga, 0.25);
+        col = mix(col, texture(InSampler, texCoord).brga, 0.25);
     }
 
     fragColor = vec4(col.rgb, 1.0);

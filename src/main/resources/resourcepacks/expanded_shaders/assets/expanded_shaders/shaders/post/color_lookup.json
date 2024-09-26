@@ -8,7 +8,7 @@
   "fragment": "expanded_shaders:color_lookup",
   "attributes": [ "Position" ],
   "samplers": [
-    { "name": "DiffuseSampler" },
+    { "name": "InSampler" },
     { "name": "LookupSampler" }
   ],
   "uniforms": [

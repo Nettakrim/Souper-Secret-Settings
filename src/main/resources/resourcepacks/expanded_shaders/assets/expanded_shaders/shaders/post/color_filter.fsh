@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 
 in vec2 texCoord;
 
@@ -15,7 +15,7 @@ float maxRGB(vec3 v) {
 }
 
 void main(){
-    vec3 col = texture(DiffuseSampler, texCoord).rgb;
+    vec3 col = texture(InSampler, texCoord).rgb;
 
     if (maxRGB(col*Mask) > maxRGB(col*Threshold)) {
         fragColor = vec4(col.rgb, 1.0);

@@ -1,14 +1,8 @@
 {
-    "blend": {
-        "func": "add",
-        "srcrgb": "one",
-        "dstrgb": "zero"
-    },
-    "vertex": "minecraft:sobel",
-    "fragment": "expanded_shaders:rolling_shutter",
-    "attributes": [ "Position" ],
+    "vertex": "minecraft:post/sobel",
+    "fragment": "expanded_shaders:post/rolling_shutter",
     "samplers": [
-        { "name": "DiffuseSampler" },
+        { "name": "InSampler" },
         { "name": "PrevSampler" }
     ],
     "uniforms": [

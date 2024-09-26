@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 
 in vec2 texCoord;
 in vec2 oneTexel;
@@ -11,7 +11,7 @@ uniform vec2 Ratio;
 uniform vec2 Scale;
 
 void main(){
-    vec4 color = texture(DiffuseSampler, texCoord);
+    vec4 color = texture(InSampler, texCoord);
 
     vec2 coord = abs(texCoord-vec2(0.5));
 

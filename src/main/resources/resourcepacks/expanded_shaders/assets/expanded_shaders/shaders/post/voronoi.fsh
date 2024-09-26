@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 uniform sampler2D PrevOutSampler;
 
 in vec2 texCoord;
@@ -15,7 +15,7 @@ uniform float Adjacent;
 uniform float Diagonal;
 
 void main() {
-    vec4 col = texture(DiffuseSampler, texCoord);
+    vec4 col = texture(InSampler, texCoord);
 
     vec4 c = texture(PrevOutSampler, texCoord);
     vec4 u = texture(PrevOutSampler, texCoord + vec2(        0.0, -oneTexel.y));

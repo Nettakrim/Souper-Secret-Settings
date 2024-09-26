@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 
 in vec2 texCoord;
 in vec2 oneTexel;
@@ -18,10 +18,10 @@ void main(){
             float d = sqrt(u * u + v * v) / (Radius);
             float weight = (d > 1.0 || d < InnerPercent) ? 0.0 : 1.0;
 
-            vec4 s0 = texture(DiffuseSampler, texCoord + vec2(-u * oneTexel.x, -v * oneTexel.y));
-            vec4 s1 = texture(DiffuseSampler, texCoord + vec2( u * oneTexel.x,  v * oneTexel.y));
-            vec4 s2 = texture(DiffuseSampler, texCoord + vec2(-u * oneTexel.x,  v * oneTexel.y));
-            vec4 s3 = texture(DiffuseSampler, texCoord + vec2( u * oneTexel.x, -v * oneTexel.y));
+            vec4 s0 = texture(InSampler, texCoord + vec2(-u * oneTexel.x, -v * oneTexel.y));
+            vec4 s1 = texture(InSampler, texCoord + vec2( u * oneTexel.x,  v * oneTexel.y));
+            vec4 s2 = texture(InSampler, texCoord + vec2(-u * oneTexel.x,  v * oneTexel.y));
+            vec4 s3 = texture(InSampler, texCoord + vec2( u * oneTexel.x, -v * oneTexel.y));
 
             vec4 o0 = max(s0, s1);
             vec4 o1 = max(s2, s3);

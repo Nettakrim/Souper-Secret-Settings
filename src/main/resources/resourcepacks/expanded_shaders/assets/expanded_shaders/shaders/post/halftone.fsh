@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 
 in vec2 texCoord;
 in vec2 oneTexel;
@@ -59,7 +59,7 @@ float black(vec3 col, vec2 coord, float size, float angle, float edgeScale) {
 }
 
 void main(){
-    vec4 col = texture(DiffuseSampler, texCoord);
+    vec4 col = texture(InSampler, texCoord);
 
     vec2 coord = vec2(texCoord.x, texCoord.y * (oneTexel.x/oneTexel.y));
 

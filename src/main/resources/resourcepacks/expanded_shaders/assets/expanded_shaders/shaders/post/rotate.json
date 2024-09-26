@@ -1,14 +1,8 @@
 {
-    "blend": {
-        "func": "add",
-        "srcrgb": "one",
-        "dstrgb": "1-srcalpha"
-    },
-    "vertex": "expanded_shaders:rotate",
-    "fragment": "blit",
-    "attributes": [ "Position" ],
+    "vertex": "expanded_shaders:post/rotate",
+    "fragment": "minecraft:post/blit",
     "samplers": [
-        { "name": "DiffuseSampler" }
+        { "name": "InSampler" }
     ],
     "uniforms": [
         { "name": "ProjMat",       "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },

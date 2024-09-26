@@ -1,14 +1,8 @@
 {
-    "blend": {
-        "func": "add",
-        "srcrgb": "one",
-        "dstrgb": "zero"
-    },
-    "vertex": "sobel",
-    "fragment": "expanded_shaders:difference",
-    "attributes": [ "Position" ],
+    "vertex": "minecraft:post/sobel",
+    "fragment": "expanded_shaders:post/difference",
     "samplers": [
-        { "name": "DiffuseSampler" },
+        { "name": "InSampler" },
         { "name": "SubtractSampler" }
     ],
     "uniforms": [

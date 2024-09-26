@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 
 in vec2 texCoord;
 in vec2 oneTexel;
@@ -45,7 +45,7 @@ vec3 RGBtoHSV(vec3 rgb) {
 }
 
 void main(){
-    vec4 rgb = texture(DiffuseSampler, texCoord);
+    vec4 rgb = texture(InSampler, texCoord);
     vec3 hsv = RGBtoHSV(rgb.rgb);
     hsv.x = fract(hsv.x + Amount);
     fragColor = vec4(HSVtoRGB(hsv), 1.0);

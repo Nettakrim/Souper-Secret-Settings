@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 
 in vec2 texCoord;
 in vec2 oneTexel;
@@ -23,7 +23,7 @@ void main(){
     if (texCoord.x == 1000) col.r += Direction.x*Sigma;
 
     for (int x = -kernelRadius; x <= kernelRadius; ++x) {
-        vec3 c = texture(DiffuseSampler, texCoord + Direction*x*oneTexel).rgb;
+        vec3 c = texture(InSampler, texCoord + Direction*x*oneTexel).rgb;
         float gauss = gaussian(Sigma, x);
 
         col += c * gauss;
@@ -33,7 +33,7 @@ void main(){
     fragColor = vec4(col.rgb / kernelSum, 1.0f);
 
 
-    // vec4 col = texture(DiffuseSampler, texCoord+(oneTexel*Direction*Sigma));
+    // vec4 col = texture(InSampler, texCoord+(oneTexel*Direction*Sigma));
 
     // fragColor = vec4(col.rgb, 1.0);
 }

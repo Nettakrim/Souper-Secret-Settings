@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 
 in vec2 texCoord;
 in vec2 oneTexel;
@@ -17,11 +17,11 @@ vec4 combine(vec4 a, vec4 b, float fade) {
 
 void main(){
     vec2 centeredCoord = texCoord - Center;
-    vec4 col = texture(DiffuseSampler, texCoord);
+    vec4 col = texture(InSampler, texCoord);
     float runningScale = 1.0;
     for(float x = 0.0; x <= Steps; x += 1.0) {
         runningScale*=Multiplier;
-        col = combine(col, texture(DiffuseSampler, (centeredCoord*runningScale)+Center), x/Steps);
+        col = combine(col, texture(InSampler, (centeredCoord*runningScale)+Center), x/Steps);
     }
 
     fragColor = vec4(col.rgb, 1.0);

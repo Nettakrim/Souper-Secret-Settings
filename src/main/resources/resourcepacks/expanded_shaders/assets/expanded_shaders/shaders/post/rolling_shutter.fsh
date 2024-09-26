@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 uniform sampler2D PrevSampler;
 
 in vec2 texCoord;
@@ -14,7 +14,7 @@ uniform float Time;
 uniform float Threshold;
 
 void main() {
-    vec3 col = texture(DiffuseSampler, texCoord).rgb;
+    vec3 col = texture(InSampler, texCoord).rgb;
     vec3 prev = texture(PrevSampler, texCoord).rgb;
 
     float d = texCoord.y;

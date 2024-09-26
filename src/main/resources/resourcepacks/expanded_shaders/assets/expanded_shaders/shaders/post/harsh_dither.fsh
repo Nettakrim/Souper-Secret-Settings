@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 
 in vec2 texCoord;
 in vec2 oneTexel;
@@ -45,7 +45,7 @@ float getChannelOutput(float target, float positionThreshold) {
 }
 
 void main(){
-    vec4 target = texture(DiffuseSampler, texCoord);
+    vec4 target = texture(InSampler, texCoord);
 
     vec2 positionInPattern = floor(fract((texCoord/oneTexel)/6)*6);
 
