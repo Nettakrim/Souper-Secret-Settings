@@ -1,15 +1,18 @@
 package com.nettakrim.souper_secret_settings.shaders;
 
 import com.mclegoman.luminance.client.events.Events;
+import com.mclegoman.luminance.client.events.Runnables;
 import com.mclegoman.luminance.client.shaders.Shader;
 import com.mclegoman.luminance.client.shaders.ShaderDataloader;
 import com.mclegoman.luminance.client.shaders.ShaderRegistry;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
+import net.minecraft.client.gl.Framebuffer;
+import net.minecraft.client.util.ObjectAllocator;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 
-public class SoupRenderer {
+public class SoupRenderer implements Runnables.GameRender {
     public ArrayList<ShaderStack> shaderStacks;
 
     public int activeStack = 0;
@@ -18,12 +21,13 @@ public class SoupRenderer {
         shaderStacks = new ArrayList<>();
         shaderStacks.add(new ShaderStack());
 
-        Events.AfterHandRender.register(Identifier.of(SouperSecretSettingsClient.MODID, "rendering"), this::render);
+        Events.AfterHandRender.register(Identifier.of(SouperSecretSettingsClient.MODID, "rendering"), this);
     }
 
-    public void render() {
+    @Override
+    public void run(Framebuffer framebuffer, ObjectAllocator objectAllocator) {
         for (ShaderStack stack : shaderStacks) {
-            stack.render();
+            stack.render(framebuffer, objectAllocator);
         }
     }
 

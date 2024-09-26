@@ -1,5 +1,8 @@
 package com.nettakrim.souper_secret_settings.shaders;
 
+import net.minecraft.client.gl.Framebuffer;
+import net.minecraft.client.util.ObjectAllocator;
+
 import java.util.ArrayList;
 
 public class ShaderStack {
@@ -9,9 +12,9 @@ public class ShaderStack {
         shaderDatas = new ArrayList<>();
     }
 
-    public void render() {
+    public void render(Framebuffer framebuffer, ObjectAllocator objectAllocator) {
         for (ShaderData shaderData : shaderDatas) {
-            shaderData.render();
+            shaderData.render(framebuffer, objectAllocator);
         }
     }
 

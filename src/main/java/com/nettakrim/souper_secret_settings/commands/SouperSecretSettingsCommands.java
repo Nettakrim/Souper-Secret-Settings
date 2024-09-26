@@ -18,6 +18,7 @@ public class SouperSecretSettingsCommands {
             builder.suggest(shaderRegistry.getID().toString());
         }
         if (ShaderDataloader.getShaderAmount() > 1) builder.suggest("random");
+        builder.suggest("clear");
         return CompletableFuture.completedFuture(builder.build());
     };
 

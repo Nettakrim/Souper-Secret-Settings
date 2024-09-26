@@ -2,6 +2,8 @@ package com.nettakrim.souper_secret_settings.shaders;
 
 import com.mclegoman.luminance.client.shaders.Shader;
 import com.mclegoman.luminance.client.shaders.Shaders;
+import net.minecraft.client.gl.Framebuffer;
+import net.minecraft.client.util.ObjectAllocator;
 
 public class ShaderData {
     public Shader shader;
@@ -11,7 +13,7 @@ public class ShaderData {
         this.shader.setPostProcessor();
     }
 
-    public void render() {
-        Shaders.render(shader.getPostProcessor());
+    public void render(Framebuffer framebuffer, ObjectAllocator objectAllocator) {
+        Shaders.renderUsingAllocator(shader.getPostProcessor(), framebuffer, objectAllocator);
     }
 }
