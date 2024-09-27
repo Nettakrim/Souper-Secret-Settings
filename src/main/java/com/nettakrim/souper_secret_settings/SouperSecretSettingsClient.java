@@ -33,6 +33,7 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 		ResourceManagerHelper.registerBuiltinResourcePack(Identifier.of("expanded_shaders"), FabricLoader.getInstance().getModContainer(MODID).orElseThrow(), Text.literal("Expanded Shaders"), ResourcePackActivationType.DEFAULT_ENABLED);
 
 		SouperSecretSettingsCommands.initialize();
+		Keybinds.init();
 	}
 
 	public static void say(String key, Object... args) {
