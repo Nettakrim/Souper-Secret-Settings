@@ -1,8 +1,10 @@
 package com.nettakrim.souper_secret_settings.screen;
 
+import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.shaders.ShaderData;
 import com.nettakrim.souper_secret_settings.shaders.ShaderStack;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 
 import java.util.ArrayList;
@@ -12,8 +14,9 @@ public class StackScreen extends ScreenWrapper {
 
     private ArrayList<ShaderWidget> shaderWidgets;
 
-    private static final int shaderGap = 5;
-    private static final int shaderStart = 10;
+    private static final int shaderGap = 2;
+    private static final int headerHeight = 20;
+    private static final int shaderStart = headerHeight+shaderGap*2;
 
     public StackScreen(ShaderStack stack) {
         super(Text.literal(""));
@@ -22,9 +25,12 @@ public class StackScreen extends ScreenWrapper {
 
     @Override
     public void init() {
+        ButtonWidget toggleButton = ButtonWidget.builder(Text.literal("parameters"), (widget) -> SouperSecretSettingsClient.LOGGER.info("TODO!")).dimensions(shaderGap, shaderGap, 100, headerHeight).build();
+        addDrawableChild(toggleButton);
+
         shaderWidgets = new ArrayList<>(stack.shaderDatas.size());
         for (ShaderData shaderData : stack.shaderDatas) {
-            ShaderWidget shaderWidget = new ShaderWidget(shaderData, this);
+            ShaderWidget shaderWidget = new ShaderWidget(shaderData, this, shaderGap);
             addDrawableChild(shaderWidget);
             shaderWidgets.add(shaderWidget);
         }

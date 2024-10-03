@@ -18,8 +18,8 @@ public class ShaderWidget extends ClickableWidget {
 
     private boolean expanded;
 
-    public ShaderWidget(ShaderData shaderData, ScreenWrapper screenWrapper) {
-        super(0, 0, 150, 20, Text.literal(shaderData.shader.getShaderId().toString()));
+    public ShaderWidget(ShaderData shaderData, ScreenWrapper screenWrapper, int xBuffer) {
+        super(xBuffer, 0, 150, 20, Text.literal(shaderData.shader.getShaderId().toString()));
 
         this.shaderData = shaderData;
 
@@ -30,7 +30,7 @@ public class ShaderWidget extends ClickableWidget {
     protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
         context.drawGuiTexture(RenderLayer::getGuiTextured, TEXTURES.get(this.active, this.isSelected()), this.getX(), this.getY(), this.getWidth(), this.getHeight(), ColorHelper.getWhite(this.alpha));
 
-        drawScrollableText(context, SouperSecretSettingsClient.client.textRenderer, 2, (this.active ? 16777215 : 10526880) | MathHelper.ceil(this.alpha * 255.0F) << 24);
+        drawScrollableText(context, SouperSecretSettingsClient.client.textRenderer, this.getMessage(), this.getX()+2, this.getY(), this.getX()+this.getWidth()-2, this.getY()+20, (this.active ? 16777215 : 10526880) | MathHelper.ceil(this.alpha * 255.0F) << 24);
     }
 
     @Override
