@@ -14,10 +14,14 @@ public class ShaderWidget extends ClickableWidget {
     public ShaderData shaderData;
     private static final ButtonTextures TEXTURES = new ButtonTextures(Identifier.ofVanilla("widget/button"), Identifier.ofVanilla("widget/button_disabled"), Identifier.ofVanilla("widget/button_highlighted"));
 
-    public ShaderWidget(ShaderData shaderData) {
+    private boolean expanded;
+
+    public ShaderWidget(ShaderData shaderData, ScreenWrapper screenWrapper) {
         super(0, 0, 150, 50, Text.literal(shaderData.shader.getShaderId().toString()));
 
         this.shaderData = shaderData;
+
+        screenWrapper.addChild(this);
     }
 
     @Override
@@ -28,5 +32,14 @@ public class ShaderWidget extends ClickableWidget {
     @Override
     protected void appendClickableNarrations(NarrationMessageBuilder builder) {
 
+    }
+
+    @Override
+    public void onClick(double mouseX, double mouseY) {
+        expanded = !expanded;
+    }
+
+    public int getSize() {
+        return expanded ? 100 : 20;
     }
 }

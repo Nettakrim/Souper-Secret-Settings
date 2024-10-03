@@ -3,12 +3,11 @@ package com.nettakrim.souper_secret_settings.screen;
 import com.nettakrim.souper_secret_settings.shaders.ShaderData;
 import com.nettakrim.souper_secret_settings.shaders.ShaderStack;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 
 import java.util.ArrayList;
 
-public class StackScreen extends Screen {
+public class StackScreen extends ScreenWrapper {
     public final ShaderStack stack;
 
     private ArrayList<ShaderWidget> shaderWidgets;
@@ -25,9 +24,8 @@ public class StackScreen extends Screen {
     public void init() {
         shaderWidgets = new ArrayList<>(stack.shaderDatas.size());
         for (ShaderData shaderData : stack.shaderDatas) {
-            ShaderWidget shaderWidget = new ShaderWidget(shaderData);
+            ShaderWidget shaderWidget = new ShaderWidget(shaderData, this);
             addDrawableChild(shaderWidget);
-            addSelectableChild(shaderWidget);
             shaderWidgets.add(shaderWidget);
         }
     }
@@ -43,7 +41,7 @@ public class StackScreen extends Screen {
         int position = shaderStart;
         for (ShaderWidget shaderWidget : shaderWidgets) {
             shaderWidget.setY(position);
-            position += shaderWidget.getHeight()+shaderGap;
+            position += shaderWidget.getSize() + shaderGap;
         }
     }
 
@@ -53,7 +51,7 @@ public class StackScreen extends Screen {
     }
 
     @Override
-    protected void renderDarkening(DrawContext context, int x, int y, int width, int height)  {
+    protected void renderDarkening(DrawContext context, int x, int y, int width, int height) {
 
     }
 }
