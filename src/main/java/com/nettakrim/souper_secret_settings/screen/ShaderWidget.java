@@ -1,7 +1,12 @@
 package com.nettakrim.souper_secret_settings.screen;
 
+import com.mclegoman.luminance.mixin.client.shaders.PostEffectPassAccessor;
+import com.mclegoman.luminance.mixin.client.shaders.PostEffectProcessorAccessor;
+import com.mclegoman.luminance.mixin.client.shaders.ShaderProgramAccessor;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.shaders.ShaderData;
+import net.minecraft.client.gl.GlUniform;
+import net.minecraft.client.gl.PostEffectPass;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ButtonTextures;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
@@ -11,6 +16,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
+
+import java.util.List;
 
 public class ShaderWidget extends ClickableWidget {
     public ShaderData shaderData;
@@ -24,6 +31,24 @@ public class ShaderWidget extends ClickableWidget {
         this.shaderData = shaderData;
 
         screenWrapper.addChild(this);
+
+        SouperSecretSettingsClient.LOGGER.info("SHADER: "+shaderData.shader.getShaderId().toString());
+        createPasses();
+    }
+
+    protected void createPasses() {
+        List<PostEffectPass> passes = ((PostEffectProcessorAccessor)shaderData.shader.getPostProcessor()).getPasses();
+        for (PostEffectPass postEffectPass : passes) {
+            createPass(postEffectPass);
+        }
+    }
+
+    protected void createPass(PostEffectPass postEffectPass) {
+        PostEffectPassAccessor accessor = (PostEffectPassAccessor)postEffectPass;
+        SouperSecretSettingsClient.LOGGER.info("| PASS: "+accessor.getID());
+        for (GlUniform uniform : ((ShaderProgramAccessor)accessor.getProgram()).getUniforms()) {
+            SouperSecretSettingsClient.LOGGER.info("| | UNIFORM: "+uniform.getName());
+        }
     }
 
     @Override
