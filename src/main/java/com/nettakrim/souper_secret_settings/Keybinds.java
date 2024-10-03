@@ -23,7 +23,7 @@ public class Keybinds {
 
     public static void tick() {
         if (openGUI.wasPressed()) {
-            ClientData.minecraft.setScreen(new StackScreen());
+            ClientData.minecraft.setScreen(new StackScreen(SouperSecretSettingsClient.soupRenderer.getActiveStack()));
             SouperSecretSettingsClient.LOGGER.info("open gui");
         }
     }
