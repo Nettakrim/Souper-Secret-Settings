@@ -28,8 +28,8 @@ public class ShaderWidget extends ClickableWidget {
 
     public List<String> uniformsToIgnore = List.of("ProjMat", "InSize", "OutSize");
 
-    public ShaderWidget(ShaderData shaderData, ScreenWrapper screenWrapper, int xBuffer) {
-        super(xBuffer, 0, 150, 20, Text.literal(shaderData.shader.getShaderId().toString()));
+    public ShaderWidget(ShaderData shaderData, ScreenWrapper screenWrapper, int x, int width) {
+        super(x, 0, width, 20, Text.literal(shaderData.shader.getShaderId().toString()));
 
         this.shaderData = shaderData;
 

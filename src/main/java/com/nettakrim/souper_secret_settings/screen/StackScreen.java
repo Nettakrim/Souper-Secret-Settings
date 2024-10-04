@@ -14,6 +14,7 @@ public class StackScreen extends ScreenWrapper {
 
     private ArrayList<ShaderWidget> shaderWidgets;
 
+    private static final int listWidth = 150;
     private static final int shaderGap = 2;
     private static final int headerHeight = 20;
     private static final int shaderStart = headerHeight+shaderGap*2;
@@ -30,7 +31,7 @@ public class StackScreen extends ScreenWrapper {
 
         shaderWidgets = new ArrayList<>(stack.shaderDatas.size());
         for (ShaderData shaderData : stack.shaderDatas) {
-            ShaderWidget shaderWidget = new ShaderWidget(shaderData, this, shaderGap);
+            ShaderWidget shaderWidget = new ShaderWidget(shaderData, this, shaderGap, listWidth);
             addDrawableChild(shaderWidget);
             shaderWidgets.add(shaderWidget);
         }
