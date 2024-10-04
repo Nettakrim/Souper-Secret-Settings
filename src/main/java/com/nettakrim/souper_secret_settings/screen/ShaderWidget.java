@@ -1,12 +1,13 @@
 package com.nettakrim.souper_secret_settings.screen;
 
+import com.mclegoman.luminance.client.shaders.ShaderProgramInterface;
 import com.mclegoman.luminance.mixin.client.shaders.PostEffectPassAccessor;
 import com.mclegoman.luminance.mixin.client.shaders.PostEffectProcessorAccessor;
-import com.mclegoman.luminance.mixin.client.shaders.ShaderProgramAccessor;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.shaders.ShaderData;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.gl.PostEffectPass;
+import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ButtonTextures;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
@@ -24,6 +25,8 @@ public class ShaderWidget extends ClickableWidget {
     private static final ButtonTextures TEXTURES = new ButtonTextures(Identifier.ofVanilla("widget/button"), Identifier.ofVanilla("widget/button_disabled"), Identifier.ofVanilla("widget/button_highlighted"));
 
     private boolean expanded;
+
+    public List<String> uniformsToIgnore = List.of("ProjMat", "InSize", "OutSize");
 
     public ShaderWidget(ShaderData shaderData, ScreenWrapper screenWrapper, int xBuffer) {
         super(xBuffer, 0, 150, 20, Text.literal(shaderData.shader.getShaderId().toString()));
@@ -45,9 +48,28 @@ public class ShaderWidget extends ClickableWidget {
 
     protected void createPass(PostEffectPass postEffectPass) {
         PostEffectPassAccessor accessor = (PostEffectPassAccessor)postEffectPass;
-        SouperSecretSettingsClient.LOGGER.info("| PASS: "+accessor.getID());
-        for (GlUniform uniform : ((ShaderProgramAccessor)accessor.getProgram()).getUniforms()) {
-            SouperSecretSettingsClient.LOGGER.info("| | UNIFORM: "+uniform.getName());
+        SouperSecretSettingsClient.LOGGER.info("| PASS: {}", accessor.getID());
+        ShaderProgram program = accessor.getProgram();
+        for (String name : ((ShaderProgramInterface)program).luminance$getUniformNames()) {
+            SouperSecretSettingsClient.LOGGER.info("| | UNIFORM: {}", name);
+            GlUniform uniform = program.getUniform(name);
+            if (uniform != null && !uniformsToIgnore.contains(name)) {
+                if (uniform.getDataType() <= 3) {
+                    int[] arr = new int[uniform.getCount()];
+                    uniform.getIntData().position(0);
+                    uniform.getIntData().get(arr);
+                    for (int value : arr) {
+                        SouperSecretSettingsClient.LOGGER.info("| | | {}i", value);
+                    }
+                } else {
+                    float[] arr = new float[uniform.getCount()];
+                    uniform.getFloatData().position(0);
+                    uniform.getFloatData().get(arr);
+                    for (float value : arr) {
+                        SouperSecretSettingsClient.LOGGER.info("| | | {}f", value);
+                    }
+                }
+            }
         }
     }
 
