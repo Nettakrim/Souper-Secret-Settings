@@ -1,13 +1,9 @@
 package com.nettakrim.souper_secret_settings.screen;
 
-import com.mclegoman.luminance.client.shaders.ShaderProgramInterface;
-import com.mclegoman.luminance.mixin.client.shaders.PostEffectPassAccessor;
 import com.mclegoman.luminance.mixin.client.shaders.PostEffectProcessorAccessor;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.shaders.ShaderData;
-import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.gl.PostEffectPass;
-import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ButtonTextures;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
@@ -18,6 +14,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShaderWidget extends ClickableWidget {
@@ -26,7 +23,7 @@ public class ShaderWidget extends ClickableWidget {
 
     private boolean expanded;
 
-    public List<String> uniformsToIgnore = List.of("ProjMat", "InSize", "OutSize");
+    private final List<PassWidget> passWidgets = new ArrayList<>();
 
     public ShaderWidget(ShaderData shaderData, ScreenWrapper screenWrapper, int x, int width) {
         super(x, 0, width, 20, Text.literal(shaderData.shader.getShaderId().toString()));
@@ -36,40 +33,13 @@ public class ShaderWidget extends ClickableWidget {
         screenWrapper.addChild(this);
 
         SouperSecretSettingsClient.LOGGER.info("SHADER: "+shaderData.shader.getShaderId().toString());
-        createPasses();
-    }
 
-    protected void createPasses() {
+
         List<PostEffectPass> passes = ((PostEffectProcessorAccessor)shaderData.shader.getPostProcessor()).getPasses();
         for (PostEffectPass postEffectPass : passes) {
-            createPass(postEffectPass);
-        }
-    }
-
-    protected void createPass(PostEffectPass postEffectPass) {
-        PostEffectPassAccessor accessor = (PostEffectPassAccessor)postEffectPass;
-        SouperSecretSettingsClient.LOGGER.info("| PASS: {}", accessor.getID());
-        ShaderProgram program = accessor.getProgram();
-        for (String name : ((ShaderProgramInterface)program).luminance$getUniformNames()) {
-            SouperSecretSettingsClient.LOGGER.info("| | UNIFORM: {}", name);
-            GlUniform uniform = program.getUniform(name);
-            if (uniform != null && !uniformsToIgnore.contains(name)) {
-                if (uniform.getDataType() <= 3) {
-                    int[] arr = new int[uniform.getCount()];
-                    uniform.getIntData().position(0);
-                    uniform.getIntData().get(arr);
-                    for (int value : arr) {
-                        SouperSecretSettingsClient.LOGGER.info("| | | {}i", value);
-                    }
-                } else {
-                    float[] arr = new float[uniform.getCount()];
-                    uniform.getFloatData().position(0);
-                    uniform.getFloatData().get(arr);
-                    for (float value : arr) {
-                        SouperSecretSettingsClient.LOGGER.info("| | | {}f", value);
-                    }
-                }
-            }
+            PassWidget passWidget = new PassWidget(postEffectPass, x, width, screenWrapper);
+            passWidgets.add(passWidget);
+            screenWrapper.addChild(passWidget);
         }
     }
 
@@ -93,5 +63,15 @@ public class ShaderWidget extends ClickableWidget {
 
     public int getSize() {
         return height;
+    }
+
+    @Override
+    public void setY(int y) {
+        super.setY(y);
+        y+=20;
+        for (PassWidget passWidget : passWidgets) {
+            passWidget.setY(y);
+            y+=passWidget.getHeight();
+        }
     }
 }
