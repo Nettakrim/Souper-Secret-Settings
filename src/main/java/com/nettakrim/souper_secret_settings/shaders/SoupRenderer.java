@@ -15,13 +15,14 @@ import java.util.ArrayList;
 public class SoupRenderer implements Runnables.GameRender {
     public ArrayList<ShaderStack> shaderStacks;
 
-    public int activeStack = 0;
+    public int activeStack;
 
     public SoupRenderer() {
-        shaderStacks = new ArrayList<>();
-        shaderStacks.add(new ShaderStack());
+        clearAll();
 
         Events.AfterHandRender.register(Identifier.of(SouperSecretSettingsClient.MODID, "rendering"), this);
+
+        Events.OnShaderDataReset.register(Identifier.of(SouperSecretSettingsClient.MODID, "reload"), this::clearAll);
     }
 
     @Override
@@ -73,5 +74,11 @@ public class SoupRenderer implements Runnables.GameRender {
 
     public ShaderStack getActiveStack() {
         return shaderStacks.get(activeStack);
+    }
+
+    public void clearAll() {
+        shaderStacks = new ArrayList<>();
+        shaderStacks.add(new ShaderStack());
+        activeStack = 0;
     }
 }
