@@ -1,16 +1,15 @@
 package com.nettakrim.souper_secret_settings.screen;
 
-import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.text.Text;
 
 public class UniformWidget extends ParameterWidget {
     public GlUniform uniform;
 
-    public UniformWidget(GlUniform uniform, Text name, int x, int width, ScreenWrapper screenWrapper) {
-        super(uniform.getCount(), name, x, width, screenWrapper);
+    public UniformWidget(GlUniform uniform, Text name, int x, int width, CollapseScreen collapseScreen) {
+        super(uniform.getCount(), name, x, width, collapseScreen);
         this.uniform = uniform;
-        initValues(screenWrapper);
+        initValues(collapseScreen);
     }
 
     @Override
@@ -22,7 +21,6 @@ public class UniformWidget extends ParameterWidget {
             uniform.getIntData().position(0);
             uniform.getIntData().get(arr);
             for (int i = 0; i < arr.length; i++) {
-                SouperSecretSettingsClient.LOGGER.info("| | | {}i", arr[i]);
                 values[i] = Integer.toString(arr[i]);
             }
         } else {
@@ -30,7 +28,6 @@ public class UniformWidget extends ParameterWidget {
             uniform.getFloatData().position(0);
             uniform.getFloatData().get(arr);
             for (int i = 0; i < arr.length; i++) {
-                SouperSecretSettingsClient.LOGGER.info("| | | {}f", arr[i]);
                 values[i] = Float.toString(arr[i]);
             }
         }
