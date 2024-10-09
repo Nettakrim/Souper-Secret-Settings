@@ -1,7 +1,7 @@
 package com.nettakrim.souper_secret_settings.screen;
 
-import com.mclegoman.luminance.client.shaders.ShaderProgramInterface;
-import com.mclegoman.luminance.mixin.client.shaders.PostEffectPassAccessor;
+import com.mclegoman.luminance.client.shaders.interfaces.PostEffectPassInterface;
+import com.mclegoman.luminance.client.shaders.interfaces.ShaderProgramInterface;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.gl.PostEffectPass;
@@ -17,10 +17,9 @@ public class PassWidget extends CollapseWidget {
     public static final List<String> uniformsToIgnore = List.of("ProjMat", "InSize", "OutSize");
 
     public PassWidget(PostEffectPass postEffectPass, int x, int width, CollapseScreen collapseScreen) {
-        super(x, width, Text.literal(((PostEffectPassAccessor)postEffectPass).getID()), collapseScreen);
+        super(x, width, Text.literal(((PostEffectPassInterface)postEffectPass).luminance$getID()), collapseScreen);
 
-        PostEffectPassAccessor accessor = (PostEffectPassAccessor)postEffectPass;
-        ShaderProgram program = accessor.getProgram();
+        ShaderProgram program = ((PostEffectPassInterface)postEffectPass).luminance$getProgram();
         for (String name : ((ShaderProgramInterface)program).luminance$getUniformNames()) {
             GlUniform uniform = program.getUniform(name);
             if (uniform != null && !uniformsToIgnore.contains(name)) {
