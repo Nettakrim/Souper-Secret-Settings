@@ -24,7 +24,7 @@ public class PassWidget extends CollapseWidget {
         for (String name : ((ShaderProgramInterface)program).luminance$getUniformNames()) {
             GlUniform uniform = program.getUniform(name);
             if (uniform != null && !uniformsToIgnore.contains(name)) {
-                UniformWidget uniformWidget = new UniformWidget(uniform, Text.literal(uniform.getName()), x, width, collapseScreen);
+                UniformWidget uniformWidget = new UniformWidget(postEffectPass, uniform, Text.literal(uniform.getName()), x, width, collapseScreen);
                 collapseScreen.addSelectable(uniformWidget);
                 children.add(uniformWidget);
             }
