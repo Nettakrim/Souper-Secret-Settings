@@ -1,14 +1,16 @@
 package com.nettakrim.souper_secret_settings.screen;
 
 import com.mclegoman.luminance.client.shaders.PostEffectPassInterface;
-import com.mclegoman.luminance.client.shaders.ShaderProgramInterface;
 import com.mclegoman.luminance.client.shaders.uniforms.UniformOverride;
+import com.mclegoman.luminance.mixin.client.shaders.PostEffectPassAccessor;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.gl.PostEffectPass;
+import net.minecraft.client.gl.PostEffectPipeline;
 import net.minecraft.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class UniformWidget extends ParameterWidget implements UniformOverride {
     public PostEffectPass pass;
@@ -34,8 +36,19 @@ public class UniformWidget extends ParameterWidget implements UniformOverride {
     protected String[] getValues() {
         String[] values = new String[uniform.getCount()];
 
-        //TODO this needs to get the default values, instead of whatever the values happen to be
-        List<Float> currentValues = ((ShaderProgramInterface)pass.getProgram()).luminance$getCurrentUniformValues(uniform.getName());
+        //TODO: check overrides first
+        //TODO: if uniform is dynamic itll need to be different too (this will end up needing to be done by luminance anyway for resource-side overrides, so that method should help)
+        List<Float> currentValues = null;
+        for (PostEffectPipeline.Uniform u : ((PostEffectPassAccessor)pass).getUniforms()) {
+            if (u.name().equals(uniform.getName())) {
+                currentValues = u.values();
+                break;
+            }
+        }
+        if (currentValues == null) {
+            currentValues = Objects.requireNonNull(pass.getProgram().getUniformDefinition(uniform.getName())).values();
+        }
+
         for (int i = 0; i < values.length; i++) {
             values[i] = Float.toString(currentValues.get(i));
         }
