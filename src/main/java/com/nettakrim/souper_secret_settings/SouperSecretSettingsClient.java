@@ -42,6 +42,6 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 
 	public static void sayText(MutableText text) {
 		if (client.player == null) return;
-		client.player.sendMessage(Text.translatable(MODID + ".say").setStyle(Style.EMPTY.withColor(nameTextColor)).append(text.setStyle(Style.EMPTY.withColor(textColor))));
+		client.player.sendMessage(Text.translatable(MODID + ".say").setStyle(Style.EMPTY.withColor(nameTextColor)).append(text.setStyle(Style.EMPTY.withColor(textColor))), false);
 	}
 }
