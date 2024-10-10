@@ -29,19 +29,9 @@ public class UniformWidget extends ParameterWidget {
     protected String[] getValues() {
         String[] values = new String[uniform.getCount()];
 
-        List<Float> currentValues = null;
-        for (PostEffectPipeline.Uniform u : ((PostEffectPassInterface)pass).luminance$getUniforms()) {
-            if (u.name().equals(uniform.getName())) {
-                currentValues = u.values();
-                break;
-            }
-        }
-        if (currentValues == null) {
-            currentValues = Objects.requireNonNull(pass.getProgram().getUniformDefinition(uniform.getName())).values();
-        }
-
+        List<Float> baseValues = getBaseValues();
         for (int i = 0; i < values.length; i++) {
-            values[i] = Float.toString(currentValues.get(i));
+            values[i] = Float.toString(baseValues.get(i));
         }
 
         UniformOverride uniformOverride = ((PostEffectPassInterface)pass).luminance$getUniformOverrides().get(uniform.getName());
@@ -64,10 +54,31 @@ public class UniformWidget extends ParameterWidget {
         return values;
     }
 
+    protected List<Float> getBaseValues() {
+        for (PostEffectPipeline.Uniform u : ((PostEffectPassInterface)pass).luminance$getUniforms()) {
+            if (u.name().equals(uniform.getName())) {
+                return u.values();
+            }
+        }
+        return Objects.requireNonNull(pass.getProgram().getUniformDefinition(uniform.getName())).values();
+    }
+
     @Override
     protected void onValueChanged(int i, String s) {
         super.onValueChanged(i, s);
         override.overrideSources.set(i, LuminanceUniformOverride.sourceFromString(s));
         ((PostEffectPassInterface)pass).luminance$getUniformOverrides().put(uniform.getName(), override);
+    }
+
+    @Override
+    protected List<Float> getDisplayFloats() {
+        List<Float> display = override.getOverride();
+        List<Float> base = getBaseValues();
+        for (int i = 0; i < display.size(); i++) {
+            if (display.get(i) == null) {
+                display.set(i, base.get(i));
+            }
+        }
+        return display;
     }
 }
