@@ -25,10 +25,12 @@ public class ShaderWidget extends CollapseWidget {
         this.shaderData = shaderData;
 
         List<PostEffectPass> passes = ((PostEffectProcessorAccessor)shaderData.shader.getPostProcessor()).getPasses();
+        int i = 0;
         for (PostEffectPass postEffectPass : passes) {
-            PassWidget passWidget = new PassWidget(postEffectPass, x, width, collapseScreen);
+            PassWidget passWidget = new PassWidget(this, postEffectPass, i, x, width, collapseScreen);
             children.add(passWidget);
             collapseScreen.addSelectable(passWidget);
+            i++;
         }
     }
 

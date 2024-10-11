@@ -16,14 +16,22 @@ import java.util.List;
 public class PassWidget extends CollapseWidget {
     public static final List<String> uniformsToIgnore = List.of("ProjMat", "InSize", "OutSize");
 
-    public PassWidget(PostEffectPass postEffectPass, int x, int width, CollapseScreen collapseScreen) {
+    public ShaderWidget shader;
+    public PostEffectPass postEffectPass;
+    public int passIndex;
+
+    public PassWidget(ShaderWidget shader, PostEffectPass postEffectPass, int passIndex, int x, int width, CollapseScreen collapseScreen) {
         super(x, width, Text.literal(((PostEffectPassInterface)postEffectPass).luminance$getID()), collapseScreen);
+
+        this.shader = shader;
+        this.postEffectPass = postEffectPass;
+        this.passIndex = passIndex;
 
         ShaderProgram program = ((PostEffectPassInterface)postEffectPass).luminance$getProgram();
         for (String name : ((ShaderProgramInterface)program).luminance$getUniformNames()) {
             GlUniform uniform = program.getUniform(name);
             if (uniform != null && !uniformsToIgnore.contains(name)) {
-                UniformWidget uniformWidget = new UniformWidget(postEffectPass, uniform, Text.literal(uniform.getName()), x, width, collapseScreen);
+                UniformWidget uniformWidget = new UniformWidget(this, uniform, Text.literal(uniform.getName()), x, width, collapseScreen);
                 collapseScreen.addSelectable(uniformWidget);
                 children.add(uniformWidget);
             }

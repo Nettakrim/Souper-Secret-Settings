@@ -4,7 +4,6 @@ import com.mclegoman.luminance.client.shaders.interfaces.PostEffectPassInterface
 import com.mclegoman.luminance.client.shaders.overrides.LuminanceUniformOverride;
 import com.mclegoman.luminance.client.shaders.overrides.UniformOverride;
 import net.minecraft.client.gl.GlUniform;
-import net.minecraft.client.gl.PostEffectPass;
 import net.minecraft.client.gl.PostEffectPipeline;
 import net.minecraft.text.Text;
 
@@ -13,12 +12,13 @@ import java.util.List;
 import java.util.Objects;
 
 public class UniformWidget extends ParameterWidget {
-    public PostEffectPass pass;
+    public PassWidget pass;
+
     public GlUniform uniform;
 
     public LuminanceUniformOverride override;
 
-    public UniformWidget(PostEffectPass pass, GlUniform uniform, Text name, int x, int width, CollapseScreen collapseScreen) {
+    public UniformWidget(PassWidget pass, GlUniform uniform, Text name, int x, int width, CollapseScreen collapseScreen) {
         super(uniform.getCount(), name, x, width, collapseScreen);
         this.pass = pass;
         this.uniform = uniform;
@@ -34,7 +34,11 @@ public class UniformWidget extends ParameterWidget {
             values[i] = Float.toString(baseValues.get(i));
         }
 
-        UniformOverride uniformOverride = ((PostEffectPassInterface)pass).luminance$getUniformOverrides().get(uniform.getName());
+        UniformOverride uniformOverride = pass.shader.shaderData.overrides.get(pass.passIndex).get(uniform.getName());
+        if (uniformOverride == null) {
+            uniformOverride = ((PostEffectPassInterface)pass.postEffectPass).luminance$getUniformOverrides().get(uniform.getName());
+        }
+
         if (uniformOverride instanceof LuminanceUniformOverride luminanceUniformOverride) {
             for (int i = 0; i < values.length; i++) {
                 String s = luminanceUniformOverride.getStrings().get(i);
@@ -55,19 +59,19 @@ public class UniformWidget extends ParameterWidget {
     }
 
     protected List<Float> getBaseValues() {
-        for (PostEffectPipeline.Uniform u : ((PostEffectPassInterface)pass).luminance$getUniforms()) {
+        for (PostEffectPipeline.Uniform u : ((PostEffectPassInterface)pass.postEffectPass).luminance$getUniforms()) {
             if (u.name().equals(uniform.getName())) {
                 return u.values();
             }
         }
-        return Objects.requireNonNull(pass.getProgram().getUniformDefinition(uniform.getName())).values();
+        return Objects.requireNonNull(pass.postEffectPass.getProgram().getUniformDefinition(uniform.getName())).values();
     }
 
     @Override
     protected void onValueChanged(int i, String s) {
         super.onValueChanged(i, s);
         override.overrideSources.set(i, LuminanceUniformOverride.sourceFromString(s));
-        ((PostEffectPassInterface)pass).luminance$getUniformOverrides().put(uniform.getName(), override);
+        pass.shader.shaderData.overrides.get(pass.passIndex).put(uniform.getName(), override);
     }
 
     @Override
