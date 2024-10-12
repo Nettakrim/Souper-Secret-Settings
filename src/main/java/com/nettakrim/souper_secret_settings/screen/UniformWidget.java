@@ -36,7 +36,7 @@ public class UniformWidget extends ParameterWidget {
 
         UniformOverride uniformOverride = pass.shader.shaderData.overrides.get(pass.passIndex).get(uniform.getName());
         if (uniformOverride == null) {
-            uniformOverride = ((PostEffectPassInterface)pass.postEffectPass).luminance$getUniformOverrides().get(uniform.getName());
+            uniformOverride = ((PostEffectPassInterface)pass.postEffectPass).luminance$getUniformOverride(uniform.getName());
         }
 
         if (uniformOverride instanceof LuminanceUniformOverride luminanceUniformOverride) {

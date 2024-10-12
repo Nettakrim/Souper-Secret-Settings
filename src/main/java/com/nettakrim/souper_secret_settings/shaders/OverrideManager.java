@@ -33,10 +33,10 @@ public class OverrideManager {
                 return;
             }
 
-            Map<String, UniformOverride> overrides = ((PostEffectPassInterface)postEffectPass).luminance$getUniformOverrides();
+            PostEffectPassInterface pass = ((PostEffectPassInterface)postEffectPass);
 
             currentShader.overrides.get(currentPassIndex).forEach((uniform, override) -> {
-                UniformOverride previous = overrides.put(uniform, override);
+                UniformOverride previous = pass.luminance$addUniformOverride(uniform, override);
                 if (previous != null) {
                     replacedOverrides.put(uniform, previous);
                 } else {
@@ -53,13 +53,12 @@ public class OverrideManager {
                 return;
             }
 
-            Map<String, UniformOverride> overrides = ((PostEffectPassInterface)postEffectPass).luminance$getUniformOverrides();
+            PostEffectPassInterface pass = ((PostEffectPassInterface)postEffectPass);
 
-            overrides.putAll(replacedOverrides);
+            replacedOverrides.forEach(pass::luminance$addUniformOverride);
             replacedOverrides.clear();
 
-            //TODO: it seems the glUniforms may need to be reset more properly to their original value - they dont seem to do so on their own (this may be a general issue with overrides being removed?)
-            nullOverrides.forEach(overrides::remove);
+            nullOverrides.forEach(pass::luminance$removeUniformOverride);
             nullOverrides.clear();
 
             currentPassIndex++;
