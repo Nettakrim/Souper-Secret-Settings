@@ -9,6 +9,7 @@
         { "name": "InSize",  "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
         { "name": "OutSize", "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
         { "name": "Ratio",   "type": "float",     "count": 2,  "values": [ 16.0, 9.0 ] },
-        { "name": "Scale",   "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] }
+        { "name": "Scale",   "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
+        { "name": "Squish",  "type": "float",     "count": 1,  "values": [ 0.0 ] }
     ]
 }
