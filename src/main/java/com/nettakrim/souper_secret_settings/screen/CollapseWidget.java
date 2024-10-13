@@ -3,6 +3,7 @@ package com.nettakrim.souper_secret_settings.screen;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.text.Text;
 
 import java.util.ArrayList;
@@ -40,16 +41,24 @@ public abstract class CollapseWidget extends ClickableWidget {
         int height = baseHeight;
         if (expanded) {
             for (ClickableWidget widget : children) {
-                widget.visible = true;
+                setVisible(widget, true);
                 widget.setY(height + y);
                 height += widget.getHeight();
             }
         } else {
             for (ClickableWidget widget : children) {
-                widget.visible = false;
+                setVisible(widget, false);
             }
         }
         setHeight(height);
+    }
+
+    protected static void setVisible(ClickableWidget clickableWidget, boolean visible) {
+        if (clickableWidget instanceof TextFieldWidget textFieldWidget) {
+            textFieldWidget.setVisible(visible);
+        } else {
+            clickableWidget.visible = visible;
+        }
     }
 
     @Override

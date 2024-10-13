@@ -83,7 +83,7 @@ public class UniformWidget extends ParameterWidget {
             } catch (Exception ignored) {}
         }
 
-        UniformParameterWidget widget = new UniformParameterWidget(SouperSecretSettingsClient.client.textRenderer, getX(), width, width/2 + 20, 20, Text.literal("value"));
+        UniformParameterWidget widget = new UniformParameterWidget(SouperSecretSettingsClient.client.textRenderer, getX(), width, width/2, 20, Text.literal("value"));
         widget.setText(data);
         widget.widgetA.setText(Float.toString(a));
         widget.widgetB.setText(Float.toString(b));

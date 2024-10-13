@@ -39,10 +39,8 @@ public class UniformParameterWidget extends ParameterTextWidget {
     public void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
         super.renderWidget(context, mouseX, mouseY, delta);
 
-        if (getWidth() == minWidth) {
-            widgetA.renderWidget(context, mouseX, mouseY, delta);
-            widgetB.renderWidget(context, mouseX, mouseY, delta);
-        }
+        widgetA.renderWidget(context, mouseX, mouseY, delta);
+        widgetB.renderWidget(context, mouseX, mouseY, delta);
     }
 
     public void onChange(Consumer<UniformParameterWidget> onChange) {
@@ -56,8 +54,12 @@ public class UniformParameterWidget extends ParameterTextWidget {
             setWidth(maxWidth);
             a = 0;
             b = 1;
+            widgetA.visible = false;
+            widgetB.visible = false;
         } catch (Exception ignored) {
             setWidth(minWidth);
+            widgetA.visible = visible;
+            widgetB.visible = visible;
         }
         onChange();
     }
@@ -87,5 +89,13 @@ public class UniformParameterWidget extends ParameterTextWidget {
         super.setY(y);
         widgetA.setY(y);
         widgetB.setY(y);
+    }
+
+    @Override
+    public void setVisible(boolean visible) {
+        super.setVisible(visible);
+        boolean mixVisible = getWidth() == minWidth && visible;
+        widgetA.visible = mixVisible;
+        widgetB.visible = mixVisible;
     }
 }
