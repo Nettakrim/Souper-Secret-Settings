@@ -3,8 +3,11 @@ package com.nettakrim.souper_secret_settings.screen;
 import com.mclegoman.luminance.client.shaders.interfaces.PostEffectPassInterface;
 import com.mclegoman.luminance.client.shaders.overrides.LuminanceUniformOverride;
 import com.mclegoman.luminance.client.shaders.overrides.UniformOverride;
+import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
+import com.nettakrim.souper_secret_settings.shaders.MixOverrideSource;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.gl.PostEffectPipeline;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.text.Text;
 
 import java.util.ArrayList;
@@ -22,11 +25,11 @@ public class UniformWidget extends ParameterWidget {
         super(uniform.getCount(), name, x, width, collapseScreen);
         this.pass = pass;
         this.uniform = uniform;
-        initValues(collapseScreen);
+        initValues();
     }
 
     @Override
-    protected String[] getValues() {
+    protected String[] getChildData() {
         String[] values = new String[uniform.getCount()];
 
         List<Float> baseValues = getBaseValues();
@@ -68,9 +71,31 @@ public class UniformWidget extends ParameterWidget {
     }
 
     @Override
-    protected void onValueChanged(int i, String s) {
-        super.onValueChanged(i, s);
-        override.overrideSources.set(i, LuminanceUniformOverride.sourceFromString(s));
+    protected ClickableWidget createChildWidget(String data, int i) {
+        float a = 0;
+        float b = 1;
+        if (data.startsWith("mix(")) {
+            try {
+                String[] parts = data.split("/");
+                a = Float.parseFloat(parts[0].substring(4));
+                b = Float.parseFloat(parts[1]);
+                data = parts[2].substring(0, parts[2].length()-1);
+            } catch (Exception ignored) {}
+        }
+
+        UniformParameterWidget widget = new UniformParameterWidget(SouperSecretSettingsClient.client.textRenderer, getX(), width, width/2 + 20, 20, Text.literal("value"));
+        widget.setText(data);
+        widget.widgetA.setText(Float.toString(a));
+        widget.widgetB.setText(Float.toString(b));
+        widget.onChange((w) -> onValueChanged(i, w));
+
+        collapseScreen.addSelectable(widget.widgetA);
+        collapseScreen.addSelectable(widget.widgetB);
+        return widget;
+    }
+
+    protected void onValueChanged(int i, UniformParameterWidget widget) {
+        override.overrideSources.set(i, new MixOverrideSource(widget.a, widget.b, LuminanceUniformOverride.sourceFromString(widget.value)));
         pass.shader.shaderData.overrides.get(pass.passIndex).put(uniform.getName(), override);
     }
 

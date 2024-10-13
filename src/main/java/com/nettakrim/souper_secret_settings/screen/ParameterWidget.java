@@ -3,6 +3,7 @@ package com.nettakrim.souper_secret_settings.screen;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
@@ -11,33 +12,25 @@ import java.util.List;
 
 public abstract class ParameterWidget extends CollapseWidget {
     public int count;
-
-    public String[] values;
-
     public ParameterWidget(int count, Text name, int x, int width, CollapseScreen collapseScreen) {
         super(x, width, name, collapseScreen);
         this.count = count;
         height = 20+(count*20);
     }
 
-    protected void initValues(CollapseScreen collapseScreen) {
-        values = getValues();
+    protected void initValues() {
+        String[] values = getChildData();
         for (int i = 0; i < values.length; i++) {
             String value = values[i];
-            ParameterTextWidget widget = new ParameterTextWidget(SouperSecretSettingsClient.client.textRenderer, getX(), width, 20, Text.literal("value"));
-            widget.setText(value);
-            int finalI = i;
-            widget.setChangedListener((s) -> onValueChanged(finalI, s));
+            ClickableWidget widget = createChildWidget(value, i);
             collapseScreen.addSelectable(widget);
             children.add(widget);
         }
     }
 
-    abstract String[] getValues();
+    protected abstract ClickableWidget createChildWidget(String data, int i);
 
-    protected void onValueChanged(int i, String s) {
-        values[i] = s;
-    }
+    abstract String[] getChildData();
 
     @Override
     protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
