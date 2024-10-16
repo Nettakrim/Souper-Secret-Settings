@@ -14,6 +14,7 @@ public class ParameterTextWidget extends TextFieldWidget {
         try {
             float f = Float.parseFloat(getText());
             setText(Float.toString(f + (float)(deltaX/50.0 * Math.max(Math.abs(f), 0.5f))));
+            this.setCursorToStart(false);
         } catch (Exception ignored) {}
     }
 }

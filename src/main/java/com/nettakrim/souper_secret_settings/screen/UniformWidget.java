@@ -89,6 +89,10 @@ public class UniformWidget extends ParameterWidget {
         widget.widgetB.setText(Float.toString(b));
         widget.onChange((w) -> onValueChanged(i, w));
 
+        widget.setCursorToStart(false);
+        widget.widgetA.setCursorToStart(false);
+        widget.widgetB.setCursorToStart(false);
+
         collapseScreen.addSelectable(widget.widgetA);
         collapseScreen.addSelectable(widget.widgetB);
         return widget;
