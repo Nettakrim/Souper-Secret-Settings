@@ -37,15 +37,4 @@ public class StackScreen extends CollapseScreen {
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
          super.render(context, mouseX, mouseY, delta);
     }
-
-
-    @Override
-    protected void applyBlur() {
-
-    }
-
-    @Override
-    protected void renderDarkening(DrawContext context, int x, int y, int width, int height) {
-
-    }
 }

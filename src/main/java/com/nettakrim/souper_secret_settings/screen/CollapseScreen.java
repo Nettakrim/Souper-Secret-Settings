@@ -1,5 +1,6 @@
 package com.nettakrim.souper_secret_settings.screen;
 
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.Screen;
@@ -30,5 +31,20 @@ public abstract class CollapseScreen extends Screen {
             collapseWidget.setY(position);
             position += collapseWidget.getHeight() + shaderGap;
         }
+    }
+
+    @Override
+    protected void applyBlur() {
+
+    }
+
+    @Override
+    protected void renderDarkening(DrawContext context, int x, int y, int width, int height) {
+
+    }
+
+    @Override
+    public boolean shouldPause() {
+        return false;
     }
 }
