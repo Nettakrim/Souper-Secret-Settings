@@ -24,13 +24,14 @@ public abstract class CollapseScreen extends Screen {
         addSelectableChild(child);
     }
 
-    public void updateSpacing() {
+    public int updateSpacing() {
         int position = shaderStart;
         for (CollapseWidget collapseWidget : collapseWidgets) {
             collapseWidget.visible = true;
             collapseWidget.setY(position);
             position += collapseWidget.getHeight() + shaderGap;
         }
+        return position;
     }
 
     @Override
