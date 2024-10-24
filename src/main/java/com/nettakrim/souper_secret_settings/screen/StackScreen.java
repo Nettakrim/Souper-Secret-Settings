@@ -10,12 +10,13 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class StackScreen extends CollapseScreen {
     public final ShaderStack stack;
 
-    public ListAdditionWidget listAdditionWidget;
+    public SuggestionTextFieldWidget suggestionTextFieldWidget;
 
     public StackScreen(ShaderStack stack) {
         super(Text.literal(""));
@@ -35,8 +36,8 @@ public class StackScreen extends CollapseScreen {
             addSelectable(shaderWidget);
         }
 
-        listAdditionWidget = new ListAdditionWidget(SouperSecretSettingsClient.client.textRenderer, shaderGap, listWidth, 20, Text.literal("list addition"), this::getShaders, this::addShader);
-        addDrawableChild(listAdditionWidget);
+        suggestionTextFieldWidget = new SuggestionTextFieldWidget(SouperSecretSettingsClient.client.textRenderer, shaderGap, listWidth, 20, Text.literal("list addition"), this::getShaders, this::addShader);
+        addDrawableChild(suggestionTextFieldWidget);
 
         updateSpacing();
     }
@@ -44,16 +45,21 @@ public class StackScreen extends CollapseScreen {
     @Override
     public int updateSpacing() {
         int position = super.updateSpacing();
-        listAdditionWidget.setY(position);
-        return position+shaderGap+listAdditionWidget.getHeight();
+        suggestionTextFieldWidget.setY(position);
+        return position+shaderGap+ suggestionTextFieldWidget.getHeight();
     }
 
     public List<String> getShaders() {
-        List<String> shaders = new ArrayList<>(ShaderDataloader.registry.size());
+        List<String> shaders = new ArrayList<>(ShaderDataloader.registry.size()+1);
 
         for (ShaderRegistry shaderRegistry : ShaderDataloader.registry) {
             shaders.add(shaderRegistry.getID().toString());
         }
+        if (shaders.size() > 1) {
+            shaders.add("random");
+        }
+
+        Collections.sort(shaders);
 
         return shaders;
     }
