@@ -21,5 +21,6 @@
 
     "souper_secret_settings.shader.toggle_prompt" : "Soup toggled back on automatically, use \"/soup:toggle stay\" if you want it to stay off",
     "souper_secret_settings.shader.warn_stacking" : "Stacking more than %s shaders might crash the game\n! Proceed with caution !",
-    "souper_secret_settings.shader.missing" : "Cannot find shader named \"%s\""
+    "souper_secret_settings.shader.missing" : "Cannot find shader named \"%s\"",
+    "souper_secret_settings.shader.registry_empty" : "Failed to find any shaders"
 }
