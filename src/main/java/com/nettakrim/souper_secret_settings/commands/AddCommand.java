@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 
 public class AddCommand {
 	public static LiteralCommandNode<FabricClientCommandSource> getCommandNode() {
-		LiteralCommandNode<FabricClientCommandSource> testNode = ClientCommandManager
+		LiteralCommandNode<FabricClientCommandSource> addNode = ClientCommandManager
 			.literal("soup:add")
 			.then(
 				ClientCommandManager.argument("shader", IdentifierArgumentType.identifier())
@@ -24,7 +24,7 @@ public class AddCommand {
 			)
 			.build();
 
-		return testNode;
+		return addNode;
 	}
 
 	public static int add(Identifier id, int amount) {
