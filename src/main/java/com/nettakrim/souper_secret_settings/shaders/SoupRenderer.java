@@ -35,31 +35,26 @@ public class SoupRenderer implements Runnables.GameRender {
         }
     }
 
-    public boolean setShader(Identifier id) {
-        return stackShader(id, 0);
+    public boolean clearShader() {
+        getActiveStack().clear();
+        return true;
     }
 
-    public boolean stackShader(Identifier id, int stack) {
-        //temp clear
-        if (id.getPath().equals("clear")) {
-            getActiveStack().clear();
-            return true;
-        }
-
+    public boolean addShader(Identifier id, int amount) {
         ShaderRegistry shaderRegistry = getShaderRegistry(id);
         if (shaderRegistry == null) {
             SouperSecretSettingsClient.say("shader.missing", id);
             return false;
         }
 
-        //needs to do stack count
-        getActiveStack().addShaderData(getShaderData(shaderRegistry));
-        return true;
-    }
-
-    public ShaderData getShaderData(ShaderRegistry shaderRegistry) {
         Shader shader = new Shader(shaderRegistry, this::getRenderType);
-        return new ShaderData(shader);
+        int i = 0;
+        while (i < amount) {
+            getActiveStack().addShaderData(new ShaderData(shader));
+            i++;
+        }
+
+        return true;
     }
 
     private Shader.RenderType getRenderType() {
