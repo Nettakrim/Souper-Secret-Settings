@@ -32,11 +32,6 @@ public class SuggestionTextFieldWidget extends TextFieldWidget {
         }
 
         currentSuggestions.clear();
-        if (s.isEmpty()) {
-            setSuggestion(null);
-            return;
-        }
-
         List<String> suggestions = validAdditions.get();
 
         int length = s.length();
