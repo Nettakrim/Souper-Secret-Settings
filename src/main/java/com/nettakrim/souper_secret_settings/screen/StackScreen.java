@@ -36,7 +36,8 @@ public class StackScreen extends CollapseScreen {
             addSelectable(shaderWidget);
         }
 
-        suggestionTextFieldWidget = new SuggestionTextFieldWidget(SouperSecretSettingsClient.client.textRenderer, shaderGap, listWidth, 20, Text.literal("list addition"), this::getShaders, this::addShader);
+        suggestionTextFieldWidget = new SuggestionTextFieldWidget(SouperSecretSettingsClient.client.textRenderer, shaderGap, listWidth, 20, Text.literal("list addition"));
+        suggestionTextFieldWidget.setListeners(this::getShaders, this::addShader);
         addDrawableChild(suggestionTextFieldWidget);
 
         updateSpacing();
@@ -67,5 +68,6 @@ public class StackScreen extends CollapseScreen {
     private void addShader(String shader) {
         SouperSecretSettingsClient.soupRenderer.addShader(Identifier.of(shader), 1);
         SouperSecretSettingsClient.client.setScreen(new StackScreen(SouperSecretSettingsClient.soupRenderer.getActiveStack()));
+        suggestionTextFieldWidget.setText("");
     }
 }

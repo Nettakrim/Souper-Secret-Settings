@@ -10,22 +10,37 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class SuggestionTextFieldWidget extends TextFieldWidget {
-    protected final Supplier<List<String>> validAdditions;
-    protected final Consumer<String> onSubmit;
+    protected Supplier<List<String>> validAdditions;
+    protected Consumer<String> onSubmit;
+
+    protected Consumer<String> onChange;
 
     private final List<String> currentSuggestions = new ArrayList<>();
     private int currentSuggestionIndex = 0;
 
-    public SuggestionTextFieldWidget(TextRenderer textRenderer, int x, int width, int height, Text message, Supplier<List<String>> validAdditions, Consumer<String> onSubmit) {
+    public SuggestionTextFieldWidget(TextRenderer textRenderer, int x, int width, int height, Text message) {
         super(textRenderer, x, 0, width, height, message);
+        super.setChangedListener(this::onChange);
+    }
 
+    @Override
+    public void setChangedListener(Consumer<String> changedListener) {
+        onChange = changedListener;
+    }
+
+    public void setListeners(Supplier<List<String>> validAdditions, Consumer<String> onSubmit) {
         this.validAdditions = validAdditions;
         this.onSubmit = onSubmit;
-
-        setChangedListener(this::onChange);
     }
 
     protected void onChange(String s) {
+        if (onChange != null) onChange.accept(s);
+
+        if (validAdditions == null) {
+            setSuggestion(null);
+            return;
+        }
+
         String previousSuggestion = null;
         if (!currentSuggestions.isEmpty()) {
             previousSuggestion = currentSuggestions.get(currentSuggestionIndex);
@@ -71,9 +86,8 @@ public class SuggestionTextFieldWidget extends TextFieldWidget {
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (this.isFocused()) {
-            if (keyCode == 257) {
+            if (keyCode == 257 && onSubmit != null) {
                 onSubmit.accept(getText());
-                setText("");
                 return true;
             }
             if (!currentSuggestions.isEmpty()) {

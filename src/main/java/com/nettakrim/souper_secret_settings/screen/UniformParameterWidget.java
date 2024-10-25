@@ -19,14 +19,15 @@ public class UniformParameterWidget extends ParameterTextWidget {
 
     protected Consumer<UniformParameterWidget> onChange;
 
-    public UniformParameterWidget(TextRenderer textRenderer, int x, int maxWidth, int minWidth, int height, Text message) {
-        super(textRenderer, x, maxWidth, height, message);
+    public UniformParameterWidget(TextRenderer textRenderer, int x, int maxWidth, int minWidth, int height, Text message, String defaultValue) {
+        super(textRenderer, x, maxWidth, height, message, defaultValue);
         this.maxWidth = maxWidth;
         this.minWidth = minWidth;
+        setText(defaultValue);
 
         int size = (maxWidth - minWidth)/2;
-        widgetA = new ParameterTextWidget(textRenderer, x + minWidth, size, height, Text.literal("a-").append(message));
-        widgetB = new ParameterTextWidget(textRenderer, x + minWidth + size, size, height, Text.literal("b-").append(message));
+        widgetA = new ParameterTextWidget(textRenderer, x + minWidth, size, height, Text.literal("a-").append(message), null);
+        widgetB = new ParameterTextWidget(textRenderer, x + minWidth + size, size, height, Text.literal("b-").append(message), null);
         widgetA.setText("0");
         widgetB.setText("1");
 
@@ -50,7 +51,9 @@ public class UniformParameterWidget extends ParameterTextWidget {
     protected void setValue(String value) {
         this.value = value;
         try {
-            float f = Float.parseFloat(value);
+            if (!value.isEmpty()) {
+                Float.parseFloat(value);
+            }
             setWidth(maxWidth);
             a = 0;
             b = 1;
