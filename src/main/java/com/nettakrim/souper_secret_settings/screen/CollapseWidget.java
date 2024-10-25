@@ -62,7 +62,9 @@ public abstract class CollapseWidget extends ClickableWidget {
 
         if (!visible && clickableWidget instanceof CollapseWidget collapseWidget) {
             for (ClickableWidget child : collapseWidget.children) {
-                setVisible(child, false);
+                if (child.visible) {
+                    setVisible(child, false);
+                }
             }
         }
     }
