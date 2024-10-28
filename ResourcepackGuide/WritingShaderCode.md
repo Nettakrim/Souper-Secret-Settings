@@ -161,9 +161,9 @@ The ProjMat is a 4x4 projection matrix, which is theoretically used to transform
 
 BlurDir and Radius are obviously exclusive to the blur fragment shader
 
-## Vertex Shaders
+## Fragment Shaders
 
-To use a vertex shader, we need to put it in the "fragment" field, as mentioned previously, this can be namespaced
+To use a fragment shader, we need to put it in the "fragment" field, as mentioned previously, this can be namespaced
 
 ```json
 assets/tutorial_shader/shaders/program/example_program.json
@@ -568,7 +568,7 @@ Yeah! this looks cool! The overall shader code is mostly the same as before, onl
 
 In fact that'll be what I call it, so now just to rename of the files to "geometry_fade"
 
-## Fragment Shaders
+## Vertex Shaders
 
 WIP
 
