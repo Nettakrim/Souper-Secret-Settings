@@ -1,6 +1,9 @@
 package com.nettakrim.souper_secret_settings.shaders;
 
 import com.mclegoman.luminance.client.shaders.overrides.OverrideSource;
+import com.mclegoman.luminance.client.shaders.overrides.UniformSource;
+
+import java.util.Optional;
 
 public class MixOverrideSource implements OverrideSource {
     public float a;
@@ -17,6 +20,13 @@ public class MixOverrideSource implements OverrideSource {
     public Float get() {
         Float t = overrideSource.get();
         if (t == null) return null;
+        if (overrideSource instanceof UniformSource uniformSource) {
+            Optional<Float> min = uniformSource.getUniform().getMin();
+            Optional<Float> max = uniformSource.getUniform().getMax();
+            if (min.isPresent() && max.isPresent()) {
+                t = (t-min.get())/(max.get()-min.get());
+            }
+        }
         return ( 1.0f - t) * a + b * t;
     }
 
