@@ -1,7 +1,9 @@
-package com.nettakrim.souper_secret_settings.screen;
+package com.nettakrim.souper_secret_settings.screen.shaders;
 
 import com.mclegoman.luminance.mixin.client.shaders.PostEffectProcessorAccessor;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
+import com.nettakrim.souper_secret_settings.screen.ListScreen;
+import com.nettakrim.souper_secret_settings.screen.CollapseWidget;
 import com.nettakrim.souper_secret_settings.shaders.ShaderData;
 import net.minecraft.client.gl.PostEffectPass;
 import net.minecraft.client.gui.DrawContext;
@@ -19,17 +21,17 @@ public class ShaderWidget extends CollapseWidget {
     public ShaderData shaderData;
     private static final ButtonTextures TEXTURES = new ButtonTextures(Identifier.ofVanilla("widget/button"), Identifier.ofVanilla("widget/button_disabled"), Identifier.ofVanilla("widget/button_highlighted"));
 
-    public ShaderWidget(ShaderData shaderData, CollapseScreen collapseScreen, int x, int width) {
-        super(x, width, Text.literal(shaderData.shader.getShaderId().toString()), collapseScreen);
+    public ShaderWidget(ShaderData shaderData, ListScreen<?> listScreen, int x, int width) {
+        super(x, width, Text.literal(shaderData.shader.getShaderId().toString()), listScreen);
 
         this.shaderData = shaderData;
 
         List<PostEffectPass> passes = ((PostEffectProcessorAccessor)shaderData.shader.getPostProcessor()).getPasses();
         int i = 0;
         for (PostEffectPass postEffectPass : passes) {
-            PassWidget passWidget = new PassWidget(this, postEffectPass, i, x, width, collapseScreen);
+            PassWidget passWidget = new PassWidget(this, postEffectPass, i, x, width, listScreen);
             children.add(passWidget);
-            collapseScreen.addSelectable(passWidget);
+            listScreen.addSelectable(passWidget);
             i++;
         }
     }

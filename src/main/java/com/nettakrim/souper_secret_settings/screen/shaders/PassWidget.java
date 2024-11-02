@@ -1,8 +1,10 @@
-package com.nettakrim.souper_secret_settings.screen;
+package com.nettakrim.souper_secret_settings.screen.shaders;
 
 import com.mclegoman.luminance.client.shaders.interfaces.PostEffectPassInterface;
 import com.mclegoman.luminance.client.shaders.interfaces.ShaderProgramInterface;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
+import com.nettakrim.souper_secret_settings.screen.ListScreen;
+import com.nettakrim.souper_secret_settings.screen.CollapseWidget;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.gl.PostEffectPass;
 import net.minecraft.client.gl.ShaderProgram;
@@ -20,8 +22,8 @@ public class PassWidget extends CollapseWidget {
     public PostEffectPass postEffectPass;
     public int passIndex;
 
-    public PassWidget(ShaderWidget shader, PostEffectPass postEffectPass, int passIndex, int x, int width, CollapseScreen collapseScreen) {
-        super(x, width, Text.literal(((PostEffectPassInterface)postEffectPass).luminance$getID()), collapseScreen);
+    public PassWidget(ShaderWidget shader, PostEffectPass postEffectPass, int passIndex, int x, int width, ListScreen<?> listScreen) {
+        super(x, width, Text.literal(((PostEffectPassInterface)postEffectPass).luminance$getID()), listScreen);
 
         this.shader = shader;
         this.postEffectPass = postEffectPass;
@@ -31,8 +33,8 @@ public class PassWidget extends CollapseWidget {
         for (String name : ((ShaderProgramInterface)program).luminance$getUniformNames()) {
             GlUniform uniform = program.getUniform(name);
             if (uniform != null && !uniformsToIgnore.contains(name)) {
-                UniformWidget uniformWidget = new UniformWidget(this, uniform, Text.literal(uniform.getName()), x, width, collapseScreen);
-                collapseScreen.addSelectable(uniformWidget);
+                UniformWidget uniformWidget = new UniformWidget(this, uniform, Text.literal(uniform.getName()), x, width, listScreen);
+                listScreen.addSelectable(uniformWidget);
                 children.add(uniformWidget);
             }
         }

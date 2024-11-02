@@ -12,8 +12,8 @@ import java.util.List;
 
 public abstract class ParameterWidget extends CollapseWidget {
     public int count;
-    public ParameterWidget(int count, Text name, int x, int width, CollapseScreen collapseScreen) {
-        super(x, width, name, collapseScreen);
+    public ParameterWidget(int count, Text name, int x, int width, ListScreen<?> listScreen) {
+        super(x, width, name, listScreen);
         this.count = count;
         height = 20+(count*20);
     }
@@ -23,14 +23,14 @@ public abstract class ParameterWidget extends CollapseWidget {
         for (int i = 0; i < values.length; i++) {
             String value = values[i];
             ClickableWidget widget = createChildWidget(value, i);
-            collapseScreen.addSelectable(widget);
+            listScreen.addSelectable(widget);
             children.add(widget);
         }
     }
 
     protected abstract ClickableWidget createChildWidget(String data, int i);
 
-    abstract String[] getChildData();
+    protected abstract String[] getChildData();
 
     @Override
     protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {

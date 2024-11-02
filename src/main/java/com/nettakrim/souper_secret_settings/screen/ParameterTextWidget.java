@@ -32,13 +32,4 @@ public class ParameterTextWidget extends SuggestionTextFieldWidget {
 
         return parameters;
     }
-
-    @Override
-    protected void onDrag(double mouseX, double mouseY, double deltaX, double deltaY) {
-        try {
-            float f = Float.parseFloat(getText());
-            setText(Float.toString(f + (float)(deltaX/50.0 * Math.max(Math.abs(f), 0.5f))));
-            this.setCursorToStart(false);
-        } catch (Exception ignored) {}
-    }
 }

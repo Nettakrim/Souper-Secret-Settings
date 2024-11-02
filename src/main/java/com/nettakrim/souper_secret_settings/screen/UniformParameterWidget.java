@@ -10,8 +10,8 @@ public class UniformParameterWidget extends ParameterTextWidget {
     public int maxWidth;
     public int minWidth;
 
-    public ParameterTextWidget widgetA;
-    public ParameterTextWidget widgetB;
+    public DraggableTextFieldWidget widgetA;
+    public DraggableTextFieldWidget widgetB;
 
     public String value;
     public float a;
@@ -26,8 +26,8 @@ public class UniformParameterWidget extends ParameterTextWidget {
         setText(defaultValue);
 
         int size = (maxWidth - minWidth)/2;
-        widgetA = new ParameterTextWidget(textRenderer, x + minWidth, size, height, Text.literal("a-").append(message), null);
-        widgetB = new ParameterTextWidget(textRenderer, x + minWidth + size, size, height, Text.literal("b-").append(message), null);
+        widgetA = new DraggableTextFieldWidget(textRenderer, x + minWidth, size, height, Text.literal("a-").append(message));
+        widgetB = new DraggableTextFieldWidget(textRenderer, x + minWidth + size, size, height, Text.literal("b-").append(message));
         widgetA.setText("0");
         widgetB.setText("1");
 

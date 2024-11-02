@@ -1,9 +1,12 @@
-package com.nettakrim.souper_secret_settings.screen;
+package com.nettakrim.souper_secret_settings.screen.shaders;
 
 import com.mclegoman.luminance.client.shaders.interfaces.PostEffectPassInterface;
 import com.mclegoman.luminance.client.shaders.overrides.LuminanceUniformOverride;
 import com.mclegoman.luminance.client.shaders.overrides.UniformOverride;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
+import com.nettakrim.souper_secret_settings.screen.ListScreen;
+import com.nettakrim.souper_secret_settings.screen.ParameterWidget;
+import com.nettakrim.souper_secret_settings.screen.UniformParameterWidget;
 import com.nettakrim.souper_secret_settings.shaders.MixOverrideSource;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.gl.PostEffectPipeline;
@@ -21,8 +24,8 @@ public class UniformWidget extends ParameterWidget {
 
     public LuminanceUniformOverride override;
 
-    public UniformWidget(PassWidget pass, GlUniform uniform, Text name, int x, int width, CollapseScreen collapseScreen) {
-        super(uniform.getCount(), name, x, width, collapseScreen);
+    public UniformWidget(PassWidget pass, GlUniform uniform, Text name, int x, int width, ListScreen<?> listScreen) {
+        super(uniform.getCount(), name, x, width, listScreen);
         this.pass = pass;
         this.uniform = uniform;
         initValues();
@@ -92,8 +95,8 @@ public class UniformWidget extends ParameterWidget {
         widget.widgetA.setCursorToStart(false);
         widget.widgetB.setCursorToStart(false);
 
-        collapseScreen.addSelectable(widget.widgetA);
-        collapseScreen.addSelectable(widget.widgetB);
+        listScreen.addSelectable(widget.widgetA);
+        listScreen.addSelectable(widget.widgetB);
         return widget;
     }
 

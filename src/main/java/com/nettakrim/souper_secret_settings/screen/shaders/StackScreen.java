@@ -1,11 +1,12 @@
-package com.nettakrim.souper_secret_settings.screen;
+package com.nettakrim.souper_secret_settings.screen.shaders;
 
 import com.mclegoman.luminance.client.shaders.ShaderDataloader;
 import com.mclegoman.luminance.client.shaders.ShaderRegistry;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
+import com.nettakrim.souper_secret_settings.screen.CollapseWidget;
+import com.nettakrim.souper_secret_settings.screen.ListScreen;
 import com.nettakrim.souper_secret_settings.shaders.ShaderData;
 import com.nettakrim.souper_secret_settings.shaders.ShaderStack;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -13,10 +14,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class StackScreen extends CollapseScreen {
+public class StackScreen extends ListScreen<ShaderData> {
     public final ShaderStack stack;
-
-    public SuggestionTextFieldWidget suggestionTextFieldWidget;
 
     public StackScreen(ShaderStack stack) {
         super(Text.literal(""));
@@ -24,33 +23,24 @@ public class StackScreen extends CollapseScreen {
     }
 
     @Override
-    public void init() {
-        ButtonWidget toggleButton = ButtonWidget.builder(Text.literal("parameters"), (widget) -> SouperSecretSettingsClient.LOGGER.info("TODO!")).dimensions(shaderGap, shaderGap, 100, headerHeight).build();
-        addDrawableChild(toggleButton);
+    protected List<ShaderData> getListValues() {
+        return stack.shaderDatas;
+    }
 
-        collapseWidgets = new ArrayList<>(stack.shaderDatas.size());
-        for (ShaderData shaderData : stack.shaderDatas) {
-            ShaderWidget shaderWidget = new ShaderWidget(shaderData, this, shaderGap, listWidth);
-            addDrawableChild(shaderWidget);
-            collapseWidgets.add(shaderWidget);
-            addSelectable(shaderWidget);
-        }
-
-        suggestionTextFieldWidget = new SuggestionTextFieldWidget(SouperSecretSettingsClient.client.textRenderer, shaderGap, listWidth, 20, Text.literal("list addition"));
-        suggestionTextFieldWidget.setListeners(this::getShaders, this::addShader);
-        addDrawableChild(suggestionTextFieldWidget);
-
-        updateSpacing();
+    @Override
+    protected CollapseWidget createListValueWidget(ShaderData value) {
+        return new ShaderWidget(value, this, listGap, listWidth);
     }
 
     @Override
     public int updateSpacing() {
         int position = super.updateSpacing();
         suggestionTextFieldWidget.setY(position);
-        return position+shaderGap+ suggestionTextFieldWidget.getHeight();
+        return position+ listGap + suggestionTextFieldWidget.getHeight();
     }
 
-    public List<String> getShaders() {
+    @Override
+    public List<String> getAdditions() {
         List<String> shaders = new ArrayList<>(ShaderDataloader.registry.size()+1);
 
         for (ShaderRegistry shaderRegistry : ShaderDataloader.registry) {
@@ -65,7 +55,8 @@ public class StackScreen extends CollapseScreen {
         return shaders;
     }
 
-    private void addShader(String shader) {
+    @Override
+    public void addAddition(String shader) {
         SouperSecretSettingsClient.soupRenderer.addShader(Identifier.of(shader), 1);
         SouperSecretSettingsClient.client.setScreen(new StackScreen(SouperSecretSettingsClient.soupRenderer.getActiveStack()));
         suggestionTextFieldWidget.setText("");

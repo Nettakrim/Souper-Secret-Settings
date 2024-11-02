@@ -1,7 +1,6 @@
 package com.nettakrim.souper_secret_settings.screen;
 
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.text.Text;
 
 import java.util.ArrayList;
@@ -9,7 +8,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class SuggestionTextFieldWidget extends TextFieldWidget {
+public class SuggestionTextFieldWidget extends DraggableTextFieldWidget {
     protected Supplier<List<String>> validAdditions;
     protected Consumer<String> onSubmit;
 
@@ -19,7 +18,7 @@ public class SuggestionTextFieldWidget extends TextFieldWidget {
     private int currentSuggestionIndex = 0;
 
     public SuggestionTextFieldWidget(TextRenderer textRenderer, int x, int width, int height, Text message) {
-        super(textRenderer, x, 0, width, height, message);
+        super(textRenderer, x, width, height, message);
         super.setChangedListener(this::onChange);
     }
 

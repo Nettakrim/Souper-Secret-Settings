@@ -2,7 +2,7 @@ package com.nettakrim.souper_secret_settings;
 
 import com.mclegoman.luminance.client.data.ClientData;
 import com.mclegoman.luminance.client.keybindings.KeybindingHelper;
-import com.nettakrim.souper_secret_settings.screen.StackScreen;
+import com.nettakrim.souper_secret_settings.screen.shaders.StackScreen;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.option.KeyBinding;
 import org.lwjgl.glfw.GLFW;

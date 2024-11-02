@@ -16,12 +16,12 @@ public abstract class CollapseWidget extends ClickableWidget {
 
     protected static final int baseHeight = 20;
 
-    protected CollapseScreen collapseScreen;
+    protected ListScreen<?> listScreen;
 
-    public CollapseWidget(int x, int width, Text message, CollapseScreen collapseScreen) {
+    public CollapseWidget(int x, int width, Text message, ListScreen<?> listScreen) {
         super(x, 0, width, baseHeight, message);
 
-        this.collapseScreen = collapseScreen;
+        this.listScreen = listScreen;
 
         visible = false;
     }
@@ -73,7 +73,7 @@ public abstract class CollapseWidget extends ClickableWidget {
     public void onClick(double mouseX, double mouseY) {
         if (mouseY < getY()+baseHeight) {
             expanded = !expanded;
-            collapseScreen.updateSpacing();
+            listScreen.updateSpacing();
         }
     }
 }
