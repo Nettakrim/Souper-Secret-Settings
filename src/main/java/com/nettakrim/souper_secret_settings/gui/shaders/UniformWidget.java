@@ -3,9 +3,12 @@ package com.nettakrim.souper_secret_settings.gui.shaders;
 import com.mclegoman.luminance.client.shaders.interfaces.PostEffectPassInterface;
 import com.mclegoman.luminance.client.shaders.overrides.LuminanceUniformOverride;
 import com.mclegoman.luminance.client.shaders.overrides.UniformOverride;
+import com.mclegoman.luminance.client.shaders.overrides.UniformSource;
+import com.mclegoman.luminance.client.shaders.uniforms.Uniform;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.gui.ListScreen;
 import com.nettakrim.souper_secret_settings.gui.DisplayWidget;
+import com.nettakrim.souper_secret_settings.gui.ParameterRemapWidget;
 import com.nettakrim.souper_secret_settings.shaders.MixOverrideSource;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.gl.PostEffectPipeline;
@@ -15,6 +18,7 @@ import net.minecraft.text.Text;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class UniformWidget extends DisplayWidget {
     public PassWidget pass;
@@ -83,9 +87,19 @@ public class UniformWidget extends DisplayWidget {
                 b = Float.parseFloat(parts[1]);
                 data = parts[2].substring(0, parts[2].length()-1);
             } catch (Exception ignored) {}
+        } else {
+            if (LuminanceUniformOverride.sourceFromString(data) instanceof UniformSource uniformSource && uniformSource.get() != null) {
+                Uniform override = uniformSource.getUniform();
+                Optional<Float> min = override.getMin();
+                Optional<Float> max = override.getMax();
+                if (min.isPresent() && max.isPresent()) {
+                    a = min.get();
+                    b = max.get();
+                }
+            }
         }
 
-        UniformParameterWidget widget = new UniformParameterWidget(SouperSecretSettingsClient.client.textRenderer, getX(), width, width/2, 20, Text.literal("value"), data);
+        ParameterRemapWidget widget = new ParameterRemapWidget(SouperSecretSettingsClient.client.textRenderer, getX(), width, width/2, 20, Text.literal("value"), data);
         widget.widgetA.setText(Float.toString(a));
         widget.widgetB.setText(Float.toString(b));
         widget.onChange((w) -> onValueChanged(i, w));
@@ -99,7 +113,7 @@ public class UniformWidget extends DisplayWidget {
         return widget;
     }
 
-    protected void onValueChanged(int i, UniformParameterWidget widget) {
+    protected void onValueChanged(int i, ParameterRemapWidget widget) {
         override.overrideSources.set(i, new MixOverrideSource(widget.a, widget.b, LuminanceUniformOverride.sourceFromString(widget.value)));
         pass.shader.shaderData.overrides.get(pass.passIndex).put(uniform.getName(), override);
     }

@@ -1,14 +1,12 @@
-package com.nettakrim.souper_secret_settings.gui.shaders;
+package com.nettakrim.souper_secret_settings.gui;
 
-import com.nettakrim.souper_secret_settings.gui.DraggableTextFieldWidget;
-import com.nettakrim.souper_secret_settings.gui.ParameterTextWidget;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
 
 import java.util.function.Consumer;
 
-public class UniformParameterWidget extends ParameterTextWidget {
+public class ParameterRemapWidget extends ParameterTextWidget {
     public int maxWidth;
     public int minWidth;
 
@@ -19,9 +17,9 @@ public class UniformParameterWidget extends ParameterTextWidget {
     public float a;
     public float b;
 
-    protected Consumer<UniformParameterWidget> onChange;
+    protected Consumer<ParameterRemapWidget> onChange;
 
-    public UniformParameterWidget(TextRenderer textRenderer, int x, int maxWidth, int minWidth, int height, Text message, String defaultValue) {
+    public ParameterRemapWidget(TextRenderer textRenderer, int x, int maxWidth, int minWidth, int height, Text message, String defaultValue) {
         super(textRenderer, x, maxWidth, height, message, defaultValue);
         this.maxWidth = maxWidth;
         this.minWidth = minWidth;
@@ -46,7 +44,7 @@ public class UniformParameterWidget extends ParameterTextWidget {
         widgetB.renderWidget(context, mouseX, mouseY, delta);
     }
 
-    public void onChange(Consumer<UniformParameterWidget> onChange) {
+    public void onChange(Consumer<ParameterRemapWidget> onChange) {
         this.onChange = onChange;
     }
 
