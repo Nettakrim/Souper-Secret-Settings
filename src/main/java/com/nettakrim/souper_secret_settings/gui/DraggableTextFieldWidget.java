@@ -1,4 +1,4 @@
-package com.nettakrim.souper_secret_settings.screen;
+package com.nettakrim.souper_secret_settings.gui;
 
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.widget.TextFieldWidget;

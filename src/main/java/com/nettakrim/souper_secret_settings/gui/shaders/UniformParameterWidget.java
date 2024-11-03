@@ -1,5 +1,7 @@
-package com.nettakrim.souper_secret_settings.screen;
+package com.nettakrim.souper_secret_settings.gui.shaders;
 
+import com.nettakrim.souper_secret_settings.gui.DraggableTextFieldWidget;
+import com.nettakrim.souper_secret_settings.gui.ParameterTextWidget;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;

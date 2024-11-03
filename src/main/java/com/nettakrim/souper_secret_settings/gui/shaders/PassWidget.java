@@ -1,10 +1,10 @@
-package com.nettakrim.souper_secret_settings.screen.shaders;
+package com.nettakrim.souper_secret_settings.gui.shaders;
 
 import com.mclegoman.luminance.client.shaders.interfaces.PostEffectPassInterface;
 import com.mclegoman.luminance.client.shaders.interfaces.ShaderProgramInterface;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
-import com.nettakrim.souper_secret_settings.screen.ListScreen;
-import com.nettakrim.souper_secret_settings.screen.CollapseWidget;
+import com.nettakrim.souper_secret_settings.gui.ListScreen;
+import com.nettakrim.souper_secret_settings.gui.CollapseWidget;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.gl.PostEffectPass;
 import net.minecraft.client.gl.ShaderProgram;

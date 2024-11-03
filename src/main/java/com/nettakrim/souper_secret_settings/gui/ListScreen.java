@@ -1,6 +1,7 @@
-package com.nettakrim.souper_secret_settings.screen;
+package com.nettakrim.souper_secret_settings.gui;
 
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
+import com.nettakrim.souper_secret_settings.gui.parameters.ParameterScreen;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ListScreen<V> extends Screen {
-    protected ArrayList<CollapseWidget> collapseWidgets;
+    protected ArrayList<ListWidget> listWidgets;
 
     public SuggestionTextFieldWidget suggestionTextFieldWidget;
 
@@ -27,15 +28,15 @@ public abstract class ListScreen<V> extends Screen {
 
     @Override
     protected void init() {
-        ButtonWidget toggleButton = ButtonWidget.builder(Text.literal("parameters"), (widget) -> SouperSecretSettingsClient.LOGGER.info("TODO!")).dimensions(listGap, listGap, 100, headerHeight).build();
+        ButtonWidget toggleButton = ButtonWidget.builder(Text.literal("parameters"), (widget) -> SouperSecretSettingsClient.client.setScreen(new ParameterScreen(SouperSecretSettingsClient.soupRenderer.getActiveStack()))).dimensions(listGap, listGap, 100, headerHeight).build();
         addDrawableChild(toggleButton);
 
         List<V> listValues = getListValues();
-        collapseWidgets = new ArrayList<>(listValues.size());
+        listWidgets = new ArrayList<>(listValues.size());
         for (V value : listValues) {
-            CollapseWidget collapseWidget = createListValueWidget(value);
-            addDrawableChild(collapseWidget);
-            collapseWidgets.add(collapseWidget);
+            ListWidget listWidget = createListWidget(value);
+            addDrawableChild(listWidget);
+            listWidgets.add(listWidget);
         }
 
         suggestionTextFieldWidget = new SuggestionTextFieldWidget(SouperSecretSettingsClient.client.textRenderer, listGap, listWidth, 20, Text.literal("list addition"));
@@ -47,7 +48,7 @@ public abstract class ListScreen<V> extends Screen {
 
     protected abstract List<V> getListValues();
 
-    protected abstract CollapseWidget createListValueWidget(V value);
+    protected abstract ListWidget createListWidget(V value);
 
     public <T extends Element & Selectable> void addSelectable(T child) {
         addSelectableChild(child);
@@ -55,7 +56,7 @@ public abstract class ListScreen<V> extends Screen {
 
     public int updateSpacing() {
         int position = listStart;
-        for (CollapseWidget collapseWidget : collapseWidgets) {
+        for (CollapseWidget collapseWidget : listWidgets) {
             collapseWidget.visible = true;
             collapseWidget.setY(position);
             position += collapseWidget.getHeight() + listGap;
@@ -80,5 +81,5 @@ public abstract class ListScreen<V> extends Screen {
 
     public abstract List<String> getAdditions();
 
-    public abstract void addAddition(String shader);
+    public abstract void addAddition(String addition);
 }

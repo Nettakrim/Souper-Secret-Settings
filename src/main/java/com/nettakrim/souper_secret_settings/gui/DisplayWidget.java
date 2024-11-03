@@ -1,4 +1,4 @@
-package com.nettakrim.souper_secret_settings.screen;
+package com.nettakrim.souper_secret_settings.gui;
 
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import net.minecraft.client.gui.DrawContext;
@@ -10,9 +10,9 @@ import net.minecraft.util.math.MathHelper;
 
 import java.util.List;
 
-public abstract class ParameterWidget extends CollapseWidget {
+public abstract class DisplayWidget extends CollapseWidget {
     public int count;
-    public ParameterWidget(int count, Text name, int x, int width, ListScreen<?> listScreen) {
+    public DisplayWidget(int count, Text name, int x, int width, ListScreen<?> listScreen) {
         super(x, width, name, listScreen);
         this.count = count;
         height = 20+(count*20);

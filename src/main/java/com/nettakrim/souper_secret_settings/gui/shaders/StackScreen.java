@@ -1,10 +1,10 @@
-package com.nettakrim.souper_secret_settings.screen.shaders;
+package com.nettakrim.souper_secret_settings.gui.shaders;
 
 import com.mclegoman.luminance.client.shaders.ShaderDataloader;
 import com.mclegoman.luminance.client.shaders.ShaderRegistry;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
-import com.nettakrim.souper_secret_settings.screen.CollapseWidget;
-import com.nettakrim.souper_secret_settings.screen.ListScreen;
+import com.nettakrim.souper_secret_settings.gui.ListScreen;
+import com.nettakrim.souper_secret_settings.gui.ListWidget;
 import com.nettakrim.souper_secret_settings.shaders.ShaderData;
 import com.nettakrim.souper_secret_settings.shaders.ShaderStack;
 import net.minecraft.text.Text;
@@ -28,7 +28,7 @@ public class StackScreen extends ListScreen<ShaderData> {
     }
 
     @Override
-    protected CollapseWidget createListValueWidget(ShaderData value) {
+    protected ListWidget createListWidget(ShaderData value) {
         return new ShaderWidget(value, this, listGap, listWidth);
     }
 
@@ -56,9 +56,8 @@ public class StackScreen extends ListScreen<ShaderData> {
     }
 
     @Override
-    public void addAddition(String shader) {
-        SouperSecretSettingsClient.soupRenderer.addShader(Identifier.of(shader), 1);
+    public void addAddition(String addition) {
+        SouperSecretSettingsClient.soupRenderer.addShader(Identifier.of(addition), 1);
         SouperSecretSettingsClient.client.setScreen(new StackScreen(SouperSecretSettingsClient.soupRenderer.getActiveStack()));
-        suggestionTextFieldWidget.setText("");
     }
 }

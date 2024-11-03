@@ -1,4 +1,4 @@
-package com.nettakrim.souper_secret_settings.screen;
+package com.nettakrim.souper_secret_settings.gui;
 
 import com.mclegoman.luminance.client.events.Events;
 import com.mclegoman.luminance.client.shaders.ShaderDataloader;

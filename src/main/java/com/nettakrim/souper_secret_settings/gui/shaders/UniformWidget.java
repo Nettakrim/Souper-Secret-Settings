@@ -1,12 +1,11 @@
-package com.nettakrim.souper_secret_settings.screen.shaders;
+package com.nettakrim.souper_secret_settings.gui.shaders;
 
 import com.mclegoman.luminance.client.shaders.interfaces.PostEffectPassInterface;
 import com.mclegoman.luminance.client.shaders.overrides.LuminanceUniformOverride;
 import com.mclegoman.luminance.client.shaders.overrides.UniformOverride;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
-import com.nettakrim.souper_secret_settings.screen.ListScreen;
-import com.nettakrim.souper_secret_settings.screen.ParameterWidget;
-import com.nettakrim.souper_secret_settings.screen.UniformParameterWidget;
+import com.nettakrim.souper_secret_settings.gui.ListScreen;
+import com.nettakrim.souper_secret_settings.gui.DisplayWidget;
 import com.nettakrim.souper_secret_settings.shaders.MixOverrideSource;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.gl.PostEffectPipeline;
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class UniformWidget extends ParameterWidget {
+public class UniformWidget extends DisplayWidget {
     public PassWidget pass;
 
     public GlUniform uniform;
