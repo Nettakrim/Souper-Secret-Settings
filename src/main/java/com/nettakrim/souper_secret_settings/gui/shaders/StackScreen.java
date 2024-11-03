@@ -33,13 +33,6 @@ public class StackScreen extends ListScreen<ShaderData> {
     }
 
     @Override
-    public int updateSpacing() {
-        int position = super.updateSpacing();
-        suggestionTextFieldWidget.setY(position);
-        return position+ listGap + suggestionTextFieldWidget.getHeight();
-    }
-
-    @Override
     public List<String> getAdditions() {
         List<String> shaders = new ArrayList<>(ShaderDataloader.registry.size()+1);
 

@@ -54,14 +54,15 @@ public abstract class ListScreen<V> extends Screen {
         addSelectableChild(child);
     }
 
-    public int updateSpacing() {
+    public void updateSpacing() {
         int position = listStart;
         for (CollapseWidget collapseWidget : listWidgets) {
             collapseWidget.visible = true;
             collapseWidget.setY(position);
             position += collapseWidget.getHeight() + listGap;
         }
-        return position;
+
+        suggestionTextFieldWidget.setY(position);
     }
 
     @Override
