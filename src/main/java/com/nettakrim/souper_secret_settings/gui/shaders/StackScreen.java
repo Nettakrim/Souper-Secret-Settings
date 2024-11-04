@@ -29,7 +29,7 @@ public class StackScreen extends ListScreen<ShaderData> {
 
     @Override
     protected ListWidget createListWidget(ShaderData value) {
-        return new ShaderWidget(value, this, listGap, listWidth);
+        return new ShaderWidget(stack, value, this, listGap, listWidth);
     }
 
     @Override

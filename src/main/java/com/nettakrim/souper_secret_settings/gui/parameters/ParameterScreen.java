@@ -3,7 +3,8 @@ package com.nettakrim.souper_secret_settings.gui.parameters;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.gui.ListScreen;
 import com.nettakrim.souper_secret_settings.gui.ListWidget;
-import com.nettakrim.souper_secret_settings.shaders.parameters.Calculation;
+import com.nettakrim.souper_secret_settings.shaders.calculations.AdditionCalculation;
+import com.nettakrim.souper_secret_settings.shaders.calculations.Calculation;
 import com.nettakrim.souper_secret_settings.shaders.ShaderStack;
 import net.minecraft.text.Text;
 
@@ -34,7 +35,7 @@ public class ParameterScreen extends ListScreen<Calculation> {
 
     @Override
     public void addAddition(String addition) {
-        stack.calculations.add(new Calculation());
+        stack.calculations.add(new AdditionCalculation());
         SouperSecretSettingsClient.client.setScreen(new ParameterScreen(SouperSecretSettingsClient.soupRenderer.getActiveStack()));
     }
 }

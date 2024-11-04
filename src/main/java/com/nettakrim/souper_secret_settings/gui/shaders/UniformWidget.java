@@ -114,7 +114,7 @@ public class UniformWidget extends DisplayWidget {
     }
 
     protected void onValueChanged(int i, ParameterRemapWidget widget) {
-        override.overrideSources.set(i, new MixOverrideSource(widget.a, widget.b, LuminanceUniformOverride.sourceFromString(widget.value)));
+        override.overrideSources.set(i, new MixOverrideSource(widget.a, widget.b, pass.shader.stack.localSourceFromString(widget.value)));
         pass.shader.shaderData.overrides.get(pass.passIndex).put(uniform.getName(), override);
     }
 

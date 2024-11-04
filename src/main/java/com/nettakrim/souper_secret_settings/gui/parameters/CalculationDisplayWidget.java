@@ -4,7 +4,8 @@ import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.gui.DisplayWidget;
 import com.nettakrim.souper_secret_settings.gui.ListScreen;
 import com.nettakrim.souper_secret_settings.gui.ParameterTextWidget;
-import com.nettakrim.souper_secret_settings.shaders.parameters.Calculation;
+import com.nettakrim.souper_secret_settings.shaders.ParameterOverrideSource;
+import com.nettakrim.souper_secret_settings.shaders.calculations.Calculation;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.text.Text;
 
@@ -14,7 +15,7 @@ public class CalculationDisplayWidget extends DisplayWidget {
     public Calculation calculation;
 
     public CalculationDisplayWidget(Calculation calculation, Text name, int x, int width, ListScreen<?> listScreen) {
-        super(3, name, x, width, listScreen);
+        super(calculation.inputs.length, name, x, width, listScreen);
         this.calculation = calculation;
         initValues();
     }
@@ -28,7 +29,12 @@ public class CalculationDisplayWidget extends DisplayWidget {
 
     @Override
     protected String[] getChildData() {
-        return new String[] {"a", "b", "c"};
+        String[] data = new String[calculation.inputs.length];
+        for (int i = 0; i < data.length; i++) {
+            ParameterOverrideSource source = calculation.inputs[i];
+            data[i] = source == null ? "" : source.getString();
+        }
+        return data;
     }
 
     @Override
