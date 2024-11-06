@@ -11,6 +11,8 @@ import net.minecraft.util.math.MathHelper;
 import java.util.List;
 
 public abstract class DisplayWidget extends CollapseWidget {
+    protected static int displayWidth = 10;
+
     public int count;
     public DisplayWidget(int count, Text name, int x, int width, ListScreen<?> listScreen) {
         super(x, width, name, listScreen);
@@ -34,7 +36,7 @@ public abstract class DisplayWidget extends CollapseWidget {
 
     @Override
     protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
-        drawScrollableText(context, SouperSecretSettingsClient.client.textRenderer, this.getMessage(), this.getX()+2, this.getY(), this.getX()+this.getWidth()-2, this.getY()+20, (this.active ? 16777215 : 10526880) | MathHelper.ceil(this.alpha * 255.0F) << 24);
+        drawScrollableText(context, SouperSecretSettingsClient.client.textRenderer, this.getMessage(), this.getX()+2, this.getY(), this.getX()+this.getWidth()-displayWidth-2, this.getY()+20, (this.active ? 16777215 : 10526880) | MathHelper.ceil(this.alpha * 255.0F) << 24);
 
         super.renderWidget(context, mouseX, mouseY, delta);
 
@@ -45,7 +47,7 @@ public abstract class DisplayWidget extends CollapseWidget {
         int x = getX()+getWidth();
         int y = getY();
 
-        context.fill(x, y, x-10, y+20, getColor(getDisplayFloats()));
+        context.fill(x, y, x-displayWidth, y+20, getColor(getDisplayFloats()));
     }
 
     protected int getColor(List<Float> values) {

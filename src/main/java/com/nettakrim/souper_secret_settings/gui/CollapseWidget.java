@@ -72,8 +72,12 @@ public abstract class CollapseWidget extends ClickableWidget {
     @Override
     public void onClick(double mouseX, double mouseY) {
         if (mouseY < getY()+baseHeight) {
-            expanded = !expanded;
-            listScreen.updateSpacing();
+            setExpanded(!expanded);
         }
+    }
+
+    protected void setExpanded(boolean to) {
+        expanded = to;
+        listScreen.updateSpacing();
     }
 }

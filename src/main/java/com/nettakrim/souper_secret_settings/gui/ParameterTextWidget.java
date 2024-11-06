@@ -28,8 +28,9 @@ public class ParameterTextWidget extends SuggestionTextFieldWidget {
             parameters.add(luminanceIdentifier.toUnderscoreSeparatedString());
         }
         Collections.sort(parameters);
-        parameters.addFirst(defaultValue);
-
+        if (!defaultValue.isEmpty()) {
+            parameters.addFirst(defaultValue);
+        }
         return parameters;
     }
 }

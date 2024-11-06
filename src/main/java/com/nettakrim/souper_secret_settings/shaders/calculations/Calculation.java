@@ -43,4 +43,6 @@ public abstract class Calculation {
     protected abstract int inputCount();
 
     protected abstract int outputCount();
+
+    public abstract String getName();
 }
