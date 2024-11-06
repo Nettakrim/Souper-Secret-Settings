@@ -43,6 +43,14 @@ public class SoupRenderer implements Runnables.GameRender {
         return true;
     }
 
+    public boolean removeTop() {
+        if (getActiveStack().shaderDatas.isEmpty()) {
+            return false;
+        }
+        getActiveStack().shaderDatas.removeLast();
+        return true;
+    }
+
     public boolean addShader(Identifier id, int amount) {
         if (id.equals(Identifier.ofVanilla("random"))) {
             return addRandomShaders(amount);
