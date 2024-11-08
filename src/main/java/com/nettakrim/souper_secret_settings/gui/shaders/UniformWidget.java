@@ -43,6 +43,12 @@ public class UniformWidget extends DisplayWidget {
             values[i] = Float.toString(baseValues.get(i));
         }
 
+        if (values.length == 1) {
+            if (LuminanceUniformOverride.sourceFromString(uniform.getName()) instanceof UniformSource uniformSource && uniformSource.getUniform() != null) {
+                values[0] = uniform.getName();
+            }
+        }
+
         UniformOverride uniformOverride = pass.shader.shaderData.overrides.get(pass.passIndex).get(uniform.getName());
         if (uniformOverride == null) {
             uniformOverride = ((PostEffectPassInterface)pass.postEffectPass).luminance$getUniformOverride(uniform.getName());
@@ -88,13 +94,15 @@ public class UniformWidget extends DisplayWidget {
                 data = parts[2].substring(0, parts[2].length()-1);
             } catch (Exception ignored) {}
         } else {
-            if (LuminanceUniformOverride.sourceFromString(data) instanceof UniformSource uniformSource && uniformSource.get() != null) {
+            if (LuminanceUniformOverride.sourceFromString(data) instanceof UniformSource uniformSource) {
                 Uniform override = uniformSource.getUniform();
-                Optional<Float> min = override.getMin();
-                Optional<Float> max = override.getMax();
-                if (min.isPresent() && max.isPresent()) {
-                    a = min.get();
-                    b = max.get();
+                if (override != null) {
+                    Optional<Float> min = override.getMin();
+                    Optional<Float> max = override.getMax();
+                    if (min.isPresent() && max.isPresent()) {
+                        a = min.get();
+                        b = max.get();
+                    }
                 }
             }
         }
