@@ -33,7 +33,7 @@ public class CalculationDisplayWidget extends DisplayWidget {
 
         int width = (getWidth()-displayWidth)/outputCount;
         for (int i = 0; i < outputCount; i++) {
-            ParameterTextWidget parameterTextWidget = new ParameterTextWidget(SouperSecretSettingsClient.client.textRenderer, getX() + width*i, width, 20, Text.literal("output"+i), "");
+            ParameterTextWidget parameterTextWidget = new ParameterTextWidget(SouperSecretSettingsClient.client.textRenderer, getX() + width*i, width, 20, Text.literal("output"+i), stack, "");
             listScreen.addSelectable(parameterTextWidget);
             int finalI = i;
             parameterTextWidget.setText(calculation.outputs[i]);
@@ -55,7 +55,7 @@ public class CalculationDisplayWidget extends DisplayWidget {
 
     @Override
     protected ClickableWidget createChildWidget(String data, int i) {
-        ParameterTextWidget parameterTextWidget = new ParameterTextWidget(SouperSecretSettingsClient.client.textRenderer, getX(), getWidth(), 20, Text.literal("input"+i), data);
+        ParameterTextWidget parameterTextWidget = new ParameterTextWidget(SouperSecretSettingsClient.client.textRenderer, getX(), getWidth(), 20, Text.literal("input"+i), stack, data);
         parameterTextWidget.setText(data);
         parameterTextWidget.setChangedListener((s) -> onInputChanged(i, s));
         return parameterTextWidget;

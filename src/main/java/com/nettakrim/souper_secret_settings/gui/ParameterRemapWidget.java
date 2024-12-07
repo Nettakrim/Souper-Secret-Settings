@@ -1,5 +1,6 @@
 package com.nettakrim.souper_secret_settings.gui;
 
+import com.nettakrim.souper_secret_settings.shaders.ShaderStack;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
@@ -19,8 +20,8 @@ public class ParameterRemapWidget extends ParameterTextWidget {
 
     protected Consumer<ParameterRemapWidget> onChange;
 
-    public ParameterRemapWidget(TextRenderer textRenderer, int x, int maxWidth, int minWidth, int height, Text message, String defaultValue) {
-        super(textRenderer, x, maxWidth, height, message, defaultValue);
+    public ParameterRemapWidget(TextRenderer textRenderer, int x, int maxWidth, int minWidth, int height, Text message, ShaderStack stack, String defaultValue) {
+        super(textRenderer, x, maxWidth, height, message, stack, defaultValue);
         this.maxWidth = maxWidth;
         this.minWidth = minWidth;
         setText(defaultValue);

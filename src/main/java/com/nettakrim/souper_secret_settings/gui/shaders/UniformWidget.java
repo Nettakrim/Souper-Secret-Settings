@@ -107,7 +107,7 @@ public class UniformWidget extends DisplayWidget {
             }
         }
 
-        ParameterRemapWidget widget = new ParameterRemapWidget(SouperSecretSettingsClient.client.textRenderer, getX(), width, width/2, 20, Text.literal("value"), data);
+        ParameterRemapWidget widget = new ParameterRemapWidget(SouperSecretSettingsClient.client.textRenderer, getX(), width, width/2, 20, Text.literal("value"), pass.shader.stack, data);
         widget.widgetA.setText(Float.toString(a));
         widget.widgetB.setText(Float.toString(b));
         widget.onChange((w) -> onValueChanged(i, w));
