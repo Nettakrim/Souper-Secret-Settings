@@ -25,7 +25,7 @@ public class ParameterScreen extends ListScreen<Calculation> {
 
     @Override
     protected ListWidget createListWidget(Calculation value) {
-        return new CalculationListWidget(value, this, listGap, listWidth);
+        return new CalculationListWidget(value, stack,this, listGap, listWidth);
     }
 
     @Override

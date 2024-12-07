@@ -1,10 +1,11 @@
 package com.nettakrim.souper_secret_settings.gui.parameters;
 
+import com.mclegoman.luminance.client.shaders.overrides.OverrideSource;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.gui.DisplayWidget;
 import com.nettakrim.souper_secret_settings.gui.ListScreen;
 import com.nettakrim.souper_secret_settings.gui.ParameterTextWidget;
-import com.nettakrim.souper_secret_settings.shaders.ParameterOverrideSource;
+import com.nettakrim.souper_secret_settings.shaders.ShaderStack;
 import com.nettakrim.souper_secret_settings.shaders.calculations.Calculation;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ClickableWidget;
@@ -14,12 +15,14 @@ import java.util.List;
 
 public class CalculationDisplayWidget extends DisplayWidget {
     public Calculation calculation;
+    protected ShaderStack stack;
 
     protected ParameterTextWidget[] outputs;
 
-    public CalculationDisplayWidget(Calculation calculation, Text name, int x, int width, ListScreen<?> listScreen) {
+    public CalculationDisplayWidget(Calculation calculation, ShaderStack stack, Text name, int x, int width, ListScreen<?> listScreen) {
         super(calculation.inputs.length, name, x, width, listScreen);
         this.calculation = calculation;
+        this.stack = stack;
         initValues();
     }
 
@@ -30,8 +33,11 @@ public class CalculationDisplayWidget extends DisplayWidget {
 
         int width = (getWidth()-displayWidth)/outputCount;
         for (int i = 0; i < outputCount; i++) {
-            ParameterTextWidget parameterTextWidget = new ParameterTextWidget(SouperSecretSettingsClient.client.textRenderer, getX() + width*i, width, 20, Text.literal("input"+i), "");
+            ParameterTextWidget parameterTextWidget = new ParameterTextWidget(SouperSecretSettingsClient.client.textRenderer, getX() + width*i, width, 20, Text.literal("output"+i), "");
             listScreen.addSelectable(parameterTextWidget);
+            int finalI = i;
+            parameterTextWidget.setText(calculation.outputs[i]);
+            parameterTextWidget.setChangedListener((s) -> onOutputChanged(finalI, s));
             outputs[i] = parameterTextWidget;
         }
 
@@ -49,8 +55,9 @@ public class CalculationDisplayWidget extends DisplayWidget {
 
     @Override
     protected ClickableWidget createChildWidget(String data, int i) {
-        ParameterTextWidget parameterTextWidget = new ParameterTextWidget(SouperSecretSettingsClient.client.textRenderer, getX(), getWidth(), 20, Text.literal(""), data);
+        ParameterTextWidget parameterTextWidget = new ParameterTextWidget(SouperSecretSettingsClient.client.textRenderer, getX(), getWidth(), 20, Text.literal("input"+i), data);
         parameterTextWidget.setText(data);
+        parameterTextWidget.setChangedListener((s) -> onInputChanged(i, s));
         return parameterTextWidget;
     }
 
@@ -58,7 +65,7 @@ public class CalculationDisplayWidget extends DisplayWidget {
     protected String[] getChildData() {
         String[] data = new String[calculation.inputs.length];
         for (int i = 0; i < data.length; i++) {
-            ParameterOverrideSource source = calculation.inputs[i];
+            OverrideSource source = calculation.inputs[i];
             data[i] = source == null ? "" : source.getString();
         }
         return data;
@@ -67,6 +74,14 @@ public class CalculationDisplayWidget extends DisplayWidget {
     @Override
     protected List<Float> getDisplayFloats() {
         return List.of();
+    }
+
+    protected void onOutputChanged(int i, String s) {
+        calculation.outputs[i] = s;
+    }
+
+    protected void onInputChanged(int i, String s) {
+        calculation.inputs[i] = stack.localSourceFromString(s);
     }
 
     @Override
