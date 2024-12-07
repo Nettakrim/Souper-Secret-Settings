@@ -1,10 +1,7 @@
 package com.nettakrim.souper_secret_settings.shaders.calculations;
 
 import com.mclegoman.luminance.client.shaders.overrides.OverrideSource;
-import com.nettakrim.souper_secret_settings.shaders.ParameterOverrideSource;
 import com.nettakrim.souper_secret_settings.shaders.ShaderStack;
-
-import java.util.Optional;
 
 public abstract class Calculation {
     public OverrideSource[] inputs = new OverrideSource[inputCount()];
@@ -15,20 +12,11 @@ public abstract class Calculation {
 
     public void update(ShaderStack stack) {
         for (int i = 0; i < inputs.length; i++) {
-            // the only types overrideSource should be is ParameterOverrideSource and FixedValueSource
             OverrideSource overrideSource = inputs[i];
             if (overrideSource == null) continue;
 
             Float f = overrideSource.get();
             if (f == null) continue;
-
-            if (overrideSource instanceof ParameterOverrideSource parameterOverrideSource && !parameterOverrideSource.hasParameter()) {
-                Optional<Float> min = parameterOverrideSource.source.getUniform().getMin();
-                Optional<Float> max = parameterOverrideSource.source.getUniform().getMax();
-                if (min.isPresent() && max.isPresent()) {
-                    f = (f-min.get())/(max.get()-min.get());
-                }
-            }
 
             inputValues[i] = f;
         }
