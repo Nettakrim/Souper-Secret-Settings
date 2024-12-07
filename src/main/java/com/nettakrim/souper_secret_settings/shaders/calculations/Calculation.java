@@ -10,6 +10,12 @@ public abstract class Calculation {
     protected float[] inputValues = new float[inputs.length];
     protected float[] outputValues = new float[outputs.length];
 
+    private final String id;
+
+    public Calculation(String id) {
+        this.id = id;
+    }
+
     public void update(ShaderStack stack) {
         for (int i = 0; i < inputs.length; i++) {
             OverrideSource overrideSource = inputs[i];
@@ -34,5 +40,7 @@ public abstract class Calculation {
 
     protected abstract int outputCount();
 
-    public abstract String getName();
+    public String getName() {
+        return id;
+    }
 }

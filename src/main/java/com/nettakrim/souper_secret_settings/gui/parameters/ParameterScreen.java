@@ -3,11 +3,13 @@ package com.nettakrim.souper_secret_settings.gui.parameters;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.gui.ListScreen;
 import com.nettakrim.souper_secret_settings.gui.ListWidget;
-import com.nettakrim.souper_secret_settings.shaders.calculations.AdditionCalculation;
+import com.nettakrim.souper_secret_settings.shaders.calculations.Calculations;
 import com.nettakrim.souper_secret_settings.shaders.calculations.Calculation;
 import com.nettakrim.souper_secret_settings.shaders.ShaderStack;
 import net.minecraft.text.Text;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ParameterScreen extends ListScreen<Calculation> {
@@ -30,12 +32,17 @@ public class ParameterScreen extends ListScreen<Calculation> {
 
     @Override
     public List<String> getAdditions() {
-        return List.of();
+        List<String> calculations = new ArrayList<>(Calculations.getIds());
+        Collections.sort(calculations);
+        return calculations;
     }
 
     @Override
     public void addAddition(String addition) {
-        stack.calculations.add(new AdditionCalculation());
-        SouperSecretSettingsClient.client.setScreen(new ParameterScreen(SouperSecretSettingsClient.soupRenderer.getActiveStack()));
+        Calculation calculation = Calculations.createCalcultion(addition);
+        if (calculation != null) {
+            stack.calculations.add(calculation);
+            SouperSecretSettingsClient.client.setScreen(new ParameterScreen(SouperSecretSettingsClient.soupRenderer.getActiveStack()));
+        }
     }
 }

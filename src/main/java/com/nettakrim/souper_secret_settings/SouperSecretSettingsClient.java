@@ -1,6 +1,7 @@
 package com.nettakrim.souper_secret_settings;
 
 import com.nettakrim.souper_secret_settings.shaders.SoupRenderer;
+import com.nettakrim.souper_secret_settings.shaders.calculations.Calculations;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
@@ -32,6 +33,7 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 
 		ResourceManagerHelper.registerBuiltinResourcePack(Identifier.of("expanded_shaders"), FabricLoader.getInstance().getModContainer(MODID).orElseThrow(), Text.literal("Expanded Shaders"), ResourcePackActivationType.DEFAULT_ENABLED);
 
+		Calculations.register();
 		SouperSecretSettingsCommands.initialize();
 		Keybinds.init();
 	}
