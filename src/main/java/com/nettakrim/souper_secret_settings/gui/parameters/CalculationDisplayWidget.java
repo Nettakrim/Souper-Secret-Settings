@@ -99,5 +99,8 @@ public class CalculationDisplayWidget extends DisplayWidget {
 
     public void setExpandedWithoutUpdate(boolean to) {
         expanded = to;
+        for (ParameterTextWidget parameterTextWidget : outputs) {
+            parameterTextWidget.setVisible(expanded);
+        }
     }
 }
