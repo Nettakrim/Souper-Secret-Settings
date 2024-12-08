@@ -1,0 +1,38 @@
+{
+    "targets": {
+        "0": {}
+    },
+    "passes": [
+        {
+            "program": "soup:post/depth_outline",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                },
+                {
+                    "sampler_name": "Depth",
+                    "target": "minecraft:main",
+                    "use_depth_buffer": true
+                }
+            ],
+            "output": "0",
+            "uniforms": [
+                {
+                    "name": "ColorScale",
+                    "values": [ 1.0, 1.0, 1.0 ]
+                }
+            ]
+        },
+        {
+            "program": "minecraft:post/blit",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
+            "output": "minecraft:main"
+        }
+    ]
+}

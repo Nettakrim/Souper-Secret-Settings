@@ -1,0 +1,42 @@
+{
+    "targets": {
+        "0": {},
+        "previous": {}
+    },
+    "passes": [
+        {
+            "program": "soup:post/rolling_shutter",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                },
+                {
+                    "sampler_name": "Prev",
+                    "target": "previous"
+                }
+            ],
+            "output": "0"
+        },
+        {
+            "program": "minecraft:post/blit",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
+            "output": "previous"
+        },
+        {
+            "program": "minecraft:post/blit",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
+            "output": "minecraft:main"
+        }
+    ]
+}

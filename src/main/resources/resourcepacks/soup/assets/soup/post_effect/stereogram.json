@@ -1,0 +1,73 @@
+{
+    "targets": {
+        "0": {},
+        "1": {}
+    },
+    "passes": [
+        {
+            "program": "minecraft:post/box_blur",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
+            "output": "0",
+            "uniforms": [
+                {
+                    "name": "BlurDir",
+                    "values": [ 1, 0 ]
+                },
+                {
+                    "name": "Radius",
+                    "values": [ 40 ]
+                }
+            ]
+        },
+        {
+            "program": "minecraft:post/box_blur",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
+            "output": "1",
+            "uniforms": [
+                {
+                    "name": "BlurDir",
+                    "values": [ 0, 1 ]
+                },
+                {
+                    "name": "Radius",
+                    "values": [ 40 ]
+                }
+            ]
+        },
+        {
+            "program": "soup:post/stereogram",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "1"
+                },
+                {
+                    "sampler_name": "InDepth",
+                    "target": "minecraft:main",
+                    "use_depth_buffer": true
+                }
+            ],
+            "output": "0"
+        },
+        {
+            "program": "minecraft:post/blit",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
+            "output": "minecraft:main"
+        }
+    ]
+}

@@ -1,0 +1,117 @@
+{
+    "targets": {
+        "0": {},
+        "a": {},
+        "b": {}
+    },
+    "passes": [
+        {
+            "program": "soup:post/gaussian",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
+            "output": "0",
+            "uniforms": [
+                {
+                    "name": "Direction",
+                    "values": [ 1.0, 0.0 ]
+                },
+                {
+                    "name": "Sigma",
+                    "values": [ 3.0 ]
+                }
+            ]
+        },
+        {
+            "program": "soup:post/gaussian",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
+            "output": "a",
+            "uniforms": [
+                {
+                    "name": "Direction",
+                    "values": [ 0.0, 1.0 ]
+                },
+                {
+                    "name": "Sigma",
+                    "values": [ 3.0 ]
+                }
+            ]
+        },
+        {
+            "program": "soup:post/gaussian",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
+            "output": "0",
+            "uniforms": [
+                {
+                    "name": "Direction",
+                    "values": [ 1.0, 0.0 ]
+                },
+                {
+                    "name": "Sigma",
+                    "values": [ 5.0 ]
+                }
+            ]
+        },
+        {
+            "program": "soup:post/gaussian",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
+            "output": "b",
+            "uniforms": [
+                {
+                    "name": "Direction",
+                    "values": [ 0.0, 1.0 ]
+                },
+                {
+                    "name": "Sigma",
+                    "values": [ 5.0 ]
+                }
+            ]
+        },
+        {
+            "program": "soup:post/toon",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                },
+                {
+                    "sampler_name": "A",
+                    "target": "a"
+                },
+                {
+                    "sampler_name": "B",
+                    "target": "b"
+                }
+            ],
+            "output": "0"
+        },
+        {
+            "program": "minecraft:post/blit",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
+            "output": "minecraft:main"
+        }
+    ]
+}

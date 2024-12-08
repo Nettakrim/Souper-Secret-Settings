@@ -1,0 +1,13 @@
+{
+    "vertex": "minecraft:post/sobel",
+    "fragment": "soup:post/pixels",
+    "samplers": [
+        { "name": "InSampler" }
+    ],
+    "uniforms": [
+        { "name": "ProjMat",   "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
+        { "name": "InSize",    "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
+        { "name": "OutSize",   "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
+        { "name": "PixelSize", "type": "int",       "count": 1,  "values": [ 6 ] }
+    ]
+}

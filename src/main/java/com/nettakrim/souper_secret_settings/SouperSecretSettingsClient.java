@@ -31,7 +31,7 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 		client = MinecraftClient.getInstance();
 		soupRenderer = new SoupRenderer();
 
-		ResourceManagerHelper.registerBuiltinResourcePack(Identifier.of("expanded_shaders"), FabricLoader.getInstance().getModContainer(MODID).orElseThrow(), Text.literal("Expanded Shaders"), ResourcePackActivationType.DEFAULT_ENABLED);
+		ResourceManagerHelper.registerBuiltinResourcePack(Identifier.of("soup"), FabricLoader.getInstance().getModContainer(MODID).orElseThrow(), Text.literal("Extra Soup"), ResourcePackActivationType.DEFAULT_ENABLED);
 
 		Calculations.register();
 		SouperSecretSettingsCommands.initialize();

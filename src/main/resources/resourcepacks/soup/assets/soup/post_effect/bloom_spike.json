@@ -1,0 +1,141 @@
+{
+    "targets": {
+        "bloom_clip": {},
+        "blur0": {},
+        "blur1": {},
+        "blur2": {}
+    },
+    "passes": [
+        {
+            "program": "soup:post/color_brightness_threshold",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
+            "output": "bloom_clip",
+            "uniforms": [
+                {
+                    "name": "ThresholdBrightness",
+                    "values": [ 0.75 ]
+                }
+            ]
+        },
+        {
+            "program": "soup:post/one_way_blur",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "bloom_clip"
+                }
+            ],
+            "output": "blur0",
+            "bilinear": true,
+            "uniforms": [
+                {
+                    "name": "BlurDir",
+                    "values": [ 1.0, 1.0 ]
+                },
+                {
+                    "name": "Radius",
+                    "values": [ 100.0 ]
+                }
+            ]
+        },
+        {
+            "program": "soup:post/one_way_blur",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "bloom_clip"
+                }
+            ],
+            "output": "blur1",
+            "bilinear": true,
+            "uniforms": [
+                {
+                    "name": "BlurDir",
+                    "values": [ -1.0, 0.25 ]
+                },
+                {
+                    "name": "Radius",
+                    "values": [ 100.0 ]
+                }
+            ]
+        },
+        {
+            "program": "soup:post/one_way_blur",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "bloom_clip"
+                }
+            ],
+            "output": "blur2",
+            "bilinear": true,
+            "uniforms": [
+                {
+                    "name": "BlurDir",
+                    "values": [ 0.25, -1.0 ]
+                },
+                {
+                    "name": "Radius",
+                    "values": [ 100.0 ]
+                }
+            ]
+        },
+        {
+            "program": "soup:post/add",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "blur0"
+                },
+                {
+                    "sampler_name": "Add",
+                    "target": "blur1"
+                }
+            ],
+            "output": "bloom_clip"
+        },
+        {
+            "program": "soup:post/add",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "bloom_clip"
+                },
+                {
+                    "sampler_name": "Add",
+                    "target": "blur2"
+                }
+            ],
+            "output": "blur0"
+        },
+        {
+            "program": "soup:post/add",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                },
+                {
+                    "sampler_name": "Add",
+                    "target": "blur0"
+                }
+            ],
+            "output": "bloom_clip"
+        },
+        {
+            "program": "minecraft:post/blit",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "bloom_clip"
+                }
+            ],
+            "output": "minecraft:main"
+        }
+    ]
+}

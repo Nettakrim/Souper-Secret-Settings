@@ -1,0 +1,14 @@
+{
+    "post_effect": "soup:kaleidoscope",
+    "enabled": true,
+    "translatable": true,
+    "disable_game_rendertype": true,
+    "custom": {
+        "perspective": {
+            "entity_links": []
+        },
+        "souper_secret_settings": {
+            "disable_soup": false
+        }
+    }
+}

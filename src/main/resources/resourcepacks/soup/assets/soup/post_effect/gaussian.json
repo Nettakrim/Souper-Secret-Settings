@@ -1,0 +1,58 @@
+{
+    "targets": {
+        "0": {},
+        "1": {}
+    },
+    "passes": [
+        {
+            "program": "soup:post/gaussian",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
+            "output": "0",
+            "uniforms": [
+                {
+                    "name": "Direction",
+                    "values": [ 1.0, 0.0 ]
+                },
+                {
+                    "name": "Sigma",
+                    "values": [ 5.0 ]
+                }
+            ]
+        },
+        {
+            "program": "soup:post/gaussian",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
+            "output": "1",
+            "uniforms": [
+                {
+                    "name": "Direction",
+                    "values": [ 0.0, 1.0 ]
+                },
+                {
+                    "name": "Sigma",
+                    "values": [ 5.0 ]
+                }
+            ]
+        },
+        {
+            "program": "minecraft:post/blit",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "1"
+                }
+            ],
+            "output": "minecraft:main"
+        }
+    ]
+}

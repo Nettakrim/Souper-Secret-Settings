@@ -1,0 +1,40 @@
+{
+    "targets": {
+        "0": {}
+    },
+    "passes": [
+        {
+            "program": "soup:post/color_lookup",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                },
+                {
+                    "sampler_name": "Lookup",
+                    "location": "soup:frigid",
+                    "width": 512,
+                    "height": 512,
+                    "bilinear": false
+                }
+            ],
+            "output": "0",
+            "uniforms": [
+                {
+                    "name": "GridSize",
+                    "values": [ 8 ]
+                }
+            ]
+        },
+        {
+            "program": "minecraft:post/blit",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "0"
+                }
+            ],
+            "output": "minecraft:main"
+        }
+    ]
+}

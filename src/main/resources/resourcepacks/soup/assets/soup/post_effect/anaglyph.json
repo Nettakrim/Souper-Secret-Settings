@@ -1,0 +1,85 @@
+{
+    "targets": {
+        "left": {},
+        "right": {},
+        "combined": {}
+    },
+    "passes": [
+        {
+            "program": "soup:post/camera_shift",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                },
+                {
+                    "sampler_name": "InDepth",
+                    "target": "minecraft:main",
+                    "use_depth_buffer": true
+                }
+            ],
+            "output": "left",
+            "uniforms": [
+                {
+                    "name": "Offset",
+                    "values": [ -0.05, 0, 0 ]
+                }
+            ]
+        },
+        {
+            "program": "soup:post/camera_shift",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                },
+                {
+                    "sampler_name": "InDepth",
+                    "target": "minecraft:main",
+                    "use_depth_buffer": true
+                }
+            ],
+            "output": "right",
+            "uniforms": [
+                {
+                    "name": "Offset",
+                    "values": [ 0.05, 0, 0 ]
+                }
+            ]
+        },
+        {
+            "program": "soup:post/channel_combine",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "left"
+                },
+                {
+                    "sampler_name": "Second",
+                    "target": "right"
+                }
+            ],
+            "output": "combined",
+            "uniforms": [
+                {
+                    "name": "Color1",
+                    "values": [ 1, 0, 0 ]
+                },
+                {
+                    "name": "Color2",
+                    "values": [ 0, 1, 1 ]
+                }
+            ]
+        },
+        {
+            "program": "minecraft:post/blit",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "combined"
+                }
+            ],
+            "output": "minecraft:main"
+        }
+    ]
+}
