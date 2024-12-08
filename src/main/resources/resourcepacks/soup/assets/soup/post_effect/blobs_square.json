@@ -1,0 +1,50 @@
+{
+    "targets": {
+        "a": {},
+        "b": {}
+    },
+    "passes": [
+        {
+            "program": "soup:post/blobs_square",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "minecraft:main"
+                }
+            ],
+            "output": "a",
+            "uniforms": [
+                {
+                    "name": "Direction",
+                    "values": [ 1, 0 ]
+                }
+            ]
+        },
+        {
+            "program": "soup:post/blobs_square",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "a"
+                }
+            ],
+            "output": "b",
+            "uniforms": [
+                {
+                    "name": "Direction",
+                    "values": [ 0, 1 ]
+                }
+            ]
+        },
+        {
+            "program": "minecraft:post/blit",
+            "inputs": [
+                {
+                    "sampler_name": "In",
+                    "target": "b"
+                }
+            ],
+            "output": "minecraft:main"
+        }
+    ]
+}
