@@ -5,8 +5,10 @@ import com.mclegoman.luminance.client.shaders.ShaderRegistry;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.gui.ListScreen;
 import com.nettakrim.souper_secret_settings.gui.ListWidget;
+import com.nettakrim.souper_secret_settings.gui.parameters.ParameterScreen;
 import com.nettakrim.souper_secret_settings.shaders.ShaderData;
 import com.nettakrim.souper_secret_settings.shaders.ShaderStack;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -20,6 +22,11 @@ public class StackScreen extends ListScreen<ShaderData> {
     public StackScreen(ShaderStack stack) {
         super(Text.literal(""));
         this.stack = stack;
+    }
+
+    @Override
+    protected ButtonWidget getToggleButton() {
+        return ButtonWidget.builder(Text.literal("parameters"), (widget) -> SouperSecretSettingsClient.client.setScreen(new ParameterScreen(SouperSecretSettingsClient.soupRenderer.getActiveStack()))).dimensions(listGap, listGap, 100, headerHeight).build();
     }
 
     @Override

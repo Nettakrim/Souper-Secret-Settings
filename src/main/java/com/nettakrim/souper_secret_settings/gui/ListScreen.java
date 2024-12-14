@@ -1,7 +1,6 @@
 package com.nettakrim.souper_secret_settings.gui;
 
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
-import com.nettakrim.souper_secret_settings.gui.parameters.ParameterScreen;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
@@ -28,8 +27,7 @@ public abstract class ListScreen<V> extends Screen {
 
     @Override
     protected void init() {
-        ButtonWidget toggleButton = ButtonWidget.builder(Text.literal("parameters"), (widget) -> SouperSecretSettingsClient.client.setScreen(new ParameterScreen(SouperSecretSettingsClient.soupRenderer.getActiveStack()))).dimensions(listGap, listGap, 100, headerHeight).build();
-        addDrawableChild(toggleButton);
+        addDrawableChild(getToggleButton());
 
         List<V> listValues = getListValues();
         listWidgets = new ArrayList<>(listValues.size());
@@ -45,6 +43,9 @@ public abstract class ListScreen<V> extends Screen {
 
         updateSpacing();
     }
+
+    //TODO: needs to be a proper header system
+    protected abstract ButtonWidget getToggleButton();
 
     protected abstract List<V> getListValues();
 
