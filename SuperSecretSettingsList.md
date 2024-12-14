@@ -1,4 +1,4 @@
-The old super secret settings were removed in 24w11a, Souper Secret Setting's Library, [Luminance](https://modrinth.com/mod/luminance), re-adds them with a builtin resourcepack
+The old super secret settings were removed in 24w11a, Souper Secret Setting's Library, [Luminance](https://modrinth.com/mod/luminance), re-adds them with a builtin resourcepack, as well as adding various shaders used in april fools snapshots (marked with *)
 
 Luminance also has its own builtin shaders, also enabled in resourcepacks, this list may be outdated
 
@@ -15,7 +15,7 @@ All builtin resourcepacks should be enabled by default, but they may need to ena
 | invert           | bits                  | depth_dither     | bevel           |
 | spider           | blobs                 | eightbit         | blobs_outline   |
 |                  | blobs2                | gentoo           | blobs_square    |
-|                  | bloom                 | golden           | bloom_color     |
+|                  | bloom*                | golden           | bloom_color     |
 |                  | bumpy                 | grayscale        | bloom_spike     |
 |                  | color_convolve        | health_overlay   | brightness      |
 |                  | deconverge            | mirror           | checkerboard    |
@@ -23,14 +23,14 @@ All builtin resourcepacks should be enabled by default, but they may need to ena
 |                  | flip                  | outlined2        | collapse        |
 |                  | fxaa                  | pixelated        | color_bleed     |
 |                  | green                 | rainbow          | color_blind     |
-|                  | love                  | saturate         | color_shuffle   |
+|                  | love*                 | saturate         | color_shuffle   |
 |                  | notch                 | silhouette       | contrast        |
 |                  | ntsc                  | silhouette2      | depth_outline   |
 |                  | outline               | sixteen_colors   | dramatic        |
 |                  | pencil                | tiltshift        | film_grain      |
 |                  | phosphor              |                  | fisheye         |
 |                  | scan_pincushion       |                  | fractal         |
-|                  | shareware             |                  | frigid          |
+|                  | shareware*            |                  | frigid          |
 |                  | sobel                 |                  | gaussian        |
 |                  | wobble                |                  | ghost           |
 |                  |                       |                  | glass           |
