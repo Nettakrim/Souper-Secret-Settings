@@ -3,18 +3,36 @@ package com.nettakrim.souper_secret_settings.shaders.calculations;
 import com.mclegoman.luminance.client.shaders.overrides.OverrideSource;
 import com.nettakrim.souper_secret_settings.shaders.ShaderStack;
 
-public abstract class Calculation {
-    public OverrideSource[] inputs = new OverrideSource[inputCount()];
-    public String[] outputs = new String[outputCount()];
+import java.util.ArrayList;
+import java.util.List;
 
-    protected float[] inputValues = new float[inputs.length];
-    protected float[] outputValues = new float[outputs.length];
+public abstract class Calculation {
+    public OverrideSource[] inputs;
+    public String[] outputs;
+
+    protected float[] inputValues;
+    protected float[] outputValues;
 
     private final String id;
 
-    public Calculation(String id) {
+    public Calculation(String id, ShaderStack stack) {
         this.id = id;
+
+        String[] inputStrings = getInputs();
+
+        this.inputs = new OverrideSource[inputStrings.length];
+        for (int i = 0; i < inputs.length; i++) {
+            this.inputs[i] = stack.localSourceFromString(inputStrings[i]);
+        }
+
+        this.outputs = getOutputs();
+
+        inputValues = new float[inputs.length];
+        outputValues = new float[outputs.length];
     }
+
+    protected abstract String[] getInputs();
+    protected abstract String[] getOutputs();
 
     public void update(ShaderStack stack) {
         for (int i = 0; i < inputs.length; i++) {
@@ -36,11 +54,15 @@ public abstract class Calculation {
 
     protected abstract void calculateOutputValues();
 
-    protected abstract int inputCount();
-
-    protected abstract int outputCount();
-
     public String getID() {
         return id;
+    }
+
+    public List<Float> getLastOutput() {
+        List<Float> list = new ArrayList<>(outputValues.length);
+        for (float outputValue : outputValues) {
+            list.add(outputValue);
+        }
+        return list;
     }
 }

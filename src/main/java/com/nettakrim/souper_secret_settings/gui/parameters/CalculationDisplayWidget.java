@@ -73,7 +73,7 @@ public class CalculationDisplayWidget extends DisplayWidget {
 
     @Override
     protected List<Float> getDisplayFloats() {
-        return List.of();
+        return calculation.getLastOutput();
     }
 
     protected void onOutputChanged(int i, String s) {

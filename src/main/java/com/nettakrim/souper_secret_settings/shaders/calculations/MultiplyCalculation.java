@@ -1,8 +1,20 @@
 package com.nettakrim.souper_secret_settings.shaders.calculations;
 
+import com.nettakrim.souper_secret_settings.shaders.ShaderStack;
+
 public class MultiplyCalculation extends Calculation {
-    public MultiplyCalculation(String id) {
-        super(id);
+    public MultiplyCalculation(String id, ShaderStack stack) {
+        super(id, stack);
+    }
+
+    @Override
+    protected String[] getInputs() {
+        return new String[]{"","",""};
+    }
+
+    @Override
+    protected String[] getOutputs() {
+        return new String[]{""};
     }
 
     @Override
@@ -12,15 +24,5 @@ public class MultiplyCalculation extends Calculation {
         float b = inputValues[1];
         float c = inputValues[2];
         outputValues[0] = -2*a*b*c + a*b + b*c + c*a;
-    }
-
-    @Override
-    protected int inputCount() {
-        return 3;
-    }
-
-    @Override
-    protected int outputCount() {
-        return 1;
     }
 }
