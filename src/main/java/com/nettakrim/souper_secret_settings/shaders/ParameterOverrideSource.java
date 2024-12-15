@@ -18,8 +18,9 @@ public class ParameterOverrideSource implements OverrideSource {
     public Float get() {
         ShaderStack stack = ShaderStack.getRenderingStack();
         if (stack != null) {
-            if (hasParameter(stack)) {
-                lastValue = stack.parameterValues.get(source.getString());
+            String parameter = source.getString();
+            if (!parameter.isEmpty() && stack.parameterValues.containsKey(parameter)) {
+                lastValue = stack.parameterValues.get(parameter);
             } else {
                 Float f = source.get();
                 if (f == null) return f;
@@ -39,10 +40,6 @@ public class ParameterOverrideSource implements OverrideSource {
     @Override
     public String getString() {
         return source.getString();
-    }
-
-    public boolean hasParameter(ShaderStack stack) {
-        return stack.parameterValues.containsKey(source.getString());
     }
 
     public static OverrideSource parameterSourceFromString(String s) {
