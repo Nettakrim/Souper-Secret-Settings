@@ -1,10 +1,8 @@
 package com.nettakrim.souper_secret_settings.shaders.calculations;
 
-import com.nettakrim.souper_secret_settings.shaders.ShaderStack;
-
 public class MixCalculation extends Calculation {
-    public MixCalculation(String id, ShaderStack stack) {
-        super(id, stack);
+    public MixCalculation(String id) {
+        super(id);
     }
 
     @Override

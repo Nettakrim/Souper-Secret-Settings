@@ -1,8 +1,5 @@
 package com.nettakrim.souper_secret_settings.shaders;
 
-import com.mclegoman.luminance.client.shaders.overrides.LuminanceUniformOverride;
-import com.mclegoman.luminance.client.shaders.overrides.OverrideSource;
-import com.mclegoman.luminance.client.shaders.overrides.UniformSource;
 import com.nettakrim.souper_secret_settings.shaders.calculations.Calculation;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.util.ObjectAllocator;
@@ -24,6 +21,7 @@ public class ShaderStack {
     }
 
     public void render(Framebuffer framebuffer, ObjectAllocator objectAllocator) {
+        renderingStack = this;
         parameterValues.clear();
         for (Calculation calculation : calculations) {
             calculation.update(this);
@@ -32,6 +30,7 @@ public class ShaderStack {
         for (ShaderData shaderData : shaderDatas) {
             shaderData.render(framebuffer, objectAllocator);
         }
+        renderingStack = null;
     }
 
     public void addShaderData(ShaderData shaderData) {
@@ -42,11 +41,8 @@ public class ShaderStack {
         shaderDatas.clear();
     }
 
-    public OverrideSource localSourceFromString(String s) {
-        OverrideSource overrideSource = LuminanceUniformOverride.sourceFromString(s);
-        if (overrideSource instanceof UniformSource uniformSource) {
-            return new ParameterOverrideSource(this, uniformSource);
-        }
-        return overrideSource;
+    private static ShaderStack renderingStack;
+    public static ShaderStack getRenderingStack() {
+        return renderingStack;
     }
 }

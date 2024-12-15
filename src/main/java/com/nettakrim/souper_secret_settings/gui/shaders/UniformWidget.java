@@ -5,10 +5,12 @@ import com.mclegoman.luminance.client.shaders.overrides.LuminanceUniformOverride
 import com.mclegoman.luminance.client.shaders.overrides.UniformOverride;
 import com.mclegoman.luminance.client.shaders.overrides.UniformSource;
 import com.mclegoman.luminance.client.shaders.uniforms.Uniform;
+import com.mclegoman.luminance.common.util.Couple;
 import com.nettakrim.souper_secret_settings.gui.ListScreen;
 import com.nettakrim.souper_secret_settings.gui.DisplayWidget;
 import com.nettakrim.souper_secret_settings.gui.ParameterRemapWidget;
 import com.nettakrim.souper_secret_settings.shaders.MixOverrideSource;
+import com.nettakrim.souper_secret_settings.shaders.ParameterOverrideSource;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.gl.PostEffectPipeline;
 import net.minecraft.client.gui.widget.ClickableWidget;
@@ -19,7 +21,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class UniformWidget extends DisplayWidget {
+public class UniformWidget extends DisplayWidget<Couple<String,String>> {
     public PassWidget pass;
 
     public GlUniform uniform;
@@ -34,7 +36,7 @@ public class UniformWidget extends DisplayWidget {
     }
 
     @Override
-    protected String[] getChildData() {
+    protected List<Couple<String,String>> getChildData() {
         String[] values = new String[uniform.getCount()];
 
         List<Float> baseValues = getBaseValues();
@@ -42,9 +44,13 @@ public class UniformWidget extends DisplayWidget {
             values[i] = Float.toString(baseValues.get(i));
         }
 
-        if (values.length == 1) {
-            if (LuminanceUniformOverride.sourceFromString(uniform.getName()) instanceof UniformSource uniformSource && uniformSource.getUniform() != null) {
-                values[0] = uniform.getName();
+        String[] defaults = values.clone();
+
+        if (defaults.length == 1) {
+            if (((PostEffectPassInterface)pass.postEffectPass).luminance$getUniformOverride(uniform.getName()) instanceof LuminanceUniformOverride o && o.overrideSources.getFirst() instanceof UniformSource uniformSource && uniformSource.getUniform() != null) {
+                defaults[0] = uniformSource.getString();
+            } else if (LuminanceUniformOverride.sourceFromString(uniform.getName()) instanceof UniformSource uniformSource && uniformSource.getUniform() != null) {
+                defaults[0] = uniformSource.getString();
             }
         }
 
@@ -69,7 +75,11 @@ public class UniformWidget extends DisplayWidget {
             override = new LuminanceUniformOverride(overrideStrings);
         }
 
-        return values;
+        List<Couple<String, String>> data = new ArrayList<>(values.length);
+        for (int i = 0; i < values.length; i++) {
+            data.add(new Couple<>(values[i], defaults[i]));
+        }
+        return data;
     }
 
     protected List<Float> getBaseValues() {
@@ -82,18 +92,21 @@ public class UniformWidget extends DisplayWidget {
     }
 
     @Override
-    protected ClickableWidget createChildWidget(String data, int i) {
+    protected ClickableWidget createChildWidget(Couple<String,String> data, int i) {
+        String value = data.getFirst();
+        String defaultValue = data.getSecond();
+
         float a = 0;
         float b = 1;
-        if (data.startsWith("mix(")) {
+        if (value.startsWith("mix(")) {
             try {
-                String[] parts = data.split("/");
+                String[] parts = value.split("/");
                 a = Float.parseFloat(parts[0].substring(4));
                 b = Float.parseFloat(parts[1]);
-                data = parts[2].substring(0, parts[2].length()-1);
+                value = parts[2].substring(0, parts[2].length()-1);
             } catch (Exception ignored) {}
         } else {
-            if (LuminanceUniformOverride.sourceFromString(data) instanceof UniformSource uniformSource) {
+            if (LuminanceUniformOverride.sourceFromString(value) instanceof UniformSource uniformSource) {
                 Uniform override = uniformSource.getUniform();
                 if (override != null) {
                     Optional<Float> min = override.getMin();
@@ -106,7 +119,8 @@ public class UniformWidget extends DisplayWidget {
             }
         }
 
-        ParameterRemapWidget widget = new ParameterRemapWidget(getX(), width, width/2, 20, Text.literal("value"), pass.shader.stack, data);
+        ParameterRemapWidget widget = new ParameterRemapWidget(getX(), width, width/2, 20, Text.literal("value"), pass.shader.stack, defaultValue);
+        widget.setText(value);
         widget.widgetA.setText(Float.toString(a));
         widget.widgetB.setText(Float.toString(b));
         widget.onChange((w) -> onValueChanged(i, w));
@@ -121,7 +135,7 @@ public class UniformWidget extends DisplayWidget {
     }
 
     protected void onValueChanged(int i, ParameterRemapWidget widget) {
-        override.overrideSources.set(i, new MixOverrideSource(widget.a, widget.b, pass.shader.stack.localSourceFromString(widget.value)));
+        override.overrideSources.set(i, new MixOverrideSource(widget.a, widget.b, ParameterOverrideSource.parameterSourceFromString(widget.value)));
         pass.shader.shaderData.overrides.get(pass.passIndex).put(uniform.getName(), override);
     }
 

@@ -10,7 +10,7 @@ import net.minecraft.util.math.MathHelper;
 
 import java.util.List;
 
-public abstract class DisplayWidget extends CollapseWidget {
+public abstract class DisplayWidget<T> extends CollapseWidget {
     protected static int displayWidth = 10;
 
     public int count;
@@ -21,18 +21,17 @@ public abstract class DisplayWidget extends CollapseWidget {
     }
 
     protected void initValues() {
-        String[] values = getChildData();
-        for (int i = 0; i < values.length; i++) {
-            String value = values[i];
-            ClickableWidget widget = createChildWidget(value, i);
+        List<T> values = getChildData();
+        for (int i = 0; i < values.size(); i++) {
+            ClickableWidget widget = createChildWidget(values.get(i), i);
             listScreen.addSelectable(widget);
             children.add(widget);
         }
     }
 
-    protected abstract ClickableWidget createChildWidget(String data, int i);
+    protected abstract ClickableWidget createChildWidget(T data, int i);
 
-    protected abstract String[] getChildData();
+    protected abstract List<T> getChildData();
 
     @Override
     protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {

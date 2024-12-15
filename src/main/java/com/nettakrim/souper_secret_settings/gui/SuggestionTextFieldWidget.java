@@ -48,6 +48,9 @@ public class SuggestionTextFieldWidget extends DraggableTextFieldWidget {
         List<String> suggestions = validAdditions.get();
 
         int length = s.length();
+        if (length == 0) {
+            previousSuggestion = null;
+        }
         for (String suggestion : suggestions) {
             if (suggestion.length() >= length && s.equals(suggestion.substring(0, length))) {
                 currentSuggestions.add(suggestion);

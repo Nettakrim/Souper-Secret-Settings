@@ -1,10 +1,8 @@
 package com.nettakrim.souper_secret_settings.shaders.calculations;
 
-import com.nettakrim.souper_secret_settings.shaders.ShaderStack;
-
 public class MultiplyCalculation extends Calculation {
-    public MultiplyCalculation(String id, ShaderStack stack) {
-        super(id, stack);
+    public MultiplyCalculation(String id) {
+        super(id);
     }
 
     @Override

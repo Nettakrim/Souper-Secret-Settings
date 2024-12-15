@@ -1,6 +1,7 @@
 package com.nettakrim.souper_secret_settings.shaders.calculations;
 
 import com.mclegoman.luminance.client.shaders.overrides.OverrideSource;
+import com.nettakrim.souper_secret_settings.shaders.ParameterOverrideSource;
 import com.nettakrim.souper_secret_settings.shaders.ShaderStack;
 
 import java.util.ArrayList;
@@ -15,14 +16,14 @@ public abstract class Calculation {
 
     private final String id;
 
-    public Calculation(String id, ShaderStack stack) {
+    public Calculation(String id) {
         this.id = id;
 
         String[] inputStrings = getInputs();
 
         this.inputs = new OverrideSource[inputStrings.length];
         for (int i = 0; i < inputs.length; i++) {
-            this.inputs[i] = stack.localSourceFromString(inputStrings[i]);
+            this.inputs[i] = ParameterOverrideSource.parameterSourceFromString(inputStrings[i]);
         }
 
         this.outputs = getOutputs();

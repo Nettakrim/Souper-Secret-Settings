@@ -5,6 +5,7 @@ import com.mclegoman.luminance.client.shaders.interfaces.ShaderProgramInterface;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.gui.ListScreen;
 import com.nettakrim.souper_secret_settings.gui.CollapseWidget;
+import com.nettakrim.souper_secret_settings.shaders.ShaderData;
 import net.minecraft.client.gl.GlUniform;
 import net.minecraft.client.gl.PostEffectPass;
 import net.minecraft.client.gl.ShaderProgram;
@@ -13,11 +14,7 @@ import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 
-import java.util.List;
-
 public class PassWidget extends CollapseWidget {
-    public static final List<String> uniformsToIgnore = List.of("ProjMat", "InSize", "OutSize");
-
     public ShaderWidget shader;
     public PostEffectPass postEffectPass;
     public int passIndex;
@@ -32,7 +29,7 @@ public class PassWidget extends CollapseWidget {
         ShaderProgram program = ((PostEffectPassInterface)postEffectPass).luminance$getProgram();
         for (String name : ((ShaderProgramInterface)program).luminance$getUniformNames()) {
             GlUniform uniform = program.getUniform(name);
-            if (uniform != null && !uniformsToIgnore.contains(name)) {
+            if (uniform != null && ShaderData.allowUniform(name)) {
                 UniformWidget uniformWidget = new UniformWidget(this, uniform, Text.literal(uniform.getName()), x, width, listScreen);
                 listScreen.addSelectable(uniformWidget);
                 children.add(uniformWidget);

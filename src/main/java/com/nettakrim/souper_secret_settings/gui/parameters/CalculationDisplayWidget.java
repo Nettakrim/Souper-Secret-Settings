@@ -5,15 +5,17 @@ import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.gui.DisplayWidget;
 import com.nettakrim.souper_secret_settings.gui.ListScreen;
 import com.nettakrim.souper_secret_settings.gui.ParameterTextWidget;
+import com.nettakrim.souper_secret_settings.shaders.ParameterOverrideSource;
 import com.nettakrim.souper_secret_settings.shaders.ShaderStack;
 import com.nettakrim.souper_secret_settings.shaders.calculations.Calculation;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.text.Text;
 
+import java.util.Arrays;
 import java.util.List;
 
-public class CalculationDisplayWidget extends DisplayWidget {
+public class CalculationDisplayWidget extends DisplayWidget<OverrideSource> {
     public Calculation calculation;
     protected ShaderStack stack;
 
@@ -54,21 +56,17 @@ public class CalculationDisplayWidget extends DisplayWidget {
     }
 
     @Override
-    protected ClickableWidget createChildWidget(String data, int i) {
-        ParameterTextWidget parameterTextWidget = new CalculationInputWidget(getX(), getWidth(), 20, Text.literal("input"+i), stack, data, SouperSecretSettingsClient.translate("calculation."+calculation.getID()+".input_"+i));
-        parameterTextWidget.setText(data);
+    protected ClickableWidget createChildWidget(OverrideSource data, int i) {
+        String value = data.getString();
+        ParameterTextWidget parameterTextWidget = new CalculationInputWidget(getX(), getWidth(), 20, Text.literal("input"+i), stack, value, SouperSecretSettingsClient.translate("calculation."+calculation.getID()+".input_"+i));
+        parameterTextWidget.setText(value);
         parameterTextWidget.setChangedListener((s) -> onInputChanged(i, s));
         return parameterTextWidget;
     }
 
     @Override
-    protected String[] getChildData() {
-        String[] data = new String[calculation.inputs.length];
-        for (int i = 0; i < data.length; i++) {
-            OverrideSource source = calculation.inputs[i];
-            data[i] = source == null ? "" : source.getString();
-        }
-        return data;
+    protected List<OverrideSource> getChildData() {
+        return Arrays.asList(calculation.inputs);
     }
 
     @Override
@@ -81,7 +79,7 @@ public class CalculationDisplayWidget extends DisplayWidget {
     }
 
     protected void onInputChanged(int i, String s) {
-        calculation.inputs[i] = stack.localSourceFromString(s);
+        calculation.inputs[i] = ParameterOverrideSource.parameterSourceFromString(s);
     }
 
     @Override
