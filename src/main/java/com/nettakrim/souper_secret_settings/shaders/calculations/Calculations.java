@@ -8,6 +8,8 @@ import com.nettakrim.souper_secret_settings.shaders.calculations.oscillator.SawC
 import com.nettakrim.souper_secret_settings.shaders.calculations.oscillator.SineCalculation;
 import com.nettakrim.souper_secret_settings.shaders.calculations.oscillator.SquareCalculation;
 import com.nettakrim.souper_secret_settings.shaders.calculations.oscillator.TriangleCalculation;
+import com.nettakrim.souper_secret_settings.shaders.calculations.remap.ClampCalculation;
+import com.nettakrim.souper_secret_settings.shaders.calculations.remap.LimitCalculation;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -28,6 +30,9 @@ public class Calculations {
         registerCalculation("oscillator_sine", SineCalculation::new);
         registerCalculation("oscillator_square", SquareCalculation::new);
         registerCalculation("oscillator_triangle", TriangleCalculation::new);
+
+        registerCalculation("remap_clamp", ClampCalculation::new);
+        registerCalculation("remap_limit", LimitCalculation::new);
     }
 
     public static void registerCalculation(String id, Function<String, Calculation> supplier) {

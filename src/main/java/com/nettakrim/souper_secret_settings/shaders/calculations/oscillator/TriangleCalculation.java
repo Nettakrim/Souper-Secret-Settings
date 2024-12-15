@@ -9,7 +9,7 @@ public class TriangleCalculation extends PeriodicCalculation {
 
     @Override
     protected float periodicCalculation(float t) {
-        return MathHelper.abs(t%1 - 0.5f)*2f;
+        return MathHelper.abs(MathHelper.floorMod(t,1) - 0.5f)*2f;
     }
 }
 

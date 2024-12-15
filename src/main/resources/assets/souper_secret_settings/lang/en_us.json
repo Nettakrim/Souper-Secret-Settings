@@ -59,5 +59,13 @@
     "souper_secret_settings.calculation.oscillator_triangle": "triangle",
     "souper_secret_settings.calculation.oscillator_triangle.input_0": "time",
     "souper_secret_settings.calculation.oscillator_triangle.input_1": "period",
-    "souper_secret_settings.calculation.oscillator_triangle.input_2": "phase"
+    "souper_secret_settings.calculation.oscillator_triangle.input_2": "phase",
+
+    "souper_secret_settings.calculation.remap_clamp": "clamp",
+    "souper_secret_settings.calculation.remap_clamp.input_0": "x",
+    "souper_secret_settings.calculation.remap_clamp.input_1": "min",
+    "souper_secret_settings.calculation.remap_clamp.input_2": "max",
+    "souper_secret_settings.calculation.remap_limit": "limit",
+    "souper_secret_settings.calculation.remap_limit.input_0": "x",
+    "souper_secret_settings.calculation.remap_limit.input_1": "scale"
 }
