@@ -1,4 +1,6 @@
-package com.nettakrim.souper_secret_settings.shaders.calculations;
+package com.nettakrim.souper_secret_settings.shaders.calculations.mix;
+
+import com.nettakrim.souper_secret_settings.shaders.calculations.Calculation;
 
 public class MultiplyCalculation extends Calculation {
     public MultiplyCalculation(String id) {

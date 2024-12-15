@@ -1,7 +1,9 @@
-package com.nettakrim.souper_secret_settings.shaders.calculations;
+package com.nettakrim.souper_secret_settings.shaders.calculations.mix;
 
-public class MixCalculation extends Calculation {
-    public MixCalculation(String id) {
+import com.nettakrim.souper_secret_settings.shaders.calculations.Calculation;
+
+public class LinearCalculation extends Calculation {
+    public LinearCalculation(String id) {
         super(id);
     }
 
