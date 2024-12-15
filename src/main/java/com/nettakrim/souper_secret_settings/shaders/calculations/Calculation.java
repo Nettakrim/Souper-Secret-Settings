@@ -49,7 +49,10 @@ public abstract class Calculation {
         calculateOutputValues();
 
         for (int i = 0; i < outputs.length; i++) {
-            stack.parameterValues.put(outputs[i], outputValues[i]);
+            String output = outputs[i];
+            if (!output.isBlank()) {
+                stack.parameterValues.put(output, outputValues[i]);
+            }
         }
     }
 
