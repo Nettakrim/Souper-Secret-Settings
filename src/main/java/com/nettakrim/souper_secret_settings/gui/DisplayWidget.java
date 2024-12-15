@@ -6,7 +6,6 @@ import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.ColorHelper;
-import net.minecraft.util.math.MathHelper;
 
 import java.util.List;
 
@@ -35,50 +34,73 @@ public abstract class DisplayWidget<T> extends CollapseWidget {
 
     @Override
     protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
-        drawScrollableText(context, SouperSecretSettingsClient.client.textRenderer, this.getMessage(), this.getX()+2, this.getY(), this.getX()+this.getWidth()-displayWidth-2, this.getY()+20, (this.active ? 16777215 : 10526880) | MathHelper.ceil(this.alpha * 255.0F) << 24);
+        int color = ColorHelper.getArgb(255,255,255,255);
+        drawScrollableText(context, SouperSecretSettingsClient.client.textRenderer, this.getMessage(), this.getX()+2, this.getY(), this.getX()+this.getWidth()-displayWidth-2, this.getY()+20, color);
 
         super.renderWidget(context, mouseX, mouseY, delta);
 
-        drawIndicator(context);
+        List<Float> currentDisplay = getDisplayFloats();
+        drawIndicator(context, currentDisplay);
+
+        if (hovered && mouseX > this.getX()+this.getWidth()-displayWidth-2) {
+            Text text = getHoverText(currentDisplay);
+            context.fill(mouseX-2, mouseY-22, mouseX + SouperSecretSettingsClient.client.textRenderer.getWidth(text)+2, mouseY-10, ColorHelper.getArgb(128,0,0,0));
+            context.drawText(SouperSecretSettingsClient.client.textRenderer, text, mouseX, mouseY-20, color, true);
+        }
     }
 
-    protected void drawIndicator(DrawContext context) {
+    private static Text getHoverText(List<Float> currentDisplay) {
+        StringBuilder stringBuilder = new StringBuilder("[ ");
+        for (Float f : currentDisplay) {
+            String s = f.toString();
+            int point = s.indexOf('.');
+            if (point > 0 && s.length() > point+4) {
+                s = s.substring(0, point+4);
+            }
+            stringBuilder.append(s);
+            stringBuilder.append(" ");
+        }
+        stringBuilder.append("]");
+
+        return Text.of(stringBuilder.toString());
+    }
+
+    protected void drawIndicator(DrawContext context, List<Float> currentDisplay) {
         int x = getX()+getWidth();
         int y = getY();
 
-        context.fill(x, y, x-displayWidth, y+20, getColor(getDisplayFloats()));
+        context.fill(x, y, x-displayWidth, y+20, getColor(currentDisplay));
     }
 
     protected int getColor(List<Float> values) {
-        float over = 0f;
+        float scale = 0f;
         for (Float f : values) {
-            over = Math.max(over, Math.abs(f));
+            scale = Math.max(scale, Math.abs(f));
         }
-        if (over > 1) {
-            for (int i = 0; i < values.size(); i++) {
-                values.set(i, values.get(i)/over);
-            }
+        float normalise = 1f;
+        if (scale > 1) {
+            normalise = 1f/scale;
         }
 
         float r;
         float g;
         float b;
         if (values.size() == 1) {
-            r = values.get(0);
+            r = values.get(0)*normalise;
             g = -r;
             b = g;
         } else if (values.size() == 2) {
-            r = values.get(0);
-            g = values.get(1);
+            r = values.get(0)*normalise;
+            g = values.get(1)*normalise;
             float rInverse = -Math.min(r, 0f);
             float gInverse = -Math.min(g, 0f);
             r += gInverse;
             g += rInverse;
             b = gInverse + rInverse;
         } else if (values.size() >= 3) {
-            r = values.get(0);
-            g = values.get(1);
-            b = values.get(2);
+            r = values.get(0)*normalise;
+            g = values.get(1)*normalise;
+            b = values.get(2)*normalise;
         } else {
             r = 0f;
             g = 0f;
@@ -88,11 +110,11 @@ public abstract class DisplayWidget<T> extends CollapseWidget {
         r = Math.clamp(r, 0f, 1f);
         g = Math.clamp(g, 0f, 1f);
         b = Math.clamp(b, 0f, 1f);
-        if (over > 1) {
-            over = (over-1)/(1.25f*over);
-            r = (r*(1-over))+over;
-            g = (g*(1-over))+over;
-            b = (b*(1-over))+over;
+        if (scale > 1) {
+            scale = (scale-1)/(1.25f*scale);
+            r = (r*(1-scale))+scale;
+            g = (g*(1-scale))+scale;
+            b = (b*(1-scale))+scale;
         }
 
         return ColorHelper.fromFloats(1f, r, g, b);
