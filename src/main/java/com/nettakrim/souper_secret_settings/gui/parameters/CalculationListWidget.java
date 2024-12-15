@@ -1,5 +1,6 @@
 package com.nettakrim.souper_secret_settings.gui.parameters;
 
+import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.gui.ListScreen;
 import com.nettakrim.souper_secret_settings.gui.ListWidget;
 import com.nettakrim.souper_secret_settings.shaders.ShaderStack;
@@ -9,7 +10,7 @@ import net.minecraft.text.Text;
 
 public class CalculationListWidget extends ListWidget {
     public CalculationListWidget(Calculation calculation, ShaderStack stack, ListScreen<?> listScreen, int x, int width) {
-        super(x, width, Text.literal(calculation.getName()), listScreen);
+        super(x, width, SouperSecretSettingsClient.translate("calculation."+calculation.getID()), listScreen);
 
         CalculationDisplayWidget calculationDisplayWidget = new CalculationDisplayWidget(calculation, stack, Text.literal(""), x, width, listScreen);
         children.add(calculationDisplayWidget);

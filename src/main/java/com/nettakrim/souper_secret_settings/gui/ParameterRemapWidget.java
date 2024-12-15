@@ -1,7 +1,6 @@
 package com.nettakrim.souper_secret_settings.gui;
 
 import com.nettakrim.souper_secret_settings.shaders.ShaderStack;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
 
@@ -20,15 +19,15 @@ public class ParameterRemapWidget extends ParameterTextWidget {
 
     protected Consumer<ParameterRemapWidget> onChange;
 
-    public ParameterRemapWidget(TextRenderer textRenderer, int x, int maxWidth, int minWidth, int height, Text message, ShaderStack stack, String defaultValue) {
-        super(textRenderer, x, maxWidth, height, message, stack, defaultValue);
+    public ParameterRemapWidget(int x, int maxWidth, int minWidth, int height, Text message, ShaderStack stack, String defaultValue) {
+        super(x, maxWidth, height, message, stack, defaultValue);
         this.maxWidth = maxWidth;
         this.minWidth = minWidth;
         setText(defaultValue);
 
         int size = (maxWidth - minWidth)/2;
-        widgetA = new DraggableTextFieldWidget(textRenderer, x + minWidth, size, height, Text.literal("a-").append(message));
-        widgetB = new DraggableTextFieldWidget(textRenderer, x + minWidth + size, size, height, Text.literal("b-").append(message));
+        widgetA = new DraggableTextFieldWidget(x + minWidth, size, height, Text.literal("a-").append(message));
+        widgetB = new DraggableTextFieldWidget(x + minWidth + size, size, height, Text.literal("b-").append(message));
         widgetA.setText("0");
         widgetB.setText("1");
 

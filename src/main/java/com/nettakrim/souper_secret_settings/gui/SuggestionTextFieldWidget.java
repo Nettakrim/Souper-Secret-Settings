@@ -1,6 +1,5 @@
 package com.nettakrim.souper_secret_settings.gui;
 
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.text.Text;
 
 import java.util.ArrayList;
@@ -17,8 +16,8 @@ public class SuggestionTextFieldWidget extends DraggableTextFieldWidget {
     private final List<String> currentSuggestions = new ArrayList<>();
     private int currentSuggestionIndex = 0;
 
-    public SuggestionTextFieldWidget(TextRenderer textRenderer, int x, int width, int height, Text message) {
-        super(textRenderer, x, width, height, message);
+    public SuggestionTextFieldWidget(int x, int width, int height, Text message) {
+        super(x, width, height, message);
         super.setChangedListener(this::onChange);
     }
 

@@ -4,7 +4,6 @@ import com.mclegoman.luminance.client.events.Events;
 import com.mclegoman.luminance.client.shaders.ShaderDataloader;
 import com.mclegoman.luminance.client.util.LuminanceIdentifier;
 import com.nettakrim.souper_secret_settings.shaders.ShaderStack;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.text.Text;
 
 import java.util.ArrayList;
@@ -15,8 +14,8 @@ public class ParameterTextWidget extends SuggestionTextFieldWidget {
     protected final String defaultValue;
     protected final ShaderStack stack;
 
-    public ParameterTextWidget(TextRenderer textRenderer, int x, int width, int height, Text message, ShaderStack stack, String defaultValue) {
-        super(textRenderer, x, width, height, message);
+    public ParameterTextWidget(int x, int width, int height, Text message, ShaderStack stack, String defaultValue) {
+        super(x, width, height, message);
         this.stack = stack;
         this.defaultValue = defaultValue;
         if (defaultValue != null) {

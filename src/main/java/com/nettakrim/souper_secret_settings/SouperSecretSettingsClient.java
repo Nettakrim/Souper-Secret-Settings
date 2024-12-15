@@ -39,11 +39,15 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 	}
 
 	public static void say(String key, Object... args) {
-		sayText(Text.translatable(MODID + ".say").setStyle(Style.EMPTY.withColor(nameTextColor)).append(Text.translatable(MODID + "." + key, args).setStyle(Style.EMPTY.withColor(textColor))));
+		sayText(translate("say").setStyle(Style.EMPTY.withColor(nameTextColor)).append(translate(key, args).setStyle(Style.EMPTY.withColor(textColor))));
 	}
 
 	public static void sayText(MutableText text) {
 		if (client.player == null) return;
 		client.player.sendMessage(Text.translatable(MODID + ".say").setStyle(Style.EMPTY.withColor(nameTextColor)).append(text.setStyle(Style.EMPTY.withColor(textColor))), false);
+	}
+
+	public static MutableText translate(String key, Object... args) {
+		return Text.translatable(MODID+"."+key, args);
 	}
 }

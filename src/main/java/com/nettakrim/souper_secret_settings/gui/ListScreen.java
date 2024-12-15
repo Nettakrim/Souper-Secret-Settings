@@ -1,6 +1,5 @@
 package com.nettakrim.souper_secret_settings.gui;
 
-import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
@@ -37,7 +36,7 @@ public abstract class ListScreen<V> extends Screen {
             listWidgets.add(listWidget);
         }
 
-        suggestionTextFieldWidget = new SuggestionTextFieldWidget(SouperSecretSettingsClient.client.textRenderer, listGap, listWidth, 20, Text.literal("list addition"));
+        suggestionTextFieldWidget = new SuggestionTextFieldWidget(listGap, listWidth, 20, Text.literal("list addition"));
         suggestionTextFieldWidget.setListeners(this::getAdditions, this::addAddition);
         addDrawableChild(suggestionTextFieldWidget);
 

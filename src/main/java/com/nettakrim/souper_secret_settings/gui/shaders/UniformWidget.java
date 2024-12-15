@@ -5,7 +5,6 @@ import com.mclegoman.luminance.client.shaders.overrides.LuminanceUniformOverride
 import com.mclegoman.luminance.client.shaders.overrides.UniformOverride;
 import com.mclegoman.luminance.client.shaders.overrides.UniformSource;
 import com.mclegoman.luminance.client.shaders.uniforms.Uniform;
-import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.gui.ListScreen;
 import com.nettakrim.souper_secret_settings.gui.DisplayWidget;
 import com.nettakrim.souper_secret_settings.gui.ParameterRemapWidget;
@@ -107,7 +106,7 @@ public class UniformWidget extends DisplayWidget {
             }
         }
 
-        ParameterRemapWidget widget = new ParameterRemapWidget(SouperSecretSettingsClient.client.textRenderer, getX(), width, width/2, 20, Text.literal("value"), pass.shader.stack, data);
+        ParameterRemapWidget widget = new ParameterRemapWidget(getX(), width, width/2, 20, Text.literal("value"), pass.shader.stack, data);
         widget.widgetA.setText(Float.toString(a));
         widget.widgetB.setText(Float.toString(b));
         widget.onChange((w) -> onValueChanged(i, w));

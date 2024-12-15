@@ -40,7 +40,7 @@ public abstract class Calculation {
 
     protected abstract int outputCount();
 
-    public String getName() {
+    public String getID() {
         return id;
     }
 }
