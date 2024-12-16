@@ -25,14 +25,15 @@ All builtin resourcepacks should be enabled by default, but they may need to ena
 |                  | green                 | rainbow          | color_blind     |
 |                  | love*                 | saturate         | color_shuffle   |
 |                  | notch                 | silhouette       | contrast        |
-|                  | ntsc                  | silhouette2      | depth_outline   |
-|                  | outline               | sixteen_colors   | dramatic        |
-|                  | pencil                | tiltshift        | film_grain      |
-|                  | phosphor              |                  | fisheye         |
-|                  | scan_pincushion       |                  | fractal         |
-|                  | shareware*            |                  | frigid          |
-|                  | sobel                 |                  | gaussian        |
-|                  | wobble                |                  | ghost           |
+|                  | ntsc                  | silhouette2      | crystallize     |
+|                  | outline               | sixteen_colors   | depth_outline   |
+|                  | pencil                | tiltshift        | dramatic        |
+|                  | phosphor              |                  | film_grain      |
+|                  | scan_pincushion       |                  | fisheye         |
+|                  | shareware*            |                  | fractal         |
+|                  | sobel                 |                  | frigid          |
+|                  | wobble                |                  | gaussian        |
+|                  |                       |                  | ghost           |
 |                  |                       |                  | glass           |
 |                  |                       |                  | glitchy         |
 |                  |                       |                  | half_invert     |

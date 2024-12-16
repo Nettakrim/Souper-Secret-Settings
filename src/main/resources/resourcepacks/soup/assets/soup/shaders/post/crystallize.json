@@ -1,0 +1,16 @@
+{
+    "vertex": "minecraft:post/sobel",
+    "fragment": "soup:post/crystallize",
+    "samplers": [
+        { "name": "InSampler" }
+    ],
+    "uniforms": [
+        { "name": "ProjMat",       "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
+        { "name": "InSize",        "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
+        { "name": "OutSize",       "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
+        { "name": "Scale",         "type": "float",     "count": 1,  "values": [ 20.0 ] },
+        { "name": "Offset",        "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
+        { "name": "Angle",         "type": "float",     "count": 3,  "values": [ 20.0, 20.0, 0.0 ] },
+        { "name": "Seed",          "type": "float",     "count": 1,  "values": [ 1.0 ] }
+    ]
+}
