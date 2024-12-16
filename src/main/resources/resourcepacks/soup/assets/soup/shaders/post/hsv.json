@@ -1,6 +1,6 @@
 {
     "vertex": "minecraft:post/sobel",
-    "fragment": "soup:post/hue_rotate",
+    "fragment": "soup:post/hsv",
     "samplers": [
         { "name": "InSampler" }
     ],
@@ -8,6 +8,8 @@
         { "name": "ProjMat",     "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
         { "name": "InSize",      "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
         { "name": "OutSize",     "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
-        { "name": "Amount",      "type": "float",     "count": 1,  "values": [ 0.5 ] }
+        { "name": "Hue",         "type": "float",     "count": 2,  "values": [ 0.0, 1.0 ] },
+        { "name": "Saturation",  "type": "float",     "count": 2,  "values": [ 0.0, 1.0 ] },
+        { "name": "Value",       "type": "float",     "count": 2,  "values": [ 0.0, 1.0 ] }
     ]
 }
