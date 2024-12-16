@@ -77,7 +77,7 @@ float sampleNoise(vec2 coords) {
     float x = fract(coords.x*Stripes)/Stripes;
     float y = coords.y*(oneTexel.x/oneTexel.y);
 
-    vec2 random = vec2(mod(GameTime*123456.789, 1), mod(GameTime*456789.123, 1));
+    vec2 random = vec2(fract(GameTime*123456.789), fract(GameTime*456789.123));
 
     return noise((vec2(x,y)+random)*400);
 }

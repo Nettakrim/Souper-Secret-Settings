@@ -57,7 +57,7 @@ void main() {
         }
     }
 
-    vec3 col = texture(InSampler, mod(lastPos + vec2(0.5), 1.0)).rgb;
+    vec3 col = texture(InSampler, fract(lastPos + vec2(0.5))).rgb;
     if (duration > Iterations-1) {
         col *= Coloring.b;
     } else {

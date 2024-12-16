@@ -54,7 +54,7 @@ void main(){
     vec3 color = texture(InSampler, cell/scale).rgb;
 
     vec2 slope = (vec2(hash(vec3(cell.x, cell.y, Seed))-0.5, hash(vec3(Seed, cell.x, cell.y))-0.5)*Angle.xy)*pos;
-    float angle = mod(slope.x + slope.y, 1);
+    float angle = fract(slope.x + slope.y);
     color = mix(color, vec3(color.r*color.r > angle ? 1 : 0, color.g*color.g > angle ? 1 : 0, color.b*color.b > angle ? 1 : 0), Angle.z);
 
     fragColor = vec4(color, 1);

@@ -25,10 +25,10 @@ void main() {
         col = texture(InSampler, coord+vec2(0.5));
         col = mix(col, texture(PrevOutSampler, coord+vec2(0.5)).brga, 0.5);
     } else if (x != y) {
-        col = texture(PrevOutSampler, mod(rotate(coord, 180)+vec2(0.5), 1.0)).gbra;
+        col = texture(PrevOutSampler, fract(rotate(coord, 180)+vec2(0.5))).gbra;
         col = mix(col, texture(InSampler, texCoord), 0.25);
     } else {
-        col = texture(PrevOutSampler, mod(coord+vec2(0.5), 1.0)).gbra;
+        col = texture(PrevOutSampler, fract(coord+vec2(0.5))).gbra;
         col = mix(col, texture(InSampler, texCoord).brga, 0.25);
     }
 

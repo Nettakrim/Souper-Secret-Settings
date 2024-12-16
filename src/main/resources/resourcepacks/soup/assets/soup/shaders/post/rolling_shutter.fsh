@@ -19,5 +19,5 @@ void main() {
 
     float d = texCoord.y;
 
-    fragColor = vec4(mix(prev, col, mod((GameTime*1200)+d, 1.0) < Threshold ? 1.0 : 0.0), 1.0);
+    fragColor = vec4(mix(prev, col, fract((GameTime*1200)+d) < Threshold ? 1.0 : 0.0), 1.0);
 }
