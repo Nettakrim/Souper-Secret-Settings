@@ -9,13 +9,14 @@ out vec4 fragColor;
 
 uniform vec3 Zoom;
 uniform float Iterations;
-uniform float Radius;
+uniform vec3 Coloring;
 uniform vec3 ZR;
 uniform vec3 ZI;
 uniform vec3 XR;
 uniform vec3 XI;
 uniform vec3 CR;
 uniform vec3 CI;
+uniform float Radius;
 
 //https://www.shadertoy.com/view/ml2fDh
 vec2 complexPow(vec2 z, vec2 n) {
@@ -28,8 +29,10 @@ vec2 complexPow(vec2 z, vec2 n) {
     return vec2(realPart, imagPart);
 }
 
-vec2 mandelbrot(vec2 z, vec2 x, vec2 c) {
-    return complexPow(z, x) + c;
+vec3 hueShift(vec3 color, float hue) {
+    const vec3 k = vec3(0.57735, 0.57735, 0.57735);
+    float cosAngle = cos(hue);
+    return vec3(color * cosAngle + cross(k, color) * sin(hue) + k * dot(k, color) * (1.0 - cosAngle));
 }
 
 vec2 parameter(vec2 c, vec3 r, vec3 i) {
@@ -50,10 +53,18 @@ void main() {
         if (z.x*z.x + z.y*z.y <= Radius) {
             duration += 1;
             lastPos = z;
-            z = mandelbrot(z, x, c);
+            z = complexPow(z, x) + c;
         }
     }
 
-    vec4 col = texture(InSampler, mod(lastPos + vec2(0.5), 1.0))*(duration/ceil(Iterations));
-    fragColor = vec4(col.rgb, 1.0);
+    vec3 col = texture(InSampler, mod(lastPos + vec2(0.5), 1.0)).rgb;
+    if (duration > Iterations-1) {
+        col *= Coloring.b;
+    } else {
+        if (Coloring.g != 0) {
+            col = hueShift(col, duration/Coloring.g);
+        }
+        col *= 1 - (1 - duration/ceil(Iterations)) * Coloring.r;
+    }
+    fragColor = vec4(col, 1.0);
 }
