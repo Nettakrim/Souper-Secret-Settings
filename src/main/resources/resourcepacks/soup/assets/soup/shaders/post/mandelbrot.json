@@ -8,6 +8,14 @@
         { "name": "ProjMat",     "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
         { "name": "InSize",      "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
         { "name": "OutSize",     "type": "float",     "count": 2,  "values": [ 1.0, 1.0 ] },
-        { "name": "Iterations",  "type": "float",     "count": 1,  "values": [ 1.0 ] }
+        { "name": "Zoom",        "type": "float",     "count": 3,  "values": [ 1.0, 0.0, 0.0 ] },
+        { "name": "Iterations",  "type": "float",     "count": 1,  "values": [ 100.0 ] },
+        { "name": "Radius",      "type": "float",     "count": 1,  "values": [ 4.0 ] },
+        { "name": "ZR",          "type": "float",     "count": 3,  "values": [ 0.0, 0.0, 0.0 ] },
+        { "name": "ZI",          "type": "float",     "count": 3,  "values": [ 0.0, 0.0, 0.0 ] },
+        { "name": "XR",          "type": "float",     "count": 3,  "values": [ 0.0, 0.0, 2.0 ] },
+        { "name": "XI",          "type": "float",     "count": 3,  "values": [ 0.0, 0.0, 0.0 ] },
+        { "name": "CR",          "type": "float",     "count": 3,  "values": [ 1.0, 0.0, 0.0 ] },
+        { "name": "CI",          "type": "float",     "count": 3,  "values": [ 0.0, 1.0, 0.0 ] }
     ]
 }

@@ -44,6 +44,7 @@ All builtin resourcepacks should be enabled by default, but they may need to ena
 |                  |                       |                  | hyperspace      |
 |                  |                       |                  | infrared        |
 |                  |                       |                  | interference    |
+|                  |                       |                  | julia           |
 |                  |                       |                  | kaleidoscope    |
 |                  |                       |                  | life            |
 |                  |                       |                  | mandelbrot      |
