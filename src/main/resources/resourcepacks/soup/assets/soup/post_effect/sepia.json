@@ -30,7 +30,7 @@
                 },
                 {
                     "sampler_name": "Dither",
-                    "target": "dither",
+                    "location": "dither",
                     "width": 4,
                     "height": 4,
                     "bilinear": false
