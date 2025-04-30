@@ -7,6 +7,8 @@ You can use multiple souper secret settings at once using `/soup:stack`, and opt
 
 Souper secret settings also expands on vanillas super secret settings by adding some custom ones, have fun eating soup!
 
+### *On some versions  you may need to manually activate the builtin resourcepack "Expanded Shaders" to access the custom shaders*
+
 ![A collection of cool sights](https://cdn.modrinth.com/data/bzJkPbG1/images/e5320e13d8ab192c266c79dda2af46ec8414d77e.png)
 
 ## Commands
