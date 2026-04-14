@@ -33,7 +33,7 @@ void main(){
 
     gl_Position = pos;
 
-    texCoord = uv / OutSize;
+    texCoord = uv;
 
     vec2 centered = texCoord-vec2(0.5);
     vec2 v = mat3x2(X, Y, Offset) * vec3(rotate(centered, Angle), 1.0);

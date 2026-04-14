@@ -47,6 +47,12 @@
             "uniforms": {
                 "WobbleConfig": [
                     {
+                        "name": "Time",
+                        "type": "float",
+                        "value": 0.0,
+                        "override": "luminance:time"
+                    },
+                    {
                         "name": "Frequency",
                         "type": "vec2",
                         "value": [ 11, 17 ]
@@ -55,12 +61,6 @@
                         "name": "WobbleAmount",
                         "type": "vec2",
                         "value": [ 0.0005, 0.0005 ]
-                    },
-                    {
-                        "name": "Time",
-                        "type": "float",
-                        "value": 0.0,
-                        "override": "luminance:time"
                     }
                 ]
             }
@@ -81,11 +81,6 @@
                         "name": "Resolution",
                         "type": "float",
                         "value": 4.0
-                    },
-                    {
-                        "name": "Saturation",
-                        "type": "float",
-                        "value": 1.5
                     },
                     {
                         "name": "MosaicSize",
