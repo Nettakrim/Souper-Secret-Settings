@@ -44,7 +44,10 @@
                         "name": "Pitch",
                         "type": "float",
                         "value": 1.0,
-                        "override": "luminance:pitch"
+                        "override": "luminance:pitch",
+                        "config": {
+                            "range": [ 0, 0.25 ]
+                        }
                     },
                     {
                         "name": "Alpha",

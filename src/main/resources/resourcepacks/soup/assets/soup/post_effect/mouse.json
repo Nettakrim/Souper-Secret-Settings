@@ -29,12 +29,20 @@
                     {
                         "name": "Rotation",
                         "type": "vec3",
-                        "value": [ 0.0, 0.0, 0.0 ]
+                        "value": [ 0.0, 0.0, 0.0 ],
+                        "override": [ "luminance:pitch", "0.0", "0.0" ],
+                        "config": {
+                            "0_range": [ -0.25, 0.25 ]
+                        }
                     },
                     {
                         "name": "Camera",
                         "type": "vec3",
-                        "value": [ 0.0, 0.0, 0.0 ]
+                        "value": [ 0.0, 0.0, 0.0 ],
+                        "override": [ "luminance:pitch", "0.0", "0.0" ],
+                        "config": {
+                            "0_range": [ 0.25, -0.25 ]
+                        }
                     },
                     {
                         "name": "Fov",

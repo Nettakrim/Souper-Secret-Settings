@@ -42,52 +42,122 @@
                     {
                         "name": "Char1A",
                         "type": "ivec4",
-                        "value": [ 136, 0, 34, 0 ]
+                        "value": [ 0, 0, 0, 0 ],
+                        "override": [ "soup_byte", "soup_byte", "soup_byte", "soup_byte" ],
+                        "config": {
+                            "0_value": [ "00000000" ],
+                            "1_value": [ "00000000" ],
+                            "2_value": [ "00001000" ],
+                            "3_value": [ "00000000" ]
+                        }
                     },
                     {
                         "name": "Char1B",
                         "type": "ivec4",
-                        "value": [ 136, 0, 34, 0 ]
+                        "value": [ 0, 0, 0, 0 ],
+                        "override": [ "soup_byte", "soup_byte", "soup_byte", "soup_byte" ],
+                        "config": {
+                            "0_value": [ "00000000" ],
+                            "1_value": [ "00000000" ],
+                            "2_value": [ "00001000" ],
+                            "3_value": [ "00000000" ]
+                        }
                     },
                     {
                         "name": "Char2A",
                         "type": "ivec4",
-                        "value": [ 170, 0, 170, 0 ]
+                        "value": [ 0, 0, 0, 0 ],
+                        "override": [ "soup_byte", "soup_byte", "soup_byte", "soup_byte" ],
+                        "config": {
+                            "0_value": [ "00000000" ],
+                            "1_value": [ "00000000" ],
+                            "2_value": [ "00000000" ],
+                            "3_value": [ "00000000" ]
+                        }
                     },
                     {
                         "name": "Char2B",
                         "type": "ivec4",
-                        "value": [ 170, 0, 170, 0 ]
+                        "value": [ 0, 0, 0, 0 ],
+                        "override": [ "soup_byte", "soup_byte", "soup_byte", "soup_byte" ],
+                        "config": {
+                            "0_value": [ "00111110" ],
+                            "1_value": [ "00000000" ],
+                            "2_value": [ "00000000" ],
+                            "3_value": [ "00000000" ]
+                        }
                     },
                     {
                         "name": "Char3A",
                         "type": "ivec4",
-                        "value": [ 170, 85, 170, 85 ]
+                        "value": [ 0, 0, 0, 0 ],
+                        "override": [ "soup_byte", "soup_byte", "soup_byte", "soup_byte" ],
+                        "config": {
+                            "0_value": [ "00000000" ],
+                            "1_value": [ "00000000" ],
+                            "2_value": [ "00001000" ],
+                            "3_value": [ "00001000" ]
+                        }
                     },
                     {
                         "name": "Char3B",
                         "type": "ivec4",
-                        "value": [ 170, 85, 170, 85 ]
+                        "value": [ 0, 0, 0, 0 ],
+                        "override": [ "soup_byte", "soup_byte", "soup_byte", "soup_byte" ],
+                        "config": {
+                            "0_value": [ "00111110" ],
+                            "1_value": [ "00001000" ],
+                            "2_value": [ "00001000" ],
+                            "3_value": [ "00000000" ]
+                        }
                     },
                     {
                         "name": "Char4A",
                         "type": "ivec4",
-                        "value": [ 255, 85, 255, 85 ]
+                        "value": [ 0, 0, 0, 0 ],
+                        "override": [ "soup_byte", "soup_byte", "soup_byte", "soup_byte" ],
+                        "config": {
+                            "0_value": [ "00000000" ],
+                            "1_value": [ "00100010" ],
+                            "2_value": [ "00100100" ],
+                            "3_value": [ "00000100" ]
+                        }
                     },
                     {
                         "name": "Char4B",
                         "type": "ivec4",
-                        "value": [ 255, 85, 255, 85 ]
+                        "value": [ 0, 0, 0, 0 ],
+                        "override": [ "soup_byte", "soup_byte", "soup_byte", "soup_byte" ],
+                        "config": {
+                            "0_value": [ "00001000" ],
+                            "1_value": [ "00010000" ],
+                            "2_value": [ "00010010" ],
+                            "3_value": [ "00100010" ]
+                        }
                     },
                     {
                         "name": "Char5A",
                         "type": "ivec4",
-                        "value": [ 255, 221, 255, 119 ]
+                        "value": [ 0, 0, 0, 0 ],
+                        "override": [ "soup_byte", "soup_byte", "soup_byte", "soup_byte" ],
+                        "config": {
+                            "0_value": [ "00000000" ],
+                            "1_value": [ "00010100" ],
+                            "2_value": [ "00010100" ],
+                            "3_value": [ "00111110" ]
+                        }
                     },
                     {
                         "name": "Char5B",
                         "type": "ivec4",
-                        "value": [ 255, 221, 255, 119 ]
+                        "value": [ 0, 0, 0, 0 ],
+                        "override": [ "soup_byte", "soup_byte", "soup_byte", "soup_byte" ],
+                        "config": {
+                            "0_value": [ "00010100" ],
+                            "1_value": [ "00111110" ],
+                            "2_value": [ "00010100" ],
+                            "3_value": [ "00010100" ]
+                        }
                     },
                     {
                         "name": "Alpha",
