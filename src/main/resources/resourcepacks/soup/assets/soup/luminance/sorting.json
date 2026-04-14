@@ -1,5 +1,7 @@
 {
-    "disable_ui_rendertype": true,
+    "fallback_when_over_ui": false,
+    "fallback_when_under_ui": false,
+    "photosensitive": false,
     "custom": {
         "souper_secret_settings": {
             "groups": [ "warp" ]
