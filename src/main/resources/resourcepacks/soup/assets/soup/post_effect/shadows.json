@@ -83,7 +83,10 @@
                         "name": "SunAngle",
                         "type": "float",
                         "value": 0.0,
-                        "override": "luminance:sun_angle"
+                        "override": "luminance:sun_angle",
+                        "config": {
+                            "range": [ 0.0, 1.0 ]
+                        }
                     },
                     {
                         "name": "SunFade",

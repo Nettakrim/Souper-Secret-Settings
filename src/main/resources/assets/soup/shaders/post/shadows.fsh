@@ -88,7 +88,7 @@ void main(){
     vec3 pos = GetWorldOffset(texCoord);
 
     vec3 upVector = UpVector;
-    float angle = SunAngle;
+    float angle = fract(SunAngle + 0.25);
     if (angle > 0.5) {
         angle -= 0.5;
     }
