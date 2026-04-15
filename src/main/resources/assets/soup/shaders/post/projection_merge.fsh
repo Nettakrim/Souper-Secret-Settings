@@ -3,11 +3,15 @@
 uniform sampler2D InSampler;
 uniform sampler2D BaseSampler;
 
-layout(std140) uniform Config {
+layout(std140) uniform ProjectionConfig {
     vec2 Corner00;
     vec2 Corner01;
     vec2 Corner10;
     vec2 Corner11;
+};
+
+layout(std140) uniform MaskConfig {
+    vec4 Edges;
     float Crop;
 };
 
@@ -44,7 +48,7 @@ void main(){
 
     vec3 col;
 
-    if (pos.x < 0 || pos.x > 1 || pos.y < 0 || pos.y > 1) {
+    if (pos.x < Edges.x || pos.x > Edges.z || pos.y < Edges.y || pos.y > Edges.w) {
         col = texture(BaseSampler, texCoord).rgb;
     } else {
         col = texture(InSampler, mix(pos, texCoord, Crop)).rgb;

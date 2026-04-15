@@ -99,7 +99,7 @@
                 ],
                 "output": "0",
                 "uniforms": {
-                    "ProjectionMergeConfig": [
+                    "ProjectionConfig": [
                         {
                             "name": "Corner00",
                             "type": "vec2",
@@ -119,11 +119,18 @@
                             "name": "Corner11",
                             "type": "vec2",
                             "value": [ 1.0, 1.0 ]
+                        }
+                    ],
+                    "MaskConfig": [
+                        {
+                            "name": "Edges",
+                            "type": "vec4",
+                            "value": [ 0.0, 0.0, 1.0, 1.0 ]
                         },
                         {
                             "name": "Crop",
                             "type": "float",
-                            "value": 1.0
+                            "value": 0.0
                         }
                     ]
                 }

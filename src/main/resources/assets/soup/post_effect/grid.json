@@ -25,7 +25,8 @@
                         {
                             "name": "Grid",
                             "type": "ivec2",
-                            "value": [ 0.0, 0.0 ]
+                            "value": [ 0.0, 0.0 ],
+                            "override": [ "-1", "soup:layer_size" ]
                         },
                         {
                             "name": "Offset",
@@ -61,7 +62,8 @@
                         {
                             "name": "Grid",
                             "type": "ivec2",
-                            "value": [ 0.0, 0.0 ]
+                            "value": [ 0.0, 0.0 ],
+                            "override": [ "soup:shader_index", "soup:layer_size" ]
                         },
                         {
                             "name": "Offset",

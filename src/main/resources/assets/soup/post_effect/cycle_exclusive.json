@@ -67,7 +67,7 @@
                 ],
                 "output": "temp",
                 "uniforms": {
-                    "CycleExclusiveConfig": [
+                    "CycleConfig": [
                         {
                             "name": "ShaderIndex",
                             "type": "int",
@@ -134,7 +134,7 @@
                 ],
                 "output": "temp",
                 "uniforms": {
-                    "CycleExclusiveCombineConfig": [
+                    "CycleConfig": [
                         {
                             "name": "ShaderIndex",
                             "type": "int",

@@ -42,7 +42,7 @@
                 ],
                 "output": "minecraft:main",
                 "uniforms": {
-                    "CycleAdditiveConfig": [
+                    "CycleConfig": [
                         {
                             "name": "ShaderIndex",
                             "type": "int",
@@ -89,7 +89,7 @@
                 ],
                 "output": "0",
                 "uniforms": {
-                    "CycleAdditiveCombineConfig": [
+                    "CycleConfig": [
                         {
                             "name": "ShaderIndex",
                             "type": "int",
