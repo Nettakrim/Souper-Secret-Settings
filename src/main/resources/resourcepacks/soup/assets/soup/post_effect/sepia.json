@@ -7,7 +7,7 @@
     "passes": [
         {
             "vertex_shader": "minecraft:core/screenquad",
-            "fragment_shader": "soup:post/outline_sepia",
+            "fragment_shader": "soup:post/outline_color",
             "inputs": [
                 {
                     "sampler_name": "In",
@@ -16,7 +16,7 @@
             ],
             "output": "0",
             "uniforms": {
-                "OutlineSepiaConfig": [
+                "OutlineColorConfig": [
                     {
                         "name": "LumaRamp",
                         "type": "float",

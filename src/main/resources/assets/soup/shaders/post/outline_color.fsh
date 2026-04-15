@@ -7,7 +7,7 @@ layout(std140) uniform SamplerInfo {
     vec2 InSize;
 };
 
-layout(std140) uniform OutlineSepiaConfig {
+layout(std140) uniform OutlineColorConfig {
     float LumaRamp;
     float LumaLevel;
     vec3 ColorAdd;
