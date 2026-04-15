@@ -6,6 +6,9 @@ uniform sampler2D LookupSampler;
 layout(std140) uniform ColorLookupConfig {
     float GridSize;
     float Iterations;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

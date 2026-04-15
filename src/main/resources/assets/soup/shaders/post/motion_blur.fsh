@@ -8,16 +8,19 @@ layout(std140) uniform SamplerInfo {
 };
 
 layout(std140) uniform MotionBlurConfig {
-    uniform float Steps;
-    uniform float BaseMix;
-    uniform vec2 RotationScale;
-    uniform float Wrapping;
-    uniform vec4 Offset;
-    uniform float Fov;
-    uniform float Pitch;
-    uniform float PitchDelta;
-    uniform float YawDelta;
-    uniform float Alpha;
+    float Steps;
+    float BaseMix;
+    vec2 RotationScale;
+    float Wrapping;
+    vec4 Offset;
+    float Fov;
+    float Pitch;
+    float PitchDelta;
+    float YawDelta;
+};
+
+layout(std140) uniform MergeConfig {
+    float Alpha;
 };
 
 in vec2 texCoord;

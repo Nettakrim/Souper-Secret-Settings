@@ -9,6 +9,9 @@ layout(std140) uniform SplitToneConfig {
     vec3 OffsetB;
     float Normalise;
     vec3 ColorModulate;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

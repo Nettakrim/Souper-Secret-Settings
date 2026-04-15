@@ -44,7 +44,9 @@
                         "name": "Base",
                         "type": "vec4",
                         "value": [ 0.0, 0.0, 0.0, 0.0 ]
-                    },
+                    }
+                ],
+                "MergeConfig": [
                     {
                         "name": "Alpha",
                         "type": "float",

@@ -23,6 +23,9 @@ layout(std140) uniform AsciiConfig {
     ivec4 Char4B;
     ivec4 Char5A;
     ivec4 Char5B;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

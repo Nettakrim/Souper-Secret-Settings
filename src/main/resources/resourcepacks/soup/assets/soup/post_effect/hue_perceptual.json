@@ -38,7 +38,9 @@
                         "name": "B",
                         "type": "vec3",
                         "value": [ 1.250268, -1.047561, -0.202707 ]
-                    },
+                    }
+                ],
+                "MergeConfig": [
                     {
                         "name": "Alpha",
                         "type": "float",

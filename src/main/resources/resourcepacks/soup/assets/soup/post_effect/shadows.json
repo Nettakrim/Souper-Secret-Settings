@@ -95,7 +95,9 @@
                         "type": "vec2",
                         "value": [ 0.05, 750 ],
                         "override": "luminance:clipping"
-                    },
+                    }
+                ],
+                "MergeConfig": [
                     {
                         "name": "Alpha",
                         "type": "float",

@@ -6,6 +6,9 @@ layout(std140) uniform HSVConfig {
     vec2 Hue;
     vec2 Saturation;
     vec2 Value;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

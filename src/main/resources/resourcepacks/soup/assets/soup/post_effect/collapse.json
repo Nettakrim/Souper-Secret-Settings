@@ -30,7 +30,9 @@
                         "type": "float",
                         "value": 1.0,
                         "override": "luminance:time"
-                    },
+                    }
+                ],
+                "MergeConfig": [
                     {
                         "name": "Alpha",
                         "type": "float",

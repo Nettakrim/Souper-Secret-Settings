@@ -44,7 +44,9 @@
                         "name": "NthClosest",
                         "type": "int",
                         "value": 1
-                    },
+                    }
+                ],
+                "MergeConfig": [
                     {
                         "name": "Alpha",
                         "type": "float",

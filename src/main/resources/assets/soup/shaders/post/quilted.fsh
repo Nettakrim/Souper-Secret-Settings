@@ -14,6 +14,9 @@ layout(std140) uniform QuiltedConfig {
     vec3 Exponent;
     vec2 Center;
     vec4 Base;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

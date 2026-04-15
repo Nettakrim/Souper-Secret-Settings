@@ -14,7 +14,10 @@ layout(std140) uniform FilmGrainConfig {
     uniform float Strength;
     uniform float ColorStrength;
     uniform float MixMode;
-    uniform float Alpha;
+};
+
+layout(std140) uniform MergeConfig {
+    float Alpha;
 };
 
 in vec2 texCoord;

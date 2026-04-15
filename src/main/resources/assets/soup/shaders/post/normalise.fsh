@@ -3,8 +3,11 @@
 uniform sampler2D InSampler;
 
 layout(std140) uniform NormaliseConfig {
-    uniform vec3 Levels;
-    uniform float Alpha;
+    vec3 Levels;
+};
+
+layout(std140) uniform MergeConfig {
+    float Alpha;
 };
 
 in vec2 texCoord;

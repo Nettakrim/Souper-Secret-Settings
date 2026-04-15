@@ -10,6 +10,9 @@ layout(std140) uniform SamplerInfo {
 layout(std140) uniform HarshDitherConfig {
     int Steps;
     float Mix;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

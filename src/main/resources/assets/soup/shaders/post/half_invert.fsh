@@ -6,7 +6,10 @@ layout(std140) uniform HalfInvertConfig {
     uniform float Iterations;
     uniform vec3 Subtract;
     uniform vec3 Multiply;
-    uniform float Alpha;
+};
+
+layout(std140) uniform MergeConfig {
+    float Alpha;
 };
 
 in vec2 texCoord;

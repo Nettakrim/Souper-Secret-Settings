@@ -5,6 +5,9 @@ uniform sampler2D InSampler;
 layout(std140) uniform ContrastConfig {
     float Amount;
     vec3 Power;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

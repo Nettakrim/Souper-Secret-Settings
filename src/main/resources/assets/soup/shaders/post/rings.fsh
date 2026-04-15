@@ -10,6 +10,9 @@ layout(std140) uniform SamplerInfo {
 layout(std140) uniform RingsConfig {
     float Radius;
     float InnerPercent;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

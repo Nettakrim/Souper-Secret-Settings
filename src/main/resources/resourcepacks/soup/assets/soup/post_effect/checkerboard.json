@@ -24,7 +24,9 @@
                         "name": "Centering",
                         "type": "float",
                         "value": 0.0
-                    },
+                    }
+                ],
+                "MergeConfig": [
                     {
                         "name": "Alpha",
                         "type": "float",

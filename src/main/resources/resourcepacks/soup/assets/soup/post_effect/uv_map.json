@@ -23,7 +23,9 @@
                         "name": "UVDistances",
                         "type": "vec4",
                         "value": [ 3.0, 3.0, 3.0, 3.0 ]
-                    },
+                    }
+                ],
+                "MergeConfig": [
                     {
                         "name": "Alpha",
                         "type": "float",

@@ -8,7 +8,10 @@ layout(std140) uniform SternConfig {
     uniform ivec4 Bitshifts;
     uniform float Angle;
     uniform vec2 Range;
-    uniform float Alpha;
+};
+
+layout(std140) uniform MergeConfig {
+    float Alpha;
 };
 
 in vec2 texCoord;

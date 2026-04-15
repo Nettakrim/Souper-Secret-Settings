@@ -16,6 +16,9 @@ layout(std140) uniform PaletteDitherConfig {
     float Fallback;
     float Power;
     float Seed;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

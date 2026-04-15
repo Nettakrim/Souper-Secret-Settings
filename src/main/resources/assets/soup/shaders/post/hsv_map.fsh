@@ -7,6 +7,9 @@ layout(std140) uniform HSVMapConfig {
     vec3 SatMatrix;
     vec3 ValMatrix;
     float Direction;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

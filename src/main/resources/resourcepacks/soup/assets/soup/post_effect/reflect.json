@@ -72,7 +72,9 @@
                         "name": "OutOfBounds",
                         "type": "vec2",
                         "value": [ 1.0, 1.0 ]
-                    },
+                    }
+                ],
+                "MergeConfig": [
                     {
                         "name": "Alpha",
                         "type": "float",

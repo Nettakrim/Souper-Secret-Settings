@@ -44,7 +44,9 @@
                         "name": "Gray",
                         "type": "vec3",
                         "value": [ 0.3, 0.59, 0.11 ]
-                    },
+                    }
+                ],
+                "MergeConfig": [
                     {
                         "name": "Alpha",
                         "type": "float",

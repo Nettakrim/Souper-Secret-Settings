@@ -23,6 +23,9 @@ layout(std140) uniform ShadowsConfig {
     float SunAngle;
     float SunFade;
     vec2 Clipping;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

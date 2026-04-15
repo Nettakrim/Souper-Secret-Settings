@@ -20,6 +20,9 @@ layout(std140) uniform ReflectConfig {
     vec4 UVDistances;
     float MaxDistance;
     vec2 OutOfBounds;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

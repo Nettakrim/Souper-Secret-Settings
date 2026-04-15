@@ -16,7 +16,9 @@ layout(std140) uniform ThermalConfig {
     vec4 OutlineHSV;
 
     vec3 Gray;
+};
 
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

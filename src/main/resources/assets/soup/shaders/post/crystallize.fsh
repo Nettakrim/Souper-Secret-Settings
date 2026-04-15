@@ -14,6 +14,9 @@ layout(std140) uniform CrystallizeConfig {
     float Seed;
     float UVMix;
     int NthClosest;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

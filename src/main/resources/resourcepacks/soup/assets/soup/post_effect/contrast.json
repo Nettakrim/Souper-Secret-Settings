@@ -24,7 +24,9 @@
                         "name": "Power",
                         "type": "vec3",
                         "value": [ 2.0, 2.0, 2.0 ]
-                    },
+                    }
+                ],
+                "MergeConfig": [
                     {
                         "name": "Alpha",
                         "type": "float",

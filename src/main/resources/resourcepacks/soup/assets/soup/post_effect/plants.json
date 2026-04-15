@@ -29,7 +29,9 @@
                         "name": "Threshold",
                         "type": "vec3",
                         "value": [ 0.85, 0.0, 0.95 ]
-                    },
+                    }
+                ],
+                "MergeConfig": [
                     {
                         "name": "Alpha",
                         "type": "float",

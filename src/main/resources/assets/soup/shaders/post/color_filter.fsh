@@ -6,6 +6,9 @@ layout(std140) uniform ColorFilterConfig {
     vec3 Gray;
     vec3 Mask;
     vec3 Threshold;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

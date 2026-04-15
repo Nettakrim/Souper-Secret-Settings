@@ -10,6 +10,9 @@ layout(std140) uniform SamplerInfo {
 layout(std140) uniform CheckerboardConfig {
     vec2 Offset;
     float Centering;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

@@ -6,6 +6,9 @@ layout(std140) uniform DramaticConfig {
     float Boost;
     float Clamp;
     vec3 Gray;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

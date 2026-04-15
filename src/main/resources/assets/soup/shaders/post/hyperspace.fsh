@@ -8,6 +8,9 @@ layout(std140) uniform HyperspaceConfig {
     float Outside;
     float Steps;
     float Shadow;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

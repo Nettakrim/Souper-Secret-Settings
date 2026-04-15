@@ -19,7 +19,9 @@
                         "name": "Scale",
                         "type": "float",
                         "value": 1.0
-                    },
+                    }
+                ],
+                "MergeConfig": [
                     {
                         "name": "Alpha",
                         "type": "float",

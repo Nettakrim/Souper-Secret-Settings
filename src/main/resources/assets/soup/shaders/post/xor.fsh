@@ -3,8 +3,11 @@
 uniform sampler2D InSampler;
 
 layout(std140) uniform XorConfig {
-    uniform ivec3 Value;
-    uniform float Alpha;
+    ivec3 Value;
+};
+
+layout(std140) uniform MergeConfig {
+    float Alpha;
 };
 
 in vec2 texCoord;

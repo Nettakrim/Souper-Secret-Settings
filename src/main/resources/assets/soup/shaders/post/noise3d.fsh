@@ -25,6 +25,9 @@ layout(std140) uniform Noise3DConfig {
     vec2 Clipping;
     vec3 ScreenScale;
     vec3 RenderLocation;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

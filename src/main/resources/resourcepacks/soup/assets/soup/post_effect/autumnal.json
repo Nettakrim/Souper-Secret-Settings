@@ -31,7 +31,9 @@
                         "name": "Iterations",
                         "type": "float",
                         "value": 1
-                    },
+                    }
+                ],
+                "MergeConfig": [
                     {
                         "name": "Alpha",
                         "type": "float",

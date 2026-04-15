@@ -9,7 +9,10 @@ layout(std140) uniform SamplerInfo {
 
 layout(std140) uniform SuspiciousConfig {
     uniform float Scale;
-    uniform float Alpha;
+};
+
+layout(std140) uniform MergeConfig {
+    float Alpha;
 };
 
 in vec2 texCoord;

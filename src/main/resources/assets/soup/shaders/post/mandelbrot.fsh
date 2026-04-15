@@ -18,7 +18,10 @@ layout(std140) uniform MandelbrotConfig {
     uniform vec3 CR;
     uniform vec3 CI;
     uniform float Radius;
-    uniform float Alpha;
+};
+
+layout(std140) uniform MergeConfig {
+    float Alpha;
 };
 
 in vec2 texCoord;

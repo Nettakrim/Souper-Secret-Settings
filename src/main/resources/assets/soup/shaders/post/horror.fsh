@@ -6,6 +6,9 @@ uniform sampler2D InDepthSampler;
 layout(std140) uniform HorrorConfig {
     float Scale;
     vec2 Clipping;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

@@ -100,7 +100,9 @@
                         "type": "vec3",
                         "value": [ 0.0, 0.0, 0.0 ],
                         "override": "luminance:render_location"
-                    },
+                    }
+                ],
+                "MergeConfig": [
                     {
                         "name": "Alpha",
                         "type": "float",

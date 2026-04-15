@@ -24,7 +24,9 @@
                         "name": "Mix",
                         "type": "float",
                         "value": 0.5
-                    },
+                    }
+                ],
+                "MergeConfig": [
                     {
                         "name": "Alpha",
                         "type": "float",

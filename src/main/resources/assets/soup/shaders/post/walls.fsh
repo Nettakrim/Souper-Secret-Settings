@@ -13,6 +13,9 @@ layout(std140) uniform WallsConfig {
     vec4 CeilUV;
 
     vec2 Clipping;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

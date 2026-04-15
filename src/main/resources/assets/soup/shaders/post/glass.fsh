@@ -13,6 +13,9 @@ layout(std140) uniform GlassConfig {
     float CloudDistance;
     float CloudAmount;
     float Wrapping;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

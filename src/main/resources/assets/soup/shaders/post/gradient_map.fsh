@@ -8,7 +8,10 @@ layout(std140) uniform GradientMapConfig {
     // this is inputted as 8 seperate vec3s, but the bytes can be directly interpretted as an array!
     uniform vec3[8] Palette;
     uniform vec3 Gray; // a float cant go after the array trick, since vec3 arrays do actually reserve the full vec4 worth of space
-    uniform float Alpha;
+};
+
+layout(std140) uniform MergeConfig {
+    float Alpha;
 };
 
 

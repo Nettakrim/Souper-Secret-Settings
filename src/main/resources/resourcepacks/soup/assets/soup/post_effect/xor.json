@@ -24,7 +24,9 @@
                             "1_value": [ "01100100" ],
                             "2_value": [ "01100100" ]
                         }
-                    },
+                    }
+                ],
+                "MergeConfig": [
                     {
                         "name": "Alpha",
                         "type": "float",

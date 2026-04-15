@@ -8,6 +8,9 @@ layout(std140) uniform HuePerceptualConfig {
     vec3 R;
     vec3 G;
     vec3 B;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

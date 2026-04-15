@@ -48,7 +48,9 @@
                         "config": {
                             "range": [ 0, 0.25 ]
                         }
-                    },
+                    }
+                ],
+                "MergeConfig": [
                     {
                         "name": "Alpha",
                         "type": "float",

@@ -88,7 +88,9 @@
                         "name": "Char5B",
                         "type": "ivec4",
                         "value": [ 255, 221, 255, 119 ]
-                    },
+                    }
+                ],
+                "MergeConfig": [
                     {
                         "name": "Alpha",
                         "type": "float",

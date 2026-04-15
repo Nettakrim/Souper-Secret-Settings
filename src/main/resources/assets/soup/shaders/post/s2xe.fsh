@@ -14,6 +14,9 @@ layout(std140) uniform S2xEConfig {
     float Wrapping;
     float Fov;
     float Pitch;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

@@ -45,7 +45,9 @@
                         "name": "MixMode",
                         "type": "float",
                         "value": 0.1
-                    },
+                    }
+                ],
+                "MergeConfig": [
                     {
                         "name": "Alpha",
                         "type": "float",

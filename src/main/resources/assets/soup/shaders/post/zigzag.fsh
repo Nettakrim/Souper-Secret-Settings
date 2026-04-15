@@ -7,6 +7,9 @@ layout(std140) uniform ZigZagConfig {
     vec3 Zag;
     vec3 Curve;
     float Wrapping;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

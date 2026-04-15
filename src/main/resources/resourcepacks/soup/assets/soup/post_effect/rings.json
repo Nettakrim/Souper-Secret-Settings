@@ -24,7 +24,9 @@
                         "name": "InnerPercent",
                         "type": "float",
                         "value": 0.825
-                    },
+                    }
+                ],
+                "MergeConfig": [
                     {
                         "name": "Alpha",
                         "type": "float",

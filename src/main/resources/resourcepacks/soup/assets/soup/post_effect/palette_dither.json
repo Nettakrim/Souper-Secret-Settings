@@ -74,7 +74,9 @@
                         "name": "Seed",
                         "type": "float",
                         "value": 123.456
-                    },
+                    }
+                ],
+                "MergeConfig": [
                     {
                         "name": "Alpha",
                         "type": "float",

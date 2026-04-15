@@ -12,6 +12,9 @@ layout(std140) uniform SamplerInfo {
 layout(std140) uniform DepthOutlineConfig {
     vec3 ColorScale;
     vec2 Clipping;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

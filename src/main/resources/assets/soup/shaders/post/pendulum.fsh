@@ -13,7 +13,9 @@ layout(std140) uniform PendulumConfig {
     vec4 OutputX;
     vec4 OutputY;
     vec2 OutputOffset;
+};
 
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 

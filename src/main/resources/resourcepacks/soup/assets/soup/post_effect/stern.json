@@ -39,7 +39,9 @@
                         "name": "Range",
                         "type": "vec2",
                         "value": [ -0.165, 1.5 ]
-                    },
+                    }
+                ],
+                "MergeConfig": [
                     {
                         "name": "Alpha",
                         "type": "float",

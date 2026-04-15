@@ -63,11 +63,13 @@
                         "type": "float",
                         "value": 0.0,
                         "override": "luminance:yaw/delta"
-                    },
+                    }
+                ],
+                "MergeConfig": [
                     {
                         "name": "Alpha",
                         "type": "float",
-                        "value": 0.0,
+                        "value": 1.0,
                         "override": "luminance:alpha/smooth"
                     }
                 ]

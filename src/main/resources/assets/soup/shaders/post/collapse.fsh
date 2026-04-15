@@ -2,16 +2,19 @@
 
 uniform sampler2D InSampler;
 
+layout(std140) uniform SamplerInfo {
+    vec2 OutSize;
+    vec2 InSize;
+};
+
 layout(std140) uniform CollapseConfig {
     uniform vec2 Distance;
     uniform vec2 NoiseScale;
     uniform float Time;
-    uniform float Alpha;
 };
 
-layout(std140) uniform SamplerInfo {
-    vec2 OutSize;
-    vec2 InSize;
+layout(std140) uniform MergeConfig {
+    float Alpha;
 };
 
 in vec2 texCoord;

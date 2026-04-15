@@ -10,7 +10,10 @@ layout(std140) uniform SamplerInfo {
 
 layout(std140) uniform UVMapConfig {
     uniform vec4 UVDistances;
-    uniform float Alpha;
+};
+
+layout(std140) uniform MergeConfig {
+    float Alpha;
 };
 
 in vec2 texCoord;

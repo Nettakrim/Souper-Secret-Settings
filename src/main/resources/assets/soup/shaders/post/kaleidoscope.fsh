@@ -6,6 +6,9 @@ layout(std140) uniform KaleidoscopeConfig {
     vec2 Mirrors;
     vec2 Position;
     float Wrapping;
+};
+
+layout(std140) uniform MergeConfig {
     float Alpha;
 };
 
