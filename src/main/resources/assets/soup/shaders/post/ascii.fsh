@@ -35,9 +35,10 @@ bool getChar(ivec4 charA, ivec4 charB, ivec2 index) {
 }
 
 void main() {
+    vec2 halfSize = InSize/Scale.xy;
     ivec2 pixelCoord = ivec2(texCoord*InSize/Scale.xy);
 
-    vec3 col = texture(InSampler, mix(pixelCoord, (pixelCoord/Grid)*Grid, Scale.z)/InSize*Scale.xy).rgb;
+    vec3 col = texture(InSampler, mix(pixelCoord, (pixelCoord/Grid)*Grid + Grid/2.0 + 0.5/halfSize, Scale.z)/InSize*Scale.xy).rgb;
 
     float m = max(max(col.r, col.g), col.b);
     col /= m;

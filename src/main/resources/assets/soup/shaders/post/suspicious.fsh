@@ -20,7 +20,7 @@ const int XOffset [22] = int[](1, 0, -1, -2, 1, 1, -1, -1, 2, 1, 0, -1, 2, 1, 1,
 const int YOffset [22] = int[](-1, -1, -1, -1, -2, 2, -2, 2, 1, 1, 1, 1, 0, 0, 1, 1, 1, -1, -1, -1, 0, 0);
 
 void main(){
-    vec2 pos = floor(texCoord*InSize / Scale);
+    vec2 pos = round(texCoord*InSize / Scale);
 
     int i = int(mod(pos.x + pos.y*4, 22.0));
 
