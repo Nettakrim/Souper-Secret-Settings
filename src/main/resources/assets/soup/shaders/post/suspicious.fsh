@@ -23,12 +23,12 @@ const int XOffset [22] = int[](1, 0, -1, -2, 1, 1, -1, -1, 2, 1, 0, -1, 2, 1, 1,
 const int YOffset [22] = int[](-1, -1, -1, -1, -2, 2, -2, 2, 1, 1, 1, 1, 0, 0, 1, 1, 1, -1, -1, -1, 0, 0);
 
 void main(){
-    vec2 pos = round(texCoord*InSize / Scale);
+    ivec2 pos = ivec2(texCoord*InSize/Scale);
 
-    int i = int(mod(pos.x + pos.y*4, 22.0));
+    int i = int((pos.x + pos.y*4) % 22);
 
     vec2 oneTexel = 1.0 / InSize;
-    vec4 col = texture(InSampler, (pos*oneTexel + oneTexel*vec2(XOffset[i], YOffset[i]))*Scale);
+    vec4 col = texture(InSampler, ((pos + vec2(XOffset[i], YOffset[i]) + vec2(0.5))*oneTexel)*Scale);
 
     fragColor = vec4(mix(texture(InSampler, texCoord), col, Alpha).rgb, 1.0);
 }
