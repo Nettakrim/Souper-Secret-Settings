@@ -97,8 +97,8 @@
                     },
                     {
                         "name": "RenderLocation",
-                        "type": "vec3",
-                        "value": [ 0.0, 0.0, 0.0 ],
+                        "type": "vec2",
+                        "value": [ 0.0, 0.0 ],
                         "override": "luminance:render_location"
                     }
                 ],

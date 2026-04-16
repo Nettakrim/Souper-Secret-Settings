@@ -24,7 +24,7 @@ layout(std140) uniform Noise3DConfig {
     vec3 Cam;
     vec2 Clipping;
     vec3 ScreenScale;
-    vec3 RenderLocation;
+    vec2 RenderLocation;
 };
 
 layout(std140) uniform MergeConfig {
@@ -121,8 +121,8 @@ void main(){
 
     vec3 screen = vec3(texCoord.xy*ScreenScale.xy, ScreenScale.z)-fract(Scroll);
     screen.x *= aspect;
-    // RenderLocation.y = isOverUi()
-    vec3 n = noise(mix(pos, screen, RenderLocation.y));
+    // 0 = NONE, 1 = UNDER, 2 = OVER
+    vec3 n = noise(mix(pos, screen, min(RenderLocation.y, 1)));
 
     color = mix(color, step(n, pow(color, vec3(Mode.y))), Mode.x);
     color = mix(color, color*mix(n, 1-n, Mode.w), Mode.z);
