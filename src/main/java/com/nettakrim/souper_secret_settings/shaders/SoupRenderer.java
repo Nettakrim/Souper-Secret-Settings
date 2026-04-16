@@ -48,7 +48,7 @@ public class SoupRenderer implements Runnables.LevelRender {
         shaderLayers = new ArrayList<>();
         shaderGroups = new HashMap<>();
         shaderGroupRegistries = new HashMap<>();
-        renderLocation = RenderLocations.WORLD;
+        renderLocation = RenderLocations.GAME;
 
         spectateHandler = new SoupSpectateHandler();
         Events.SpectatorHandlers.register(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "spectate_handler"), spectateHandler);
@@ -58,7 +58,7 @@ public class SoupRenderer implements Runnables.LevelRender {
                     Runnables.LevelRender.fromGameData(spectateHandler.shaderLayer::render, data);
                     ShaderLayer.renderCleanup(null);
                 }
-                if (renderLocation == RenderLocations.WORLD) {
+                if (renderLocation == RenderLocations.GAME) {
                     Runnables.LevelRender.fromGameData(this, data);
                 }
             }
@@ -249,7 +249,7 @@ public class SoupRenderer implements Runnables.LevelRender {
     }
 
     public void cycleRenderLocation(Button buttonWidget) {
-        setRenderLocation(renderLocation == RenderLocations.UI ? RenderLocations.WORLD : RenderLocations.UI);
+        setRenderLocation(renderLocation == RenderLocations.UI ? RenderLocations.GAME : RenderLocations.UI);
         buttonWidget.setMessage(getRenderLocationText());
     }
 
@@ -262,7 +262,7 @@ public class SoupRenderer implements Runnables.LevelRender {
     }
 
     public Component getRenderLocationText() {
-        return SouperSecretSettingsClient.translate(renderLocation == RenderLocations.UI ? "gui.ui" : "gui.world");
+        return SouperSecretSettingsClient.translate(renderLocation == RenderLocations.UI ? "gui.ui" : "gui.game");
     }
 
     private void runForGroups(ShaderRegistryEntry shaderRegistryEntry, List<Identifier> registries, BiConsumer<Identifier, String> consumer) {

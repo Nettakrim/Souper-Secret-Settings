@@ -24,8 +24,8 @@ public class Keybinds {
         if (toggleSoup.consumeClick()) {
             if (SouperSecretSettingsClient.soupData.config.disableState > 0) {
                 SouperSecretSettingsClient.soupData.config.disableState = 0;
-                OptionCommand.setRenderLocation(RenderLocations.WORLD);
-            } else if (SouperSecretSettingsClient.soupRenderer.getRenderLocation().equals(RenderLocations.WORLD)) {
+                OptionCommand.setRenderLocation(RenderLocations.GAME);
+            } else if (SouperSecretSettingsClient.soupRenderer.getRenderLocation().equals(RenderLocations.GAME)) {
                 OptionCommand.setRenderLocation(RenderLocations.UI);
             } else {
                 OptionCommand.toggle(false);

@@ -99,7 +99,7 @@ public class OptionCommand {
         LiteralCommandNode<FabricClientCommandSource> renderLocationNode = ClientCommandManager
                 .literal("render_location")
                 .then(
-                        ClientCommandManager.literal("world").executes(context -> setRenderLocation(RenderLocations.WORLD))
+                        ClientCommandManager.literal("game").executes(context -> setRenderLocation(RenderLocations.GAME))
                 )
                 .then(
                         ClientCommandManager.literal("ui").executes(context -> setRenderLocation(RenderLocations.UI))
