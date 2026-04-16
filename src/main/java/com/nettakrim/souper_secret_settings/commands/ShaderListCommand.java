@@ -23,6 +23,7 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.client.renderer.PostPass;
 import net.minecraft.commands.arguments.IdentifierArgument;
+import net.minecraft.commands.arguments.MessageArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
@@ -100,7 +101,7 @@ public class ShaderListCommand extends ListCommand<ShaderData> {
                                                                                                         ClientCommandManager.argument("name", StringArgumentType.string())
                                                                                                                 .suggests(uniformNameSuggestions)
                                                                                                                 .then(
-                                                                                                                        ClientCommandManager.argument("value", StringArgumentType.string())
+                                                                                                                        ClientCommandManager.argument("value", MessageArgument.message())
                                                                                                                                 .suggests(uniformValueSuggestions)
                                                                                                                                 .executes(this::setValue)
                                                                                                                 )
@@ -257,7 +258,7 @@ public class ShaderListCommand extends ListCommand<ShaderData> {
         }
 
         String text = name.substring(0, breakIndex);
-        String value = StringArgumentType.getString(context, "value");
+        String value = context.getArgument("value", MessageArgument.Message.class).text();
 
         if (text.equals("value")) {
             if (index >= uniform.override.overrideSources.size()) {
