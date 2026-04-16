@@ -41,7 +41,7 @@ void main() {
     vec2 halfSize = InSize/Scale.xy;
     ivec2 pixelCoord = ivec2(texCoord*InSize/Scale.xy);
 
-    vec3 col = texture(InSampler, mix(pixelCoord, (pixelCoord/Grid)*Grid + Grid/2.0 + 0.5/halfSize, Scale.z)/InSize*Scale.xy).rgb;
+    vec3 col = texture(InSampler, mix(pixelCoord + 0.5, (pixelCoord/Grid)*Grid + Grid/2.0, Scale.z)/halfSize).rgb;
 
     float m = max(max(col.r, col.g), col.b);
     col /= m;
