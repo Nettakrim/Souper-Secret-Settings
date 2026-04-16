@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 public class UniformChangeAction implements Action {
-    private final String uniform;
-    private final int i;
+    private final int uniform;
+    private final int valueIndex;
 
     private final PerValueOverride uniformOverride;
     private final MapConfig uniformConfig;
@@ -20,9 +20,10 @@ public class UniformChangeAction implements Action {
     private OverrideSource sourceBackup;
     private Map<String, List<Object>> mapBackup;
 
-    public UniformChangeAction(String uniform, int i, PerValueOverride uniformOverride, MapConfig uniformConfig) {
+    // TODO: replace string uniform with int index
+    public UniformChangeAction(int uniform, int valueIndex, PerValueOverride uniformOverride, MapConfig uniformConfig) {
         this.uniform = uniform;
-        this.i = i;
+        this.valueIndex = valueIndex;
         this.uniformOverride = uniformOverride;
         this.uniformConfig = uniformConfig;
     }
@@ -39,11 +40,11 @@ public class UniformChangeAction implements Action {
     }
 
     protected void swap() {
-        sourceBackup = uniformOverride.overrideSources.set(i, sourceBackup);
+        sourceBackup = uniformOverride.overrideSources.set(valueIndex, sourceBackup);
 
         Map<String, List<Object>> prev = backup();
 
-        String prefix = i+"_";
+        String prefix = valueIndex +"_";
         uniformConfig.config().keySet().removeIf((s) -> s.startsWith(prefix));
         uniformConfig.config().putAll(mapBackup);
 
@@ -53,19 +54,19 @@ public class UniformChangeAction implements Action {
     @Override
     public boolean mergeWith(Action other) {
         UniformChangeAction o = (UniformChangeAction)other;
-        return uniformOverride == o.uniformOverride && uniform.equals(o.uniform) && i == o.i;
+        return uniformOverride == o.uniformOverride && uniform == o.uniform && valueIndex == o.valueIndex;
     }
 
     @Override
     public void addToHistory() {
         if (SouperSecretSettingsClient.actions.addToHistory(this)) {
-            sourceBackup = uniformOverride.overrideSources.get(i);
+            sourceBackup = uniformOverride.overrideSources.get(valueIndex);
             mapBackup = backup();
         }
     }
 
     private Map<String, List<Object>> backup() {
-        String prefix = i+"_";
+        String prefix = valueIndex +"_";
         Map<String, List<Object>> map = new HashMap<>();
         uniformConfig.config().forEach((key, value) -> {
             if (key.startsWith(prefix)) {

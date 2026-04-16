@@ -2,7 +2,6 @@ package com.nettakrim.souper_secret_settings.gui.shaders;
 
 import com.mclegoman.luminance.client.shaders.UniformInstance;
 import com.mclegoman.luminance.client.shaders.Uniforms;
-import com.mclegoman.luminance.client.shaders.uniforms.config.MapConfig;
 import com.mclegoman.luminance.client.shaders.uniforms.config.UniformConfig;
 import com.nettakrim.souper_secret_settings.actions.UniformChangeAction;
 import com.nettakrim.souper_secret_settings.gui.ListScreen;
@@ -49,13 +48,13 @@ public class UniformWidget extends DisplayWidget {
     protected void onValueChanged(int i, ConfigWidget widget) {
         UniformData uniformData = getBlockData().uniformDatas.get(uniformIndex);
 
-        new UniformChangeAction(uniform.name, i, uniformData.override, (MapConfig)uniformData.config).addToHistory();
+        new UniformChangeAction(uniformIndex, i, uniformData.override, uniformData.config).addToHistory();
 
         uniformData.override.overrideSources.set(i, widget.overrideSource);
 
         String prefix = i+"_";
-        ((MapConfig)uniformData.config).config().keySet().removeIf((s) -> s.startsWith(prefix));
-        ((MapConfig)uniformData.config).mergeWithConfig(widget.getConfig(prefix));
+        uniformData.config.config().keySet().removeIf((s) -> s.startsWith(prefix));
+        uniformData.config.mergeWithConfig(widget.getConfig(prefix));
 
         widget.dragValue = null;
 

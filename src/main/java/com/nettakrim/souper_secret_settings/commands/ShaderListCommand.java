@@ -4,12 +4,9 @@ import com.mclegoman.luminance.client.shaders.ShaderRegistryEntry;
 import com.mclegoman.luminance.client.shaders.Shaders;
 import com.mclegoman.luminance.client.shaders.interfaces.PostChainInterface;
 import com.mclegoman.luminance.client.shaders.interfaces.PostPassInterface;
-import com.mclegoman.luminance.client.shaders.overrides.PerValueOverride;
 import com.mclegoman.luminance.client.shaders.overrides.OverrideSource;
-import com.mclegoman.luminance.client.shaders.overrides.UniformOverride;
 import com.mclegoman.luminance.client.shaders.uniforms.config.MapConfig;
 import com.mclegoman.luminance.client.shaders.uniforms.config.UniformConfig;
-import com.mclegoman.luminance.common.util.Couple;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
@@ -94,15 +91,19 @@ public class ShaderListCommand extends ListCommand<ShaderData> {
                                                         ClientCommandManager.argument("pass", IntegerArgumentType.integer(0))
                                                                 .suggests(passSuggestions)
                                                                 .then(
-                                                                        ClientCommandManager.argument("uniform", StringArgumentType.string())
-                                                                                .suggests(uniformSuggestions)
+                                                                        ClientCommandManager.argument("block", StringArgumentType.string())
+                                                                                .suggests(uniformBlockSuggestions)
                                                                                 .then(
-                                                                                        ClientCommandManager.argument("name", StringArgumentType.string())
-                                                                                                .suggests(uniformNameSuggestions)
+                                                                                        ClientCommandManager.argument("uniform", IntegerArgumentType.integer(0))
+                                                                                                .suggests(uniformSuggestions)
                                                                                                 .then(
-                                                                                                        ClientCommandManager.argument("value", StringArgumentType.string())
-                                                                                                                .suggests(uniformValueSuggestions)
-                                                                                                                .executes(this::setValue)
+                                                                                                        ClientCommandManager.argument("name", StringArgumentType.string())
+                                                                                                                .suggests(uniformNameSuggestions)
+                                                                                                                .then(
+                                                                                                                        ClientCommandManager.argument("value", StringArgumentType.string())
+                                                                                                                                .suggests(uniformValueSuggestions)
+                                                                                                                                .executes(this::setValue)
+                                                                                                                )
                                                                                                 )
                                                                                 )
                                                                 )
@@ -233,14 +234,8 @@ public class ShaderListCommand extends ListCommand<ShaderData> {
 
 
     public int setValue(CommandContext<FabricClientCommandSource> context) {
-        Couple<Map<String, UniformDataOld<UniformOverride>>,Map<String, UniformDataOld<UniformConfig>>> uniforms = getUniformData(context, true);
-        if (uniforms == null) {
-            return 0;
-        }
-
-        String uniform = StringArgumentType.getString(context, "uniform");
-        if (!uniforms.getFirst().containsKey(uniform)) {
-            SouperSecretSettingsClient.say("shader.error.uniform", 1, uniform);
+        UniformData uniform = getUniformData(context, true);
+        if (uniform == null) {
             return 0;
         }
 
@@ -261,22 +256,19 @@ public class ShaderListCommand extends ListCommand<ShaderData> {
             return 0;
         }
 
-        PerValueOverride override = (PerValueOverride)uniforms.getFirst().get(uniform).value;
-        MapConfig config = (MapConfig)uniforms.getSecond().get(uniform).value;
-
         String text = name.substring(0, breakIndex);
         String value = StringArgumentType.getString(context, "value");
 
         if (text.equals("value")) {
-            if (index >= override.overrideSources.size()) {
-                SouperSecretSettingsClient.say("shader.error.value", 1, index, override.overrideSources.size()-1);
+            if (index >= uniform.override.overrideSources.size()) {
+                SouperSecretSettingsClient.say("shader.error.value", 1, index, uniform.override.overrideSources.size()-1);
                 return 0;
             }
 
-            new UniformChangeAction(uniform, index, override, config).addToHistory();
+            new UniformChangeAction(IntegerArgumentType.getInteger(context, "uniform"), index, uniform.override, uniform.config).addToHistory();
 
             OverrideSource source = ParameterOverrideSource.parameterSourceFromString(value);
-            override.overrideSources.set(index, source);
+            uniform.override.overrideSources.set(index, source);
 
             String prefix = index+"_";
             MapConfig mapConfig = new MapConfig(Map.of());
@@ -287,10 +279,10 @@ public class ShaderListCommand extends ListCommand<ShaderData> {
                     mapConfig.config().put(prefix + templateName, new ArrayList<>(objects));
                 }
             }
-            config.config().keySet().removeIf((s) -> s.startsWith(prefix) && !mapConfig.config().containsKey(s));
-            config.mergeWithConfig(mapConfig);
+            uniform.config.config().keySet().removeIf((s) -> s.startsWith(prefix) && !mapConfig.config().containsKey(s));
+            uniform.config.mergeWithConfig(mapConfig);
         } else {
-            List<Object> values = config.getObjects(text);
+            List<Object> values = uniform.config.getObjects(text);
             if (values == null) {
                 SouperSecretSettingsClient.say("shader.error.object", 1, text);
                 return 0;
@@ -305,12 +297,12 @@ public class ShaderListCommand extends ListCommand<ShaderData> {
                 variable = Integer.parseInt(text.substring(0, text.indexOf('_')));
             } catch (Exception ignored) {}
 
-            if (variable < 0 || variable >= override.overrideSources.size()) {
-                SouperSecretSettingsClient.say("shader.error.value", 1, variable, override.overrideSources.size()-1);
+            if (variable < 0 || variable >= uniform.override.overrideSources.size()) {
+                SouperSecretSettingsClient.say("shader.error.value", 1, variable, uniform.override.overrideSources.size()-1);
                 return 0;
             }
 
-            new UniformChangeAction(uniform, variable, override, config).addToHistory();
+            new UniformChangeAction(IntegerArgumentType.getInteger(context, "uniform"), variable, uniform.override, uniform.config).addToHistory();
 
             Object objectAtIndex = values.get(index);
             Object object;
@@ -334,7 +326,7 @@ public class ShaderListCommand extends ListCommand<ShaderData> {
             } catch (Exception e) {
                 ArrayList<Object> valuesMutable = new ArrayList<>(values);
                 valuesMutable.set(index, object);
-                config.config().put(text, valuesMutable);
+                uniform.config.config().put(text, valuesMutable);
             }
         }
 
@@ -456,11 +448,11 @@ public class ShaderListCommand extends ListCommand<ShaderData> {
         return builder.buildFuture();
     };
 
-    protected SuggestionProvider<FabricClientCommandSource> uniformSuggestions = (context, builder) -> {
-        Couple<Map<String, UniformDataOld<UniformOverride>>,Map<String, UniformDataOld<UniformConfig>>> uniforms = getUniformData(context, false);
+    protected SuggestionProvider<FabricClientCommandSource> uniformBlockSuggestions = (context, builder) -> {
+        Map<String, BlockData> blocks = getBlockDatas(context, false);
 
-        if (uniforms != null) {
-            for (String string : uniforms.getFirst().keySet()) {
+        if (blocks != null) {
+            for (String string : blocks.keySet()) {
                 builder.suggest(string);
             }
         }
@@ -468,25 +460,31 @@ public class ShaderListCommand extends ListCommand<ShaderData> {
         return builder.buildFuture();
     };
 
+    protected SuggestionProvider<FabricClientCommandSource> uniformSuggestions = (context, builder) -> {
+        BlockData block = getBlockData(context, false);
+
+        if (block != null) {
+            for (int i = 0; i < block.uniformDatas.size(); i++) {
+                builder.suggest(i, Component.literal(block.block.uniforms.get(i).name));
+            }
+        }
+
+        return builder.buildFuture();
+    };
+
     protected SuggestionProvider<FabricClientCommandSource> uniformNameSuggestions = (context, builder) -> {
-        Couple<Map<String, UniformDataOld<UniformOverride>>,Map<String, UniformDataOld<UniformConfig>>> uniforms = getUniformData(context, false);
+        UniformData uniform = getUniformData(context, false);
 
-        if (uniforms != null) {
-            String uniform = StringArgumentType.getString(context, "uniform");
+        if (uniform != null) {
+            for (int i = 0; i < uniform.override.overrideSources.size(); i++) {
+                builder.suggest("value." + i);
+            }
 
-            UniformDataOld<UniformOverride> override = uniforms.getFirst().get(uniform);
-            if (override != null) {
-                for (int i = 0; i < ((PerValueOverride)override.value).overrideSources.size(); i++) {
-                    builder.suggest("value." + i);
-                }
-
-                UniformConfig config = uniforms.getSecond().get(uniform).value;
-                for (String string : config.getNames()) {
-                    List<Object> objects = config.getObjects(string);
-                    assert objects != null;
-                    for (int i = 0; i < objects.size(); i++) {
-                        builder.suggest(string + "." + i);
-                    }
+            for (String string : uniform.config.getNames()) {
+                List<Object> objects = uniform.config.getObjects(string);
+                assert objects != null;
+                for (int i = 0; i < objects.size(); i++) {
+                    builder.suggest(string + "." + i);
                 }
             }
         }
@@ -495,49 +493,46 @@ public class ShaderListCommand extends ListCommand<ShaderData> {
     };
 
     protected SuggestionProvider<FabricClientCommandSource> uniformValueSuggestions = (context, builder) -> {
-        Couple<Map<String, UniformDataOld<UniformOverride>>,Map<String, UniformDataOld<UniformConfig>>> uniforms = getUniformData(context, false);
+        UniformData uniform = getUniformData(context, false);
 
-        if (uniforms != null) {
-            String uniform = StringArgumentType.getString(context, "uniform");
-            UniformDataOld<UniformOverride> override = uniforms.getFirst().get(uniform);
-            if (override != null) {
-                String name = StringArgumentType.getString(context, "name");
-                int breakIndex = name.lastIndexOf('.');
-                if (breakIndex > 0) {
-                    int index = -1;
-                    try {
-                        index = Integer.parseInt(name.substring(breakIndex + 1));
-                    } catch (Exception ignored) {
+        if (uniform != null) {
+            String name = StringArgumentType.getString(context, "name");
+            int breakIndex = name.lastIndexOf('.');
+            if (breakIndex > 0) {
+                int index = -1;
+                try {
+                    index = Integer.parseInt(name.substring(breakIndex + 1));
+                } catch (Exception ignored) {
+                }
+
+                if (index >= 0) {
+                    String defaultValue = null;
+                    String currentValue = null;
+
+                    String text = name.substring(0, breakIndex);
+                    if (text.equals("value")) {
+                        List<String> values = uniform.override.getStrings();
+                        if (index < values.size()) {
+                            currentValue = values.get(index);
+                            assert uniform.defaultValue != null;
+                            defaultValue = uniform.defaultValue.override.getStrings().get(index);
+                        }
+                    } else {
+                        List<Object> values = uniform.config.getObjects(text);
+                        if (values != null && index < values.size()) {
+                            currentValue = values.get(index).toString();
+                            assert uniform.defaultValue != null;
+                            List<Object> defaultObjects = uniform.defaultValue.config.getObjects(text);
+                            defaultValue = (defaultObjects == null || index >= defaultObjects.size()) ? null : defaultObjects.get(index).toString();
+                        }
                     }
 
-                    if (index >= 0) {
-                        String defaultValue = null;
-                        String currentValue = null;
-
-                        String text = name.substring(0, breakIndex);
-                        if (text.equals("value")) {
-                            List<String> values = ((PerValueOverride) override.value).getStrings();
-                            if (index < values.size()) {
-                                currentValue = values.get(index);
-                                defaultValue = ((PerValueOverride) override.defaultValue).getStrings().get(index);
-                            }
-                        } else {
-                            UniformDataOld<UniformConfig> config = uniforms.getSecond().get(uniform);
-                            List<Object> values = config.value.getObjects(text);
-                            if (values != null && index < values.size()) {
-                                currentValue = values.get(index).toString();
-                                List<Object> defaultObjects = config.defaultValue.getObjects(text);
-                                defaultValue = (defaultObjects == null || index >= defaultObjects.size()) ? null : defaultObjects.get(index).toString();
-                            }
+                    if (currentValue != null) {
+                        if (!currentValue.equals(defaultValue)) {
+                            builder.suggest(currentValue, SouperSecretSettingsClient.translate("shader.value.current"));
                         }
-
-                        if (currentValue != null) {
-                            if (!currentValue.equals(defaultValue)) {
-                                builder.suggest(currentValue, SouperSecretSettingsClient.translate("shader.value.current"));
-                            }
-                            if (defaultValue != null) {
-                                builder.suggest(defaultValue, SouperSecretSettingsClient.translate("shader.value.default"));
-                            }
+                        if (defaultValue != null) {
+                            builder.suggest(defaultValue, SouperSecretSettingsClient.translate("shader.value.default"));
                         }
                     }
                 }
@@ -548,7 +543,7 @@ public class ShaderListCommand extends ListCommand<ShaderData> {
     };
 
     @Nullable
-    protected Couple<Map<String, UniformDataOld<UniformOverride>>,Map<String, UniformDataOld<UniformConfig>>> getUniformData(CommandContext<FabricClientCommandSource> context, boolean feedback) {
+    protected Map<String, BlockData> getBlockDatas(CommandContext<FabricClientCommandSource> context, boolean feedback) {
         int shaderIndex = IntegerArgumentType.getInteger(context, "shader");
         ShaderLayer layer = SouperSecretSettingsClient.soupRenderer.activeLayer;
 
@@ -566,25 +561,59 @@ public class ShaderListCommand extends ListCommand<ShaderData> {
 
         ShaderData shader = shaders.get(shaderIndex);
 
-        // TODO: update to blocks
-        /*
-        for (Identifier identifier : SouperSecretSettingsClient.soupRenderer.getRegistryPasses(registry)) {
-            ChainData chainData = shader.passDatas.get(identifier);
+        for (Identifier identifier : SouperSecretSettingsClient.soupRenderer.getRegistryChains(registry)) {
+            ChainData chainData = shader.getPassData(identifier);
             if (chainData != null) {
-                int size = chainData.overrides.size();
+                int size = chainData.passBlocks.size();
                 if (pass < size) {
-                    return new Couple<>(chainData.overrides.get(pass), chainData.configs.get(pass));
+                    return chainData.passBlocks.get(pass);
                 }
                 pass -= size;
                 total += size;
             }
         }
-         */
 
         if (feedback) {
             SouperSecretSettingsClient.say("shader.error.pass", 1, passIndex, total-1);
         }
         return null;
+    }
+
+    @Nullable
+    protected BlockData getBlockData(CommandContext<FabricClientCommandSource> context, boolean feedback) {
+        Map<String, BlockData> blocks = getBlockDatas(context, feedback);
+
+        if (blocks == null) {
+            return null;
+        }
+
+        String block = StringArgumentType.getString(context, "block");
+        BlockData blockData = blocks.get(block);
+
+        if (blockData == null && feedback) {
+            SouperSecretSettingsClient.say("shader.error.block", 1, block);
+        }
+
+        return blockData;
+    }
+
+    @Nullable
+    protected UniformData getUniformData(CommandContext<FabricClientCommandSource> context, boolean feedback) {
+        BlockData block = getBlockData(context, feedback);
+
+        if (block == null) {
+            return null;
+        }
+
+        int i = IntegerArgumentType.getInteger(context, "uniform");
+        if (i >= block.uniformDatas.size()) {
+            if (feedback) {
+            SouperSecretSettingsClient.say("shader.error.uniform", 1, i, block.uniformDatas.size()-1);
+            }
+            return null;
+        }
+
+        return block.uniformDatas.get(i);
     }
 
     protected final SuggestionProvider<FabricClientCommandSource> groupSuggestions = (context, builder) -> {

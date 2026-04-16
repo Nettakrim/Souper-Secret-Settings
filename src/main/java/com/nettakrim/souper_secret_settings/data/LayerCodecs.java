@@ -165,7 +165,7 @@ public record LayerCodecs(Optional<List<Shader>> shaders, Optional<List<Shader>>
                 List<Uniform> uniforms = new ArrayList<>(blockData.uniformDatas.size());
                 for (UniformData uniformData : blockData.uniformDatas) {
                     if (uniformData.isChanged()) {
-                        uniforms.add(Uniform.from(uniformData.override, (MapConfig)uniformData.config));
+                        uniforms.add(Uniform.from(uniformData.override, uniformData.config));
                     } else {
                         uniforms.add(Uniform.EMPTY);
                     }
@@ -198,19 +198,19 @@ public record LayerCodecs(Optional<List<Shader>> shaders, Optional<List<Shader>>
                         UniformInstance uniformInstance = blockData.block.uniforms.get(i);
                         if (uniformInstance.name.equals(uniform)) {
                             UniformData uniformData = blockData.uniformDatas.get(i);
-                            uniformCodec.apply(uniformData.override, (MapConfig)uniformData.config, true);
+                            uniformCodec.apply(uniformData.override, uniformData.config, true);
                             return;
                         }
                     }
                 }
-                sayError("shader.error.uniform", uniform);
+                sayError("shader.error.uniform_legacy", uniform, Arrays.toString(uniformCodec.values.orElse(List.of()).toArray()));
             }));
 
             blocks.ifPresent(blockMap -> blockMap.forEach((blockName, uniformCodecs) -> {
                 BlockData blockData = blockDataMap.get(blockName);
                 for (int i = 0; i < uniformCodecs.size(); i++) {
                     UniformData data = blockData.uniformDatas.get(i);
-                    uniformCodecs.get(i).apply(data.override, (MapConfig)data.config, false);
+                    uniformCodecs.get(i).apply(data.override, data.config, false);
                 }
             }));
         }
