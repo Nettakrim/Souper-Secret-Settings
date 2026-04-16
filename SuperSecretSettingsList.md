@@ -15,31 +15,31 @@ All builtin resourcepacks should be enabled by default, but they may need to ena
 | bits                               | blue_blobs2         | autumnal        |
 | blobs                              | crt                 | bevel           |
 | blobs2                             | depth_dither        | blobs_outline   |
-| bloom*                             | dos                 | blobs_rounded   |
-| box_blur**                         | eightbit            | blobs_square    |
-| bumpy                              | gaussian            | bloom_color     |
-| color_convolve                     | gentoo              | bloom_spike     |
-| creeper**                          | golden_blobs2       | brightness      |
-| deconverge                         | grayscale           | checkerboard    |
-| desaturate                         | health_overlay      | cinematic       |
-| flip                               | inverted_brightness | collapse        |
-| fxaa                               | inverted_colors     | color_bleed     |
-| green                              | mirror              | color_blind     |
-| invert**                           | outlined            | color_shuffle   |
-| love*                              | outlined2           | contrast        |
-| notch                              | pixelated           | crunch          |
-| ntsc                               | rainbow             | crystallize     |
-| outline                            | saturate            | depth_outline   |
-| pencil                             | sepia               | dissolve        |
-| phosphor                           | silhouette          | dither          |
-| scan_pincushion                    | silhouette2         | dramatic        |
-| shareware*                         | sixteen_colors      | emboss          |
-| sobel                              | tiltshift           | film_grain      |
-| spider**                           |                     | fisheye         |
-| wobble                             |                     | fractal         |
-|                                    |                     | frigid          |
-|                                    |                     | ghost           |
-|                                    |                     | gel             |
+| bloom*                             | dominant_channel    | blobs_rounded   |
+| box_blur**                         | dos                 | blobs_square    |
+| bumpy                              | eightbit            | bloom_color     |
+| creeper**                          | gaussian            | bloom_spike     |
+| deconverge                         | gentoo              | brightness      |
+| desaturate                         | golden_blobs2       | checkerboard    |
+| flip                               | grayscale           | cinematic       |
+| fxaa                               | health_overlay      | collapse        |
+| green                              | inverted_brightness | color_bleed     |
+| invert**                           | inverted_colors     | color_blind     |
+| love*                              | mirror              | color_shuffle   |
+| notch                              | outlined            | contrast        |
+| ntsc                               | outlined2           | crunch          |
+| outline                            | painting            | crystallize     |
+| pencil                             | pixelated           | depth_outline   |
+| phosphor                           | ps1                 | dissolve        |
+| scan_pincushion                    | rainbow             | dither          |
+| shareware*                         | saturate            | dramatic        |
+| sobel                              | sepia               | emboss          |
+| spider**                           | silhouette          | film_grain      |
+| wobble                             | silhouette2         | fisheye         |
+|                                    | sixteen_colors      | fractal         |
+|                                    | tiltshift           | frigid          |
+|                                    | vision              | ghost           |
+|                                    | vision2             | gel             |
 |                                    |                     | ghost           |
 |                                    |                     | glass           |
 |                                    |                     | glitchy         |
