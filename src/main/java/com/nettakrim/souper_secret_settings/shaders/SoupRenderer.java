@@ -10,7 +10,6 @@ import com.mclegoman.luminance.client.shaders.ShaderRegistryEntry;
 import com.mclegoman.luminance.client.shaders.Shaders;
 import com.mclegoman.luminance.client.shaders.uniforms.Uniform;
 import com.mclegoman.luminance.client.util.Accessors;
-import com.mojang.blaze3d.framegraph.FrameGraphBuilder;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.commands.SouperSecretSettingsCommands;
 import net.minecraft.client.input.MouseButtonInfo;
@@ -23,13 +22,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.renderer.PostChain;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import org.joml.Vector2i;
 
-public class SoupRenderer implements Runnables.WorldRender {
+public class SoupRenderer implements Runnables.LevelRender {
     public final List<ShaderLayer> shaderLayers;
     public ShaderLayer activeLayer;
 
@@ -37,7 +35,7 @@ public class SoupRenderer implements Runnables.WorldRender {
 
     private List<Identifier> validUniforms;
 
-    private RenderLocations.RenderLocation renderLocation;
+    private RenderLocations.RenderLocation<?> renderLocation;
 
     public final Map<Identifier, Map<String, Group>> shaderGroups;
     public final Map<Identifier, Map<String, List<ShaderRegistryEntry>>> shaderGroupRegistries;
@@ -54,20 +52,20 @@ public class SoupRenderer implements Runnables.WorldRender {
 
         spectateHandler = new SoupSpectateHandler();
         Events.SpectatorHandlers.register(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "spectate_handler"), spectateHandler);
-        Events.AfterVanillaPostEffectRender.register(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "rendering"), (renderTarget, objectAllocator) -> {
+        Events.AfterVanillaPostEffectRender.register(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "rendering"), (data) -> {
             if (SouperSecretSettingsClient.soupData.config.disableState == 0) {
                 if (spectateHandler.shaderLayer != null) {
-                    Runnables.WorldRender.fromGameRender(spectateHandler.shaderLayer::render, renderTarget, objectAllocator);
+                    Runnables.LevelRender.fromGameData(spectateHandler.shaderLayer::render, data);
                     ShaderLayer.renderCleanup(null);
                 }
                 if (renderLocation == RenderLocations.WORLD) {
-                    Runnables.WorldRender.fromGameRender(this, renderTarget, objectAllocator);
+                    Runnables.LevelRender.fromGameData(this, data);
                 }
             }
         });
-        Events.AfterUiRender.register(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "rendering"), (renderTarget, objectAllocator) -> {
+        Events.AfterUiRender.register(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "rendering"), (data) -> {
             if (renderLocation == RenderLocations.UI && SouperSecretSettingsClient.soupData.config.disableState == 0) {
-                Runnables.WorldRender.fromGameRender(this, renderTarget, objectAllocator);
+                Runnables.LevelRender.fromGameData(this, data);
             }
         });
 
@@ -95,14 +93,14 @@ public class SoupRenderer implements Runnables.WorldRender {
     }
 
     @Override
-    public void run(FrameGraphBuilder builder, int textureWidth, int textureHeight, PostChain.TargetBundle targetBundle) {
+    public void run(Runnables.LevelRender.Data data) {
         if (shaderLayers != null) {
             for (ShaderLayer layer : shaderLayers) {
-                layer.render(builder, textureWidth, textureHeight, targetBundle);
+                layer.render(data);
             }
         }
 
-        ShaderLayer.renderCleanup(builder);
+        ShaderLayer.renderCleanup(data.builder());
     }
 
     public void tick() {
@@ -255,11 +253,11 @@ public class SoupRenderer implements Runnables.WorldRender {
         buttonWidget.setMessage(getRenderLocationText());
     }
 
-    public void setRenderLocation(RenderLocations.RenderLocation renderLocation) {
+    public void setRenderLocation(RenderLocations.RenderLocation<?> renderLocation) {
         this.renderLocation = renderLocation;
     }
 
-    public RenderLocations.RenderLocation getRenderLocation() {
+    public RenderLocations.RenderLocation<?> getRenderLocation() {
         return renderLocation;
     }
 

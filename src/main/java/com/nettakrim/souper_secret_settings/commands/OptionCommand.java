@@ -233,7 +233,7 @@ public class OptionCommand {
         SouperSecretSettingsClient.say(key, priority, s);
     }
 
-    public static int setRenderLocation(RenderLocations.RenderLocation renderLocation) {
+    public static int setRenderLocation(RenderLocations.RenderLocation<?> renderLocation) {
         SouperSecretSettingsClient.soupRenderer.setRenderLocation(renderLocation);
         return queryRenderLocation(0);
     }

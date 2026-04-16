@@ -1,14 +1,13 @@
 package com.nettakrim.souper_secret_settings.shaders;
 
+import com.mclegoman.luminance.client.events.Runnables;
 import com.mclegoman.luminance.client.shaders.Shader;
 import com.mclegoman.luminance.client.shaders.Shaders;
 import com.mclegoman.luminance.client.shaders.interfaces.PostChainInterface;
-import com.mojang.blaze3d.framegraph.FrameGraphBuilder;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import net.minecraft.client.renderer.PostChain;
 import net.minecraft.client.renderer.PostPass;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -51,7 +50,7 @@ public class ShaderData implements Toggleable {
         uuid = Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, String.valueOf(uuidCounter++));
     }
 
-    public boolean render(FrameGraphBuilder builder, int textureWidth, int textureHeight, PostChain.TargetBundle targetBundle, @Nullable Identifier chain) {
+    public boolean render(Runnables.LevelRender.Data data, @Nullable Identifier chain) {
         if (!active) return false;
         PostChainInterface processor = (PostChainInterface)shader.getPostProcessor();
         if (chain != null && !processor.luminance$getCustomChainNames().contains(chain)) {
@@ -59,7 +58,7 @@ public class ShaderData implements Toggleable {
         }
 
         processor.luminance$setPersistentBufferSource(uuid);
-        Shaders.renderProcessorUsingTargetBundle(shader, builder, textureWidth, textureHeight, targetBundle, chain);
+        Shaders.renderShaderFromLevelData(shader, data, chain);
         processor.luminance$setPersistentBufferSource(null);
         return true;
     }

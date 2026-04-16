@@ -1,6 +1,7 @@
 package com.nettakrim.souper_secret_settings.shaders;
 
 import com.mclegoman.luminance.client.data.ClientData;
+import com.mclegoman.luminance.client.events.Runnables;
 import com.mclegoman.luminance.client.shaders.Shaders;
 import com.mclegoman.luminance.client.shaders.interfaces.FramePassInterface;
 import com.mclegoman.luminance.common.util.Couple;
@@ -13,7 +14,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import net.minecraft.client.renderer.PostChain;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
@@ -61,8 +61,7 @@ public class ShaderLayer implements Toggleable {
         calculations.clear();
     }
 
-    public void render(FrameGraphBuilder builder, int textureWidth, int textureHeight, PostChain.TargetBundle targetBundle
-    ) {
+    public void render(Runnables.LevelRender.Data data) {
         if (!active) {
             return;
         }
@@ -76,33 +75,33 @@ public class ShaderLayer implements Toggleable {
         }
 
         Queue<Couple<ShaderData, Identifier>> shaderQueue = new LinkedList<>();
-        FramePassInterface.createForcedPass(builder, Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "layer_start"), () -> {
+        FramePassInterface.createForcedPass(data.builder(), Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "layer_start"), () -> {
             renderingLayer = this;
             OverrideManager.startShaderQueue(shaderQueue);
         });
 
-        renderList(modifiers, shaderQueue, builder, textureWidth, textureHeight, targetBundle, beforeLayerRender);
+        renderList(modifiers, shaderQueue, data, beforeLayerRender);
 
         for (ShaderData shaderData : shaders) {
             if (shaderData.active) {
-                renderList(modifiers, shaderQueue, builder, textureWidth, textureHeight, targetBundle, beforeShaderRender);
-                renderShader(shaderData, shaderQueue, builder, textureWidth, textureHeight, targetBundle, null);
-                renderList(modifiers.reversed(), shaderQueue, builder, textureWidth, textureHeight, targetBundle, afterShaderRender);
+                renderList(modifiers, shaderQueue, data, beforeShaderRender);
+                renderShader(shaderData, shaderQueue, data, null);
+                renderList(modifiers.reversed(), shaderQueue, data, afterShaderRender);
                 shaderQueue.add(null);
             }
         }
 
-        renderList(modifiers.reversed(), shaderQueue, builder, textureWidth, textureHeight, targetBundle, afterLayerRender);
+        renderList(modifiers.reversed(), shaderQueue, data, afterLayerRender);
     }
 
-    public void renderList(List<ShaderData> shaders, Queue<Couple<ShaderData, Identifier>> shaderQueue, FrameGraphBuilder builder, int textureWidth, int textureHeight, PostChain.TargetBundle targetBundle, @Nullable Identifier customChain) {
+    public void renderList(List<ShaderData> shaders, Queue<Couple<ShaderData, Identifier>> shaderQueue, Runnables.LevelRender.Data data, @Nullable Identifier customChain) {
         for (ShaderData shaderData : shaders) {
-            renderShader(shaderData, shaderQueue, builder, textureWidth, textureHeight, targetBundle, customChain);
+            renderShader(shaderData, shaderQueue, data, customChain);
         }
     }
 
-    public void renderShader(ShaderData shaderData, Queue<Couple<ShaderData, Identifier>> shaderQueue, FrameGraphBuilder builder, int textureWidth, int textureHeight, PostChain.TargetBundle targetBundle, @Nullable Identifier customChain) {
-        if (shaderData.render(builder, textureWidth, textureHeight, targetBundle, customChain)) {
+    public void renderShader(ShaderData shaderData, Queue<Couple<ShaderData, Identifier>> shaderQueue, Runnables.LevelRender.Data data, @Nullable Identifier customChain) {
+        if (shaderData.render(data, customChain)) {
             shaderQueue.add(new Couple<>(shaderData, customChain));
         }
     }
