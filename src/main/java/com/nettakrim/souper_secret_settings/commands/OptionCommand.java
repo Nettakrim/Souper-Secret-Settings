@@ -99,7 +99,8 @@ public class OptionCommand {
         LiteralCommandNode<FabricClientCommandSource> renderLocationNode = ClientCommandManager
                 .literal("render_location")
                 .then(
-                        ClientCommandManager.literal("game").executes(context -> setRenderLocation(RenderLocations.GAME))
+                        // the location is called "game", but i prefer the word "world"
+                        ClientCommandManager.literal("world").executes(context -> setRenderLocation(RenderLocations.GAME))
                 )
                 .then(
                         ClientCommandManager.literal("ui").executes(context -> setRenderLocation(RenderLocations.UI))
@@ -239,7 +240,7 @@ public class OptionCommand {
     }
 
     public static int queryRenderLocation(int priority) {
-        SouperSecretSettingsClient.say("option.render_type."+SouperSecretSettingsClient.soupRenderer.getRenderLocation().toString().toLowerCase() + (priority > 0 ? ".query" : ".set"), priority);
+        SouperSecretSettingsClient.say("option.render_type."+SouperSecretSettingsClient.soupRenderer.getRenderLocation().identifier().toString().replace(':','.') + (priority > 0 ? ".query" : ".set"), priority);
         return 1;
     }
 

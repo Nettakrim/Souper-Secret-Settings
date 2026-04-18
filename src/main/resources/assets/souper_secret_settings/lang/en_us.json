@@ -67,10 +67,10 @@
 
 
 
-    "souper_secret_settings.option.render_type.world.set": "Shaders now render in World",
-    "souper_secret_settings.option.render_type.world.query": "Shaders render in World",
-    "souper_secret_settings.option.render_type.ui.set": "Shaders now render in UI",
-    "souper_secret_settings.option.render_type.ui.query": "Shaders render in UI",
+    "souper_secret_settings.option.render_type.luminance.game.set": "Shaders now render in World",
+    "souper_secret_settings.option.render_type.luminance.game.query": "Shaders render in World",
+    "souper_secret_settings.option.render_type.luminance.ui.set": "Shaders now render in UI",
+    "souper_secret_settings.option.render_type.luminance.ui.query": "Shaders render in UI",
     "souper_secret_settings.option.toggle.0": "Soup rendering enabled",
     "souper_secret_settings.option.toggle.1": "Soup rendering disabled",
     "souper_secret_settings.option.toggle.2": "Soup rendering will stay disabled",
@@ -158,7 +158,7 @@
 
 
 
-    "gui.souper_secret_settings.keybindings.category.souper_secret_settings": "Souper Secret Settings",
+    "key.category.souper_secret_settings.souper_secret_settings": "Souper Secret Settings",
     "gui.souper_secret_settings.keybindings.keybinding.open_gui": "Open Gui",
     "gui.souper_secret_settings.keybindings.keybinding.cycle_mode": "Cycle Rendering",
     "gui.souper_secret_settings.keybindings.keybinding.clear": "Clear All",
