@@ -19,7 +19,7 @@ public class SoupUniforms {
         Uniforms.registerFullTree("soup", "layer_size", SoupUniforms::getLayerSize, 0f, null, 1, EmptyConfig.INSTANCE, false);
     }
 
-    public static void getBinary(UniformConfig config, ShaderTime shaderTime, UniformVector uniformValue) {
+    public static void getBinary(UniformConfig config, ShaderTime shaderTime, UniformVector uniformVector) {
         String s = (String)Objects.requireNonNull(config.getObjects("value")).getFirst();
         int v = 0;
         if (!s.isEmpty()) {
@@ -37,10 +37,10 @@ public class SoupUniforms {
                 }
             }
         }
-        uniformValue.values.set(0, (float)v);
+        uniformVector.values.set(0, (float)v);
     }
 
-    public static void getLayerSize(UniformConfig config, ShaderTime shaderTime, UniformVector uniformValue) {
+    public static void getLayerSize(UniformConfig config, ShaderTime shaderTime, UniformVector uniformVector) {
         ShaderLayer layer = ShaderLayer.getRenderingLayer();
         float count = 0;
         if (layer == null) {
@@ -52,10 +52,10 @@ public class SoupUniforms {
                 count++;
             }
         }
-        uniformValue.values.set(0, count);
+        uniformVector.values.set(0, count);
     }
 
-    public static void getShaderIndex(UniformConfig config, ShaderTime shaderTime, UniformVector uniformValue) {
-        uniformValue.values.set(0, (float)OverrideManager.currentShaderIndex);
+    public static void getShaderIndex(UniformConfig config, ShaderTime shaderTime, UniformVector uniformVector) {
+        uniformVector.values.set(0, (float)OverrideManager.currentShaderIndex);
     }
 }
