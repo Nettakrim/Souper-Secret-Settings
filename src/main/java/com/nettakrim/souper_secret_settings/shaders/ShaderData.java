@@ -25,11 +25,11 @@ public class ShaderData implements Toggleable {
 
     public ShaderData(Shader shader) {
         this.shader = shader;
-        if (this.shader.getPostProcessor() == null) {
-            this.shader.setPostProcessor();
+        if (this.shader.getPostChain() == null) {
+            this.shader.loadPostChain();
         }
 
-        PostChainInterface processor = (PostChainInterface)this.shader.getPostProcessor();
+        PostChainInterface processor = this.shader.getPostChain();
         Set<Identifier> customChains = processor.luminance$getCustomChainNames();
 
         List<PostPass> defaultPasses = processor.luminance$getPasses(null);
@@ -52,7 +52,7 @@ public class ShaderData implements Toggleable {
 
     public boolean render(Runnables.LevelRender.Data data, @Nullable Identifier chain) {
         if (!active) return false;
-        PostChainInterface processor = (PostChainInterface)shader.getPostProcessor();
+        PostChainInterface processor = shader.getPostChain();
         if (chain != null && !processor.luminance$getCustomChainNames().contains(chain)) {
             return false;
         }

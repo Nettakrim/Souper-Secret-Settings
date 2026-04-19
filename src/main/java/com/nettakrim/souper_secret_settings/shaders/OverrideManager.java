@@ -2,7 +2,6 @@ package com.nettakrim.souper_secret_settings.shaders;
 
 import com.mclegoman.luminance.client.events.Runnables;
 import com.mclegoman.luminance.client.shaders.UniformInstance;
-import com.mclegoman.luminance.client.shaders.interfaces.PostChainInterface;
 import com.mclegoman.luminance.client.shaders.interfaces.PostPassInterface;
 import com.mclegoman.luminance.common.util.Couple;
 import java.util.*;
@@ -35,7 +34,7 @@ public class OverrideManager {
             }
 
             if (shaderData.getFirst().active) {
-                List<PostPass> currentPasses = ((PostChainInterface)shaderData.getFirst().shader.getPostProcessor()).luminance$getPasses(shaderData.getSecond());
+                List<PostPass> currentPasses = shaderData.getFirst().shader.getPostChain().luminance$getPasses(shaderData.getSecond());
                 // render queue is only added to when the passes *do* exist
                 assert currentPasses != null;
 

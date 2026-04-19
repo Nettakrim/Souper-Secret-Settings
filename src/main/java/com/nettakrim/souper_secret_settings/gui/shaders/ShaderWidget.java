@@ -1,6 +1,5 @@
 package com.nettakrim.souper_secret_settings.gui.shaders;
 
-import com.mclegoman.luminance.client.shaders.interfaces.PostChainInterface;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.gui.ListScreen;
 import com.nettakrim.souper_secret_settings.gui.ListWidget;
@@ -34,7 +33,7 @@ public class ShaderWidget extends ListWidget {
     }
 
     protected void addChain(Identifier chain) {
-        List<PostPass> passes = ((PostChainInterface)shaderData.shader.getPostProcessor()).luminance$getPasses(chain);
+        List<PostPass> passes = shaderData.shader.getPostChain().luminance$getPasses(chain);
         if (passes == null) {
             return;
         }
