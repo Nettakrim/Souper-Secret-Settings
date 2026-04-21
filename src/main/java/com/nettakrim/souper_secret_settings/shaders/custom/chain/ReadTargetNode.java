@@ -11,7 +11,7 @@ public class ReadTargetNode extends Node {
 
     @Override
     protected void initialisePorts() {
-        addInput("target", new PortType.StringPort());
+        addInput("target", new PortType.StringPort()).docked = new StringNode();
         addOutput("output", new PortType.TargetPort());
     }
 }

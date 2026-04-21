@@ -14,12 +14,16 @@ public abstract class Node {
 
     protected abstract void initialisePorts();
 
-    protected void addInput(String name, PortType type) {
-        inputPorts.add(new InputPort<>(this, name, type));
+    protected <T extends PortType> InputPort<T> addInput(String name, T type) {
+        InputPort<T> port = new InputPort<>(this, name, type);
+        inputPorts.add(port);
+        return port;
     }
 
-    protected void addOutput(String name, PortType type) {
-        outputPorts.add(new OutputPort<>(this, name, type));
+    protected <T extends PortType> OutputPort<T> addOutput(String name, T type) {
+        OutputPort<T> port = new OutputPort<>(this, name, type);
+        outputPorts.add(port);
+        return port;
     }
 
     public boolean isEnd() {
