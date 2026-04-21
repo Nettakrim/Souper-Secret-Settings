@@ -16,8 +16,8 @@ public class PassNode extends Node {
     @Override
     protected void initialisePorts() {
         for (String input : postPassInterface.luminance$getPipeline().getSamplers()) {
-            addInput(input, new PortType.TargetPort());
+            addInput(input, PortType.TARGET);
         }
-        addOutput("output", new PortType.TargetPort());
+        addOutput("output", PortType.TARGET);
     }
 }

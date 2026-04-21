@@ -1,19 +1,10 @@
 package com.nettakrim.souper_secret_settings.shaders.custom;
 
-public interface PortType {
-    int color();
+public enum PortType {
+    TARGET(-1),
+    STRING(-1);
 
-    class TargetPort implements PortType {
-        @Override
-        public int color() {
-            return -1;
-        }
-    }
+    PortType(int color) {
 
-    class StringPort implements PortType {
-        @Override
-        public int color() {
-            return -1;
-        }
     }
 }

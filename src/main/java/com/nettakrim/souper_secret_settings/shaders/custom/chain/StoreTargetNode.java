@@ -11,8 +11,8 @@ public class StoreTargetNode extends Node {
 
     @Override
     protected void initialisePorts() {
-        addInput("target", new PortType.StringPort()).docked = new StringNode();
-        addInput("input", new PortType.TargetPort());
+        addInput("target", PortType.STRING).docked = new StringNode();
+        addInput("input", PortType.TARGET);
     }
 
     @Override
