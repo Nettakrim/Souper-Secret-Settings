@@ -18,12 +18,16 @@ public abstract class Graph {
         return wires.stream().filter(wire -> wire.destination.node == node).collect(Collectors.toSet());
     }
 
+    protected OrganisedGraph organise() throws ShaderManager.CompilationException {
+        return new OrganisedGraph(this);
+    }
+
     // gets all the nodes into a format where they can be traversed easily (since its stored as a loose pile of nodes and wires for editing)
     // the resulting graph is ordered such that a node will *always* be before anything that uses it
     protected static class OrganisedGraph {
         public final ImmutableList<OrganisedNode> organisedNodes;
 
-        public OrganisedGraph(Graph graph) throws ShaderManager.CompilationException {
+        private OrganisedGraph(Graph graph) throws ShaderManager.CompilationException {
             ArrayList<OrganisedNode> backwardsNodes = new ArrayList<>(graph.nodes.size());
 
             // find all ends of the graph to make sure every relevant bit is visited, but excess nodes arent

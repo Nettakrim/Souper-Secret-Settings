@@ -8,7 +8,7 @@ public class ChainGraph extends Graph {
     public boolean changed;
 
     public PostChain compile() throws ShaderManager.CompilationException {
-        OrganisedGraph organisedGraph = new OrganisedGraph(this);
+        OrganisedGraph organisedGraph = organise();
 
         // TODO:
         //  loop through graph nodes

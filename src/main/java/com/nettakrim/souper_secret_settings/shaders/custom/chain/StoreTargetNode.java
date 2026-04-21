@@ -11,7 +11,7 @@ public class StoreTargetNode extends Node {
 
     @Override
     protected void initialisePorts() {
-        addInput("target", PortType.STRING).docked = new StringNode();
+        addInput("target", PortType.STRING).docked = new StringNode("minecraft:main");
         addInput("input", PortType.TARGET);
     }
 
