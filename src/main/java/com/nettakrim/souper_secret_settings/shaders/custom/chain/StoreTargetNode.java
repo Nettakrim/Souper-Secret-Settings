@@ -1,7 +1,6 @@
 package com.nettakrim.souper_secret_settings.shaders.custom.chain;
 
 import com.nettakrim.souper_secret_settings.shaders.custom.Node;
-import com.nettakrim.souper_secret_settings.shaders.custom.Port;
 import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
 
 public class StoreTargetNode extends Node {
@@ -12,8 +11,8 @@ public class StoreTargetNode extends Node {
 
     @Override
     protected void initialisePorts() {
-        inputPorts.add(new Port<PortType.StringPort>(this, "target"));
-        inputPorts.add(new Port<PortType.TargetPort>(this, "input"));
+        addInput("target", new PortType.StringPort());
+        addInput("input", new PortType.TargetPort());
     }
 
     @Override

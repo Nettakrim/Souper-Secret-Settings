@@ -94,10 +94,16 @@ public abstract class Graph {
 
             // get all nodes that are inputs for the given node
             for (Wire wire : getSources.apply(node)) {
-                int inputPortIndex = node.inputPorts.indexOf(wire.source);
+                int inputPortIndex = node.inputPorts.indexOf(wire.destination);
                 assert inputPortIndex >= 0;
 
                 inputSources[inputPortIndex] = new Source(wire.source.node, wire.source.node.outputPorts.indexOf(wire.source));
+            }
+
+            for (int i = 0; i < inputSources.length; i++) {
+                if (inputSources[i] == null) {
+                    inputSources[i] = new Source(node.inputPorts.get(i).docked, 0);
+                }
             }
         }
 

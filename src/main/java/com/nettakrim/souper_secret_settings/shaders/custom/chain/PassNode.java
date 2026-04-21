@@ -2,7 +2,6 @@ package com.nettakrim.souper_secret_settings.shaders.custom.chain;
 
 import com.mclegoman.luminance.client.shaders.interfaces.PostPassInterface;
 import com.nettakrim.souper_secret_settings.shaders.custom.Node;
-import com.nettakrim.souper_secret_settings.shaders.custom.Port;
 import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
 
 public class PassNode extends Node {
@@ -17,8 +16,8 @@ public class PassNode extends Node {
     @Override
     protected void initialisePorts() {
         for (String input : postPassInterface.luminance$getPipeline().getSamplers()) {
-            inputPorts.add(new Port<PortType.TargetPort>(this, input));
+            addInput(input, new PortType.TargetPort());
         }
-        outputPorts.add(new Port<PortType.TargetPort>(this, "output"));
+        addOutput("output", new PortType.TargetPort());
     }
 }
