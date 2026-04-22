@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public abstract class Graph {
@@ -89,7 +90,7 @@ public abstract class Graph {
         }
     }
 
-    protected static class OrganisedNode {
+    public static class OrganisedNode {
         public final Node node;
         public final Source[] inputSources;
 
@@ -115,7 +116,15 @@ public abstract class Graph {
             this.node = node;
             this.inputSources = inputSources;
         }
+
+        public void calculateOutputData(Supplier<String> uuid) {
+            node.putOutputData(this, uuid);
+        }
     }
 
-    protected record Source(Node node, int index) {}
+    public record Source(Node node, int index) {
+        public OutputPort getPort() {
+            return node.outputPorts.get(index);
+        }
+    }
 }

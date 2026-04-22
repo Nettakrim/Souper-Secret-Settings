@@ -1,7 +1,14 @@
 package com.nettakrim.souper_secret_settings.shaders.custom.chain;
 
+import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
 import com.nettakrim.souper_secret_settings.shaders.custom.Node;
 import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
+import net.minecraft.client.renderer.PostChainConfig;
+import net.minecraft.resources.Identifier;
+
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
 
 public class StoreTargetNode extends Node {
     StoreTargetNode() {
@@ -16,7 +23,22 @@ public class StoreTargetNode extends Node {
     }
 
     @Override
+    public void putOutputData(Graph.OrganisedNode organisedNode, Supplier<String> uuid) {
+
+    }
+
+    @Override
     public boolean isEnd() {
         return true;
+    }
+
+    public PostChainConfig.Pass getPass(Graph.OrganisedNode organisedNode) {
+        return new PostChainConfig.Pass(
+                Identifier.parse("core/screenquad"),
+                Identifier.parse("post/blit"),
+                List.of(new PostChainConfig.TargetInput("In", Identifier.parse((String)organisedNode.inputSources[1].getPort().outputData), false, false)),
+                Identifier.parse((String)organisedNode.inputSources[0].getPort().outputData),
+                Map.of()
+        );
     }
 }
