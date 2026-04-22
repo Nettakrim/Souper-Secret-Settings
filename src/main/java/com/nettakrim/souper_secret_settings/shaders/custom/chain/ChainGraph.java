@@ -58,10 +58,7 @@ public class ChainGraph extends Graph {
             ));
         }
 
-        PostChainConfig postChainConfig = new PostChainConfig(
-                internalTargets,
-                passes
-        );
+        PostChainConfig postChainConfig = new PostChainConfig(internalTargets, passes);
 
         PostChain postChain = PostChain.load(
                 postChainConfig,

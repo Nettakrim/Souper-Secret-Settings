@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.client.renderer.ShaderManager;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
@@ -11,8 +12,8 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public abstract class Graph {
-    protected Set<Node> nodes;
-    protected Set<Wire> wires;
+    public final Set<Node> nodes = new HashSet<>();
+    public final Set<Wire> wires = new HashSet<>();
 
     // get every wire that connects to a given node
     public Set<Wire> getSources(Node node) {

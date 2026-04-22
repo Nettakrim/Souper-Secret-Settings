@@ -14,12 +14,27 @@ import java.util.Set;
 
 public class CustomPostChain implements PostChainInterface {
     private PostChainInterface stored;
-    private ChainGraph chainGraph;
+    private final ChainGraph chainGraph;
+
+    public CustomPostChain() {
+        chainGraph = new ChainGraph();
+
+        StoreTargetNode storeTargetNode = new StoreTargetNode();
+        ReadTargetNode readTargetNode = new ReadTargetNode();
+        storeTargetNode.inputPorts.get(1).docked = readTargetNode;
+        chainGraph.nodes.add(storeTargetNode);
+        chainGraph.nodes.add(readTargetNode);
+
+        chainGraph.changed = true;
+    }
 
     public PostChainInterface get() {
         if (stored == null || chainGraph.changed) {
             try {
+                long start = System.nanoTime();
                 stored = (PostChainInterface) chainGraph.compile();
+                long micros = (System.nanoTime()-start) / 1000;
+                SouperSecretSettingsClient.log("Compiled post chain in "+(micros / 1000)+"."+String.format("%3d",(micros % 1000)).replace(' ', '0')+"ms");
             } catch (ShaderManager.CompilationException compilationException) {
                 SouperSecretSettingsClient.log("Failed to compile: "+compilationException.getMessage());
             }

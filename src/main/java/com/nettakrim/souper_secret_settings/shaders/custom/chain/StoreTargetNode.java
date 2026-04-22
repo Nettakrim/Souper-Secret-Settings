@@ -4,7 +4,9 @@ import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
 import com.nettakrim.souper_secret_settings.shaders.custom.Node;
 import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
 import net.minecraft.client.renderer.PostChainConfig;
+import net.minecraft.client.renderer.UniformValue;
 import net.minecraft.resources.Identifier;
+import org.joml.Vector4f;
 
 import java.util.List;
 import java.util.Map;
@@ -38,7 +40,7 @@ public class StoreTargetNode extends Node {
                 Identifier.parse("post/blit"),
                 List.of(new PostChainConfig.TargetInput("In", Identifier.parse((String)organisedNode.inputSources[1].getPort().outputData), false, false)),
                 Identifier.parse((String)organisedNode.inputSources[0].getPort().outputData),
-                Map.of()
+                Map.of("BlitConfig", List.of(new UniformValue.Vec4Uniform(new Vector4f(1f, 1f, 1f, 1f))))
         );
     }
 }

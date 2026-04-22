@@ -10,6 +10,7 @@ import com.nettakrim.souper_secret_settings.shaders.SoupReloader;
 import com.nettakrim.souper_secret_settings.shaders.SoupRenderer;
 import com.nettakrim.souper_secret_settings.shaders.SoupUniforms;
 import com.nettakrim.souper_secret_settings.shaders.calculations.Calculations;
+import com.nettakrim.souper_secret_settings.shaders.custom.chain.CustomPostChain;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -71,6 +72,8 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
             soupData.config.transferOldData();
             Events.AfterClientResourceReload.remove(transfer);
         }));
+
+		Events.CustomPostChains.register(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "test"), new CustomPostChain());
 	}
 
 	public static void say(String key, int priority, Object... args) {
