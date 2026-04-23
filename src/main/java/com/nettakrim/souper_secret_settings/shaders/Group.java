@@ -162,7 +162,7 @@ public class Group {
             if (file.delete()) {
                 file = null;
             } else {
-                SouperSecretSettingsClient.log("Failed to delete file " + file);
+                SouperSecretSettingsClient.log("Failed to delete file", file);
             }
         }
     }

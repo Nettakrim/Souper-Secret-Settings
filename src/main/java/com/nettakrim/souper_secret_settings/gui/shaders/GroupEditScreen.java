@@ -159,7 +159,7 @@ public class GroupEditScreen extends ListScreen<String> {
                     FileUtils.moveFile(group.file, newFile);
                     group.file = newFile;
                 } catch (Exception e) {
-                    SouperSecretSettingsClient.log("Failed to move file " + group.file);
+                    SouperSecretSettingsClient.log("Failed to move file", group.file);
                 }
             }
         }

@@ -169,7 +169,7 @@ public class SoupData {
                         if (group.file.delete()) {
                             group.file = null;
                         } else {
-                            SouperSecretSettingsClient.log("Failed to delete file " + group.file);
+                            SouperSecretSettingsClient.log("Failed to delete file", group.file);
                         }
                     }
                     return;
