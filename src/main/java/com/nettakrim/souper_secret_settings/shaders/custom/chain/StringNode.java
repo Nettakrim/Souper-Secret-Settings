@@ -10,7 +10,6 @@ public class StringNode extends ValueNode {
     public String value;
 
     public StringNode(String value) {
-        super();
         this.value = value;
         initialisePorts();
     }

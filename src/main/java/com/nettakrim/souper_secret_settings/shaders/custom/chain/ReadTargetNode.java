@@ -8,7 +8,6 @@ import java.util.function.Supplier;
 
 public class ReadTargetNode extends Node {
     ReadTargetNode() {
-        super();
         initialisePorts();
     }
 

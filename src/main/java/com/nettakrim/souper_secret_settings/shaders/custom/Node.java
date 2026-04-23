@@ -5,13 +5,8 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public abstract class Node {
-    public final List<InputPort> inputPorts;
-    public final List<OutputPort> outputPorts;
-
-    public Node() {
-        inputPorts = new ArrayList<>();
-        outputPorts = new ArrayList<>();
-    }
+    public final List<InputPort> inputPorts = new ArrayList<>();
+    public final List<OutputPort> outputPorts = new ArrayList<>();
 
     protected abstract void initialisePorts();
 

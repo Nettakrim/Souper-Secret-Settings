@@ -95,7 +95,7 @@ public abstract class Graph {
         public final Node node;
         public final Source[] inputSources;
 
-        public OrganisedNode(Node node, Function<Node, Set<Wire>> getSources) {
+        public OrganisedNode(Node node, Function<Node, Set<Wire>> getSources) throws ShaderManager.CompilationException {
             this(node, new Source[node.inputPorts.size()]);
 
             // get all nodes that are inputs for the given node
@@ -109,6 +109,10 @@ public abstract class Graph {
             for (int i = 0; i < inputSources.length; i++) {
                 if (inputSources[i] == null) {
                     inputSources[i] = new Source(node.inputPorts.get(i).docked, 0);
+                }
+
+                if (inputSources[i].node == null) {
+                    throw new ShaderManager.CompilationException("null source in input "+i+" of node \""+node+"\"");
                 }
             }
         }

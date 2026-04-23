@@ -1,8 +1,12 @@
 package com.nettakrim.souper_secret_settings.shaders.custom.chain;
 
+import com.mclegoman.luminance.client.data.ClientData;
 import com.mclegoman.luminance.client.shaders.interfaces.PostChainInterface;
+import com.mclegoman.luminance.client.shaders.interfaces.PostPassInterface;
 import com.mojang.blaze3d.framegraph.FrameGraphBuilder;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
+import com.nettakrim.souper_secret_settings.shaders.custom.Wire;
+import net.minecraft.client.renderer.LevelTargetBundle;
 import net.minecraft.client.renderer.PostChain;
 import net.minecraft.client.renderer.PostPass;
 import net.minecraft.client.renderer.ShaderManager;
@@ -19,11 +23,25 @@ public class CustomPostChain implements PostChainInterface {
     public CustomPostChain() {
         chainGraph = new ChainGraph();
 
-        StoreTargetNode storeTargetNode = new StoreTargetNode();
+        PostChain reference = ClientData.minecraft.getShaderManager().getPostChain(Identifier.withDefaultNamespace("invert"), LevelTargetBundle.SORTING_TARGETS);
+        assert reference != null;
+
         ReadTargetNode readTargetNode = new ReadTargetNode();
-        storeTargetNode.inputPorts.get(1).docked = readTargetNode;
-        chainGraph.nodes.add(storeTargetNode);
+        PassNode passNode = new PassNode((PostPassInterface)((PostChainInterface)reference).luminance$getPasses(null).getFirst());
+        StoreTargetNode storeTargetNode = new StoreTargetNode();
         chainGraph.nodes.add(readTargetNode);
+        chainGraph.nodes.add(passNode);
+        chainGraph.nodes.add(storeTargetNode);
+
+        Wire a2b = new Wire();
+        a2b.source = readTargetNode.outputPorts.getFirst();
+        a2b.destination = passNode.inputPorts.getFirst();
+        chainGraph.wires.add(a2b);
+
+        Wire b2c = new Wire();
+        b2c.source = passNode.outputPorts.getFirst();
+        b2c.destination = storeTargetNode.inputPorts.get(1);
+        chainGraph.wires.add(b2c);
 
         chainGraph.changed = true;
     }

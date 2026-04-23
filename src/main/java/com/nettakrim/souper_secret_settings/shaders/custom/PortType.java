@@ -5,7 +5,8 @@ import java.util.function.BiPredicate;
 
 public enum PortType {
     TARGET(-1, Objects::equals),
-    STRING(-1, Objects::equals);
+    STRING(-1, Objects::equals),
+    BLOCK(-1, Objects::equals);
 
     public final int color; // color for line rendering
     public final BiPredicate<PortType, PortType> canConnect; // connection rule, lhs is the source type and rhs is the destination type
