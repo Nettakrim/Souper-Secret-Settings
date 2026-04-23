@@ -23,10 +23,8 @@ public class ChainData {
             PostPassInterface postPass = (PostPassInterface)pass;
             Map<String, BlockData> blocks = new HashMap<>(postPass.luminance$getUniformBlocks().size());
 
-            int i = 0;
             for (Map.Entry<String, UniformBlock> entry : postPass.luminance$getUniformBlocks().entrySet()) {
-                String path = String.valueOf(i++);
-                blocks.put(entry.getKey(), new BlockData(entry.getValue(), postPass, overridePath.withPath(path)));
+                blocks.put(entry.getKey(), new BlockData(entry.getValue(), postPass, getDataPath(entry.getKey())));
             }
 
             this.passBlocks.add(blocks);
@@ -38,5 +36,9 @@ public class ChainData {
         RenderPipeline pipeline = pass.luminance$getPipeline();
         Identifier identifier = pipeline.getVertexShader().equals(Identifier.withDefaultNamespace("core/screenquad")) ? pipeline.getFragmentShader() : pipeline.getVertexShader();
         return identifier.toString().replace(":post/",":");
+    }
+
+    private static Identifier getDataPath(String config) {
+        return overridePath.withPath(config.toLowerCase(Locale.ROOT));
     }
 }

@@ -1,8 +1,8 @@
 package com.nettakrim.souper_secret_settings.shaders.custom.chain;
 
-import com.mclegoman.luminance.client.shaders.UniformBlock;
 import com.mclegoman.luminance.client.shaders.interfaces.PostPassInterface;
 import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
+import com.nettakrim.souper_secret_settings.shaders.custom.InputPort;
 import com.nettakrim.souper_secret_settings.shaders.custom.Node;
 import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
 import net.minecraft.client.renderer.PostChainConfig;
@@ -17,21 +17,39 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class PassNode extends Node {
-    private final PostPassInterface postPassInterface;
+    private final Identifier vertexShader;
+    private final Identifier fragmentShader;
+    private final List<String> samplers;
+    private final List<String> blocks;
 
     public PassNode(PostPassInterface postPassInterface) {
-        this.postPassInterface = postPassInterface;
+        vertexShader = postPassInterface.luminance$getPipeline().getVertexShader();
+        fragmentShader = postPassInterface.luminance$getPipeline().getFragmentShader();
+
+        samplers = new ArrayList<>(postPassInterface.luminance$inputs().size());
+        for (PostPass.Input input : postPassInterface.luminance$inputs()) {
+            samplers.add(input.samplerName());
+        }
+
+        blocks = new ArrayList<>();
+        blocks.addAll(postPassInterface.luminance$getUniformBlocks().keySet());
+
         initialisePorts();
+
+        for (int i = 0; i < blocks.size(); i++) {
+            InputPort inputPort = inputPorts.get(i + samplers.size());
+            inputPort.docked = new UniformBlockNode(postPassInterface.luminance$getUniformBlocks().get(inputPort.name));
+        }
     }
 
     @Override
     protected void initialisePorts() {
-        for (PostPass.Input input : postPassInterface.luminance$inputs()) {
-            addInput(input.samplerName(), PortType.TARGET);
+        for (String input : samplers) {
+            addInput(input, PortType.TARGET);
         }
 
-        for (Map.Entry<String, UniformBlock> blockEntry : postPassInterface.luminance$getUniformBlocks().entrySet()) {
-            addInput(blockEntry.getKey(), PortType.BLOCK).docked = new UniformBlockNode(blockEntry.getValue());
+        for (String block : blocks) {
+            addInput(block, PortType.BLOCK);
         }
 
         addOutput("output", PortType.TARGET);
@@ -45,9 +63,8 @@ public class PassNode extends Node {
     public PostChainConfig.Pass getPass(Graph.OrganisedNode organisedNode) {
         List<PostChainConfig.Input> inputs = new ArrayList<>();
 
-        int samplers = postPassInterface.luminance$getPipeline().getSamplers().size();
         // TODO: to support texture sampler, this will need to be changed somewhat, eg by storing instances of PostChainConfig.Input in the output data (minus the sampler name)
-        for (int i = 0; i < samplers; i++) {
+        for (int i = 0; i < samplers.size(); i++) {
             inputs.add(new PostChainConfig.TargetInput(
                     inputPorts.get(i).name,
                     Identifier.parse((String)organisedNode.inputSources[i].getPort().outputData),
@@ -58,14 +75,14 @@ public class PassNode extends Node {
 
         Map<String, List<UniformValue>> uniforms = new HashMap<>();
 
-        for (int i = 0; i < postPassInterface.luminance$getUniformBlocks().entrySet().size(); i++) {
+        for (int i = 0; i < blocks.size(); i++) {
             //noinspection unchecked
-            uniforms.put(inputPorts.get(i + samplers).name, (List<UniformValue>)organisedNode.inputSources[i + samplers].getPort().outputData);
+            uniforms.put(inputPorts.get(i + samplers.size()).name, (List<UniformValue>)organisedNode.inputSources[i + samplers.size()].getPort().outputData);
         }
 
         return new PostChainConfig.Pass(
-                postPassInterface.luminance$getPipeline().getVertexShader(),
-                postPassInterface.luminance$getPipeline().getFragmentShader(),
+                vertexShader,
+                fragmentShader,
                 inputs,
                 Identifier.parse((String)outputPorts.getFirst().outputData),
                 uniforms

@@ -144,7 +144,7 @@ public class BlockData {
         return List.of(a,b);
     }
 
-    private static class DefaultData extends ArrayList<UniformData> implements CustomPassData {
+    public static class DefaultData extends ArrayList<UniformData> implements CustomPassData {
         public DefaultData(int initialCapacity) {
             super(initialCapacity);
         }
