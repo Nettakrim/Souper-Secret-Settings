@@ -16,7 +16,7 @@ public abstract class Graph {
     public final Set<Wire> wires = new HashSet<>();
 
     // get every wire that connects to a given node
-    public Set<Wire> getSources(Node node) {
+    private Set<Wire> getSources(Node node) {
         return wires.stream().filter(wire -> wire.destination.node == node).collect(Collectors.toSet());
     }
 

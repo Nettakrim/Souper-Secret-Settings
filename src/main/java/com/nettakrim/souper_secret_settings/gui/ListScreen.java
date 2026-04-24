@@ -112,7 +112,7 @@ public abstract class ListScreen<V> extends ScrollScreen {
         }
     }
 
-    protected V addAddition(String addition) {
+    public V addAddition(String addition) {
         V entry = tryGetAddition(addition);
         if (entry != null) {
             List<V> list = getListValues();

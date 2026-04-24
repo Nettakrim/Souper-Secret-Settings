@@ -4,7 +4,6 @@ import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.actions.ToggleAction;
 import com.nettakrim.souper_secret_settings.shaders.Toggleable;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -16,8 +15,6 @@ import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class ListWidget extends CollapseWidget {
-    protected static final WidgetSprites TEXTURES = new WidgetSprites(Identifier.withDefaultNamespace("widget/button"), Identifier.withDefaultNamespace("widget/button_disabled"), Identifier.withDefaultNamespace("widget/button_highlighted"));
-
     protected static final Identifier ICON_TEXTURE = Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "textures/gui/icons.png");
 
     protected int dragState;
@@ -34,7 +31,7 @@ public abstract class ListWidget extends CollapseWidget {
     protected void renderWidget(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
         float buttonColor = getToggleable().isActive() ? 1f : 0.5f;
 
-        context.blitSprite(RenderPipelines.GUI_TEXTURED, TEXTURES.get(this.active, this.isHoveredOrFocused()), this.getX(), this.getY(), this.getWidth(), getCollapseHeight(), ARGB.colorFromFloat(this.alpha, buttonColor, buttonColor, buttonColor));
+        context.blitSprite(RenderPipelines.GUI_TEXTURED, SoupGui.BUTTON_TEXTURES.get(this.active, this.isHoveredOrFocused()), this.getX(), this.getY(), this.getWidth(), getCollapseHeight(), ARGB.colorFromFloat(this.alpha, buttonColor, buttonColor, buttonColor));
 
         renderScrollingStringOverContents(context.textRenderer(), getMessage().copy().setStyle(Style.EMPTY.withColor((this.active ? 16777215 : 10526880) | Mth.ceil(this.alpha * 255.0F) << 24)), 2);
         context.blit(RenderPipelines.GUI_TEXTURED, ICON_TEXTURE, getX(), getY(), 0, 0, 10, 20, 40, 20, dragState < 0 ? texColWhite : texColBlack);

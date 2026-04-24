@@ -2,8 +2,6 @@ package com.nettakrim.souper_secret_settings;
 
 import com.mclegoman.luminance.client.data.ClientData;
 import com.mclegoman.luminance.client.events.Events;
-import com.mclegoman.luminance.client.shaders.ShaderRegistryEntry;
-import com.mclegoman.luminance.client.shaders.Shaders;
 import com.mclegoman.luminance.client.texture.ResourcePackHelper;
 import com.nettakrim.souper_secret_settings.actions.Actions;
 import com.nettakrim.souper_secret_settings.data.SoupData;
@@ -12,7 +10,6 @@ import com.nettakrim.souper_secret_settings.shaders.SoupReloader;
 import com.nettakrim.souper_secret_settings.shaders.SoupRenderer;
 import com.nettakrim.souper_secret_settings.shaders.SoupUniforms;
 import com.nettakrim.souper_secret_settings.shaders.calculations.Calculations;
-import com.nettakrim.souper_secret_settings.shaders.custom.chain.CustomPostChain;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -41,8 +38,6 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 	public static SoupGui soupGui;
 	public static Actions actions;
 
-	private boolean temp;
-
 	@Override
 	public void onInitializeClient() {
 		soupData = new SoupData();
@@ -65,13 +60,6 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 			Keybinds.tick();
 			soupData.tick();
 			soupRenderer.tick();
-
-			if (!temp) {
-				temp = true;
-				Identifier identifier = Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "test");
-				Shaders.getRegistry().add(ShaderRegistryEntry.builder(identifier).build());
-				Events.CustomPostChains.register(identifier, new CustomPostChain());
-			}
 		});
 
 		ClientLifecycleEvents.CLIENT_STOPPING.register((client) -> soupData.saveConfig());

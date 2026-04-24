@@ -18,7 +18,7 @@ import java.util.Set;
 
 public class CustomPostChain implements PostChainInterface {
     private PostChainInterface stored;
-    private final ChainGraph chainGraph;
+    public final ChainGraph chainGraph;
 
     public CustomPostChain() {
         chainGraph = new ChainGraph();

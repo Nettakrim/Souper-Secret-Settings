@@ -3,16 +3,12 @@ package com.nettakrim.souper_secret_settings.gui;
 import java.util.function.BiFunction;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 public class LabelledWidget extends AbstractWidget {
-    protected static final WidgetSprites TEXTURES = new WidgetSprites(Identifier.withDefaultNamespace("widget/button"), Identifier.withDefaultNamespace("widget/button_disabled"), Identifier.withDefaultNamespace("widget/button_highlighted"));
-
     public final AbstractWidget widget;
 
     public LabelledWidget(int x, int width, Component message, BiFunction<Integer, Integer, AbstractWidget> widgetFunction) {
@@ -22,7 +18,7 @@ public class LabelledWidget extends AbstractWidget {
 
     @Override
     protected void renderWidget(GuiGraphics context, int mouseX, int mouseY, float delta) {
-        context.blitSprite(RenderPipelines.GUI_TEXTURED, TEXTURES.get(true, false), getX(), getY(), getWidth()*2, getHeight(), -1);
+        context.blitSprite(RenderPipelines.GUI_TEXTURED, SoupGui.BUTTON_TEXTURES.get(true, false), getX(), getY(), getWidth()*2, getHeight(), -1);
         renderScrollingStringOverContents(context.textRenderer(), getMessage(), 2);
         widget.render(context, mouseX, mouseY, delta);
     }

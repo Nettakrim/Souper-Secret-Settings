@@ -149,12 +149,14 @@
     "souper_secret_settings.gui.game": "\uD83C\uDF0E",
 
     "souper_secret_settings.gui.groups": "Groups",
-    "souper_secret_settings.gui.group_create": "Create New Group",
+    "souper_secret_settings.gui.groups.create": "Create New",
     "souper_secret_settings.gui.group_error": "%s ERROR",
     "souper_secret_settings.gui.group_loop": "This entry causes or contains a loop",
     "souper_secret_settings.gui.group_loop_index": "Contains loop at index %s",
     "souper_secret_settings.gui.group_delta": "%s Shaders",
     "souper_secret_settings.gui.group_reset": "Reset",
+
+    "souper_secret_settings.gui.shader.create": "Create New",
 
 
 

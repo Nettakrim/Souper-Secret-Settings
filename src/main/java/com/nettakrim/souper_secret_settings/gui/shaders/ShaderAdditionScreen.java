@@ -1,18 +1,25 @@
 package com.nettakrim.souper_secret_settings.gui.shaders;
 
 import com.mclegoman.luminance.client.data.ClientData;
+import com.mclegoman.luminance.client.events.Events;
+import com.mclegoman.luminance.client.shaders.ShaderRegistryEntry;
+import com.mclegoman.luminance.client.shaders.Shaders;
 import com.mclegoman.luminance.common.util.Couple;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.gui.AdditionButton;
 import com.nettakrim.souper_secret_settings.gui.ListAdditionScreen;
 import com.nettakrim.souper_secret_settings.gui.SoupGui;
+import com.nettakrim.souper_secret_settings.gui.custom.GraphScreen;
 import com.nettakrim.souper_secret_settings.shaders.Group;
 import com.nettakrim.souper_secret_settings.shaders.ShaderData;
 import com.nettakrim.souper_secret_settings.shaders.SoupRenderer;
 import java.util.Map;
+
+import com.nettakrim.souper_secret_settings.shaders.custom.chain.CustomPostChain;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.resources.Identifier;
 
 public class ShaderAdditionScreen extends ListAdditionScreen<ShaderData> {
     protected final ShaderScreen shaderScreen;
@@ -27,16 +34,13 @@ public class ShaderAdditionScreen extends ListAdditionScreen<ShaderData> {
 
     int[] scrolls = new int[2];
 
-    Button createButton;
-
     @Override
     protected int createHeader() {
         addRenderableWidget(Button.builder(Component.translatable("gui.back"), (widget) -> onClose()).bounds(SoupGui.listGap, SoupGui.listGap, SoupGui.headerWidthSmall, 20).build());
 
         int halfWidth = (SoupGui.headerWidthSmall-SoupGui.listGap)/2;
         addRenderableWidget(Button.builder(SouperSecretSettingsClient.translate(isGroups ? "gui.groups" : (shaderScreen.registry == SoupRenderer.modifierRegistry ? "gui.modifiers" : "gui.shaders")), (widget) -> toggleMode()).bounds(SoupGui.listGap, SoupGui.listGap*2 + 20, halfWidth, 20).build());
-        createButton = addRenderableWidget(Button.builder(Component.literal("Create New"), (widget) -> createGroup()).bounds(SoupGui.listGap*2+halfWidth, SoupGui.listGap*2 + 20, halfWidth, 20).build());
-        createButton.active = isGroups;
+        addRenderableWidget(Button.builder(SouperSecretSettingsClient.translate(isGroups ? "gui.groups.create" : "gui.shader.create"), this::create).bounds(SoupGui.listGap*2+halfWidth, SoupGui.listGap*2 + 20, halfWidth, 20).build());
 
         return SoupGui.listStart;
     }
@@ -101,6 +105,14 @@ public class ShaderAdditionScreen extends ListAdditionScreen<ShaderData> {
         changedGroups = true;
     }
 
+    protected void create(Button widget) {
+        if (isGroups) {
+            createGroup();
+        } else {
+            createShader();
+        }
+    }
+
     protected void createGroup() {
         Map<String, Group> map = getRegistryGroups();
         String name = Group.getNextName(map);
@@ -111,6 +123,19 @@ public class ShaderAdditionScreen extends ListAdditionScreen<ShaderData> {
         selectGroup(createGroupButton(name, group));
         changedGroups = true;
         shaderScreen.recalculateAdditions();
+    }
+
+    protected void createShader() {
+        Identifier identifier = Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "test");
+        if (Shaders.getRegistry().stream().noneMatch((shaderRegistryEntry -> shaderRegistryEntry.getID().equals(identifier)))) {
+            Shaders.getRegistry().add(ShaderRegistryEntry.builder(identifier).build());
+        }
+        CustomPostChain customPostChain = (CustomPostChain)Events.CustomPostChains.registry.computeIfAbsent(identifier, (id) -> new CustomPostChain());
+
+        onClose();
+        listScreen.addAddition(identifier.toString());
+
+        minecraft.setScreen(new GraphScreen(customPostChain.chainGraph, minecraft.screen));
     }
 
     protected void removeGroup(AdditionButton button) {
