@@ -89,4 +89,13 @@ public class GraphScreen extends Screen {
             node.renderPorts(guiGraphics, mouseX, mouseY, delta, true);
         }
     }
+
+    @Override
+    protected void renderBlurredBackground(@NotNull GuiGraphics context) {}
+
+    @Override
+    protected void renderMenuBackground(@NotNull GuiGraphics context, int x, int y, int width, int height) {}
+
+    @Override
+    public boolean isPauseScreen() {return false;}
 }

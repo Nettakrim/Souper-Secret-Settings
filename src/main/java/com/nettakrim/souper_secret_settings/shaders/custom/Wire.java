@@ -20,7 +20,7 @@ public class Wire {
         Matrix3x2fStack matrixStack = guiGraphics.pose();
         matrixStack.pushMatrix();
 
-        matrixStack.translate(startX + 0.5f, startY + 0.5f + Port.verticalOffset);
+        matrixStack.translate(startX + 0.5f, startY + 0.5f);
         matrixStack.rotate((float) Math.atan2(offsetY, offsetX));
         matrixStack.translate(-0.5f, -0.5f);
         int distance = Mth.floor(Mth.sqrt(offsetX * offsetX + offsetY * offsetY));

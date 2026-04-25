@@ -20,30 +20,39 @@ public abstract class Node {
     public int height;
 
     public static final int width = 100;
+    private static final int baseHeight = 15;
 
     public void updatePositions() {
-        height = 10;
+        height = baseHeight;
 
         for (InputPort inputPort : inputPorts) {
             Vector2i portPos = inputPort.positionCache;
             portPos.set(position);
-            portPos.y += height;
 
+            portPos.y += height;
             height += inputPort.getHeight();
+            portPos.y += Port.verticalOffset;
         }
 
+        // footer offset
+        height += 2;
+
+        int outputHeight = baseHeight;
         for (OutputPort outputPort : outputPorts) {
             Vector2i portPos = outputPort.positionCache;
             portPos.set(position);
             portPos.x += width;
-            portPos.y += outputPort.getHeight();
+
+            portPos.y += outputHeight;
+            outputHeight += outputPort.getHeight();
+            portPos.y += Port.verticalOffset;
         }
     }
 
     public void renderNode(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SoupGui.BUTTON_TEXTURES.get(true, false), position.x, position.y, width, height, -1);
 
-        guiGraphics.textRenderer().accept(position.x, position.y, title);
+        guiGraphics.textRenderer().accept(position.x + 3, position.y + 3, title);
 
         for (InputPort inputPort : inputPorts) {
             inputPort.renderDockedNode(guiGraphics, mouseX, mouseY, delta);
