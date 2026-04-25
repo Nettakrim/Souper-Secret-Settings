@@ -31,9 +31,9 @@ public class ChainGraph extends Graph {
 
             if (organisedNode.node instanceof PassNode passNode) {
                 passes.add(passNode.getPass(organisedNode));
-            } else if (organisedNode.node instanceof StoreTargetNode storeTargetNode) {
+            } else if (organisedNode.node instanceof WriteTargetNode writeTargetNode) {
                 // add a blit when storing a target, this will sometimes waste a pass, but often its needed
-                passes.add(storeTargetNode.getPass(organisedNode));
+                passes.add(writeTargetNode.getPass(organisedNode));
             } else if (organisedNode.node instanceof ReadTargetNode readTargetNode) {
                 // add any used persistent targets to the list
                 Identifier id = Identifier.parse((String) readTargetNode.outputPorts.getFirst().outputData);

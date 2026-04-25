@@ -8,6 +8,7 @@ import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
 import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
 import com.nettakrim.souper_secret_settings.shaders.custom.ValueNode;
 import net.minecraft.client.renderer.UniformValue;
+import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,5 +68,10 @@ public class UniformOverrideNode extends ValueNode {
         uniformValueInterface.luminance$setConfig(null);
 
         outputPorts.getFirst().outputData = uniformValue;
+    }
+
+    @Override
+    protected Component getTitle() {
+        return Component.literal("Uniform");
     }
 }

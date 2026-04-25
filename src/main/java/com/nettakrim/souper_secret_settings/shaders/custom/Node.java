@@ -3,6 +3,7 @@ package com.nettakrim.souper_secret_settings.shaders.custom;
 import com.nettakrim.souper_secret_settings.gui.SoupGui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2i;
 
@@ -13,6 +14,7 @@ import java.util.function.Supplier;
 public abstract class Node {
     public final List<InputPort> inputPorts = new ArrayList<>();
     public final List<OutputPort> outputPorts = new ArrayList<>();
+    protected Component title = getTitle();
 
     public Vector2i position = new Vector2i();
     public int height;
@@ -40,6 +42,8 @@ public abstract class Node {
 
     public void renderNode(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SoupGui.BUTTON_TEXTURES.get(true, false), position.x, position.y, width, height, -1);
+
+        guiGraphics.textRenderer().accept(position.x, position.y, title);
 
         for (InputPort inputPort : inputPorts) {
             inputPort.renderDockedNode(guiGraphics, mouseX, mouseY, delta);
@@ -82,4 +86,6 @@ public abstract class Node {
     public boolean isEnd() {
         return false;
     }
+
+    protected abstract Component getTitle();
 }

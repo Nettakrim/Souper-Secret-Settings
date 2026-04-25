@@ -29,6 +29,7 @@ public class InputPort extends Port {
         int height = super.getHeight();
         if (docked != null) {
             docked.position.set(positionCache);
+            docked.position.y += height;
             docked.updatePositions();
             height += docked.height;
         }

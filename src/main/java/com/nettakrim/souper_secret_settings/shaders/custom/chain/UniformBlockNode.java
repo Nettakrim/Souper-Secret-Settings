@@ -8,6 +8,7 @@ import com.nettakrim.souper_secret_settings.shaders.custom.InputPort;
 import com.nettakrim.souper_secret_settings.shaders.custom.Node;
 import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
 import net.minecraft.client.renderer.UniformValue;
+import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,5 +48,10 @@ public class UniformBlockNode extends Node {
         }
 
         outputPorts.getFirst().outputData = list;
+    }
+
+    @Override
+    protected Component getTitle() {
+        return Component.literal("Uniform Block");
     }
 }

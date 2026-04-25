@@ -28,10 +28,10 @@ public class CustomPostChain implements PostChainInterface {
 
         ReadTargetNode readTargetNode = new ReadTargetNode();
         PassNode passNode = new PassNode((PostPassInterface)((PostChainInterface)reference).luminance$getPasses(null).getFirst());
-        StoreTargetNode storeTargetNode = new StoreTargetNode();
+        WriteTargetNode writeTargetNode = new WriteTargetNode();
         chainGraph.nodes.add(readTargetNode);
         chainGraph.nodes.add(passNode);
-        chainGraph.nodes.add(storeTargetNode);
+        chainGraph.nodes.add(writeTargetNode);
 
         Wire a2b = new Wire();
         a2b.source = readTargetNode.outputPorts.getFirst();
@@ -40,7 +40,7 @@ public class CustomPostChain implements PostChainInterface {
 
         Wire b2c = new Wire();
         b2c.source = passNode.outputPorts.getFirst();
-        b2c.destination = storeTargetNode.inputPorts.get(1);
+        b2c.destination = writeTargetNode.inputPorts.get(1);
         chainGraph.wires.add(b2c);
 
         chainGraph.changed = true;

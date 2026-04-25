@@ -8,6 +8,7 @@ import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
 import net.minecraft.client.renderer.PostChainConfig;
 import net.minecraft.client.renderer.PostPass;
 import net.minecraft.client.renderer.UniformValue;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 
 import java.util.ArrayList;
@@ -87,5 +88,10 @@ public class PassNode extends Node {
                 Identifier.parse((String)outputPorts.getFirst().outputData),
                 uniforms
         );
+    }
+
+    @Override
+    protected Component getTitle() {
+        return Component.literal("Pass");
     }
 }
