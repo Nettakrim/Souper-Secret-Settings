@@ -9,19 +9,22 @@ import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2d;
+import org.joml.Vector2f;
 
 public class GraphScreen extends Screen {
-    private final Screen parent;
-
     private final Graph graph;
+    private final Screen parent;
+    private final Panning panning;
 
     private Node selectedNode;
     private final Vector2d dragPosition = new Vector2d();
+
 
     public GraphScreen(Graph graph, Screen parent) {
         super(Component.empty());
         this.graph = graph;
         this.parent = parent;
+        this.panning = new Panning();
     }
 
     @Override
@@ -35,21 +38,26 @@ public class GraphScreen extends Screen {
             return true;
         }
 
+        Vector2f scaledPos = panning.getScaledMousePos((float)mouseButtonEvent.x(), (float)mouseButtonEvent.y());
         for (Node node : graph.nodes) {
-            if (node.isHovered(mouseButtonEvent.x(), mouseButtonEvent.y())) {
+            if (node.isHovered(scaledPos.x, scaledPos.y)) {
                 selectedNode = node;
                 dragPosition.set(selectedNode.position);
                 return true;
             }
         }
 
-        return false;
+        return panning.mouseClicked(mouseButtonEvent);
     }
 
     @Override
     public boolean mouseReleased(@NotNull MouseButtonEvent mouseButtonEvent) {
         if (selectedNode != null) {
             selectedNode = null;
+            return true;
+        }
+
+        if (panning.mouseReleased(mouseButtonEvent)) {
             return true;
         }
 
@@ -62,31 +70,48 @@ public class GraphScreen extends Screen {
             return true;
         }
 
-        dragPosition.add(deltaX, deltaY);
+        float scale = panning.getCurrentZoom();
+        dragPosition.add(deltaX * scale, deltaY * scale);
 
         if (selectedNode != null) {
             selectedNode.position.set(dragPosition);
             return true;
         }
 
-        return false;
+        return panning.mouseDragged(mouseButtonEvent);
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+        if (super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)) {
+            return true;
+        }
+
+        return panning.mouseScrolled((float)verticalAmount);
     }
 
     @Override
     public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         super.render(guiGraphics, mouseX, mouseY, delta);
 
+        panning.update(mouseX, mouseY);
+        panning.applyMatrix(guiGraphics.pose());
+
+        Vector2f scaledPos = panning.getScaledMousePos(mouseX, mouseY);
+        int x = Math.round(scaledPos.x);
+        int y = Math.round(scaledPos.y);
+
         for (Node node : graph.nodes) {
             node.updatePositions();
         }
 
         for (Wire wire : graph.wires) {
-            wire.render(guiGraphics, mouseX, mouseY, delta);
+            wire.render(guiGraphics, x, y, delta);
         }
 
         for (Node node : graph.nodes) {
-            node.renderNode(guiGraphics, mouseX, mouseY, delta);
-            node.renderPorts(guiGraphics, mouseX, mouseY, delta, true);
+            node.renderNode(guiGraphics, x, y, delta);
+            node.renderPorts(guiGraphics, x, y, delta, true);
         }
     }
 
