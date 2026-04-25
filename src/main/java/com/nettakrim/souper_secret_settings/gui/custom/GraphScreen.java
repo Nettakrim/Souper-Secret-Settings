@@ -7,13 +7,16 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector2d;
 
 public class GraphScreen extends Screen {
     private final Screen parent;
 
     private final Graph graph;
+
+    private Node selectedNode;
+    private final Vector2d dragPosition = new Vector2d();
 
     public GraphScreen(Graph graph, Screen parent) {
         super(Component.empty());
@@ -27,16 +30,43 @@ public class GraphScreen extends Screen {
     }
 
     @Override
-    public boolean mouseDragged(@NotNull MouseButtonEvent mouseButtonEvent, double deltaX, double deltaY) {
-        if (super.mouseDragged(mouseButtonEvent, deltaX, deltaY)) {
+    public boolean mouseClicked(@NotNull MouseButtonEvent mouseButtonEvent, boolean doubleClick) {
+        if (super.mouseClicked(mouseButtonEvent, doubleClick)) {
             return true;
         }
 
         for (Node node : graph.nodes) {
             if (node.isHovered(mouseButtonEvent.x(), mouseButtonEvent.y())) {
-                node.position.add(Mth.sign(deltaX), Mth.sign(deltaY));
+                selectedNode = node;
+                dragPosition.set(selectedNode.position);
                 return true;
             }
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean mouseReleased(@NotNull MouseButtonEvent mouseButtonEvent) {
+        if (selectedNode != null) {
+            selectedNode = null;
+            return true;
+        }
+
+        return super.mouseReleased(mouseButtonEvent);
+    }
+
+    @Override
+    public boolean mouseDragged(@NotNull MouseButtonEvent mouseButtonEvent, double deltaX, double deltaY) {
+        if (super.mouseDragged(mouseButtonEvent, deltaX, deltaY)) {
+            return true;
+        }
+
+        dragPosition.add(deltaX, deltaY);
+
+        if (selectedNode != null) {
+            selectedNode.position.set(dragPosition);
+            return true;
         }
 
         return false;
@@ -48,11 +78,15 @@ public class GraphScreen extends Screen {
 
         for (Node node : graph.nodes) {
             node.updatePositions();
-            node.render(guiGraphics, mouseX, mouseY, delta);
         }
 
         for (Wire wire : graph.wires) {
             wire.render(guiGraphics, mouseX, mouseY, delta);
+        }
+
+        for (Node node : graph.nodes) {
+            node.renderNode(guiGraphics, mouseX, mouseY, delta);
+            node.renderPorts(guiGraphics, mouseX, mouseY, delta, true);
         }
     }
 }

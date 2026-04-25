@@ -38,15 +38,23 @@ public abstract class Node {
         }
     }
 
-    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+    public void renderNode(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SoupGui.BUTTON_TEXTURES.get(true, false), position.x, position.y, width, height, -1);
 
         for (InputPort inputPort : inputPorts) {
-            inputPort.render(guiGraphics, mouseX, mouseY, delta);
+            inputPort.renderDockedNode(guiGraphics, mouseX, mouseY, delta);
+        }
+    }
+
+    public void renderPorts(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta, boolean includeOutput) {
+        for (InputPort inputPort : inputPorts) {
+            inputPort.renderPort(guiGraphics, mouseX, mouseY, delta);
         }
 
-        for (OutputPort outputPort : outputPorts) {
-            outputPort.render(guiGraphics, mouseX, mouseY, delta);
+        if (includeOutput) {
+            for (OutputPort outputPort : outputPorts) {
+                outputPort.renderPort(guiGraphics, mouseX, mouseY, delta);
+            }
         }
     }
 

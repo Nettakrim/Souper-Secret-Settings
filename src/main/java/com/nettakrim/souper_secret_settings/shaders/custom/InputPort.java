@@ -11,10 +11,16 @@ public class InputPort extends Port {
     }
 
     @Override
-    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        super.render(guiGraphics, mouseX, mouseY, delta);
+    public void renderPort(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        super.renderPort(guiGraphics, mouseX, mouseY, delta);
         if (docked != null) {
-            docked.render(guiGraphics, mouseX, mouseY, delta);
+            docked.renderPorts(guiGraphics, mouseX, mouseY, delta, false);
+        }
+    }
+
+    public void renderDockedNode(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        if (docked != null) {
+            docked.renderNode(guiGraphics, mouseX, mouseY, delta);
         }
     }
 

@@ -22,7 +22,7 @@ public abstract class Port {
         return 10;
     }
 
-    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        guiGraphics.fill(positionCache.x-1, positionCache.y-1, positionCache.x+1, positionCache.y+1, portType.color);
+    public void renderPort(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        guiGraphics.fill(positionCache.x-1, positionCache.y-1, positionCache.x+2, positionCache.y+2, portType.color);
     }
 }
