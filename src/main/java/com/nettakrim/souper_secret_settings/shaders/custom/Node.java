@@ -15,23 +15,46 @@ public abstract class Node {
     public final List<OutputPort> outputPorts = new ArrayList<>();
 
     public Vector2i position = new Vector2i();
+    public int height;
 
-    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SoupGui.BUTTON_TEXTURES.get(true, false), position.x, position.y, 100, 100, -1);
+    public static final int width = 100;
 
-        for (int i = 0; i < inputPorts.size(); i++) {
-            Vector2i portPos = inputPorts.get(i).positionCache;
+    public void updatePositions() {
+        height = 10;
+
+        for (InputPort inputPort : inputPorts) {
+            Vector2i portPos = inputPort.positionCache;
             portPos.set(position);
-            portPos.y += i * 10;
+            portPos.y += height;
+
+            height += inputPort.getHeight();
         }
 
-        for (int i = 0; i < outputPorts.size(); i++) {
-            Vector2i portPos = outputPorts.get(i).positionCache;
+        for (OutputPort outputPort : outputPorts) {
+            Vector2i portPos = outputPort.positionCache;
             portPos.set(position);
-            portPos.x += 100;
-            portPos.y += i * 10;
+            portPos.x += width;
+            portPos.y += outputPort.getHeight();
         }
     }
+
+    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SoupGui.BUTTON_TEXTURES.get(true, false), position.x, position.y, width, height, -1);
+
+        for (InputPort inputPort : inputPorts) {
+            inputPort.render(guiGraphics, mouseX, mouseY, delta);
+        }
+
+        for (OutputPort outputPort : outputPorts) {
+            outputPort.render(guiGraphics, mouseX, mouseY, delta);
+        }
+    }
+
+    public boolean isHovered(double mouseX, double mouseY) {
+        return mouseX >= position.x && mouseY >= position.y && mouseX <= position.x + width && mouseY <= position.y + height;
+    }
+
+
 
     protected abstract void initialisePorts();
 
