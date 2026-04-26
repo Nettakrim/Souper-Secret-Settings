@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2d;
 import org.joml.Vector2f;
+import org.joml.Vector2i;
 
 public class GraphScreen extends Screen {
     private final Graph graph;
@@ -122,16 +123,23 @@ public class GraphScreen extends Screen {
         }
 
         Vector2f scaledPos = panning.getScaledMousePos((float) mouseButtonEvent.x(), (float) mouseButtonEvent.y());
+        float scale = panning.getCurrentZoom();
+        Vector2f scaledDelta = new Vector2f((float)(deltaX * scale), (float)(deltaY * scale));
+
         if (drawingWire != null) {
             snapDrawing(scaledPos);
         }
 
-        float scale = panning.getCurrentZoom();
-        dragPosition.add(deltaX * scale, deltaY * scale);
-
         if (selectedNode != null) {
+            dragPosition.add(scaledDelta);
             selectedNode.position.set(dragPosition);
             return true;
+        }
+
+        if (mouseButtonEvent.button() == 1) {
+            Vector2i a = new Vector2i(Math.round(scaledPos.x), Math.round(scaledPos.y));
+            Vector2i b = new Vector2i(Math.round(scaledPos.x-scaledDelta.x), Math.round(scaledPos.y-scaledDelta.y));
+            graph.wires.values().removeIf((wire) -> wire.cut(a,b));
         }
 
         return panning.mouseDragged(mouseButtonEvent);

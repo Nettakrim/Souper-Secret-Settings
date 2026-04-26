@@ -4,6 +4,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix3x2fStack;
+import org.joml.Vector2i;
 
 public class Wire {
     public OutputPort source;
@@ -35,5 +36,25 @@ public class Wire {
         }
 
         matrixStack.popMatrix();
+    }
+
+    public boolean cut(Vector2i a, Vector2i b) {
+        int o1 = o(a, b, source.positionCache);
+        int o2 = o(a, b, destination.positionCache);
+        // signs dont match (intersection), or at most one is 0 (exact touch, with no false positive if a==b)
+        if (o1 * o2 <= 0 && o1 != o2) {
+            o1 = o(source.positionCache, destination.positionCache, a);
+            o2 = o(source.positionCache, destination.positionCache, b);
+            return o1 * o2 <= 0 && o1 != o2;
+        }
+        return false;
+    }
+
+    private int o(Vector2i a, Vector2i b, Vector2i c) {
+        return x(b.x-a.x, b.y-a.y,c.x-a.x, c.y-a.y);
+    }
+
+    private int x(int ax, int ay, int bx, int by) {
+        return Integer.compare(ax * by - ay * bx, 0);
     }
 }
