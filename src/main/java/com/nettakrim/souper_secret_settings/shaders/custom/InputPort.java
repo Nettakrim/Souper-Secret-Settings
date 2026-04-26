@@ -46,13 +46,13 @@ public class InputPort extends Port {
     }
 
     @Override
-    public Port hoveredPort(float mouseX, float mouseY) {
-        Port self = super.hoveredPort(mouseX, mouseY);
+    public Port hoveredPort(float mouseX, float mouseY, HashMap<InputPort, Wire> wires) {
+        Port self = super.hoveredPort(mouseX, mouseY, wires);
         if (self != null) {
             return self;
         }
-        if (docked != null) {
-            return docked.hoveredPort(mouseX, mouseY);
+        if (docked != null && !wires.containsKey(this)) {
+            return docked.hoveredPort(mouseX, mouseY, wires);
         }
         return null;
     }

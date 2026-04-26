@@ -76,16 +76,16 @@ public abstract class Node {
         return mouseX >= position.x && mouseY >= position.y && mouseX <= position.x + width && mouseY <= position.y + height;
     }
 
-    public Port hoveredPort(float mouseX, float mouseY) {
+    public Port hoveredPort(float mouseX, float mouseY, HashMap<InputPort, Wire> wires) {
         for (InputPort inputPort : inputPorts) {
-            Port port = inputPort.hoveredPort(mouseX, mouseY);
+            Port port = inputPort.hoveredPort(mouseX, mouseY, wires);
             if (port != null) {
                 return port;
             }
         }
 
         for (OutputPort outputPort : outputPorts) {
-            Port port = outputPort.hoveredPort(mouseX, mouseY);
+            Port port = outputPort.hoveredPort(mouseX, mouseY, wires);
             if (port != null) {
                 return port;
             }

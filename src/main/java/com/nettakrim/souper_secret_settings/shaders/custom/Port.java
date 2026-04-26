@@ -36,7 +36,7 @@ public abstract class Port {
         guiGraphics.fill(positionCache.x-1, positionCache.y-1, positionCache.x+2, positionCache.y+2, portType.color);
     }
 
-    public Port hoveredPort(float mouseX, float mouseY) {
+    public Port hoveredPort(float mouseX, float mouseY, HashMap<InputPort, Wire> wires) {
         float dx = positionCache.x - mouseX;
         float dy = positionCache.y - mouseY;
         if (dx * dx + dy * dy < 25) {
