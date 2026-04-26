@@ -25,7 +25,7 @@ public class Panning {
     public Panning()
     {
         zoom = 0;
-        currentZoom = (float) Math.pow(2, zoom);
+        currentZoom = 1;
         origin = new Vector2f();
         position = new Vector2f();
     }
