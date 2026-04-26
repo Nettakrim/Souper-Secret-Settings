@@ -16,4 +16,13 @@ public class OutputPort extends Port {
         super.renderPort(guiGraphics, mouseX, mouseY, delta);
         guiGraphics.textRenderer().accept(TextAlignment.RIGHT, positionCache.x - Port.textMargin, positionCache.y - verticalOffset, text);
     }
+
+    public boolean canConnectTo(InputPort inputPort) {
+        // dont allow self connections
+        if (node == inputPort.node) {
+            return false;
+        }
+
+        return portType.canConnect.test(portType, inputPort.portType);
+    }
 }

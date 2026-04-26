@@ -171,9 +171,9 @@ public class GraphScreen extends Screen {
         drawingEnd.positionCache.set((int)scaledPos.x, (int)scaledPos.y);
 
         if (drawingEnd instanceof InputPort) {
-            drawingWire.destination = port instanceof InputPort inputPort ? inputPort : (InputPort)drawingEnd;
+            drawingWire.destination = port instanceof InputPort inputPort && drawingWire.source.canConnectTo(inputPort) ? inputPort : (InputPort)drawingEnd;
         } else {
-            drawingWire.source = port instanceof OutputPort outputPort ? outputPort : (OutputPort)drawingEnd;
+            drawingWire.source = port instanceof OutputPort outputPort && outputPort.canConnectTo(drawingWire.destination) ? outputPort : (OutputPort)drawingEnd;
         }
     }
 
