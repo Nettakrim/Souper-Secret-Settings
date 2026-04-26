@@ -61,7 +61,7 @@ public class GraphScreen extends Screen {
                     drawingEnd = drawingWire.destination = new InputPort(null, "", port.portType);
                 }
 
-                drawingEnd.positionCache.set((int)scaledPos.x, (int)scaledPos.y);
+                snapDrawing(scaledPos);
                 return true;
             }
 
@@ -107,16 +107,8 @@ public class GraphScreen extends Screen {
         }
 
         Vector2f scaledPos = panning.getScaledMousePos((float) mouseButtonEvent.x(), (float) mouseButtonEvent.y());
-
         if (drawingWire != null) {
-            Port port = getHoveredPort(scaledPos.x, scaledPos.y);
-            drawingEnd.positionCache.set((int)scaledPos.x, (int)scaledPos.y);
-
-            if (drawingEnd instanceof InputPort) {
-                drawingWire.destination = port instanceof InputPort inputPort ? inputPort : (InputPort)drawingEnd;
-            } else {
-                drawingWire.source = port instanceof OutputPort outputPort ? outputPort : (OutputPort)drawingEnd;
-            }
+            snapDrawing(scaledPos);
         }
 
         float scale = panning.getCurrentZoom();
@@ -128,6 +120,17 @@ public class GraphScreen extends Screen {
         }
 
         return panning.mouseDragged(mouseButtonEvent);
+    }
+
+    private void snapDrawing(Vector2f scaledPos) {
+        Port port = getHoveredPort(scaledPos.x, scaledPos.y);
+        drawingEnd.positionCache.set((int)scaledPos.x, (int)scaledPos.y);
+
+        if (drawingEnd instanceof InputPort) {
+            drawingWire.destination = port instanceof InputPort inputPort ? inputPort : (InputPort)drawingEnd;
+        } else {
+            drawingWire.source = port instanceof OutputPort outputPort ? outputPort : (OutputPort)drawingEnd;
+        }
     }
 
     @Override
@@ -168,7 +171,7 @@ public class GraphScreen extends Screen {
         int y = Math.round(scaledPos.y);
 
         for (Node node : graph.nodes) {
-            node.updatePositions();
+            node.updatePositions(graph.wires);
         }
 
         for (Wire wire : graph.wires.values()) {

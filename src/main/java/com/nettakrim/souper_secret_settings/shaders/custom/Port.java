@@ -6,6 +6,8 @@ import net.minecraft.network.chat.Style;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2i;
 
+import java.util.HashMap;
+
 public abstract class Port {
     public final Node node;
     public final String name;
@@ -26,7 +28,7 @@ public abstract class Port {
         this.text = Component.literal(name).setStyle(Style.EMPTY.withColor(0xFFCCCCCC));
     }
 
-    public int getHeight() {
+    public int updateHeight(HashMap<InputPort, Wire> wires) {
         return baseHeight;
     }
 

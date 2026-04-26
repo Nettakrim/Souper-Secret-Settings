@@ -4,8 +4,11 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.TextAlignment;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+
 public class InputPort extends Port {
     public Node docked;
+    private boolean dockEnabled;
 
     public InputPort(Node node, String name, PortType portType) {
         super(node, name, portType);
@@ -16,25 +19,28 @@ public class InputPort extends Port {
         super.renderPort(guiGraphics, mouseX, mouseY, delta);
         guiGraphics.textRenderer().accept(TextAlignment.LEFT, positionCache.x + Port.textMargin, positionCache.y - verticalOffset, text);
 
-        if (docked != null) {
+        if (dockEnabled) {
             docked.renderPorts(guiGraphics, mouseX, mouseY, delta, false);
         }
     }
 
     public void renderDockedNode(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        if (docked != null) {
+        if (dockEnabled) {
             docked.renderNode(guiGraphics, mouseX, mouseY, delta);
         }
     }
 
     @Override
-    public int getHeight() {
-        int height = super.getHeight();
-        if (docked != null) {
+    public int updateHeight(HashMap<InputPort, Wire> wires) {
+        int height = baseHeight;
+        if (docked != null && !wires.containsKey(this)) {
             docked.position.set(positionCache);
             docked.position.y += height;
-            docked.updatePositions();
+            docked.updatePositions(wires);
             height += docked.height;
+            dockEnabled = true;
+        } else {
+            dockEnabled = false;
         }
         return height;
     }

@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2i;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -22,7 +23,7 @@ public abstract class Node {
     public static final int width = 100;
     private static final int baseHeight = 15;
 
-    public void updatePositions() {
+    public void updatePositions(HashMap<InputPort, Wire> wires) {
         height = baseHeight;
 
         for (InputPort inputPort : inputPorts) {
@@ -30,7 +31,7 @@ public abstract class Node {
             portPos.set(position);
 
             portPos.y += height;
-            height += inputPort.getHeight();
+            height += inputPort.updateHeight(wires);
             portPos.y += Port.verticalOffset;
         }
 
@@ -44,7 +45,7 @@ public abstract class Node {
             portPos.x += width;
 
             portPos.y += outputHeight;
-            outputHeight += outputPort.getHeight();
+            outputHeight += outputPort.updateHeight(wires);
             portPos.y += Port.verticalOffset;
         }
     }
