@@ -3,7 +3,9 @@ package com.nettakrim.souper_secret_settings.gui.custom;
 import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
 import com.nettakrim.souper_secret_settings.shaders.custom.Node;
 import com.nettakrim.souper_secret_settings.shaders.custom.Wire;
+import net.minecraft.client.gui.ActiveTextCollector;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.TextAlignment;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
@@ -38,12 +40,14 @@ public class GraphScreen extends Screen {
             return true;
         }
 
-        Vector2f scaledPos = panning.getScaledMousePos((float)mouseButtonEvent.x(), (float)mouseButtonEvent.y());
-        for (Node node : graph.nodes) {
-            if (node.isHovered(scaledPos.x, scaledPos.y)) {
-                selectedNode = node;
-                dragPosition.set(selectedNode.position);
-                return true;
+        if (mouseButtonEvent.button() == 0) {
+            Vector2f scaledPos = panning.getScaledMousePos((float) mouseButtonEvent.x(), (float) mouseButtonEvent.y());
+            for (Node node : graph.nodes) {
+                if (node.isHovered(scaledPos.x, scaledPos.y)) {
+                    selectedNode = node;
+                    dragPosition.set(selectedNode.position);
+                    return true;
+                }
             }
         }
 
@@ -95,6 +99,13 @@ public class GraphScreen extends Screen {
         super.render(guiGraphics, mouseX, mouseY, delta);
 
         panning.update(mouseX, mouseY);
+        long change = panning.changedZoom();
+        if (change < 0) {
+            String zoom = String.valueOf(1f/panning.getCurrentZoom());
+            zoom = zoom.substring(0, Math.min(5, zoom.length()))+"x";
+            ActiveTextCollector textCollector = guiGraphics.textRenderer();
+            textCollector.accept(TextAlignment.LEFT, 1, height - 9, textCollector.defaultParameters().withOpacity(Math.min(-change,256)/256f), Component.literal(zoom));
+        }
         panning.applyMatrix(guiGraphics.pose());
 
         Vector2f scaledPos = panning.getScaledMousePos(mouseX, mouseY);

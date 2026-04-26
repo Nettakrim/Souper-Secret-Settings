@@ -8,10 +8,10 @@ import org.joml.Matrix3x2f;
 import org.joml.Vector2f;
 
 public class Panning {
-    private final float scrollsPerLayer = 4f;
-    private final float zoomSpeed = 8f;
-    private final float minZoom = -1f;
-    private final float maxZoom = 2f;
+    private static final float scrollsPerLayer = 4f;
+    private static final float zoomSpeed = 7f;
+    private static final float minZoom = -1f;
+    private static final float maxZoom = 2f;
 
     private float zoom;
     private float currentZoom;
@@ -19,6 +19,8 @@ public class Panning {
     private boolean panning;
     private final Vector2f origin;
     private final Vector2f position;
+
+    private long changedZoomAt;
 
     public Panning()
     {
@@ -81,6 +83,8 @@ public class Panning {
             position.mul(scaleChange);
             position.add(scaleAround);
             currentZoom = newZoom;
+
+            changedZoomAt = System.currentTimeMillis() + 1000;
         }
     }
 
@@ -99,5 +103,9 @@ public class Panning {
 
     public float getCurrentZoom() {
         return currentZoom;
+    }
+
+    public long changedZoom() {
+        return System.currentTimeMillis() - changedZoomAt;
     }
 }
