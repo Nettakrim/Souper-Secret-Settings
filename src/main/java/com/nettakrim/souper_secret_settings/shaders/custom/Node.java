@@ -72,25 +72,55 @@ public abstract class Node {
         }
     }
 
-    public Node grabNode(float mouseX, float mouseY, HashMap<InputPort, Wire> wires) {
-        if (mouseX < position.x || mouseY < position.y || mouseX > position.x + width || mouseY > position.y + height) {
+    public Node grabNode(float mouseX, float mouseY, HashMap<InputPort, Wire> wires, InputPort source) {
+        if (outside(mouseX, mouseY)) {
             return null;
         }
 
         for (InputPort inputPort : inputPorts) {
-            Node node = inputPort.hoveredNode(mouseX, mouseY, wires);
+            Node node = inputPort.grabNode(mouseX, mouseY, wires);
             if (node != null) {
-                // undock node
-                inputPort.docked = null;
-                Wire wire = new Wire();
-                wire.source = node.outputPorts.getFirst();
-                wire.destination = inputPort;
-                wires.put(inputPort, wire);
                 return node;
             }
         }
 
+        if (source != null) {
+            // undock node
+            source.docked = null;
+            Wire wire = new Wire();
+            wire.source = outputPorts.getFirst();
+            wire.destination = source;
+            wires.put(source, wire);
+        }
+
         return this;
+    }
+
+    public boolean drop(float mouseX, float mouseY, Node node, HashMap<InputPort, Wire> wires) {
+        if (outside(mouseX, mouseY)) {
+            return false;
+        }
+
+        for (InputPort inputPort : inputPorts) {
+            if (inputPort.docked != null && !wires.containsKey(inputPort)) {
+                if (inputPort.docked.drop(mouseX, mouseY, node, wires)) {
+                    return true;
+                }
+            }
+
+            if (mouseY >= inputPort.positionCache.y - 3 && mouseY <= inputPort.positionCache.y + 3) {
+                inputPort.docked = node;
+                wires.remove(inputPort);
+                wires.values().removeIf((wire -> wire.source.node == node));
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean outside(float mouseX, float mouseY) {
+        return mouseX < position.x || mouseY < position.y || mouseX > position.x + width || mouseY > position.y + height;
     }
 
     public Port hoveredPort(float mouseX, float mouseY, HashMap<InputPort, Wire> wires) {

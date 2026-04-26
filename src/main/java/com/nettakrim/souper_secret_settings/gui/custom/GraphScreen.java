@@ -80,7 +80,7 @@ public class GraphScreen extends Screen {
 
     private Node grab(Vector2f scaledPos) {
         for (Node node : graph.nodes.reversed()) {
-            Node grabbed = node.grabNode(scaledPos.x, scaledPos.y, graph.wires);
+            Node grabbed = node.grabNode(scaledPos.x, scaledPos.y, graph.wires, null);
             if (grabbed != null) {
                 // grabbed node will be removed from docks
                 // if its a top level node, it needs to be removed here
@@ -91,6 +91,24 @@ public class GraphScreen extends Screen {
         }
 
         return null;
+    }
+
+    private void drop(Vector2f scaledPos, Node node) {
+        if (node.outputPorts.size() != 1) {
+            return;
+        }
+
+        for (Node other : graph.nodes) {
+            if (other == node) {
+                continue;
+            }
+
+            if (other.drop(scaledPos.x, scaledPos.y, node, graph.wires)) {
+                // node was dropped into a dock
+                graph.nodes.remove(selectedNode);
+                return;
+            }
+        }
     }
 
     @Override
@@ -104,7 +122,10 @@ public class GraphScreen extends Screen {
             return true;
         }
 
+        Vector2f scaledPos = panning.getScaledMousePos((float) mouseButtonEvent.x(), (float) mouseButtonEvent.y());
+
         if (selectedNode != null) {
+            drop(scaledPos, selectedNode);
             selectedNode = null;
             return true;
         }
