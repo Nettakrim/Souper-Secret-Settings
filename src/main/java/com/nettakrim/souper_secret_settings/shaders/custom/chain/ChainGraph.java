@@ -1,6 +1,9 @@
 package com.nettakrim.souper_secret_settings.shaders.custom.chain;
 
 import com.mclegoman.luminance.client.data.ClientData;
+import com.mclegoman.luminance.client.shaders.CustomPassData;
+import com.mclegoman.luminance.client.shaders.interfaces.PostChainInterface;
+import com.mclegoman.luminance.client.shaders.interfaces.PostPassInterface;
 import com.mclegoman.luminance.mixin.client.shaders.ShaderManagerAccessor;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
@@ -65,6 +68,14 @@ public class ChainGraph extends Graph {
                 Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "graph"),
                 ((ShaderManagerAccessor)ClientData.minecraft.getShaderManager()).getPostChainProjectionMatrixBuffer()
         );
+
+        PostChainInterface postChainInterface = (PostChainInterface)postChain;
+        postChainInterface.luminance$getPasses(null).forEach(postPass -> ((PostPassInterface)postPass).luminance$putCustomData(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "compiled"), new CustomPassData() {
+            @Override
+            public CustomPassData copy() {
+                return this;
+            }
+        }));
 
         changed = false;
 

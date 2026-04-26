@@ -5,6 +5,8 @@ import com.mclegoman.luminance.client.shaders.UniformInstance;
 import com.mclegoman.luminance.client.shaders.interfaces.PostPassInterface;
 import com.mclegoman.luminance.common.util.Couple;
 import java.util.*;
+
+import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import net.minecraft.client.renderer.PostPass;
 import net.minecraft.resources.Identifier;
 
@@ -71,16 +73,17 @@ public class OverrideManager {
             Couple<ShaderData, Identifier> shaderData = currentShaders.peek();
 
             PostPassInterface pass = ((PostPassInterface)postEffectPass);
+
+            // TODO: properly account for shadergraphs
+            if (pass.luminance$getCustomData(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "compiled")).isPresent()) {
+                return;
+            }
+
             Map<String, BlockData> blockDataMap = shaderData.getFirst().getPassData(shaderData.getSecond()).passBlocks.get(currentPassIndex);
 
             // set overrides to current soup values
             pass.luminance$getUniformBlocks().forEach((blockName, block) -> {
                 BlockData blockData = blockDataMap.get(blockName);
-
-                // TODO: properly account for shadergraphs changing
-                if (blockData == null) {
-                    return;
-                }
 
                 for (int i = 0; i < block.uniforms.size(); i++) {
                     UniformInstance instance = block.uniforms.get(i);
@@ -102,16 +105,17 @@ public class OverrideManager {
             Couple<ShaderData, Identifier> shaderData = currentShaders.peek();
 
             PostPassInterface pass = ((PostPassInterface)postEffectPass);
+
+            // TODO: properly account for shadergraphs
+            if (pass.luminance$getCustomData(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "compiled")).isPresent()) {
+                return;
+            }
+
             Map<String, BlockData> blockDataMap = shaderData.getFirst().getPassData(shaderData.getSecond()).passBlocks.get(currentPassIndex);
 
             // return overrides to how soup first found them
             pass.luminance$getUniformBlocks().forEach((blockName, block) -> {
                 BlockData blockData = blockDataMap.get(blockName);
-
-                // TODO: properly account for shadergraphs changing
-                if (blockData == null) {
-                    return;
-                }
 
                 for (int i = 0; i < block.uniforms.size(); i++) {
                     UniformInstance instance = block.uniforms.get(i);

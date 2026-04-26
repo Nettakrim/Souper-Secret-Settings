@@ -1,5 +1,6 @@
 package com.nettakrim.souper_secret_settings.shaders.custom.chain;
 
+import com.mclegoman.luminance.client.shaders.interfaces.internal.InternalUniformValueInterface;
 import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
 import com.nettakrim.souper_secret_settings.shaders.custom.Node;
 import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
@@ -36,12 +37,15 @@ public class WriteTargetNode extends Node {
     }
 
     public PostChainConfig.Pass getPass(Graph.OrganisedNode organisedNode) {
+        UniformValue uniformValue = new UniformValue.Vec4Uniform(new Vector4f(1f, 1f, 1f, 1f));
+        ((InternalUniformValueInterface)uniformValue).luminance$setName("ColorModulate");
+
         return new PostChainConfig.Pass(
                 Identifier.parse("core/screenquad"),
                 Identifier.parse("post/blit"),
                 List.of(new PostChainConfig.TargetInput("In", Identifier.parse((String)organisedNode.inputSources[1].getPort().outputData), false, false)),
                 Identifier.parse((String)organisedNode.inputSources[0].getPort().outputData),
-                Map.of("BlitConfig", List.of(new UniformValue.Vec4Uniform(new Vector4f(1f, 1f, 1f, 1f))))
+                Map.of("BlitConfig", List.of(uniformValue))
         );
     }
 

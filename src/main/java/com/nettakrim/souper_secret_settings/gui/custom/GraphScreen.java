@@ -106,6 +106,7 @@ public class GraphScreen extends Screen {
             if (other.drop(scaledPos.x, scaledPos.y, node, graph.wires)) {
                 // node was dropped into a dock
                 graph.nodes.remove(selectedNode);
+                graph.makeChange();
                 return;
             }
         }
@@ -116,8 +117,8 @@ public class GraphScreen extends Screen {
         if (drawingWire != null) {
             if (drawingWire.destination != drawingEnd && drawingWire.source != drawingEnd) {
                 graph.addWire(drawingWire);
-                graph.makeChange();
             }
+            graph.makeChange();
             drawingEnd = null;
             drawingWire = null;
             return true;
