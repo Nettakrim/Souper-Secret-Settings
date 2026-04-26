@@ -77,6 +77,11 @@ public class OverrideManager {
             pass.luminance$getUniformBlocks().forEach((blockName, block) -> {
                 BlockData blockData = blockDataMap.get(blockName);
 
+                // TODO: properly account for shadergraphs changing
+                if (blockData == null) {
+                    return;
+                }
+
                 for (int i = 0; i < block.uniforms.size(); i++) {
                     UniformInstance instance = block.uniforms.get(i);
                     UniformData data = blockData.uniformDatas.get(i);
@@ -102,6 +107,11 @@ public class OverrideManager {
             // return overrides to how soup first found them
             pass.luminance$getUniformBlocks().forEach((blockName, block) -> {
                 BlockData blockData = blockDataMap.get(blockName);
+
+                // TODO: properly account for shadergraphs changing
+                if (blockData == null) {
+                    return;
+                }
 
                 for (int i = 0; i < block.uniforms.size(); i++) {
                     UniformInstance instance = block.uniforms.get(i);

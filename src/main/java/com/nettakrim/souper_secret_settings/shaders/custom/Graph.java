@@ -10,12 +10,18 @@ public abstract class Graph {
     public final List<Node> nodes = new ArrayList<>();
     public final HashMap<InputPort,Wire> wires = new HashMap<>();
 
-    protected OrganisedGraph organise() throws ShaderManager.CompilationException {
-        return new OrganisedGraph(this);
-    }
+    public boolean changed;
 
     public void addWire(Wire wire) {
         wires.put(wire.destination, wire);
+    }
+
+    public void makeChange() {
+        changed = true;
+    }
+
+    protected OrganisedGraph organise() throws ShaderManager.CompilationException {
+        return new OrganisedGraph(this);
     }
 
     // gets all the nodes into a format where they can be traversed easily (since its stored as a loose pile of nodes and wires for editing)

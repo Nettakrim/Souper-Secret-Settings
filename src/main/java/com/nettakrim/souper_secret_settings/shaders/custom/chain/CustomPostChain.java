@@ -43,6 +43,15 @@ public class CustomPostChain implements PostChainInterface {
         b2c.destination = writeTargetNode.inputPorts.get(1);
         chainGraph.addWire(b2c);
 
+
+        reference = ClientData.minecraft.getShaderManager().getPostChain(Identifier.fromNamespaceAndPath("soup","fisheye"), LevelTargetBundle.SORTING_TARGETS);
+        assert reference != null;
+        chainGraph.nodes.add(new PassNode((PostPassInterface)((PostChainInterface)reference).luminance$getPasses(null).getFirst()));
+
+        reference = ClientData.minecraft.getShaderManager().getPostChain(Identifier.fromNamespaceAndPath("soup","washed_out"), LevelTargetBundle.SORTING_TARGETS);
+        assert reference != null;
+        chainGraph.nodes.add(new PassNode((PostPassInterface)((PostChainInterface)reference).luminance$getPasses(null).get(1)));
+
         chainGraph.changed = true;
     }
 

@@ -14,8 +14,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
 public class ChainGraph extends Graph {
-    public boolean changed;
-
     public PostChain compile() throws ShaderManager.CompilationException {
         OrganisedGraph organisedGraph = organise();
 

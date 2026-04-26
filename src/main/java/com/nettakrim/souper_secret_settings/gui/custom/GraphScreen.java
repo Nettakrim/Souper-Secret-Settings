@@ -116,6 +116,7 @@ public class GraphScreen extends Screen {
         if (drawingWire != null) {
             if (drawingWire.destination != drawingEnd && drawingWire.source != drawingEnd) {
                 graph.addWire(drawingWire);
+                graph.makeChange();
             }
             drawingEnd = null;
             drawingWire = null;
