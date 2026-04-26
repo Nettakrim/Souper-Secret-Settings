@@ -39,7 +39,7 @@ public abstract class Port {
     public Port hoveredPort(float mouseX, float mouseY) {
         float dx = positionCache.x - mouseX;
         float dy = positionCache.y - mouseY;
-        if (dx * dx + dy * dy < 10) {
+        if (dx * dx + dy * dy < 25) {
             return this;
         }
         return null;
