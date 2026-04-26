@@ -72,8 +72,25 @@ public abstract class Node {
         }
     }
 
-    public boolean isHovered(float mouseX, float mouseY) {
-        return mouseX >= position.x && mouseY >= position.y && mouseX <= position.x + width && mouseY <= position.y + height;
+    public Node grabNode(float mouseX, float mouseY, HashMap<InputPort, Wire> wires) {
+        if (mouseX < position.x || mouseY < position.y || mouseX > position.x + width || mouseY > position.y + height) {
+            return null;
+        }
+
+        for (InputPort inputPort : inputPorts) {
+            Node node = inputPort.hoveredNode(mouseX, mouseY, wires);
+            if (node != null) {
+                // undock node
+                inputPort.docked = null;
+                Wire wire = new Wire();
+                wire.source = node.outputPorts.getFirst();
+                wire.destination = inputPort;
+                wires.put(inputPort, wire);
+                return node;
+            }
+        }
+
+        return this;
     }
 
     public Port hoveredPort(float mouseX, float mouseY, HashMap<InputPort, Wire> wires) {

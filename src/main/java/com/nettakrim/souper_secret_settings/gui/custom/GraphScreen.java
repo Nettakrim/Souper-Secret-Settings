@@ -65,16 +65,31 @@ public class GraphScreen extends Screen {
                 return true;
             }
 
-            for (Node node : graph.nodes) {
-                if (node.isHovered(scaledPos.x, scaledPos.y)) {
-                    selectedNode = node;
-                    dragPosition.set(selectedNode.position);
-                    return true;
-                }
+            Node grabbed = grab(scaledPos);
+            if (grabbed != null) {
+                selectedNode = grabbed;
+                dragPosition.set(selectedNode.position);
+                graph.nodes.add(grabbed);
+                return true;
             }
         }
 
         return panning.mouseClicked(mouseButtonEvent);
+    }
+
+    private Node grab(Vector2f scaledPos) {
+        for (Node node : graph.nodes.reversed()) {
+            Node grabbed = node.grabNode(scaledPos.x, scaledPos.y, graph.wires);
+            if (grabbed != null) {
+                // grabbed node will be removed from docks
+                // if its a top level node, it needs to be removed here
+                // (so that it can be reinserted at the end of the list)
+                graph.nodes.remove(grabbed);
+                return grabbed;
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -143,7 +158,7 @@ public class GraphScreen extends Screen {
     }
 
     private Port getHoveredPort(float mouseX, float mouseY) {
-        for (Node node : graph.nodes) {
+        for (Node node : graph.nodes.reversed()) {
             Port port = node.hoveredPort(mouseX, mouseY, graph.wires);
             if (port != null) {
                 return port;

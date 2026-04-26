@@ -45,6 +45,13 @@ public class InputPort extends Port {
         return height;
     }
 
+    public Node hoveredNode(float mouseX, float mouseY, HashMap<InputPort, Wire> wires) {
+        if (docked != null && !wires.containsKey(this)) {
+            return docked.grabNode(mouseX, mouseY, wires);
+        }
+        return null;
+    }
+
     @Override
     public Port hoveredPort(float mouseX, float mouseY, HashMap<InputPort, Wire> wires) {
         Port self = super.hoveredPort(mouseX, mouseY, wires);
