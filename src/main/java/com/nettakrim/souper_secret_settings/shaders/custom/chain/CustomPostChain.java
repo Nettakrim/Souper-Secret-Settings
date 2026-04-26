@@ -36,12 +36,12 @@ public class CustomPostChain implements PostChainInterface {
         Wire a2b = new Wire();
         a2b.source = readTargetNode.outputPorts.getFirst();
         a2b.destination = passNode.inputPorts.getFirst();
-        chainGraph.wires.add(a2b);
+        chainGraph.addWire(a2b);
 
         Wire b2c = new Wire();
         b2c.source = passNode.outputPorts.getFirst();
         b2c.destination = writeTargetNode.inputPorts.get(1);
-        chainGraph.wires.add(b2c);
+        chainGraph.addWire(b2c);
 
         chainGraph.changed = true;
     }

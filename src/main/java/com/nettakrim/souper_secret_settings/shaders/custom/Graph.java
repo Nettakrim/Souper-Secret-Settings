@@ -3,25 +3,19 @@ package com.nettakrim.souper_secret_settings.shaders.custom;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.renderer.ShaderManager;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.function.Function;
+import java.util.*;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 public abstract class Graph {
-    public final Set<Node> nodes = new HashSet<>();
-    public final Set<Wire> wires = new HashSet<>();
-
-    // get every wire that connects to a given node
-    private Set<Wire> getSources(Node node) {
-        return wires.stream().filter(wire -> wire.destination.node == node).collect(Collectors.toSet());
-    }
+    public final List<Node> nodes = new ArrayList<>();
+    public final HashMap<InputPort,Wire> wires = new HashMap<>();
 
     protected OrganisedGraph organise() throws ShaderManager.CompilationException {
         return new OrganisedGraph(this);
+    }
+
+    public void addWire(Wire wire) {
+        wires.put(wire.destination, wire);
     }
 
     // gets all the nodes into a format where they can be traversed easily (since its stored as a loose pile of nodes and wires for editing)
@@ -36,16 +30,16 @@ public abstract class Graph {
             // this does mean weird fragments with a separate input/output chain will be included, which are probably often incorrect. but thats fine
             for (Node node : graph.nodes) {
                 if (node.isEnd()) {
-                    AddRoot(node, backwardsNodes, graph::getSources);
+                    AddRoot(node, backwardsNodes, graph.wires);
                 }
             }
 
             this.organisedNodes = ImmutableList.copyOf(backwardsNodes.reversed());
         }
 
-        public void AddRoot(Node node, ArrayList<OrganisedNode> backwardsNodes, Function<Node, Set<Wire>> getSources) throws ShaderManager.CompilationException {
+        public void AddRoot(Node node, ArrayList<OrganisedNode> backwardsNodes, HashMap<InputPort,Wire> wires) throws ShaderManager.CompilationException {
             ArrayList<OrganisedNode> block = new ArrayList<>();
-            int index = AddNode(node, backwardsNodes, block, getSources);
+            int index = AddNode(node, backwardsNodes, block, wires);
 
             // insert block before its earliest source, so that the list *always* places nodes before things they need to use (this is flipped later)
             if (index == Integer.MAX_VALUE) {
@@ -54,7 +48,7 @@ public abstract class Graph {
             backwardsNodes.addAll(index, block);
         }
 
-        private int AddNode(Node node, ArrayList<OrganisedNode> backwardsNodes, List<OrganisedNode> block, Function<Node, Set<Wire>> getSources) throws ShaderManager.CompilationException {
+        private int AddNode(Node node, ArrayList<OrganisedNode> backwardsNodes, List<OrganisedNode> block, HashMap<InputPort,Wire> wires) throws ShaderManager.CompilationException {
             // dont allow loops
             for (OrganisedNode entry : block) {
                 if (entry.node == node) {
@@ -69,7 +63,7 @@ public abstract class Graph {
                 }
             }
 
-            OrganisedNode organisedNode = new OrganisedNode(node, getSources);
+            OrganisedNode organisedNode = new OrganisedNode(node, wires);
             block.add(organisedNode);
 
             // recursively add all sources of the node
@@ -80,7 +74,7 @@ public abstract class Graph {
                     continue;
                 }
 
-                int current = AddNode(source.node, backwardsNodes, block, getSources);
+                int current = AddNode(source.node, backwardsNodes, block, wires);
                 // find the earliest dependency
                 if (current < max) {
                     max = current;
@@ -95,20 +89,18 @@ public abstract class Graph {
         public final Node node;
         public final Source[] inputSources;
 
-        public OrganisedNode(Node node, Function<Node, Set<Wire>> getSources) throws ShaderManager.CompilationException {
+        public OrganisedNode(Node node, HashMap<InputPort,Wire> wires) throws ShaderManager.CompilationException {
             this(node, new Source[node.inputPorts.size()]);
 
-            // get all nodes that are inputs for the given node
-            for (Wire wire : getSources.apply(node)) {
-                int inputPortIndex = node.inputPorts.indexOf(wire.destination);
-                assert inputPortIndex >= 0;
-
-                inputSources[inputPortIndex] = new Source(wire.source.node, wire.source.node.outputPorts.indexOf(wire.source));
-            }
-
             for (int i = 0; i < inputSources.length; i++) {
-                if (inputSources[i] == null) {
-                    inputSources[i] = new Source(node.inputPorts.get(i).docked, 0);
+                InputPort port = node.inputPorts.get(i);
+
+                // prioritise wire connection over docked connection
+                Wire wire = wires.get(port);
+                if (wire == null) {
+                    inputSources[i] = new Source(port.docked, 0);
+                } else {
+                    inputSources[i] = new Source(wire.source.node, wire.source.node.outputPorts.indexOf(wire.source));
                 }
 
                 if (inputSources[i].node == null) {

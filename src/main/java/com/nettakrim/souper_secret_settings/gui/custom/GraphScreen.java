@@ -45,12 +45,18 @@ public class GraphScreen extends Screen {
 
             Port port = getHoveredPort(scaledPos.x, scaledPos.y);
             if (port != null) {
-                drawingWire = new Wire();
                 if (port instanceof InputPort inputPort) {
-                    drawingWire.destination = inputPort;
-                    drawingEnd = drawingWire.source = new OutputPort(null, "", port.portType);
+                    drawingWire = graph.wires.remove(inputPort);
+                    if (drawingWire == null) {
+                        drawingWire = new Wire();
+                        drawingWire.destination = inputPort;
+                        drawingEnd = drawingWire.source = new OutputPort(null, "", port.portType);
+                    } else {
+                        drawingEnd = drawingWire.destination = new InputPort(null, "", port.portType);
+                    }
                 }
                 else if (port instanceof OutputPort outputPort) {
+                    drawingWire = new Wire();
                     drawingWire.source = outputPort;
                     drawingEnd = drawingWire.destination = new InputPort(null, "", port.portType);
                 }
@@ -75,7 +81,7 @@ public class GraphScreen extends Screen {
     public boolean mouseReleased(@NotNull MouseButtonEvent mouseButtonEvent) {
         if (drawingWire != null) {
             if (drawingWire.destination != drawingEnd && drawingWire.source != drawingEnd) {
-                graph.wires.add(drawingWire);
+                graph.addWire(drawingWire);
             }
             drawingEnd = null;
             drawingWire = null;
@@ -165,7 +171,7 @@ public class GraphScreen extends Screen {
             node.updatePositions();
         }
 
-        for (Wire wire : graph.wires) {
+        for (Wire wire : graph.wires.values()) {
             wire.render(guiGraphics, x, y, delta);
         }
 
