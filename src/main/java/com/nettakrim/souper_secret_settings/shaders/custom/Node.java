@@ -71,10 +71,27 @@ public abstract class Node {
         }
     }
 
-    public boolean isHovered(double mouseX, double mouseY) {
+    public boolean isHovered(float mouseX, float mouseY) {
         return mouseX >= position.x && mouseY >= position.y && mouseX <= position.x + width && mouseY <= position.y + height;
     }
 
+    public Port hoveredPort(float mouseX, float mouseY) {
+        for (InputPort inputPort : inputPorts) {
+            Port port = inputPort.hoveredPort(mouseX, mouseY);
+            if (port != null) {
+                return port;
+            }
+        }
+
+        for (OutputPort outputPort : outputPorts) {
+            Port port = outputPort.hoveredPort(mouseX, mouseY);
+            if (port != null) {
+                return port;
+            }
+        }
+
+        return null;
+    }
 
 
     protected abstract void initialisePorts();

@@ -33,4 +33,13 @@ public abstract class Port {
     public void renderPort(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         guiGraphics.fill(positionCache.x-1, positionCache.y-1, positionCache.x+2, positionCache.y+2, portType.color);
     }
+
+    public Port hoveredPort(float mouseX, float mouseY) {
+        float dx = positionCache.x - mouseX;
+        float dy = positionCache.y - mouseY;
+        if (dx * dx + dy * dy < 10) {
+            return this;
+        }
+        return null;
+    }
 }

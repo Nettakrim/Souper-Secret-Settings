@@ -1,8 +1,6 @@
 package com.nettakrim.souper_secret_settings.gui.custom;
 
-import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
-import com.nettakrim.souper_secret_settings.shaders.custom.Node;
-import com.nettakrim.souper_secret_settings.shaders.custom.Wire;
+import com.nettakrim.souper_secret_settings.shaders.custom.*;
 import net.minecraft.client.gui.ActiveTextCollector;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.TextAlignment;
@@ -21,6 +19,8 @@ public class GraphScreen extends Screen {
     private Node selectedNode;
     private final Vector2d dragPosition = new Vector2d();
 
+    private Wire drawingWire;
+    private Port drawingEnd;
 
     public GraphScreen(Graph graph, Screen parent) {
         super(Component.empty());
@@ -42,6 +42,23 @@ public class GraphScreen extends Screen {
 
         if (mouseButtonEvent.button() == 0) {
             Vector2f scaledPos = panning.getScaledMousePos((float) mouseButtonEvent.x(), (float) mouseButtonEvent.y());
+
+            Port port = getHoveredPort(scaledPos.x, scaledPos.y);
+            if (port != null) {
+                drawingWire = new Wire();
+                if (port instanceof InputPort inputPort) {
+                    drawingWire.destination = inputPort;
+                    drawingEnd = drawingWire.source = new OutputPort(null, "", port.portType);
+                }
+                else if (port instanceof OutputPort outputPort) {
+                    drawingWire.source = outputPort;
+                    drawingEnd = drawingWire.destination = new InputPort(null, "", port.portType);
+                }
+
+                drawingEnd.positionCache.set((int)scaledPos.x, (int)scaledPos.y);
+                return true;
+            }
+
             for (Node node : graph.nodes) {
                 if (node.isHovered(scaledPos.x, scaledPos.y)) {
                     selectedNode = node;
@@ -56,6 +73,15 @@ public class GraphScreen extends Screen {
 
     @Override
     public boolean mouseReleased(@NotNull MouseButtonEvent mouseButtonEvent) {
+        if (drawingWire != null) {
+            if (drawingWire.destination != drawingEnd && drawingWire.source != drawingEnd) {
+                graph.wires.add(drawingWire);
+            }
+            drawingEnd = null;
+            drawingWire = null;
+            return true;
+        }
+
         if (selectedNode != null) {
             selectedNode = null;
             return true;
@@ -72,6 +98,19 @@ public class GraphScreen extends Screen {
     public boolean mouseDragged(@NotNull MouseButtonEvent mouseButtonEvent, double deltaX, double deltaY) {
         if (super.mouseDragged(mouseButtonEvent, deltaX, deltaY)) {
             return true;
+        }
+
+        Vector2f scaledPos = panning.getScaledMousePos((float) mouseButtonEvent.x(), (float) mouseButtonEvent.y());
+
+        if (drawingWire != null) {
+            Port port = getHoveredPort(scaledPos.x, scaledPos.y);
+            drawingEnd.positionCache.set((int)scaledPos.x, (int)scaledPos.y);
+
+            if (drawingEnd instanceof InputPort) {
+                drawingWire.destination = port instanceof InputPort inputPort ? inputPort : (InputPort)drawingEnd;
+            } else {
+                drawingWire.source = port instanceof OutputPort outputPort ? outputPort : (OutputPort)drawingEnd;
+            }
         }
 
         float scale = panning.getCurrentZoom();
@@ -92,6 +131,16 @@ public class GraphScreen extends Screen {
         }
 
         return panning.mouseScrolled((float)verticalAmount);
+    }
+
+    private Port getHoveredPort(float mouseX, float mouseY) {
+        for (Node node : graph.nodes) {
+            Port port = node.hoveredPort(mouseX, mouseY);
+            if (port != null) {
+                return port;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -123,6 +172,10 @@ public class GraphScreen extends Screen {
         for (Node node : graph.nodes) {
             node.renderNode(guiGraphics, x, y, delta);
             node.renderPorts(guiGraphics, x, y, delta, true);
+        }
+
+        if (drawingWire != null) {
+            drawingWire.render(guiGraphics, mouseX, mouseY, delta);
         }
     }
 

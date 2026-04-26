@@ -38,4 +38,16 @@ public class InputPort extends Port {
         }
         return height;
     }
+
+    @Override
+    public Port hoveredPort(float mouseX, float mouseY) {
+        Port self = super.hoveredPort(mouseX, mouseY);
+        if (self != null) {
+            return self;
+        }
+        if (docked != null) {
+            return docked.hoveredPort(mouseX, mouseY);
+        }
+        return null;
+    }
 }
