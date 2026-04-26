@@ -21,13 +21,13 @@ public class Wire {
         matrixStack.pushMatrix();
 
         matrixStack.translate(startX + 0.5f, startY + 0.5f);
-        matrixStack.rotate((float) Math.atan2(offsetY, offsetX));
+        matrixStack.rotate((float) Math.atan2(-offsetX, offsetY));
         matrixStack.translate(-0.5f, -0.5f);
         int distance = Mth.floor(Mth.sqrt(offsetX * offsetX + offsetY * offsetY));
 
-        guiGraphics.fill(0, -1, distance + 1, 0, -16777216);
-        guiGraphics.fill(0, 1, distance + 1, 2, -16777216);
-        guiGraphics.fillGradient(0, 0, distance + 1, 1, startColor, endColor);
+        guiGraphics.fill(-1, 0, 0, distance + 1, -16777216);
+        guiGraphics.fill(1, 0, 2, distance + 1, -16777216);
+        guiGraphics.fillGradient(0, 0, 1, distance + 1, startColor, endColor);
 
         matrixStack.popMatrix();
     }

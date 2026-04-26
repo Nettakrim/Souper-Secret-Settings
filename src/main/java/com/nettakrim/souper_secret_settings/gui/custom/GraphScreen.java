@@ -52,7 +52,7 @@ public class GraphScreen extends Screen {
                         drawingWire.destination = inputPort;
                         drawingEnd = drawingWire.source = new OutputPort(null, "", port.portType);
                     } else {
-                        drawingEnd = drawingWire.destination = new InputPort(null, "", port.portType);
+                        drawingEnd = drawingWire.destination = new InputPort(null, "", drawingWire.source.portType);
                     }
                 }
                 else if (port instanceof OutputPort outputPort) {
