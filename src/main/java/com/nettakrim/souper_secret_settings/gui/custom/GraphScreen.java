@@ -31,6 +31,11 @@ public class GraphScreen extends Screen {
     }
 
     @Override
+    protected void init() {
+        panning.setSize(width, height);
+    }
+
+    @Override
     public void onClose() {
         minecraft.setScreen(parent);
     }
@@ -239,6 +244,12 @@ public class GraphScreen extends Screen {
             drawingWire.render(guiGraphics, true);
             drawingWire.render(guiGraphics, false);
         }
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        panning.setSize(width, height);
     }
 
     @Override

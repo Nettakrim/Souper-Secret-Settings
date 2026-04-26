@@ -22,6 +22,8 @@ public class Panning {
 
     private long changedZoomAt;
 
+    private Vector2f offset;
+
     public Panning()
     {
         zoom = 0;
@@ -91,12 +93,14 @@ public class Panning {
     public Vector2f getScaledMousePos(float x, float y)
     {
         Vector2f mousePosition = new Vector2f(x, y);
+        mousePosition.sub(offset);
         mousePosition.mul(currentZoom);
         mousePosition.add(position);
         return mousePosition;
     }
 
     public void applyMatrix(Matrix3x2f matrix3x2f) {
+        matrix3x2f.translate(offset);
         matrix3x2f.scale(1f/currentZoom);
         matrix3x2f.translate(-position.x, -position.y);
     }
@@ -107,5 +111,9 @@ public class Panning {
 
     public long changedZoom() {
         return System.currentTimeMillis() - changedZoomAt;
+    }
+
+    public void setSize(int width, int height) {
+        offset = new Vector2f(width/2f, height/2f);
     }
 }
