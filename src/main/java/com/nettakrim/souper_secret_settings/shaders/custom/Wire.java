@@ -9,25 +9,30 @@ public class Wire {
     public OutputPort source;
     public InputPort destination;
 
-    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        renderLine(guiGraphics, source.positionCache.x, source.positionCache.y, source.portType.color, destination.positionCache.x, destination.positionCache.y, destination.portType.color);
+    private final Matrix3x2fStack matrixCache = new Matrix3x2fStack();
+
+    public void updatePosition() {
+        int offsetX = destination.positionCache.x - source.positionCache.x;
+        int offsetY = destination.positionCache.y - source.positionCache.y;
+
+        matrixCache.identity();
+        matrixCache.translate(source.positionCache.x + 0.5f, source.positionCache.y + 0.5f);
+        matrixCache.rotate((float) Math.atan2(-offsetX, offsetY));
+        matrixCache.translate(-0.5f, -0.5f);
+        matrixCache.scale(1f, Mth.sqrt(offsetX * offsetX + offsetY * offsetY));
     }
 
-    private void renderLine(GuiGraphics guiGraphics, int startX, int startY, int startColor, int endX, int endY, int endColor) {
-        int offsetX = endX - startX;
-        int offsetY = endY - startY;
-
+    public void render(@NotNull GuiGraphics guiGraphics, boolean border) {
         Matrix3x2fStack matrixStack = guiGraphics.pose();
         matrixStack.pushMatrix();
+        matrixStack.mul(matrixCache);
 
-        matrixStack.translate(startX + 0.5f, startY + 0.5f);
-        matrixStack.rotate((float) Math.atan2(-offsetX, offsetY));
-        matrixStack.translate(-0.5f, -0.5f);
-        int distance = Mth.floor(Mth.sqrt(offsetX * offsetX + offsetY * offsetY));
-
-        guiGraphics.fill(-1, 0, 0, distance + 1, -16777216);
-        guiGraphics.fill(1, 0, 2, distance + 1, -16777216);
-        guiGraphics.fillGradient(0, 0, 1, distance + 1, startColor, endColor);
+        if (border) {
+            guiGraphics.fill(-1, 0, 0, 1, -16777216);
+            guiGraphics.fill(1, 0, 2, 1, -16777216);
+        } else {
+            guiGraphics.fillGradient(0, 0, 1, 1, source.portType.color, destination.portType.color);
+        }
 
         matrixStack.popMatrix();
     }

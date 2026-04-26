@@ -175,7 +175,12 @@ public class GraphScreen extends Screen {
         }
 
         for (Wire wire : graph.wires.values()) {
-            wire.render(guiGraphics, x, y, delta);
+            wire.updatePosition();
+            wire.render(guiGraphics, true);
+        }
+
+        for (Wire wire : graph.wires.values()) {
+            wire.render(guiGraphics, false);
         }
 
         for (Node node : graph.nodes) {
@@ -184,7 +189,9 @@ public class GraphScreen extends Screen {
         }
 
         if (drawingWire != null) {
-            drawingWire.render(guiGraphics, mouseX, mouseY, delta);
+            drawingWire.updatePosition();
+            drawingWire.render(guiGraphics, true);
+            drawingWire.render(guiGraphics, false);
         }
     }
 
