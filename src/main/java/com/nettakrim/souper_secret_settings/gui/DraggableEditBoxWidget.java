@@ -6,7 +6,7 @@ import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 
-public class DraggableEditBoxWidget extends EditBox implements ListChild, CursorWrap {
+public class DraggableEditBoxWidget extends EditBox implements ListChild {
     public boolean disableDrag = false;
     public Float dragValue = null;
 
@@ -21,7 +21,7 @@ public class DraggableEditBoxWidget extends EditBox implements ListChild, Cursor
         }
 
         try {
-            deltaX = applyWrap(click, deltaX, deltaY);
+            deltaX = CursorWrap.applyWrap(click, deltaX, deltaY, this);
 
             float f;
             if (dragValue == null) {
@@ -47,7 +47,7 @@ public class DraggableEditBoxWidget extends EditBox implements ListChild, Cursor
 
     @Override
     public boolean mouseReleased(@NotNull MouseButtonEvent mouseButtonEvent) {
-        resetOffset();
+        CursorWrap.resetOffset();
         return super.mouseReleased(mouseButtonEvent);
     }
 

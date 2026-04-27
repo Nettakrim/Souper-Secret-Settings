@@ -34,7 +34,7 @@ public class Panning {
 
     public boolean mouseClicked(@NotNull MouseButtonEvent mouseButtonEvent) {
         if (mouseButtonEvent.button() == 2) {
-            origin.set(getScaledMousePos((float)mouseButtonEvent.x(), (float)mouseButtonEvent.y()));
+            origin.set((float)mouseButtonEvent.x(), (float)mouseButtonEvent.y());
             panning = true;
             return true;
         }
@@ -52,7 +52,7 @@ public class Panning {
 
     public boolean mouseDragged(@NotNull MouseButtonEvent mouseButtonEvent) {
         if (panning) {
-            Vector2f mousePos = getScaledMousePos((float)mouseButtonEvent.x(), (float)mouseButtonEvent.y());
+            Vector2f mousePos = new Vector2f((float)mouseButtonEvent.x(), (float)mouseButtonEvent.y());
             mousePos.sub(position);
             position.set(origin);
             position.sub(mousePos);
@@ -97,6 +97,10 @@ public class Panning {
         mousePosition.mul(currentZoom);
         mousePosition.add(position);
         return mousePosition;
+    }
+
+    public Vector2f getInverseMousePos(float x, float y) {
+        return new Vector2f((x - position.x)/currentZoom + offset.x, (y - position.y)/currentZoom + offset.y);
     }
 
     public void applyMatrix(Matrix3x2f matrix3x2f) {

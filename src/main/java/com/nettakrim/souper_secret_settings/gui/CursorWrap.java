@@ -2,51 +2,67 @@ package com.nettakrim.souper_secret_settings.gui;
 
 import com.mclegoman.luminance.client.data.ClientData;
 import com.mojang.blaze3d.platform.Window;
+import com.nettakrim.souper_secret_settings.gui.custom.GraphScreen;
 import com.nettakrim.souper_secret_settings.mixin.WindowAccessor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.input.MouseButtonEvent;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2d;
+import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
 
-public interface CursorWrap {
-    Vector2d offset = new Vector2d(0,0);
+public class CursorWrap {
+    static Vector2d offset = new Vector2d(0,0);
+
+    public static double applyWrap(@NotNull MouseButtonEvent click, double deltaX, double deltaY, AbstractWidget widget) {
+        return applyWrap(click, deltaX, deltaY, widget.getX(), widget.getY(), widget.getWidth(), widget.getHeight());
+    }
 
     // wrap cursor around edge of widget
-    default double applyWrap(@NotNull MouseButtonEvent click, double deltaX, double deltaY) {
-        AbstractWidget instance = (AbstractWidget)this;
+    public static double applyWrap(@NotNull MouseButtonEvent click, double deltaX, double deltaY, int x, int y, int w, int h) {
         deltaX -= offset.x;
         deltaY -= offset.y;
 
         Window window = ClientData.minecraft.getWindow();
         int scale = window.getGuiScale();
 
-        double x = 0;
-        if (deltaX < 0 && click.x() < instance.getX() + 1) {
-            x = instance.getWidth() - 2;
+        resetOffset();
+        if (deltaX < 0 && click.x() < x + 1) {
+            offset.x = w - 2;
         }
-        else if (deltaX > 0 && click.x() > instance.getRight() - 1) {
-            x = 2 - instance.getWidth();
+        else if (deltaX > 0 && click.x() > x + w - 1) {
+            offset.x = 2 - w;
         }
 
-        double y = 0;
-        if (deltaY < 0 && click.y() < instance.getY() + 1) {
-            y = instance.getHeight() - 2;
+        if (deltaY < 0 && click.y() < y + 1) {
+            offset.y = h - 2;
         }
-        else if (deltaY > 0 && click.y() > instance.getBottom() - 1) {
-            y = 2 - instance.getHeight();
+        else if (deltaY > 0 && click.y() > y + h - 1) {
+            offset.y = 2 - h;
+        }
+
+        double xPos = click.x() + offset.x;
+        double yPos = click.y() + offset.y;
+
+        // correct mouse position for panning
+        GraphScreen graphScreen = GraphScreen.getInstance();
+        if (graphScreen != null) {
+            Vector2f vector2f = graphScreen.panning.getInverseMousePos((float)xPos, (float)yPos);
+            xPos = vector2f.x;
+            yPos = vector2f.y;
+
+            // undo the scaling of delta, so that it's always a constant amount, instead of going faster when zoomed out
+            deltaX /= graphScreen.panning.getCurrentZoom();
         }
 
         //noinspection DataFlowIssue
-        GLFW.glfwSetCursorPos(((WindowAccessor)(Object)window).getHandle(), (click.x() + x) * scale, (click.y() + y) * scale);
-        offset.x = x;
-        offset.y = y;
+        GLFW.glfwSetCursorPos(((WindowAccessor)(Object)window).getHandle(), xPos * scale, yPos * scale);
 
         // modify deltaX, since setting the cursor pos will add that offset to the next frames input
         return deltaX;
     }
 
-    default void resetOffset() {
+    public static void resetOffset() {
         offset.x = 0;
         offset.y = 0;
     }

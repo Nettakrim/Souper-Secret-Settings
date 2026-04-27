@@ -1,9 +1,12 @@
 package com.nettakrim.souper_secret_settings.gui.custom;
 
+import com.mclegoman.luminance.client.data.ClientData;
 import com.nettakrim.souper_secret_settings.shaders.custom.*;
 import net.minecraft.client.gui.ActiveTextCollector;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.TextAlignment;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
@@ -15,7 +18,7 @@ import org.joml.Vector2i;
 public class GraphScreen extends Screen {
     private final Graph graph;
     private final Screen parent;
-    private final Panning panning;
+    public final Panning panning;
 
     private Node selectedNode;
     private final Vector2d dragPosition = new Vector2d();
@@ -33,23 +36,29 @@ public class GraphScreen extends Screen {
     @Override
     protected void init() {
         panning.setSize(width, height);
+        for (Node node : graph.nodes) {
+            node.clearCaches();
+        }
     }
 
     @Override
     public void onClose() {
+        for (Node node : graph.nodes) {
+            node.clearCaches();
+        }
         minecraft.setScreen(parent);
     }
 
     @Override
     public boolean mouseClicked(@NotNull MouseButtonEvent mouseButtonEvent, boolean doubleClick) {
+        mouseButtonEvent = scaleMouseButtonEvent(mouseButtonEvent);
+
         if (super.mouseClicked(mouseButtonEvent, doubleClick)) {
             return true;
         }
 
         if (mouseButtonEvent.button() == 0) {
-            Vector2f scaledPos = panning.getScaledMousePos((float) mouseButtonEvent.x(), (float) mouseButtonEvent.y());
-
-            Port port = getHoveredPort(scaledPos.x, scaledPos.y);
+            Port port = getHoveredPort((float)mouseButtonEvent.x(), (float)mouseButtonEvent.y());
             if (port != null) {
                 if (port instanceof InputPort inputPort) {
                     drawingWire = graph.wires.remove(inputPort);
@@ -67,11 +76,11 @@ public class GraphScreen extends Screen {
                     drawingEnd = drawingWire.destination = new InputPort(null, "", port.portType);
                 }
 
-                snapDrawing(scaledPos);
+                snapDrawing((float)mouseButtonEvent.x(), (float)mouseButtonEvent.y());
                 return true;
             }
 
-            Node grabbed = grab(scaledPos);
+            Node grabbed = grab((float)mouseButtonEvent.x(), (float)mouseButtonEvent.y());
             if (grabbed != null) {
                 selectedNode = grabbed;
                 dragPosition.set(selectedNode.position);
@@ -83,44 +92,13 @@ public class GraphScreen extends Screen {
         return panning.mouseClicked(mouseButtonEvent);
     }
 
-    private Node grab(Vector2f scaledPos) {
-        for (Node node : graph.nodes.reversed()) {
-            Node grabbed = node.grabNode(scaledPos.x, scaledPos.y, graph.wires, null);
-            if (grabbed != null) {
-                // grabbed node will be removed from docks
-                // if its a top level node, it needs to be removed here
-                // (so that it can be reinserted at the end of the list)
-                graph.nodes.remove(grabbed);
-                return grabbed;
-            }
-        }
-
-        return null;
-    }
-
-    private void drop(Vector2f scaledPos, Node node) {
-        if (node.outputPorts.size() != 1) {
-            return;
-        }
-
-        for (Node other : graph.nodes) {
-            if (other == node) {
-                continue;
-            }
-
-            if (other.drop(scaledPos.x, scaledPos.y, node, graph.wires)) {
-                // node was dropped into a dock
-                graph.nodes.remove(selectedNode);
-                graph.makeChange();
-                return;
-            }
-        }
-    }
-
     @Override
     public boolean mouseReleased(@NotNull MouseButtonEvent mouseButtonEvent) {
+        mouseButtonEvent = scaleMouseButtonEvent(mouseButtonEvent);
+
         if (drawingWire != null) {
             if (drawingWire.destination != drawingEnd && drawingWire.source != drawingEnd) {
+                drawingWire.destination.onDock(graph.wires);
                 graph.addWire(drawingWire);
             }
             graph.makeChange();
@@ -129,10 +107,8 @@ public class GraphScreen extends Screen {
             return true;
         }
 
-        Vector2f scaledPos = panning.getScaledMousePos((float) mouseButtonEvent.x(), (float) mouseButtonEvent.y());
-
         if (selectedNode != null) {
-            drop(scaledPos, selectedNode);
+            drop((float)mouseButtonEvent.x(), (float)mouseButtonEvent.y(), selectedNode);
             selectedNode = null;
             return true;
         }
@@ -146,42 +122,33 @@ public class GraphScreen extends Screen {
 
     @Override
     public boolean mouseDragged(@NotNull MouseButtonEvent mouseButtonEvent, double deltaX, double deltaY) {
+        mouseButtonEvent = scaleMouseButtonEvent(mouseButtonEvent);
+
+        float scale = panning.getCurrentZoom();
+        deltaX *= scale;
+        deltaY *= scale;
+
         if (super.mouseDragged(mouseButtonEvent, deltaX, deltaY)) {
             return true;
         }
 
-        Vector2f scaledPos = panning.getScaledMousePos((float) mouseButtonEvent.x(), (float) mouseButtonEvent.y());
-        float scale = panning.getCurrentZoom();
-        Vector2f scaledDelta = new Vector2f((float)(deltaX * scale), (float)(deltaY * scale));
-
         if (drawingWire != null) {
-            snapDrawing(scaledPos);
+            snapDrawing((float)mouseButtonEvent.x(), (float)mouseButtonEvent.y());
         }
 
         if (selectedNode != null) {
-            dragPosition.add(scaledDelta);
+            dragPosition.add(deltaX, deltaY);
             selectedNode.position.set(dragPosition);
             return true;
         }
 
         if (mouseButtonEvent.button() == 1) {
-            Vector2i a = new Vector2i(Math.round(scaledPos.x), Math.round(scaledPos.y));
-            Vector2i b = new Vector2i(Math.round(scaledPos.x-scaledDelta.x), Math.round(scaledPos.y-scaledDelta.y));
+            Vector2i a = new Vector2i((int)Math.round(mouseButtonEvent.x()), (int)Math.round(mouseButtonEvent.y()));
+            Vector2i b = new Vector2i((int)Math.round(mouseButtonEvent.x()-deltaX), (int)Math.round(mouseButtonEvent.y()-deltaY));
             graph.wires.values().removeIf((wire) -> wire.cut(a,b));
         }
 
         return panning.mouseDragged(mouseButtonEvent);
-    }
-
-    private void snapDrawing(Vector2f scaledPos) {
-        Port port = getHoveredPort(scaledPos.x, scaledPos.y);
-        drawingEnd.positionCache.set((int)scaledPos.x, (int)scaledPos.y);
-
-        if (drawingEnd instanceof InputPort) {
-            drawingWire.destination = port instanceof InputPort inputPort && drawingWire.source.canConnectTo(inputPort) ? inputPort : (InputPort)drawingEnd;
-        } else {
-            drawingWire.source = port instanceof OutputPort outputPort && outputPort.canConnectTo(drawingWire.destination) ? outputPort : (OutputPort)drawingEnd;
-        }
     }
 
     @Override
@@ -191,6 +158,56 @@ public class GraphScreen extends Screen {
         }
 
         return panning.mouseScrolled((float)verticalAmount);
+    }
+
+    private MouseButtonEvent scaleMouseButtonEvent(MouseButtonEvent mouseButtonEvent) {
+        Vector2f scaledPos = panning.getScaledMousePos((float) mouseButtonEvent.x(), (float) mouseButtonEvent.y());
+        return new MouseButtonEvent(scaledPos.x, scaledPos.y, mouseButtonEvent.buttonInfo());
+    }
+
+    private Node grab(float x, float y) {
+        for (Node node : graph.nodes.reversed()) {
+            Node grabbed = node.grabNode(x, y, graph.wires, null);
+            if (grabbed != null) {
+                // grabbed node will be removed from docks
+                // if its a top level node, it needs to be removed here
+                // (so that it can be reinserted at the end of the list)
+                graph.nodes.remove(grabbed);
+                return grabbed;
+            }
+        }
+
+        return null;
+    }
+
+    private void drop(float x, float y, Node node) {
+        if (node.outputPorts.size() != 1) {
+            return;
+        }
+
+        for (Node other : graph.nodes) {
+            if (other == node) {
+                continue;
+            }
+
+            if (other.drop(x, y, node, graph.wires)) {
+                // node was dropped into a dock
+                graph.nodes.remove(selectedNode);
+                graph.makeChange();
+                return;
+            }
+        }
+    }
+
+    private void snapDrawing(float x, float y) {
+        Port port = getHoveredPort(x, y);
+        drawingEnd.positionCache.set((int)x, (int)y);
+
+        if (drawingEnd instanceof InputPort) {
+            drawingWire.destination = port instanceof InputPort inputPort && drawingWire.source.canConnectTo(inputPort) ? inputPort : (InputPort)drawingEnd;
+        } else {
+            drawingWire.source = port instanceof OutputPort outputPort && outputPort.canConnectTo(drawingWire.destination) ? outputPort : (OutputPort)drawingEnd;
+        }
     }
 
     private Port getHoveredPort(float mouseX, float mouseY) {
@@ -247,12 +264,6 @@ public class GraphScreen extends Screen {
     }
 
     @Override
-    public void resize(int width, int height) {
-        super.resize(width, height);
-        panning.setSize(width, height);
-    }
-
-    @Override
     protected void renderBlurredBackground(@NotNull GuiGraphics context) {}
 
     @Override
@@ -260,4 +271,19 @@ public class GraphScreen extends Screen {
 
     @Override
     public boolean isPauseScreen() {return false;}
+
+    public <T extends GuiEventListener & NarratableEntry> void addActualWidget(@NotNull T guiEventListener) {
+        addWidget(guiEventListener);
+    }
+
+    public void removeActualWidget(@NotNull GuiEventListener guiEventListener) {
+        removeWidget(guiEventListener);
+    }
+
+    public static GraphScreen getInstance() {
+        if (ClientData.minecraft.screen instanceof GraphScreen graphScreen) {
+            return graphScreen;
+        }
+        return null;
+    }
 }

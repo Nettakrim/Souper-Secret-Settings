@@ -21,7 +21,8 @@ public abstract class Node {
     public int height;
 
     public static final int width = 100;
-    private static final int baseHeight = 15;
+    protected static final int baseHeight = 15;
+    protected static final int footerHeight = 2;
 
     public void updatePositions(HashMap<InputPort, Wire> wires) {
         height = baseHeight;
@@ -36,7 +37,7 @@ public abstract class Node {
         }
 
         // footer offset
-        height += 2;
+        height += footerHeight;
 
         int outputHeight = baseHeight;
         for (OutputPort outputPort : outputPorts) {
@@ -162,4 +163,18 @@ public abstract class Node {
     }
 
     protected abstract Component getTitle();
+
+    public void onDock(HashMap<InputPort, Wire> wires) {
+        for (InputPort inputPort : inputPorts) {
+            inputPort.onDock(wires);
+        }
+    }
+
+    public void clearCaches() {
+        for (InputPort inputPort : inputPorts) {
+            if (inputPort.docked != null) {
+                inputPort.docked.clearCaches();
+            }
+        }
+    }
 }

@@ -9,7 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 
-public class DraggableIntEditBoxWidget extends EditBox implements CursorWrap {
+public class DraggableIntEditBoxWidget extends EditBox {
     protected final int min;
     protected final int max;
     protected final String defaultValue;
@@ -30,7 +30,7 @@ public class DraggableIntEditBoxWidget extends EditBox implements CursorWrap {
     @Override
     protected void onDrag(@NotNull MouseButtonEvent click, double deltaX, double deltaY) {
         try {
-            deltaX = applyWrap(click, deltaX, deltaY);
+            deltaX = CursorWrap.applyWrap(click, deltaX, deltaY, this);
 
             value += (float)(deltaX/50.0 * Math.max(Math.abs(value), 4));
             setValue(String.valueOf(Mth.clamp(Math.round(value), min, max)));
@@ -39,7 +39,7 @@ public class DraggableIntEditBoxWidget extends EditBox implements CursorWrap {
 
     @Override
     public boolean mouseReleased(@NotNull MouseButtonEvent mouseButtonEvent) {
-        resetOffset();
+        CursorWrap.resetOffset();
         return super.mouseReleased(mouseButtonEvent);
     }
 
