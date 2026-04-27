@@ -108,7 +108,7 @@ public abstract class Node {
                 }
             }
 
-            if (mouseY >= inputPort.positionCache.y - 3 && mouseY <= inputPort.positionCache.y + 3) {
+            if (node.outputPorts.getFirst().canConnectTo(inputPort) && mouseY >= inputPort.positionCache.y - 3 && mouseY <= inputPort.positionCache.y + 3) {
                 inputPort.docked = node;
                 wires.remove(inputPort);
                 wires.values().removeIf((wire -> wire.source.node == node));
