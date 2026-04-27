@@ -101,7 +101,7 @@ public class GraphScreen extends Screen {
                 drawingWire.destination.onDock(graph.wires);
                 graph.addWire(drawingWire);
             }
-            graph.makeChange();
+            topologyChanged();
             drawingEnd = null;
             drawingWire = null;
             return true;
@@ -193,7 +193,7 @@ public class GraphScreen extends Screen {
             if (other.drop(x, y, node, graph.wires)) {
                 // node was dropped into a dock
                 graph.nodes.remove(selectedNode);
-                graph.makeChange();
+                topologyChanged();
                 return;
             }
         }
@@ -285,5 +285,14 @@ public class GraphScreen extends Screen {
             return graphScreen;
         }
         return null;
+    }
+
+    public void topologyChanged() {
+        graph.makeChange();
+    }
+
+    public void valueChanged() {
+        // this could be optimised, avoiding needing to re-organise the graph
+        graph.makeChange();
     }
 }

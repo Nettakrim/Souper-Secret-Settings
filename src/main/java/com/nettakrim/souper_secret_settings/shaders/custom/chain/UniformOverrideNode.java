@@ -5,8 +5,8 @@ import com.mclegoman.luminance.client.shaders.overrides.PerValueOverride;
 import com.mclegoman.luminance.client.shaders.overrides.UniformOverride;
 import com.mclegoman.luminance.client.shaders.uniforms.config.UniformConfig;
 import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
+import com.nettakrim.souper_secret_settings.shaders.custom.Node;
 import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
-import com.nettakrim.souper_secret_settings.shaders.custom.ValueNode;
 import net.minecraft.client.renderer.UniformValue;
 import net.minecraft.network.chat.Component;
 
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class UniformOverrideNode extends ValueNode {
+public class UniformOverrideNode extends Node {
     List<Number> template;
 
     public UniformOverrideNode(List<Number> template, UniformOverride override, UniformConfig config) {
@@ -39,17 +39,12 @@ public class UniformOverrideNode extends ValueNode {
 
     @Override
     protected void initialisePorts() {
-        super.initialisePorts();
-
         // TODO: config, probably through another port type
         for (int i = 0; i < template.size(); i++) {
             addInput("value "+i, PortType.STRING);
         }
-    }
 
-    @Override
-    protected PortType getType() {
-        return null;
+        addOutput("output", PortType.UNIFORM_VALUE);
     }
 
     @Override

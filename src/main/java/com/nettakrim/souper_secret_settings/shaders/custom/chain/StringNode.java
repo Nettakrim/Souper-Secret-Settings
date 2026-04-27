@@ -5,6 +5,7 @@ import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
 import com.nettakrim.souper_secret_settings.shaders.custom.ValueNode;
 import net.minecraft.network.chat.Component;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 public class StringNode extends ValueNode {
@@ -18,6 +19,16 @@ public class StringNode extends ValueNode {
     @Override
     protected PortType getType() {
         return PortType.STRING;
+    }
+
+    @Override
+    protected List<String> getValues() {
+        return List.of(value);
+    }
+
+    @Override
+    protected void onSetValue(int index, String value) {
+        this.value = value;
     }
 
     @Override

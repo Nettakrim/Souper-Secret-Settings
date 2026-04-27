@@ -9,20 +9,37 @@ import net.minecraft.client.renderer.UniformValue;
 import net.minecraft.network.chat.Component;
 import org.joml.*;
 
+import java.lang.Math;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 public class UniformValueNode extends ValueNode {
     private final List<Number> values;
 
-    UniformValueNode(List<Number> values) {
-        this.values = values;
+    UniformValueNode(List<Number> template) {
+        this.values = new ArrayList<>(template);
         initialisePorts();
     }
 
     @Override
     protected PortType getType() {
         return PortType.UNIFORM_VALUE;
+    }
+
+    @Override
+    protected List<String> getValues() {
+        return values.stream().map(Objects::toString).toList();
+    }
+
+    @Override
+    protected void onSetValue(int index, String value) {
+        try {
+            float f = Float.parseFloat(value);
+            boolean isInt = values.getFirst() instanceof Integer;
+            values.set(index, isInt ? Math.round(f) : f);
+        } catch (Exception ignored) {}
     }
 
     @Override

@@ -22,22 +22,46 @@ public abstract class ValueNode extends Node {
 
     protected abstract PortType getType();
 
+    protected abstract List<String> getValues();
+
+    protected abstract void onSetValue(int index, String value);
+
+    private void setValue(int index, String value) {
+        onSetValue(index, value);
+
+        GraphScreen instance = GraphScreen.getInstance();
+        if (instance != null) {
+            instance.valueChanged();
+        }
+    }
+
     @Override
     public void updatePositions(HashMap<InputPort, Wire> wires) {
         super.updatePositions(wires);
 
         if (widgets.isEmpty()) {
-            DraggableEditBoxWidget widget = new DraggableEditBoxWidget(0, width, widgetHeight, Component.empty());
-            widgets.add(widget);
-
             GraphScreen instance = GraphScreen.getInstance();
-            if (instance != null) {
-                instance.addActualWidget(widget);
+
+            int i = 0;
+            for (String value : getValues()) {
+                DraggableEditBoxWidget widget = new DraggableEditBoxWidget(1, width - 2, widgetHeight, Component.empty());
+                widget.setValue(value);
+
+                int finalI = i++;
+                widget.setResponder((s) -> setValue(finalI, s));
+
+                widgets.add(widget);
+                if (instance != null) {
+                    instance.addActualWidget(widget);
+                }
             }
         }
 
+        // reduce base height padding
+        height -= 3;
+
         for (DraggableEditBoxWidget widget : widgets) {
-            widget.setPosition(position.x, position.y + height - footerHeight);
+            widget.setPosition(position.x + 1, position.y + height - footerHeight);
             height += widgetHeight;
         }
     }
