@@ -58,10 +58,7 @@ public class CustomPostChain implements PostChainInterface {
     public PostChainInterface get() {
         if (stored == null || chainGraph.changed) {
             try {
-                long start = System.nanoTime();
                 stored = (PostChainInterface) chainGraph.compile();
-                long micros = (System.nanoTime()-start) / 1000;
-                SouperSecretSettingsClient.log("Compiled post chain in",(micros / 1000)+"."+String.format("%3d",(micros % 1000)).replace(' ', '0'),"ms");
             } catch (ShaderManager.CompilationException compilationException) {
                 SouperSecretSettingsClient.log("Failed to compile:",compilationException.getMessage());
             }

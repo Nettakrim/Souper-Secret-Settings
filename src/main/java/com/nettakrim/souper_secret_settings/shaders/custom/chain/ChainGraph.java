@@ -18,7 +18,9 @@ import java.util.function.Supplier;
 
 public class ChainGraph extends Graph {
     public PostChain compile() throws ShaderManager.CompilationException {
+        long start = System.nanoTime();
         OrganisedGraph organisedGraph = organise();
+        long organised = System.nanoTime();
 
         AtomicInteger temporaryTargets = new AtomicInteger();
         Supplier<String> uuid = () -> String.valueOf(temporaryTargets.getAndIncrement());
@@ -61,6 +63,8 @@ public class ChainGraph extends Graph {
 
         PostChainConfig postChainConfig = new PostChainConfig(internalTargets, passes);
 
+        long constructed = System.nanoTime();
+
         PostChain postChain = PostChain.load(
                 postChainConfig,
                 ClientData.minecraft.getTextureManager(),
@@ -77,8 +81,16 @@ public class ChainGraph extends Graph {
             }
         }));
 
-        changed = false;
+        long loaded = System.nanoTime();
 
+        SouperSecretSettingsClient.log("Compiled post chain in",getElapsedTime(start, loaded),"- Organising:",getElapsedTime(start,organised),"| Constructing:",getElapsedTime(organised,constructed),"| Loading:",getElapsedTime(constructed, loaded));
+
+        changed = false;
         return postChain;
+    }
+
+    private String getElapsedTime(long start, long end) {
+        long micros = (end-start)/1000;
+        return (micros / 1000)+"."+String.format("%3d",(micros % 1000)).replace(' ', '0')+"ms";
     }
 }
