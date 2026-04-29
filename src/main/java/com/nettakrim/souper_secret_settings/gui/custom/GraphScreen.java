@@ -11,9 +11,9 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Vector2d;
-import org.joml.Vector2f;
-import org.joml.Vector2i;
+import org.joml.*;
+
+import java.lang.Math;
 
 public class GraphScreen extends Screen {
     private final Graph graph;
@@ -57,12 +57,16 @@ public class GraphScreen extends Screen {
     public boolean mouseClicked(@NotNull MouseButtonEvent mouseButtonEvent, boolean doubleClick) {
         mouseButtonEvent = scaleMouseButtonEvent(mouseButtonEvent);
 
+        if (mouseButtonEvent.button() == 2) {
+            panning.mouseClicked(mouseButtonEvent);
+            return true;
+        }
+
         if (super.mouseClicked(mouseButtonEvent, doubleClick)) {
             return true;
         }
 
         if (mouseButtonEvent.button() == 0) {
-            // creation menu will cause super.mouseClicked() to return if relevant
             creationMenu.setActive(false);
 
             Port port = getHoveredPort((float)mouseButtonEvent.x(), (float)mouseButtonEvent.y());
@@ -101,7 +105,7 @@ public class GraphScreen extends Screen {
             creationMenu.setActive(true);
         }
 
-        return panning.mouseClicked(mouseButtonEvent);
+        return false;
     }
 
     @Override
@@ -239,8 +243,11 @@ public class GraphScreen extends Screen {
 
     @Override
     public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        Matrix3x2fStack pose = guiGraphics.pose();
+        pose.pushMatrix();
+
         panning.update(mouseX, mouseY);
-        panning.applyMatrix(guiGraphics.pose());
+        panning.applyMatrix(pose);
 
         Vector2f scaledPos = panning.getScaledMousePos(mouseX, mouseY);
         int x = Math.round(scaledPos.x);
@@ -271,6 +278,8 @@ public class GraphScreen extends Screen {
         }
 
         super.render(guiGraphics, mouseX, mouseY, delta);
+
+        pose.popMatrix();
 
         long change = panning.changedZoom();
         if (change < 0) {
