@@ -1,6 +1,7 @@
 package com.nettakrim.souper_secret_settings.shaders.custom;
 
 import com.google.common.collect.ImmutableList;
+import com.nettakrim.souper_secret_settings.gui.custom.CreationCategory;
 import net.minecraft.client.renderer.ShaderManager;
 
 import java.util.*;
@@ -19,6 +20,8 @@ public abstract class Graph {
     public void makeChange() {
         changed = true;
     }
+
+    public abstract CreationCategory getCreationRoot();
 
     protected OrganisedGraph organise() throws ShaderManager.CompilationException {
         return new OrganisedGraph(this);

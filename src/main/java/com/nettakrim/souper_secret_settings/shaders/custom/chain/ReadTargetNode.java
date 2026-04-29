@@ -8,7 +8,7 @@ import net.minecraft.network.chat.Component;
 import java.util.function.Supplier;
 
 public class ReadTargetNode extends Node {
-    ReadTargetNode() {
+    public ReadTargetNode() {
         initialisePorts();
     }
 

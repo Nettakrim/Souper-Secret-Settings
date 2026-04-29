@@ -1,5 +1,7 @@
 package com.nettakrim.souper_secret_settings.shaders.custom.chain;
 
+import com.nettakrim.souper_secret_settings.gui.custom.ChainCategory;
+import com.nettakrim.souper_secret_settings.gui.custom.CreationCategory;
 import dev.dannytaylor.luminance.client.data.ClientData;
 import dev.dannytaylor.luminance.client.shaders.CustomPassData;
 import dev.dannytaylor.luminance.client.shaders.interfaces.PostChainInterface;
@@ -92,5 +94,10 @@ public class ChainGraph extends Graph {
     private String getElapsedTime(long start, long end) {
         long micros = (end-start)/1000;
         return (micros / 1000)+"."+String.format("%3d",(micros % 1000)).replace(' ', '0')+"ms";
+    }
+
+    @Override
+    public CreationCategory getCreationRoot() {
+        return new ChainCategory();
     }
 }

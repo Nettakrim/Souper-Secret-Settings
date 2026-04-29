@@ -19,6 +19,7 @@ public class GraphScreen extends Screen {
     private final Graph graph;
     private final Screen parent;
     public final Panning panning;
+    private final CreationMenu creationMenu;
 
     private Node selectedNode;
     private final Vector2d dragPosition = new Vector2d();
@@ -31,11 +32,14 @@ public class GraphScreen extends Screen {
         this.graph = graph;
         this.parent = parent;
         this.panning = new Panning();
+        this.creationMenu = new CreationMenu(100, this::createNode);
+        creationMenu.setActive(false);
     }
 
     @Override
     protected void init() {
         panning.setSize(width, height);
+        addRenderableWidget(creationMenu);
         for (Node node : graph.nodes) {
             node.clearCaches();
         }
@@ -58,6 +62,9 @@ public class GraphScreen extends Screen {
         }
 
         if (mouseButtonEvent.button() == 0) {
+            // creation menu will cause super.mouseClicked() to return if relevant
+            creationMenu.setActive(false);
+
             Port port = getHoveredPort((float)mouseButtonEvent.x(), (float)mouseButtonEvent.y());
             if (port != null) {
                 if (port instanceof InputPort inputPort) {
@@ -87,6 +94,11 @@ public class GraphScreen extends Screen {
                 graph.nodes.add(grabbed);
                 return true;
             }
+        }
+
+        if (mouseButtonEvent.button() == 1) {
+            creationMenu.init(graph.getCreationRoot(), mouseButtonEvent);
+            creationMenu.setActive(true);
         }
 
         return panning.mouseClicked(mouseButtonEvent);
@@ -220,18 +232,14 @@ public class GraphScreen extends Screen {
         return null;
     }
 
+    private void createNode(Node node) {
+        graph.nodes.add(node);
+        creationMenu.setActive(false);
+    }
+
     @Override
     public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        super.render(guiGraphics, mouseX, mouseY, delta);
-
         panning.update(mouseX, mouseY);
-        long change = panning.changedZoom();
-        if (change < 0) {
-            String zoom = String.valueOf(1f/panning.getCurrentZoom());
-            zoom = zoom.substring(0, Math.min(5, zoom.length()))+"x";
-            ActiveTextCollector textCollector = guiGraphics.textRenderer();
-            textCollector.accept(TextAlignment.LEFT, 1, height - 9, textCollector.defaultParameters().withOpacity(Math.min(-change,256)/256f), Component.literal(zoom));
-        }
         panning.applyMatrix(guiGraphics.pose());
 
         Vector2f scaledPos = panning.getScaledMousePos(mouseX, mouseY);
@@ -260,6 +268,16 @@ public class GraphScreen extends Screen {
             drawingWire.updatePosition();
             drawingWire.render(guiGraphics, true);
             drawingWire.render(guiGraphics, false);
+        }
+
+        super.render(guiGraphics, mouseX, mouseY, delta);
+
+        long change = panning.changedZoom();
+        if (change < 0) {
+            String zoom = String.valueOf(1f/panning.getCurrentZoom());
+            zoom = zoom.substring(0, Math.min(5, zoom.length()))+"x";
+            ActiveTextCollector textCollector = guiGraphics.textRenderer();
+            textCollector.accept(TextAlignment.LEFT, 1, height - 9, textCollector.defaultParameters().withOpacity(Math.min(-change,256)/256f), Component.literal(zoom));
         }
     }
 

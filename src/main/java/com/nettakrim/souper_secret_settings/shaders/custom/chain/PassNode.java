@@ -1,5 +1,6 @@
 package com.nettakrim.souper_secret_settings.shaders.custom.chain;
 
+import com.nettakrim.souper_secret_settings.shaders.ChainData;
 import dev.dannytaylor.luminance.client.shaders.interfaces.PostPassInterface;
 import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
 import com.nettakrim.souper_secret_settings.shaders.custom.InputPort;
@@ -20,12 +21,14 @@ import java.util.function.Supplier;
 public class PassNode extends Node {
     private final Identifier vertexShader;
     private final Identifier fragmentShader;
+    private final String name;
     private final List<String> samplers;
     private final List<String> blocks;
 
     public PassNode(PostPassInterface postPassInterface) {
         vertexShader = postPassInterface.luminance$getPipeline().getVertexShader();
         fragmentShader = postPassInterface.luminance$getPipeline().getFragmentShader();
+        this.name = ChainData.getName(postPassInterface);
 
         samplers = new ArrayList<>(postPassInterface.luminance$inputs().size());
         for (PostPass.Input input : postPassInterface.luminance$inputs()) {
@@ -92,6 +95,6 @@ public class PassNode extends Node {
 
     @Override
     protected Component getTitle() {
-        return Component.literal("Pass");
+        return Component.literal(name);
     }
 }
