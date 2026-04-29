@@ -1,6 +1,6 @@
 package com.nettakrim.souper_secret_settings.gui;
 
-import com.mclegoman.luminance.common.util.Couple;
+import dev.dannytaylor.luminance.common.util.Couple;
 import java.util.function.Consumer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.input.MouseButtonEvent;

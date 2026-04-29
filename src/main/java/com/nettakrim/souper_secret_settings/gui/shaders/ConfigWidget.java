@@ -1,9 +1,9 @@
 package com.nettakrim.souper_secret_settings.gui.shaders;
 
-import com.mclegoman.luminance.client.shaders.overrides.PerValueConfig;
-import com.mclegoman.luminance.client.shaders.overrides.OverrideSource;
-import com.mclegoman.luminance.client.shaders.uniforms.config.MapConfig;
-import com.mclegoman.luminance.client.shaders.uniforms.config.UniformConfig;
+import dev.dannytaylor.luminance.client.shaders.overrides.PerValueConfig;
+import dev.dannytaylor.luminance.client.shaders.overrides.OverrideSource;
+import dev.dannytaylor.luminance.client.shaders.uniforms.config.MapConfig;
+import dev.dannytaylor.luminance.client.shaders.uniforms.config.UniformConfig;
 import com.nettakrim.souper_secret_settings.gui.ListScreen;
 import com.nettakrim.souper_secret_settings.gui.ParameterTextWidget;
 import com.nettakrim.souper_secret_settings.shaders.ParameterOverrideSource;

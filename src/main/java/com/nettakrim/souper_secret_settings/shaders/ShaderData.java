@@ -1,9 +1,9 @@
 package com.nettakrim.souper_secret_settings.shaders;
 
-import com.mclegoman.luminance.client.events.Runnables;
-import com.mclegoman.luminance.client.shaders.Shader;
-import com.mclegoman.luminance.client.shaders.Shaders;
-import com.mclegoman.luminance.client.shaders.interfaces.PostChainInterface;
+import dev.dannytaylor.luminance.client.events.Runnables;
+import dev.dannytaylor.luminance.client.shaders.Shader;
+import dev.dannytaylor.luminance.client.shaders.Shaders;
+import dev.dannytaylor.luminance.client.shaders.interfaces.PostChainInterface;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import org.jetbrains.annotations.Nullable;
 

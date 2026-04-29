@@ -1,6 +1,6 @@
 package com.nettakrim.souper_secret_settings.commands;
 
-import com.mclegoman.luminance.client.shaders.overrides.OverrideSource;
+import dev.dannytaylor.luminance.client.shaders.overrides.OverrideSource;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;

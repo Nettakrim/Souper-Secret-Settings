@@ -1,7 +1,7 @@
 package com.nettakrim.souper_secret_settings.gui.shaders;
 
-import com.mclegoman.luminance.client.shaders.*;
-import com.mclegoman.luminance.common.util.Couple;
+import dev.dannytaylor.luminance.client.shaders.*;
+import dev.dannytaylor.luminance.common.util.Couple;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.gui.ListScreen;
 import com.nettakrim.souper_secret_settings.gui.ListWidget;

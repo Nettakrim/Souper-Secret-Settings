@@ -1,13 +1,13 @@
 package com.nettakrim.souper_secret_settings.shaders;
 
-import com.mclegoman.luminance.client.shaders.UniformBlock;
-import com.mclegoman.luminance.client.shaders.UniformInstance;
-import com.mclegoman.luminance.client.shaders.CustomPassData;
-import com.mclegoman.luminance.client.shaders.interfaces.PostPassInterface;
-import com.mclegoman.luminance.client.shaders.overrides.*;
-import com.mclegoman.luminance.client.shaders.uniforms.Uniform;
-import com.mclegoman.luminance.client.shaders.uniforms.UniformVector;
-import com.mclegoman.luminance.client.shaders.uniforms.config.MapConfig;
+import dev.dannytaylor.luminance.client.shaders.UniformBlock;
+import dev.dannytaylor.luminance.client.shaders.UniformInstance;
+import dev.dannytaylor.luminance.client.shaders.CustomPassData;
+import dev.dannytaylor.luminance.client.shaders.interfaces.PostPassInterface;
+import dev.dannytaylor.luminance.client.shaders.overrides.*;
+import dev.dannytaylor.luminance.client.shaders.uniforms.Uniform;
+import dev.dannytaylor.luminance.client.shaders.uniforms.UniformVector;
+import dev.dannytaylor.luminance.client.shaders.uniforms.config.MapConfig;
 import net.minecraft.resources.Identifier;
 
 import java.util.*;

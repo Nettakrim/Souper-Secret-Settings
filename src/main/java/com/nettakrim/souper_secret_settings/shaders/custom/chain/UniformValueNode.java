@@ -1,7 +1,7 @@
 package com.nettakrim.souper_secret_settings.shaders.custom.chain;
 
-import com.mclegoman.luminance.client.shaders.IVec2Uniform;
-import com.mclegoman.luminance.client.shaders.IVec4Uniform;
+import dev.dannytaylor.luminance.client.shaders.IVec2Uniform;
+import dev.dannytaylor.luminance.client.shaders.IVec4Uniform;
 import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
 import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
 import com.nettakrim.souper_secret_settings.shaders.custom.ValueNode;

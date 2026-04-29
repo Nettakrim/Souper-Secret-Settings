@@ -1,6 +1,6 @@
 package com.nettakrim.souper_secret_settings.commands;
 
-import com.mclegoman.luminance.client.shaders.Shaders;
+import dev.dannytaylor.luminance.client.shaders.Shaders;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.SuggestionProvider;

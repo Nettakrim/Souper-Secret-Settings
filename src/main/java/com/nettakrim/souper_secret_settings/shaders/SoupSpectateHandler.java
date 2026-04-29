@@ -1,6 +1,6 @@
 package com.nettakrim.souper_secret_settings.shaders;
 
-import com.mclegoman.luminance.client.shaders.SpectatorHandler;
+import dev.dannytaylor.luminance.client.shaders.SpectatorHandler;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;

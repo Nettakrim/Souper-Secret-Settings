@@ -1,6 +1,6 @@
 package com.nettakrim.souper_secret_settings.gui;
 
-import com.mclegoman.luminance.client.data.ClientData;
+import dev.dannytaylor.luminance.client.data.ClientData;
 import com.mojang.blaze3d.platform.Window;
 import com.nettakrim.souper_secret_settings.gui.custom.GraphScreen;
 import com.nettakrim.souper_secret_settings.mixin.WindowAccessor;

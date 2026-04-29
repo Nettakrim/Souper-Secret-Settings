@@ -1,6 +1,6 @@
 package com.nettakrim.souper_secret_settings.gui.custom;
 
-import com.mclegoman.luminance.client.shaders.Uniforms;
+import dev.dannytaylor.luminance.client.shaders.Uniforms;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;

@@ -1,11 +1,11 @@
 package com.nettakrim.souper_secret_settings.gui.option;
 
-import com.mclegoman.luminance.client.data.ClientData;
-import com.mclegoman.luminance.client.gui.screen.config.ConfigScreen;
-import com.mclegoman.luminance.client.gui.widget.AlphaSliderWidget;
-import com.mclegoman.luminance.client.keybindings.Keybindings;
-import com.mclegoman.luminance.client.shaders.Shaders;
-import com.mclegoman.luminance.client.shaders.Uniforms;
+import dev.dannytaylor.luminance.client.data.ClientData;
+import dev.dannytaylor.luminance.client.gui.screen.config.ConfigScreen;
+import dev.dannytaylor.luminance.client.gui.widget.AlphaSliderWidget;
+import dev.dannytaylor.luminance.client.keybindings.Keybindings;
+import dev.dannytaylor.luminance.client.shaders.Shaders;
+import dev.dannytaylor.luminance.client.shaders.Uniforms;
 import com.mojang.brigadier.StringReader;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.actions.Actions;

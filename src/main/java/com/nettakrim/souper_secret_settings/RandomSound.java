@@ -1,8 +1,7 @@
 package com.nettakrim.souper_secret_settings;
 
-
-import com.mclegoman.luminance.client.data.ClientData;
-import com.mclegoman.luminance.client.util.Accessors;
+import dev.dannytaylor.luminance.client.data.ClientData;
+import dev.dannytaylor.perspective.seam.mixin.client.render.GameRendererAccessor;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -13,7 +12,7 @@ public class RandomSound {
         LocalPlayer player = ClientData.minecraft.player;
         if (player != null) {
             int size = soundEvents.length;
-            RandomSource random = Accessors.getGameRenderer().getRandom();
+            RandomSource random = ((GameRendererAccessor)ClientData.minecraft.gameRenderer).seam$getRandom();
             SoundEvent sound = soundEvents[random.nextInt(size)];
             player.playSound(sound, 1, (random.nextFloat() * random.nextFloat() * 2) + 0.5f);
         }

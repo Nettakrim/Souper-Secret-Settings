@@ -1,10 +1,10 @@
 package com.nettakrim.souper_secret_settings.data;
 
-import com.mclegoman.luminance.client.shaders.Shaders;
-import com.mclegoman.luminance.client.shaders.UniformInstance;
-import com.mclegoman.luminance.client.shaders.overrides.PerValueOverride;
-import com.mclegoman.luminance.client.shaders.overrides.OverrideSource;
-import com.mclegoman.luminance.client.shaders.uniforms.config.MapConfig;
+import dev.dannytaylor.luminance.client.shaders.Shaders;
+import dev.dannytaylor.luminance.client.shaders.UniformInstance;
+import dev.dannytaylor.luminance.client.shaders.overrides.PerValueOverride;
+import dev.dannytaylor.luminance.client.shaders.overrides.OverrideSource;
+import dev.dannytaylor.luminance.client.shaders.uniforms.config.MapConfig;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;

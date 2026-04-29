@@ -1,6 +1,6 @@
 package com.nettakrim.souper_secret_settings.gui;
 
-import com.mclegoman.luminance.client.data.ClientData;
+import dev.dannytaylor.luminance.client.data.ClientData;
 import java.util.function.Consumer;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.input.KeyEvent;

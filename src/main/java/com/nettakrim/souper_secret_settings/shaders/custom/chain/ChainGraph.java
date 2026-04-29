@@ -1,10 +1,10 @@
 package com.nettakrim.souper_secret_settings.shaders.custom.chain;
 
-import com.mclegoman.luminance.client.data.ClientData;
-import com.mclegoman.luminance.client.shaders.CustomPassData;
-import com.mclegoman.luminance.client.shaders.interfaces.PostChainInterface;
-import com.mclegoman.luminance.client.shaders.interfaces.PostPassInterface;
-import com.mclegoman.luminance.mixin.client.shaders.ShaderManagerAccessor;
+import dev.dannytaylor.luminance.client.data.ClientData;
+import dev.dannytaylor.luminance.client.shaders.CustomPassData;
+import dev.dannytaylor.luminance.client.shaders.interfaces.PostChainInterface;
+import dev.dannytaylor.luminance.client.shaders.interfaces.PostPassInterface;
+import dev.dannytaylor.luminance.mixin.client.shaders.ShaderManagerAccessor;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
 import net.minecraft.client.renderer.PostChain;

@@ -1,8 +1,8 @@
 package com.nettakrim.souper_secret_settings.gui.shaders;
 
-import com.mclegoman.luminance.client.shaders.UniformInstance;
-import com.mclegoman.luminance.client.shaders.Uniforms;
-import com.mclegoman.luminance.client.shaders.uniforms.config.UniformConfig;
+import dev.dannytaylor.luminance.client.shaders.UniformInstance;
+import dev.dannytaylor.luminance.client.shaders.Uniforms;
+import dev.dannytaylor.luminance.client.shaders.uniforms.config.UniformConfig;
 import com.nettakrim.souper_secret_settings.actions.UniformChangeAction;
 import com.nettakrim.souper_secret_settings.gui.ListScreen;
 import com.nettakrim.souper_secret_settings.gui.DisplayWidget;

@@ -1,11 +1,11 @@
 package com.nettakrim.souper_secret_settings.shaders;
 
-import com.mclegoman.luminance.client.shaders.ShaderTime;
-import com.mclegoman.luminance.client.shaders.Uniforms;
-import com.mclegoman.luminance.client.shaders.uniforms.UniformVector;
-import com.mclegoman.luminance.client.shaders.uniforms.config.EmptyConfig;
-import com.mclegoman.luminance.client.shaders.uniforms.config.MapConfig;
-import com.mclegoman.luminance.client.shaders.uniforms.config.UniformConfig;
+import dev.dannytaylor.luminance.client.shaders.ShaderTime;
+import dev.dannytaylor.luminance.client.shaders.Uniforms;
+import dev.dannytaylor.luminance.client.shaders.uniforms.UniformVector;
+import dev.dannytaylor.luminance.client.shaders.uniforms.config.EmptyConfig;
+import dev.dannytaylor.luminance.client.shaders.uniforms.config.MapConfig;
+import dev.dannytaylor.luminance.client.shaders.uniforms.config.UniformConfig;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 
 import java.util.List;

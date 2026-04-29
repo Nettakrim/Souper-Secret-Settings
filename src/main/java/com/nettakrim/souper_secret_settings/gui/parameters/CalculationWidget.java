@@ -1,6 +1,6 @@
 package com.nettakrim.souper_secret_settings.gui.parameters;
 
-import com.mclegoman.luminance.client.shaders.overrides.OverrideSource;
+import dev.dannytaylor.luminance.client.shaders.overrides.OverrideSource;
 import com.nettakrim.souper_secret_settings.actions.ArrSetAction;
 import com.nettakrim.souper_secret_settings.gui.DisplayWidget;
 import com.nettakrim.souper_secret_settings.gui.ListScreen;

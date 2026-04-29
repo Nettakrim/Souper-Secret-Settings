@@ -1,7 +1,7 @@
 package com.nettakrim.souper_secret_settings.shaders;
 
-import com.mclegoman.luminance.client.shaders.ShaderRegistryEntry;
-import com.mclegoman.luminance.client.shaders.Shaders;
+import dev.dannytaylor.luminance.client.shaders.ShaderRegistryEntry;
+import dev.dannytaylor.luminance.client.shaders.Shaders;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;

@@ -1,6 +1,6 @@
 package com.nettakrim.souper_secret_settings.shaders.custom.chain;
 
-import com.mclegoman.luminance.client.shaders.interfaces.PostPassInterface;
+import dev.dannytaylor.luminance.client.shaders.interfaces.PostPassInterface;
 import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
 import com.nettakrim.souper_secret_settings.shaders.custom.InputPort;
 import com.nettakrim.souper_secret_settings.shaders.custom.Node;

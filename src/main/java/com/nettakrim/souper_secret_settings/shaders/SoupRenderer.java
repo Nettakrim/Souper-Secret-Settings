@@ -2,16 +2,18 @@ package com.nettakrim.souper_secret_settings.shaders;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.mclegoman.luminance.client.events.Events;
-import com.mclegoman.luminance.client.events.Runnables;
-import com.mclegoman.luminance.client.shaders.RenderLocations;
-import com.mclegoman.luminance.client.shaders.Shader;
-import com.mclegoman.luminance.client.shaders.ShaderRegistryEntry;
-import com.mclegoman.luminance.client.shaders.Shaders;
-import com.mclegoman.luminance.client.shaders.uniforms.Uniform;
-import com.mclegoman.luminance.client.util.Accessors;
+import dev.dannytaylor.luminance.client.data.ClientData;
+import dev.dannytaylor.luminance.client.events.Events;
+import dev.dannytaylor.luminance.client.events.Runnables;
+import dev.dannytaylor.luminance.client.shaders.RenderLocations;
+import dev.dannytaylor.luminance.client.shaders.Shader;
+import dev.dannytaylor.luminance.client.shaders.ShaderRegistryEntry;
+import dev.dannytaylor.luminance.client.shaders.Shaders;
+import dev.dannytaylor.luminance.client.shaders.uniforms.Uniform;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.commands.SouperSecretSettingsCommands;
+import dev.dannytaylor.perspective.seam.client.events.SeamClientEvents;
+import dev.dannytaylor.perspective.seam.mixin.client.render.GameRendererAccessor;
 import net.minecraft.client.input.MouseButtonInfo;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -52,7 +54,7 @@ public class SoupRenderer implements Runnables.LevelRender {
 
         spectateHandler = new SoupSpectateHandler();
         Events.SpectatorHandlers.register(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "spectate_handler"), spectateHandler);
-        Events.AfterVanillaPostEffectRender.register(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "rendering"), (data) -> {
+        SeamClientEvents.AfterVanillaPostEffectRender.register(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "rendering"), (data) -> {
             if (SouperSecretSettingsClient.soupData.config.disableState == 0) {
                 if (spectateHandler.shaderLayer != null) {
                     Runnables.LevelRender.fromGameData(spectateHandler.shaderLayer::render, data);
@@ -63,7 +65,7 @@ public class SoupRenderer implements Runnables.LevelRender {
                 }
             }
         });
-        Events.AfterUiRender.register(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "rendering"), (data) -> {
+        SeamClientEvents.AfterUiRender.register(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "rendering"), (data) -> {
             if (renderLocation == RenderLocations.UI && SouperSecretSettingsClient.soupData.config.disableState == 0) {
                 Runnables.LevelRender.fromGameData(this, data);
             }
@@ -83,13 +85,13 @@ public class SoupRenderer implements Runnables.LevelRender {
                 list.remove(shaderRegistryEntry);
             }
         }));
-        Events.AfterClientResourceReload.register(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "reload"), this::loadDefault);
+        SeamClientEvents.AfterClientResourceReload.register(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "reload"), this::loadDefault);
 
         Events.BeforeShaderRender.register(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "before_render"), new OverrideManager.BeforeShaderRender());
         Events.AfterShaderRender.register(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "after_render"), new OverrideManager.AfterShaderRender());
 
-        Events.OnMouseScroll.register(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "adjust_values"), this::onMouseScroll);
-        Events.OnMouseButton.register(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "reset_values"), this::onMouseButton);
+        SeamClientEvents.OnMouseScroll.register(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "adjust_values"), this::onMouseScroll);
+        SeamClientEvents.OnMouseButton.register(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "reset_values"), this::onMouseButton);
     }
 
     @Override
@@ -194,7 +196,7 @@ public class SoupRenderer implements Runnables.LevelRender {
             return registryEntries.getFirst();
         }
 
-        RandomSource random = Accessors.getGameRenderer().getRandom();
+        RandomSource random = ((GameRendererAccessor)ClientData.minecraft.gameRenderer).seam$getRandom();
         ShaderRegistryEntry newShader;
 
         int attempts = 0;

@@ -1,12 +1,12 @@
 package com.nettakrim.souper_secret_settings.commands;
 
-import com.mclegoman.luminance.client.shaders.ShaderRegistryEntry;
-import com.mclegoman.luminance.client.shaders.Shaders;
-import com.mclegoman.luminance.client.shaders.interfaces.PostChainInterface;
-import com.mclegoman.luminance.client.shaders.interfaces.PostPassInterface;
-import com.mclegoman.luminance.client.shaders.overrides.OverrideSource;
-import com.mclegoman.luminance.client.shaders.uniforms.config.MapConfig;
-import com.mclegoman.luminance.client.shaders.uniforms.config.UniformConfig;
+import dev.dannytaylor.luminance.client.shaders.ShaderRegistryEntry;
+import dev.dannytaylor.luminance.client.shaders.Shaders;
+import dev.dannytaylor.luminance.client.shaders.interfaces.PostChainInterface;
+import dev.dannytaylor.luminance.client.shaders.interfaces.PostPassInterface;
+import dev.dannytaylor.luminance.client.shaders.overrides.OverrideSource;
+import dev.dannytaylor.luminance.client.shaders.uniforms.config.MapConfig;
+import dev.dannytaylor.luminance.client.shaders.uniforms.config.UniformConfig;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;

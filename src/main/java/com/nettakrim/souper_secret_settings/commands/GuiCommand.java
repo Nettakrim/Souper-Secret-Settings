@@ -1,6 +1,6 @@
 package com.nettakrim.souper_secret_settings.commands;
 
-import com.mclegoman.luminance.client.data.ClientData;
+import dev.dannytaylor.luminance.client.data.ClientData;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.mojang.brigadier.tree.RootCommandNode;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;

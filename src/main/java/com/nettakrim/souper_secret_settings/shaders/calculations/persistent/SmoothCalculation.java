@@ -1,7 +1,7 @@
 package com.nettakrim.souper_secret_settings.shaders.calculations.persistent;
 
-import com.mclegoman.luminance.client.shaders.ShaderTime;
-import com.mclegoman.luminance.client.shaders.Uniforms;
+import dev.dannytaylor.luminance.client.shaders.ShaderTime;
+import dev.dannytaylor.luminance.client.shaders.Uniforms;
 import com.nettakrim.souper_secret_settings.shaders.calculations.Calculation;
 import net.minecraft.util.Mth;
 

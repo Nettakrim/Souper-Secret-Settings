@@ -1,13 +1,13 @@
 package com.nettakrim.souper_secret_settings.shaders;
 
-import com.mclegoman.luminance.client.shaders.ShaderTime;
-import com.mclegoman.luminance.client.shaders.overrides.NullSource;
-import com.mclegoman.luminance.client.shaders.overrides.PerValueOverride;
-import com.mclegoman.luminance.client.shaders.overrides.OverrideSource;
-import com.mclegoman.luminance.client.shaders.overrides.UniformSource;
-import com.mclegoman.luminance.client.shaders.uniforms.config.DefaultableConfig;
-import com.mclegoman.luminance.client.shaders.uniforms.config.MapConfig;
-import com.mclegoman.luminance.client.shaders.uniforms.config.UniformConfig;
+import dev.dannytaylor.luminance.client.shaders.ShaderTime;
+import dev.dannytaylor.luminance.client.shaders.overrides.NullSource;
+import dev.dannytaylor.luminance.client.shaders.overrides.PerValueOverride;
+import dev.dannytaylor.luminance.client.shaders.overrides.OverrideSource;
+import dev.dannytaylor.luminance.client.shaders.overrides.UniformSource;
+import dev.dannytaylor.luminance.client.shaders.uniforms.config.DefaultableConfig;
+import dev.dannytaylor.luminance.client.shaders.uniforms.config.MapConfig;
+import dev.dannytaylor.luminance.client.shaders.uniforms.config.UniformConfig;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.mixin.KeyAccessor;

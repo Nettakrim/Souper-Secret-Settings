@@ -1,8 +1,7 @@
 package com.nettakrim.souper_secret_settings;
 
-import com.mclegoman.luminance.client.data.ClientData;
-import com.mclegoman.luminance.client.events.Events;
-import com.mclegoman.luminance.client.texture.ResourcePackHelper;
+import dev.dannytaylor.luminance.client.data.ClientData;
+import dev.dannytaylor.luminance.client.texture.ResourcePackHelper;
 import com.nettakrim.souper_secret_settings.actions.Actions;
 import com.nettakrim.souper_secret_settings.data.SoupData;
 import com.nettakrim.souper_secret_settings.gui.SoupGui;
@@ -10,6 +9,7 @@ import com.nettakrim.souper_secret_settings.shaders.SoupReloader;
 import com.nettakrim.souper_secret_settings.shaders.SoupRenderer;
 import com.nettakrim.souper_secret_settings.shaders.SoupUniforms;
 import com.nettakrim.souper_secret_settings.shaders.calculations.Calculations;
+import dev.dannytaylor.perspective.seam.client.events.SeamClientEvents;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -64,12 +64,12 @@ public class SouperSecretSettingsClient implements ClientModInitializer {
 
 		ClientLifecycleEvents.CLIENT_STOPPING.register((client) -> soupData.saveConfig());
 
-		Events.ClientResourceReloaders.register(Identifier.fromNamespaceAndPath(MODID, "shaders"), new SoupReloader());
+		SeamClientEvents.ClientResourceReloaders.register(Identifier.fromNamespaceAndPath(MODID, "shaders"), new SoupReloader());
 
 		Identifier transfer = Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "transfer");
-		Events.AfterClientResourceReload.register(transfer, () -> ClientData.minecraft.schedule(() -> {
+		SeamClientEvents.AfterClientResourceReload.register(transfer, () -> ClientData.minecraft.schedule(() -> {
             soupData.config.transferOldData();
-            Events.AfterClientResourceReload.remove(transfer);
+			SeamClientEvents.AfterClientResourceReload.remove(transfer);
         }));
 	}
 

@@ -1,7 +1,7 @@
 package com.nettakrim.souper_secret_settings.gui;
 
-import com.mclegoman.luminance.client.data.ClientData;
-import com.mclegoman.luminance.client.shaders.Shaders;
+import dev.dannytaylor.luminance.client.data.ClientData;
+import dev.dannytaylor.luminance.client.shaders.Shaders;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.gui.option.OptionScreen;
 import com.nettakrim.souper_secret_settings.gui.layers.LayerScreen;

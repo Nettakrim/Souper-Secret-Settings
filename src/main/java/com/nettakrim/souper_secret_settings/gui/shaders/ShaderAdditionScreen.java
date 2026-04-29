@@ -1,10 +1,10 @@
 package com.nettakrim.souper_secret_settings.gui.shaders;
 
-import com.mclegoman.luminance.client.data.ClientData;
-import com.mclegoman.luminance.client.events.Events;
-import com.mclegoman.luminance.client.shaders.ShaderRegistryEntry;
-import com.mclegoman.luminance.client.shaders.Shaders;
-import com.mclegoman.luminance.common.util.Couple;
+import dev.dannytaylor.luminance.client.data.ClientData;
+import dev.dannytaylor.luminance.client.events.Events;
+import dev.dannytaylor.luminance.client.shaders.ShaderRegistryEntry;
+import dev.dannytaylor.luminance.client.shaders.Shaders;
+import dev.dannytaylor.luminance.common.util.Couple;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.gui.AdditionButton;
 import com.nettakrim.souper_secret_settings.gui.ListAdditionScreen;

@@ -1,8 +1,8 @@
 package com.nettakrim.souper_secret_settings.shaders.custom.chain;
 
-import com.mclegoman.luminance.client.shaders.UniformBlock;
-import com.mclegoman.luminance.client.shaders.UniformInstance;
-import com.mclegoman.luminance.client.shaders.interfaces.internal.InternalUniformValueInterface;
+import dev.dannytaylor.luminance.client.shaders.UniformBlock;
+import dev.dannytaylor.luminance.client.shaders.UniformInstance;
+import dev.dannytaylor.luminance.client.shaders.interfaces.internal.InternalUniformValueInterface;
 import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
 import com.nettakrim.souper_secret_settings.shaders.custom.InputPort;
 import com.nettakrim.souper_secret_settings.shaders.custom.Node;

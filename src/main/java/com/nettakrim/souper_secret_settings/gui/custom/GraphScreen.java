@@ -1,6 +1,6 @@
 package com.nettakrim.souper_secret_settings.gui.custom;
 
-import com.mclegoman.luminance.client.data.ClientData;
+import dev.dannytaylor.luminance.client.data.ClientData;
 import com.nettakrim.souper_secret_settings.shaders.custom.*;
 import net.minecraft.client.gui.ActiveTextCollector;
 import net.minecraft.client.gui.GuiGraphics;

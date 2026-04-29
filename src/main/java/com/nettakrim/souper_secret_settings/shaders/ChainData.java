@@ -1,7 +1,7 @@
 package com.nettakrim.souper_secret_settings.shaders;
 
-import com.mclegoman.luminance.client.shaders.UniformBlock;
-import com.mclegoman.luminance.client.shaders.interfaces.PostPassInterface;
+import dev.dannytaylor.luminance.client.shaders.UniformBlock;
+import dev.dannytaylor.luminance.client.shaders.interfaces.PostPassInterface;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import java.util.*;

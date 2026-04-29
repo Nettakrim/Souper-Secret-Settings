@@ -1,7 +1,7 @@
 package com.nettakrim.souper_secret_settings;
 
-import com.mclegoman.luminance.client.keybindings.KeybindingHelper;
-import com.mclegoman.luminance.client.shaders.RenderLocations;
+import dev.dannytaylor.luminance.client.keybindings.KeybindingHelper;
+import dev.dannytaylor.luminance.client.shaders.RenderLocations;
 import com.nettakrim.souper_secret_settings.commands.OptionCommand;
 import com.nettakrim.souper_secret_settings.commands.SouperSecretSettingsCommands;
 import net.minecraft.client.KeyMapping;

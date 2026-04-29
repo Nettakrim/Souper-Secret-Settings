@@ -1,9 +1,9 @@
 package com.nettakrim.souper_secret_settings.shaders;
 
-import com.mclegoman.luminance.client.events.Runnables;
-import com.mclegoman.luminance.client.shaders.UniformInstance;
-import com.mclegoman.luminance.client.shaders.interfaces.PostPassInterface;
-import com.mclegoman.luminance.common.util.Couple;
+import dev.dannytaylor.luminance.client.events.Runnables;
+import dev.dannytaylor.luminance.client.shaders.UniformInstance;
+import dev.dannytaylor.luminance.client.shaders.interfaces.PostPassInterface;
+import dev.dannytaylor.luminance.common.util.Couple;
 import java.util.*;
 
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;

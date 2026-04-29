@@ -1,7 +1,7 @@
 package com.nettakrim.souper_secret_settings.commands;
 
 import com.google.gson.JsonElement;
-import com.mclegoman.luminance.client.data.ClientData;
+import dev.dannytaylor.luminance.client.data.ClientData;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.suggestion.SuggestionProvider;

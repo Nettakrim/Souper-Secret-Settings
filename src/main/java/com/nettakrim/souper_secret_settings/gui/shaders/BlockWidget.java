@@ -1,7 +1,7 @@
 package com.nettakrim.souper_secret_settings.gui.shaders;
 
-import com.mclegoman.luminance.client.shaders.UniformBlock;
-import com.mclegoman.luminance.client.shaders.UniformInstance;
+import dev.dannytaylor.luminance.client.shaders.UniformBlock;
+import dev.dannytaylor.luminance.client.shaders.UniformInstance;
 import com.nettakrim.souper_secret_settings.gui.CollapseWidget;
 import com.nettakrim.souper_secret_settings.gui.ListScreen;
 import net.minecraft.client.gui.GuiGraphics;

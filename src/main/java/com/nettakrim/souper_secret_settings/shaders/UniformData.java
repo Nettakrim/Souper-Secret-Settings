@@ -1,7 +1,7 @@
 package com.nettakrim.souper_secret_settings.shaders;
 
-import com.mclegoman.luminance.client.shaders.overrides.PerValueOverride;
-import com.mclegoman.luminance.client.shaders.uniforms.config.MapConfig;
+import dev.dannytaylor.luminance.client.shaders.overrides.PerValueOverride;
+import dev.dannytaylor.luminance.client.shaders.uniforms.config.MapConfig;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;

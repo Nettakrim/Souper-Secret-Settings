@@ -1,6 +1,6 @@
 package com.nettakrim.souper_secret_settings.commands;
 
-import com.mclegoman.luminance.client.shaders.RenderLocations;
+import dev.dannytaylor.luminance.client.shaders.RenderLocations;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;

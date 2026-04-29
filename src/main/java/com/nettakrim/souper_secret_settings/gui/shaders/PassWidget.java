@@ -1,7 +1,7 @@
 package com.nettakrim.souper_secret_settings.gui.shaders;
 
-import com.mclegoman.luminance.client.shaders.UniformBlock;
-import com.mclegoman.luminance.client.shaders.interfaces.PostPassInterface;
+import dev.dannytaylor.luminance.client.shaders.UniformBlock;
+import dev.dannytaylor.luminance.client.shaders.interfaces.PostPassInterface;
 import com.nettakrim.souper_secret_settings.gui.ListScreen;
 import com.nettakrim.souper_secret_settings.shaders.ChainData;
 import net.minecraft.client.gui.GuiGraphics;

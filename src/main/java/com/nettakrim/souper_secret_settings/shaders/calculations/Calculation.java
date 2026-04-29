@@ -1,8 +1,8 @@
 package com.nettakrim.souper_secret_settings.shaders.calculations;
 
-import com.mclegoman.luminance.client.shaders.Uniforms;
-import com.mclegoman.luminance.client.shaders.overrides.OverrideSource;
-import com.mclegoman.luminance.client.shaders.uniforms.config.EmptyConfig;
+import dev.dannytaylor.luminance.client.shaders.Uniforms;
+import dev.dannytaylor.luminance.client.shaders.overrides.OverrideSource;
+import dev.dannytaylor.luminance.client.shaders.uniforms.config.EmptyConfig;
 import com.nettakrim.souper_secret_settings.gui.ParameterTextWidget;
 import com.nettakrim.souper_secret_settings.gui.parameters.CalculationInputWidget;
 import com.nettakrim.souper_secret_settings.shaders.ParameterOverrideSource;

@@ -2,7 +2,7 @@ package com.nettakrim.souper_secret_settings.shaders;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.mclegoman.luminance.client.util.JsonResourceReloader;
+import dev.dannytaylor.luminance.client.util.JsonResourceReloader;
 import com.mojang.serialization.JsonOps;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.data.LayerCodecs;

@@ -1,9 +1,9 @@
 package com.nettakrim.souper_secret_settings.shaders.calculations.oscillator;
 
-import com.mclegoman.luminance.client.shaders.Uniforms;
-import com.mclegoman.luminance.client.shaders.overrides.OverrideSource;
-import com.mclegoman.luminance.client.shaders.uniforms.config.EmptyConfig;
-import com.mclegoman.luminance.client.shaders.uniforms.config.MapConfig;
+import dev.dannytaylor.luminance.client.shaders.Uniforms;
+import dev.dannytaylor.luminance.client.shaders.overrides.OverrideSource;
+import dev.dannytaylor.luminance.client.shaders.uniforms.config.EmptyConfig;
+import dev.dannytaylor.luminance.client.shaders.uniforms.config.MapConfig;
 import com.nettakrim.souper_secret_settings.shaders.calculations.Calculation;
 
 import java.util.List;

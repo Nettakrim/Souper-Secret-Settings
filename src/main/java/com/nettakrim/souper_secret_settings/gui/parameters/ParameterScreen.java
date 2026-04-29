@@ -1,7 +1,7 @@
 package com.nettakrim.souper_secret_settings.gui.parameters;
 
-import com.mclegoman.luminance.client.shaders.RenderLocations;
-import com.mclegoman.luminance.client.shaders.ShaderTime;
+import dev.dannytaylor.luminance.client.shaders.RenderLocations;
+import dev.dannytaylor.luminance.client.shaders.ShaderTime;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.gui.ListScreen;
 import com.nettakrim.souper_secret_settings.gui.ListWidget;
