@@ -19,6 +19,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
 public class ChainGraph extends Graph {
+    private PostChain lastCompiled = null;
+
     public PostChain compile() throws ShaderManager.CompilationException {
         long start = System.nanoTime();
         OrganisedGraph organisedGraph = organise();
@@ -67,6 +69,7 @@ public class ChainGraph extends Graph {
 
         long constructed = System.nanoTime();
 
+        // this ends up leaking a small amount of memory
         PostChain postChain = PostChain.load(
                 postChainConfig,
                 ClientData.minecraft.getTextureManager(),
@@ -86,6 +89,11 @@ public class ChainGraph extends Graph {
         long loaded = System.nanoTime();
 
         SouperSecretSettingsClient.log("Compiled post chain in",getElapsedTime(start, loaded),"- Organising:",getElapsedTime(start,organised),"| Constructing:",getElapsedTime(organised,constructed),"| Loading:",getElapsedTime(constructed, loaded));
+
+        if (lastCompiled != null) {
+            lastCompiled.close();
+        }
+        lastCompiled = postChain;
 
         changed = false;
         return postChain;
