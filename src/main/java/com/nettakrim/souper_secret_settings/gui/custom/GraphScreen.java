@@ -51,6 +51,8 @@ public class GraphScreen extends Screen {
     public void onClose() {
         for (Node node : graph.nodes) {
             node.clearUICaches();
+            node.hovered = false;
+            node.selected = false;
         }
         minecraft.setScreen(parent);
     }
