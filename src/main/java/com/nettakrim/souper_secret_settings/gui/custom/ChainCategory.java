@@ -47,7 +47,7 @@ public class ChainCategory extends CreationCategory {
             HashMap<String, ListCategory.Builder> namespaces = new HashMap<>();
 
             for (ShaderRegistryEntry shaderRegistryEntry : entries) {
-                namespaces.computeIfAbsent(shaderRegistryEntry.getID().getNamespace(), ListCategory.Builder::new).add(new ShaderCategory(shaderRegistryEntry));
+                namespaces.computeIfAbsent(shaderRegistryEntry.getID().getNamespace(), ListCategory.Builder::new).add(shaderRegistryEntry.getID().getPath(), new ShaderCategory(shaderRegistryEntry));
             }
 
             return namespaces.values().stream().map(ListCategory.Builder::build).toList();
