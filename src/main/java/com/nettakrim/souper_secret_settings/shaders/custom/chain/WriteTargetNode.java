@@ -21,8 +21,8 @@ public class WriteTargetNode extends Node {
 
     @Override
     protected void initialisePorts() {
-        addInput("target", PortType.STRING).docked = new StringNode("minecraft:main");
         addInput("input", PortType.TARGET);
+        addInput("target", PortType.STRING).docked = new StringNode("minecraft:main");
     }
 
     @Override
@@ -42,8 +42,8 @@ public class WriteTargetNode extends Node {
         return new PostChainConfig.Pass(
                 Identifier.parse("core/screenquad"),
                 Identifier.parse("post/blit"),
-                List.of(new PostChainConfig.TargetInput("In", Identifier.parse((String)organisedNode.inputSources[1].getPort().outputData), false, false)),
-                Identifier.parse((String)organisedNode.inputSources[0].getPort().outputData),
+                List.of(new PostChainConfig.TargetInput("In", Identifier.parse((String)organisedNode.inputSources[0].getPort().outputData), false, false)),
+                Identifier.parse((String)organisedNode.inputSources[1].getPort().outputData),
                 Map.of("BlitConfig", List.of(uniformValue))
         );
     }

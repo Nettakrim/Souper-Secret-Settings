@@ -103,6 +103,7 @@ public class GraphScreen extends Screen {
         if (mouseButtonEvent.button() == 1) {
             creationMenu.init(graph.getCreationRoot(), mouseButtonEvent);
             creationMenu.setActive(true);
+            setFocused(null);
         }
 
         return false;

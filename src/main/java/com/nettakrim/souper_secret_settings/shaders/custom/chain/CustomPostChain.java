@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.PostPass;
 import net.minecraft.client.renderer.ShaderManager;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector2i;
 
 import java.util.List;
 import java.util.Set;
@@ -40,17 +41,12 @@ public class CustomPostChain implements PostChainInterface {
 
         Wire b2c = new Wire();
         b2c.source = passNode.outputPorts.getFirst();
-        b2c.destination = writeTargetNode.inputPorts.get(1);
+        b2c.destination = writeTargetNode.inputPorts.getFirst();
         chainGraph.addWire(b2c);
 
-
-        reference = ClientData.minecraft.getShaderManager().getPostChain(Identifier.fromNamespaceAndPath("soup","fisheye"), LevelTargetBundle.SORTING_TARGETS);
-        assert reference != null;
-        chainGraph.nodes.add(new PassNode((PostPassInterface)((PostChainInterface)reference).luminance$getPasses(null).getFirst()));
-
-        reference = ClientData.minecraft.getShaderManager().getPostChain(Identifier.fromNamespaceAndPath("soup","washed_out"), LevelTargetBundle.SORTING_TARGETS);
-        assert reference != null;
-        chainGraph.nodes.add(new PassNode((PostPassInterface)((PostChainInterface)reference).luminance$getPasses(null).get(1)));
+        readTargetNode.position = new Vector2i(-170, -40);
+        passNode.position = new Vector2i(-50, -40);
+        writeTargetNode.position = new Vector2i(70, -40);
 
         chainGraph.changed = true;
     }
