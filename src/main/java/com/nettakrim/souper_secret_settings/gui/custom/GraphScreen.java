@@ -27,6 +27,8 @@ public class GraphScreen extends Screen {
     private Wire drawingWire;
     private Port drawingEnd;
 
+    private Node hoveredNode;
+
     public GraphScreen(Graph graph, Screen parent) {
         super(Component.empty());
         this.graph = graph;
@@ -251,11 +253,23 @@ public class GraphScreen extends Screen {
         panning.applyMatrix(pose);
 
         Vector2f scaledPos = panning.getScaledMousePos(mouseX, mouseY);
-        int x = Math.round(scaledPos.x);
-        int y = Math.round(scaledPos.y);
 
+        Node currentHovered = selectedNode;
         for (Node node : graph.nodes) {
             node.updatePositions(graph.wires);
+            if (currentHovered == null) {
+                currentHovered = node.getHoveredNode(scaledPos.x, scaledPos.y);
+            }
+        }
+
+        if (currentHovered != hoveredNode) {
+            if (hoveredNode != null) {
+                hoveredNode.hovered = false;
+            }
+            hoveredNode = currentHovered;
+            if (hoveredNode != null) {
+                hoveredNode.hovered = true;
+            }
         }
 
         for (Wire wire : graph.wires.values()) {
@@ -268,8 +282,8 @@ public class GraphScreen extends Screen {
         }
 
         for (Node node : graph.nodes) {
-            node.renderNode(guiGraphics, x, y, delta);
-            node.renderPorts(guiGraphics, x, y, delta, true);
+            node.renderNode(guiGraphics, (int)scaledPos.x, (int)scaledPos.y, delta);
+            node.renderPorts(guiGraphics, true);
         }
 
         if (drawingWire != null) {

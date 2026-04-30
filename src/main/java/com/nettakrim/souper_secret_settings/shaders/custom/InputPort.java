@@ -15,12 +15,12 @@ public class InputPort extends Port {
     }
 
     @Override
-    public void renderPort(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        super.renderPort(guiGraphics, mouseX, mouseY, delta);
+    public void renderPort(@NotNull GuiGraphics guiGraphics) {
+        super.renderPort(guiGraphics);
         guiGraphics.textRenderer().accept(TextAlignment.LEFT, positionCache.x + Port.textMargin, positionCache.y - verticalOffset, text);
 
         if (dockEnabled) {
-            docked.renderPorts(guiGraphics, mouseX, mouseY, delta, false);
+            docked.renderPorts(guiGraphics, false);
         }
     }
 

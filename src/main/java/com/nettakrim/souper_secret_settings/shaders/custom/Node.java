@@ -25,6 +25,7 @@ public abstract class Node {
 
     public boolean includedInLastCompile = false;
     public boolean selected;
+    public boolean hovered;
 
     public void updatePositions(HashMap<InputPort, Wire> wires) {
         height = baseHeight;
@@ -54,7 +55,7 @@ public abstract class Node {
     }
 
     public void renderNode(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SoupGui.BUTTON_TEXTURES.get(includedInLastCompile, selected || !outside(mouseX, mouseY)), position.x, position.y, width, height, -1);
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SoupGui.BUTTON_TEXTURES.get(includedInLastCompile, selected || hovered), position.x, position.y, width, height, -1);
 
         guiGraphics.textRenderer().accept(position.x + 3, position.y + 3, getTitle());
 
@@ -63,14 +64,14 @@ public abstract class Node {
         }
     }
 
-    public void renderPorts(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta, boolean includeOutput) {
+    public void renderPorts(@NotNull GuiGraphics guiGraphics, boolean includeOutput) {
         for (InputPort inputPort : inputPorts) {
-            inputPort.renderPort(guiGraphics, mouseX, mouseY, delta);
+            inputPort.renderPort(guiGraphics);
         }
 
         if (includeOutput) {
             for (OutputPort outputPort : outputPorts) {
-                outputPort.renderPort(guiGraphics, mouseX, mouseY, delta);
+                outputPort.renderPort(guiGraphics);
             }
         }
     }
@@ -170,6 +171,23 @@ public abstract class Node {
         for (InputPort inputPort : inputPorts) {
             inputPort.onDock(wires);
         }
+    }
+
+    public Node getHoveredNode(float mouseX, float mouseY) {
+        if (outside(mouseX, mouseY)) {
+            return null;
+        }
+
+        for (InputPort inputPort : inputPorts) {
+            if (inputPort.docked != null) {
+                Node node = inputPort.docked.getHoveredNode(mouseX, mouseY);
+                if (node != null) {
+                    return node;
+                }
+            }
+        }
+
+        return this;
     }
 
     public void clearUICaches() {

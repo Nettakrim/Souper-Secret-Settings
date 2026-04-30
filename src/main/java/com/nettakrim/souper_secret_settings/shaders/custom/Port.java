@@ -32,7 +32,7 @@ public abstract class Port {
         return baseHeight;
     }
 
-    public void renderPort(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+    public void renderPort(@NotNull GuiGraphics guiGraphics) {
         guiGraphics.fill(positionCache.x-1, positionCache.y-1, positionCache.x+2, positionCache.y+2, portType.color);
     }
 
