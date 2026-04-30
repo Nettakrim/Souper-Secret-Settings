@@ -14,6 +14,8 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.*;
 
 import java.lang.Math;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GraphScreen extends Screen {
     private final Graph graph;
@@ -21,8 +23,9 @@ public class GraphScreen extends Screen {
     public final Panning panning;
     private final CreationMenu creationMenu;
 
-    private Node selectedNode;
-    private final Vector2d dragPosition = new Vector2d();
+    private boolean isDragSelecting;
+    private final List<Node> selected = new ArrayList<>();
+    private final Vector2i dragPosition = new Vector2i();
 
     private Wire drawingWire;
     private Port drawingEnd;
@@ -97,11 +100,20 @@ public class GraphScreen extends Screen {
 
             Node grabbed = grab((float)mouseButtonEvent.x(), (float)mouseButtonEvent.y());
             if (grabbed != null) {
-                selectedNode = grabbed;
-                dragPosition.set(selectedNode.position);
-                graph.nodes.add(grabbed);
-                return true;
+                isDragSelecting = false;
+                if (!selected.contains(grabbed)) {
+                    selected.clear();
+                    selected.add(grabbed);
+                    updateSelectedNodes();
+                }
+            } else {
+                isDragSelecting = true;
+                selected.clear();
+                updateSelectedNodes();
             }
+
+            dragPosition.set((int)Math.round(mouseButtonEvent.x()), (int)Math.round(mouseButtonEvent.y()));
+            return true;
         }
 
         if (mouseButtonEvent.button() == 1) {
@@ -120,6 +132,11 @@ public class GraphScreen extends Screen {
     public boolean mouseReleased(@NotNull MouseButtonEvent mouseButtonEvent) {
         mouseButtonEvent = scaleMouseButtonEvent(mouseButtonEvent);
 
+        if (isDragSelecting && mouseButtonEvent.button() == 0) {
+            isDragSelecting = false;
+            return true;
+        }
+
         if (drawingWire != null) {
             if (drawingWire.destination != drawingEnd && drawingWire.source != drawingEnd) {
                 drawingWire.destination.onDock(graph.wires);
@@ -131,9 +148,10 @@ public class GraphScreen extends Screen {
             return true;
         }
 
-        if (selectedNode != null) {
-            drop((float)mouseButtonEvent.x(), (float)mouseButtonEvent.y(), selectedNode);
-            selectedNode = null;
+        if (selected.size() == 1) {
+            drop((float)mouseButtonEvent.x(), (float)mouseButtonEvent.y(), selected.getFirst());
+            selected.clear();
+            updateSelectedNodes();
             return true;
         }
 
@@ -160,10 +178,30 @@ public class GraphScreen extends Screen {
             snapDrawing((float)mouseButtonEvent.x(), (float)mouseButtonEvent.y());
         }
 
-        if (selectedNode != null) {
-            dragPosition.add(deltaX, deltaY);
-            selectedNode.position.set(dragPosition);
-            return true;
+        if (mouseButtonEvent.button() == 0) {
+            if (isDragSelecting) {
+                Vector2i current = new Vector2i((int) Math.round(mouseButtonEvent.x()), (int) Math.round(mouseButtonEvent.y()));
+
+                selected.clear();
+                for (Node node : graph.nodes) {
+                    if (node.inBounds(dragPosition.x, dragPosition.y, current.x, current.y)) {
+                        selected.add(node);
+                    }
+                }
+                updateSelectedNodes();
+
+                return true;
+            } else if (!selected.isEmpty()) {
+                Vector2i current = new Vector2i((int) Math.round(mouseButtonEvent.x()), (int) Math.round(mouseButtonEvent.y()));
+                current.sub(dragPosition);
+
+                for (Node node : selected) {
+                    node.position.add(current.x, current.y);
+                }
+
+                dragPosition.add(current);
+                return true;
+            }
         }
 
         if (mouseButtonEvent.button() == 1) {
@@ -194,9 +232,9 @@ public class GraphScreen extends Screen {
             Node grabbed = node.grabNode(x, y, graph.wires, null);
             if (grabbed != null) {
                 // grabbed node will be removed from docks
-                // if its a top level node, it needs to be removed here
-                // (so that it can be reinserted at the end of the list)
+                // it always needs to be reinserted, so that it renders on top
                 graph.nodes.remove(grabbed);
+                graph.nodes.add(grabbed);
                 return grabbed;
             }
         }
@@ -209,14 +247,14 @@ public class GraphScreen extends Screen {
             return;
         }
 
-        for (Node other : graph.nodes) {
+        for (Node other : graph.nodes.reversed()) {
             if (other == node) {
                 continue;
             }
 
             if (other.drop(x, y, node, graph.wires)) {
                 // node was dropped into a dock
-                graph.nodes.remove(selectedNode);
+                graph.nodes.remove(node);
                 topologyChanged();
                 return;
             }
@@ -249,6 +287,15 @@ public class GraphScreen extends Screen {
         creationMenu.setActive(false);
     }
 
+    private void updateSelectedNodes() {
+        for (Node node : graph.nodes) {
+            node.selected = false;
+        }
+        for (Node node : selected) {
+            node.selected = true;
+        }
+    }
+
     @Override
     public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         Matrix3x2fStack pose = guiGraphics.pose();
@@ -259,10 +306,10 @@ public class GraphScreen extends Screen {
 
         Vector2f scaledPos = panning.getScaledMousePos(mouseX, mouseY);
 
-        Node currentHovered = selectedNode;
-        for (Node node : graph.nodes) {
+        Node currentHovered = null;
+        for (Node node : graph.nodes.reversed()) {
             node.updatePositions(graph.wires);
-            if (currentHovered == null) {
+            if (currentHovered == null && !isDragSelecting) {
                 currentHovered = node.getHoveredNode(scaledPos.x, scaledPos.y);
             }
         }
@@ -275,6 +322,10 @@ public class GraphScreen extends Screen {
             if (hoveredNode != null) {
                 hoveredNode.hovered = true;
             }
+        }
+
+        if (isDragSelecting) {
+            guiGraphics.fill(dragPosition.x, dragPosition.y, Math.round(scaledPos.x), Math.round(scaledPos.y), 128 << 24);
         }
 
         for (Wire wire : graph.wires.values()) {

@@ -127,6 +127,10 @@ public abstract class Node {
         return mouseX < position.x || mouseY < position.y || mouseX > position.x + width || mouseY > position.y + height;
     }
 
+    public boolean inBounds(float x1, float y1, float x2, float y2) {
+        return position.x < Math.max(x1, x2) && position.x + width > Math.min(x1, x2) && position.y < Math.max(y1, y2) && position.y + height > Math.min(y1, y2);
+    }
+
     public Port hoveredPort(float mouseX, float mouseY, HashMap<InputPort, Wire> wires) {
         for (InputPort inputPort : inputPorts) {
             Port port = inputPort.hoveredPort(mouseX, mouseY, wires);
