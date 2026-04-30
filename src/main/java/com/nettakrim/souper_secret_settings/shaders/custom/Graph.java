@@ -35,6 +35,10 @@ public abstract class Graph {
         private OrganisedGraph(Graph graph) throws ShaderManager.CompilationException {
             ArrayList<OrganisedNode> backwardsNodes = new ArrayList<>(graph.nodes.size());
 
+            for (Node node : graph.nodes) {
+                node.clearCompileCaches();
+            }
+
             // find all ends of the graph to make sure every relevant bit is visited, but excess nodes arent
             // this does mean weird fragments with a separate input/output chain will be included, which are probably often incorrect. but thats fine
             for (Node node : graph.nodes) {
@@ -96,6 +100,7 @@ public abstract class Graph {
 
             OrganisedNode organisedNode = new OrganisedNode(node, wires, depth);
             block.add(organisedNode);
+            node.includedInLastCompile = true;
 
             // recursively add all sources of the node
             // it is desirable that this is depth first, since it means chains are likely to be continuous in memory

@@ -90,8 +90,8 @@ public abstract class ValueNode extends Node {
     }
 
     @Override
-    public void clearCaches() {
-        super.clearCaches();
+    public void clearUICaches() {
+        super.clearUICaches();
         widgets.clear();
     }
 }

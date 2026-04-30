@@ -23,6 +23,9 @@ public abstract class Node {
     protected static final int baseHeight = 15;
     protected static final int footerHeight = 2;
 
+    public boolean includedInLastCompile = false;
+    public boolean selected;
+
     public void updatePositions(HashMap<InputPort, Wire> wires) {
         height = baseHeight;
 
@@ -51,7 +54,7 @@ public abstract class Node {
     }
 
     public void renderNode(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SoupGui.BUTTON_TEXTURES.get(true, false), position.x, position.y, width, height, -1);
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SoupGui.BUTTON_TEXTURES.get(includedInLastCompile, selected || !outside(mouseX, mouseY)), position.x, position.y, width, height, -1);
 
         guiGraphics.textRenderer().accept(position.x + 3, position.y + 3, getTitle());
 
@@ -169,10 +172,19 @@ public abstract class Node {
         }
     }
 
-    public void clearCaches() {
+    public void clearUICaches() {
         for (InputPort inputPort : inputPorts) {
             if (inputPort.docked != null) {
-                inputPort.docked.clearCaches();
+                inputPort.docked.clearUICaches();
+            }
+        }
+    }
+
+    public void clearCompileCaches() {
+        includedInLastCompile = false;
+        for (InputPort inputPort : inputPorts) {
+            if (inputPort.docked != null) {
+                inputPort.docked.clearCompileCaches();
             }
         }
     }

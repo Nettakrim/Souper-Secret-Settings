@@ -41,14 +41,14 @@ public class GraphScreen extends Screen {
         panning.setSize(width, height);
         addRenderableWidget(creationMenu);
         for (Node node : graph.nodes) {
-            node.clearCaches();
+            node.clearUICaches();
         }
     }
 
     @Override
     public void onClose() {
         for (Node node : graph.nodes) {
-            node.clearCaches();
+            node.clearUICaches();
         }
         minecraft.setScreen(parent);
     }
