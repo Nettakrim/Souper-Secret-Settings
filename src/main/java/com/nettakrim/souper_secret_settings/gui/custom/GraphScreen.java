@@ -73,6 +73,8 @@ public class GraphScreen extends Screen {
             return true;
         }
 
+        setFocused(null);
+
         if (mouseButtonEvent.button() == 0) {
             creationMenu.setActive(false);
 
@@ -106,6 +108,11 @@ public class GraphScreen extends Screen {
                     selected.add(grabbed);
                     updateSelectedNodes();
                 }
+
+                // move nodes on top but maintain their relative order
+                // this will also add a previously docked grabbed node to the list of nodes
+                graph.nodes.removeAll(selected);
+                graph.nodes.addAll(selected);
             } else {
                 isDragSelecting = true;
                 selected.clear();
@@ -119,10 +126,6 @@ public class GraphScreen extends Screen {
         if (mouseButtonEvent.button() == 1) {
             creationMenu.init(graph.getCreationRoot(), mouseButtonEvent);
             creationMenu.setActive(true);
-        }
-
-        if (mouseButtonEvent.button() != 2) {
-            setFocused(null);
         }
 
         return false;
@@ -150,6 +153,7 @@ public class GraphScreen extends Screen {
 
         if (selected.size() == 1) {
             drop((float)mouseButtonEvent.x(), (float)mouseButtonEvent.y(), selected.getFirst());
+            selected.getFirst().selected = false; // docked nodes wont get their selectedness cleared by updateSelectedNodes()
             selected.clear();
             updateSelectedNodes();
             return true;
@@ -233,8 +237,6 @@ public class GraphScreen extends Screen {
             if (grabbed != null) {
                 // grabbed node will be removed from docks
                 // it always needs to be reinserted, so that it renders on top
-                graph.nodes.remove(grabbed);
-                graph.nodes.add(grabbed);
                 return grabbed;
             }
         }
