@@ -124,7 +124,11 @@ public class SuggestionEditBoxWidget extends DraggableEditBoxWidget {
             if (!currentSuggestions.isEmpty()) {
                 if (keyInput.key() == 258) {
                     String text = getValue();
-                    setValue(text + currentSuggestions.get(currentSuggestionIndex).substring(text.length()));
+                    String addition = currentSuggestions.get(currentSuggestionIndex).substring(text.length());
+                    if (addition.isEmpty()) {
+                        return false;
+                    }
+                    setValue(text + addition);
                     moveCursorToEnd(false);
                     return true;
                 } else if (keyInput.key() == 265) {
