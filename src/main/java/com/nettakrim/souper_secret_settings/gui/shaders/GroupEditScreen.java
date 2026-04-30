@@ -1,15 +1,14 @@
 package com.nettakrim.souper_secret_settings.gui.shaders;
 
+import com.nettakrim.souper_secret_settings.gui.*;
 import dev.dannytaylor.luminance.client.data.ClientData;
 import dev.dannytaylor.luminance.client.shaders.ShaderRegistryEntry;
 import dev.dannytaylor.luminance.client.shaders.Shaders;
 import dev.dannytaylor.luminance.common.util.Couple;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
-import com.nettakrim.souper_secret_settings.gui.ListScreen;
-import com.nettakrim.souper_secret_settings.gui.ListWidget;
-import com.nettakrim.souper_secret_settings.gui.SoupGui;
-import com.nettakrim.souper_secret_settings.gui.SuggestionEditBoxWidget;
 import com.nettakrim.souper_secret_settings.shaders.Group;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,9 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 
 public class GroupEditScreen extends ListScreen<String> {
     protected final ShaderAdditionScreen groupScreen;
@@ -40,7 +36,7 @@ public class GroupEditScreen extends ListScreen<String> {
 
     @Override
     protected int createHeader() {
-        addRenderableWidget(Button.builder(Component.translatable("gui.back"), (widget) -> onClose()).bounds(SoupGui.listGap, SoupGui.listGap, SoupGui.headerWidthSmall, 20).build());
+        addRenderableWidget(new SoupButtonWidget(Component.translatable("gui.back"), (widget) -> onClose(), SoupGui.listGap, SoupGui.listGap, SoupGui.headerWidthSmall, 20));
 
         nameWidget = new SuggestionEditBoxWidget(SoupGui.listGap, SoupGui.headerWidthSmall, 20, Component.literal("name"), false);
         nameWidget.setY(SoupGui.listGap*2 + 20);
@@ -54,7 +50,7 @@ public class GroupEditScreen extends ListScreen<String> {
         if (!nameWidget.active) {
             nameWidget.setEditable(false);
             nameWidget.setWidth((nameWidget.getWidth()-SoupGui.listGap)/2);
-            addRenderableWidget(Button.builder(SouperSecretSettingsClient.translate("gui.group_reset"), (widget) -> reset()).bounds(SoupGui.listGap+nameWidget.getWidth()+SoupGui.listGap, nameWidget.getY(), nameWidget.getWidth(), 20).build());
+            addRenderableWidget(new SoupButtonWidget(SouperSecretSettingsClient.translate("gui.group_reset"), (widget) -> reset(), SoupGui.listGap+nameWidget.getWidth()+SoupGui.listGap, nameWidget.getY(), nameWidget.getWidth(), 20));
         }
 
         return SoupGui.listStart;

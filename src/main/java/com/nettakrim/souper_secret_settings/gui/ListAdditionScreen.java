@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.network.chat.Component;
 
@@ -38,13 +37,13 @@ public class ListAdditionScreen<V> extends ScrollScreen {
     }
 
     protected int createHeader() {
-        addRenderableWidget(Button.builder(Component.translatable("gui.back"), (widget) -> onClose()).bounds(SoupGui.listGap, SoupGui.listGap, SoupGui.headerWidthSmall, 20).build());
+        addRenderableWidget(new SoupButtonWidget(Component.translatable("gui.back"), (widget) -> onClose(), SoupGui.listGap, SoupGui.listGap, SoupGui.headerWidthSmall, 20));
 
         return 20+SoupGui.listGap*2;
     }
 
     protected void createAdditionButton(String addition) {
-        AdditionButton additionButton = new AdditionButton(addition, listScreen.getAdditionText(addition), SoupGui.listX, SoupGui.listWidth, 20, this::add);
+        AdditionButton additionButton = new AdditionButton(addition, listScreen.getAdditionText(addition), this::add, SoupGui.listWidth, 20, SoupGui.listX);
         if (listScreen.canRemoveAddition(addition)) {
             additionButton.addRemoveListener(this::removeAddition);
         }
@@ -75,9 +74,9 @@ public class ListAdditionScreen<V> extends ScrollScreen {
     }
 
     @Override
-    public void renderScrollables(GuiGraphics context, int mouseX, int mouseY, float delta) {
+    public void renderScrollables(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         for (Renderable drawable : children) {
-            drawable.render(context, mouseX, mouseY, delta);
+            drawable.render(guiGraphics, mouseX, mouseY, delta);
         }
     }
 

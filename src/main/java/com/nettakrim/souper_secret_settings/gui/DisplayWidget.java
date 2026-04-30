@@ -3,7 +3,6 @@ package com.nettakrim.souper_secret_settings.gui;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import java.util.List;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.ARGB;
 import org.jetbrains.annotations.NotNull;
@@ -18,13 +17,13 @@ public abstract class DisplayWidget extends CollapseWidget {
     }
 
     @Override
-    protected void renderWidget(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
-        context.textRenderer().acceptScrollingWithDefaultCenter(this.getMessage(), this.getX()+2, this.getX()+this.getWidth()-displayWidth-2, this.getY(), this.getY()+20);
+    protected void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        guiGraphics.textRenderer().acceptScrollingWithDefaultCenter(this.getMessage(), this.getX()+2, this.getX()+this.getWidth()-displayWidth-2, this.getY(), this.getY()+20);
 
-        super.renderWidget(context, mouseX, mouseY, delta);
+        super.renderWidget(guiGraphics, mouseX, mouseY, delta);
 
         List<Float> currentDisplay = getDisplayFloats();
-        drawIndicator(context, currentDisplay);
+        drawIndicator(guiGraphics, currentDisplay);
 
         if (isHovered && mouseX > this.getX()+this.getWidth()-displayWidth-2) {
             SouperSecretSettingsClient.soupGui.setHoverText(getHoverText(currentDisplay));
@@ -57,11 +56,11 @@ public abstract class DisplayWidget extends CollapseWidget {
         return Component.nullToEmpty(stringBuilder.toString());
     }
 
-    protected void drawIndicator(GuiGraphics context, List<Float> currentDisplay) {
+    protected void drawIndicator(GuiGraphics guiGraphics, List<Float> currentDisplay) {
         int x = getX()+getWidth();
         int y = getY();
 
-        context.fill(x, y, x-displayWidth, y+20, getColor(currentDisplay));
+        guiGraphics.fill(x, y, x-displayWidth, y+20, getColor(currentDisplay));
     }
 
     protected int getColor(List<Float> values) {
@@ -110,11 +109,6 @@ public abstract class DisplayWidget extends CollapseWidget {
         }
 
         return ARGB.colorFromFloat(1f, r, g, b);
-    }
-
-    @Override
-    protected void updateWidgetNarration(@NotNull NarrationElementOutput builder) {
-
     }
 
     protected abstract List<Float> getDisplayFloats();

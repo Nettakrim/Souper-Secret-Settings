@@ -52,14 +52,14 @@ public class ConfigWidget extends ParameterTextWidget {
     }
 
     @Override
-    public void renderWidget(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
-        super.renderWidget(context, mouseX, mouseY, delta);
+    public void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        super.renderWidget(guiGraphics, mouseX, mouseY, delta);
 
         if (!children.isEmpty()) {
-            context.fill(getX(), getY() + getHeight(), getX() + getWidth() / 3, getY() + getHeight() + 20 * children.size(), ARGB.colorFromFloat(0.4f, 0, 0, 0));
+            guiGraphics.fill(getX(), getY() + getHeight(), getX() + getWidth() / 3, getY() + getHeight() + 20 * children.size(), ARGB.colorFromFloat(0.4f, 0, 0, 0));
 
             for (ConfigValueWidget child : children) {
-                child.renderWidget(context, mouseX, mouseY, delta);
+                child.renderWidget(guiGraphics, mouseX, mouseY, delta);
             }
         }
     }

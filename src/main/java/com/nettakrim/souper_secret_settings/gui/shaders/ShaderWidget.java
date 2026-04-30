@@ -58,8 +58,8 @@ public class ShaderWidget extends ListWidget {
     }
 
     @Override
-    protected void renderWidget(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
-        super.renderWidget(context, mouseX, mouseY, delta);
+    protected void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        super.renderWidget(guiGraphics, mouseX, mouseY, delta);
         if (shaderData.active) {
             OverrideManager.currentShaderIndex++;
         }

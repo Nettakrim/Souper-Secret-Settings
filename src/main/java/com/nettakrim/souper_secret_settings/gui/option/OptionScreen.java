@@ -18,7 +18,6 @@ import java.util.function.Consumer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.screens.options.controls.KeyBindsScreen;
 import net.minecraft.commands.arguments.item.ItemInput;
@@ -55,9 +54,8 @@ public class OptionScreen extends ScrollScreen {
         widgets.clear();
 
         widgets.add(new StringWidget(SoupGui.listX, 0, widgetWidth, 8, SouperSecretSettingsClient.translate("option.gui.main"), ClientData.minecraft.font));
-        widgets.add(new CycleButton(SoupGui.listX, widgetWidth,
-                (direction) -> SouperSecretSettingsClient.soupData.config.disableState = CycleButton.cycleInt(SouperSecretSettingsClient.soupData.config.disableState + direction, 2),
-                () -> SouperSecretSettingsClient.translate("option.gui.toggle."+SouperSecretSettingsClient.soupData.config.disableState))
+        widgets.add(new CycleButton(() -> SouperSecretSettingsClient.translate("option.gui.toggle."+SouperSecretSettingsClient.soupData.config.disableState), (direction) -> SouperSecretSettingsClient.soupData.config.disableState = CycleButton.cycleInt(SouperSecretSettingsClient.soupData.config.disableState + direction, 2), widgetWidth, SoupGui.listX
+                )
         );
         AbstractSliderButton sliderWidget = new SoupAlphaSlider(SoupGui.listX, 0, widgetWidth, 20, Uniforms.getRawAlpha() / 100.0F, () -> Uniforms.updatingAlpha = true);
         widgets.add(sliderWidget);
@@ -109,21 +107,18 @@ public class OptionScreen extends ScrollScreen {
                     return widget;
                 })
         );
-        widgets.add(new CycleButton(SoupGui.listX, widgetWidth,
-                (direction) -> SouperSecretSettingsClient.soupData.config.randomSound = !SouperSecretSettingsClient.soupData.config.randomSound,
-                () -> SouperSecretSettingsClient.translate("option.gui.sound."+(SouperSecretSettingsClient.soupData.config.randomSound ? "on" : "off")))
+        widgets.add(new CycleButton(() -> SouperSecretSettingsClient.translate("option.gui.sound."+(SouperSecretSettingsClient.soupData.config.randomSound ? "on" : "off")), (direction) -> SouperSecretSettingsClient.soupData.config.randomSound = !SouperSecretSettingsClient.soupData.config.randomSound, widgetWidth, SoupGui.listX
+                )
         );
 
         widgets.add(new StringWidget(SoupGui.listX, 0, widgetWidth, 8, SouperSecretSettingsClient.translate("option.gui.misc"), ClientData.minecraft.font));
-        widgets.add(Button.builder(SouperSecretSettingsClient.translate("option.gui.luminance"), (buttonWidget) -> ClientData.minecraft.setScreen(new ConfigScreen(this))).bounds(SoupGui.listX, 0, widgetWidth, 20).build());
-        widgets.add(Button.builder(SouperSecretSettingsClient.translate("option.gui.keybinds"), (buttonWidget) -> ClientData.minecraft.setScreen(new KeyBindsScreen(this, ClientData.minecraft.options))).bounds(SoupGui.listX, 0, widgetWidth, 20).build());
-        widgets.add(new CycleButton(SoupGui.listX, widgetWidth,
-                (direction) -> SouperSecretSettingsClient.soupData.config.messageFilter = CycleButton.cycleInt(SouperSecretSettingsClient.soupData.config.messageFilter - direction, 2),
-                () -> SouperSecretSettingsClient.translate("option.gui.filter."+SouperSecretSettingsClient.soupData.config.messageFilter))
+        widgets.add(new SoupButtonWidget(SouperSecretSettingsClient.translate("option.gui.luminance"), (buttonWidget) -> ClientData.minecraft.setScreen(new ConfigScreen(this)), SoupGui.listX, 0, widgetWidth, 20));
+        widgets.add(new SoupButtonWidget(SouperSecretSettingsClient.translate("option.gui.keybinds"), (buttonWidget) -> ClientData.minecraft.setScreen(new KeyBindsScreen(this, ClientData.minecraft.options)), SoupGui.listX, 0, widgetWidth, 20));
+        widgets.add(new CycleButton(() -> SouperSecretSettingsClient.translate("option.gui.filter."+SouperSecretSettingsClient.soupData.config.messageFilter), (direction) -> SouperSecretSettingsClient.soupData.config.messageFilter = CycleButton.cycleInt(SouperSecretSettingsClient.soupData.config.messageFilter - direction, 2), widgetWidth, SoupGui.listX
+                )
         );
-        widgets.add(new CycleButton(SoupGui.listX, widgetWidth,
-                (direction) -> SouperSecretSettingsClient.soupData.config.warning = !SouperSecretSettingsClient.soupData.config.warning,
-                () -> SouperSecretSettingsClient.translate("option.gui.warning."+(SouperSecretSettingsClient.soupData.config.warning ? "on" : "off")))
+        widgets.add(new CycleButton(() -> SouperSecretSettingsClient.translate("option.gui.warning."+(SouperSecretSettingsClient.soupData.config.warning ? "on" : "off")), (direction) -> SouperSecretSettingsClient.soupData.config.warning = !SouperSecretSettingsClient.soupData.config.warning, widgetWidth, SoupGui.listX
+                )
         );
         widgets.add(new LabelledWidget(SoupGui.listX, widgetWidth, SouperSecretSettingsClient.translate("option.gui.undo_limit"),
                 (x, width) -> {
@@ -168,9 +163,9 @@ public class OptionScreen extends ScrollScreen {
     }
 
     @Override
-    protected void renderScrollables(GuiGraphics context, int mouseX, int mouseY, float delta) {
+    protected void renderScrollables(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         for (AbstractWidget widget : widgets) {
-            widget.render(context, mouseX, mouseY, delta);
+            widget.render(guiGraphics, mouseX, mouseY, delta);
         }
     }
 
@@ -216,8 +211,8 @@ public class OptionScreen extends ScrollScreen {
         }
 
         @Override
-        public void renderWidget(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
-            super.renderWidget(context, mouseX, mouseY, delta);
+        public void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+            super.renderWidget(guiGraphics, mouseX, mouseY, delta);
             if (isHovered) {
                 SouperSecretSettingsClient.soupGui.setHoverText(SouperSecretSettingsClient.translate("option.gui.alpha", Keybindings.adjustAlpha.getTranslatedKeyMessage()));
             }

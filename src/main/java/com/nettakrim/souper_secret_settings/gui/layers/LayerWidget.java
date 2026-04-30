@@ -5,6 +5,7 @@ import com.nettakrim.souper_secret_settings.actions.LayerRenameAction;
 import com.nettakrim.souper_secret_settings.actions.ShaderLoadAction;
 import com.nettakrim.souper_secret_settings.gui.ListScreen;
 import com.nettakrim.souper_secret_settings.gui.ListWidget;
+import com.nettakrim.souper_secret_settings.gui.SoupButtonWidget;
 import com.nettakrim.souper_secret_settings.gui.SuggestionEditBoxWidget;
 import com.nettakrim.souper_secret_settings.shaders.ShaderLayer;
 import com.nettakrim.souper_secret_settings.shaders.Toggleable;
@@ -35,27 +36,27 @@ public class LayerWidget extends ListWidget {
     }
 
     @Override
-    protected void renderWidget(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
-        super.renderWidget(context, mouseX, mouseY, delta);
+    protected void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        super.renderWidget(guiGraphics, mouseX, mouseY, delta);
 
         if (!expanded) {
             return;
         }
-        loadButton.render(context, mouseX, mouseY, delta);
+        loadButton.render(guiGraphics, mouseX, mouseY, delta);
 
         Component[] info = layer.getInfo();
         int infoPos = this.getY()+collapseHeight - info.length*infoHeight - 1;
         for (Component text : info) {
             int next = infoPos + infoHeight;
-            context.textRenderer().acceptScrollingWithDefaultCenter(text.copy().setStyle(Style.EMPTY.withColor((this.active ? 16777215 : 10526880) | Mth.ceil(this.alpha * 255.0F) << 24)), this.getX(), this.getX() + this.getWidth(), infoPos, next);
+            guiGraphics.textRenderer().acceptScrollingWithDefaultCenter(text.copy().setStyle(Style.EMPTY.withColor((this.active ? 16777215 : 10526880) | Mth.ceil(this.alpha * 255.0F) << 24)), this.getX(), this.getX() + this.getWidth(), infoPos, next);
             infoPos = next;
         }
     }
 
     @Override
     protected void createChildren(int x, int width) {
-        saveButton = Button.builder(SouperSecretSettingsClient.translate("gui.save"), (buttonWidget) -> save()).bounds(x,0,width/2,20).build();
-        loadButton = Button.builder(SouperSecretSettingsClient.translate("gui.load"), (buttonWidget) -> load()).bounds(x + width/2,0,width/2,20).build();
+        saveButton = new SoupButtonWidget(SouperSecretSettingsClient.translate("gui.save"), (buttonWidget) -> save(), x,0,width/2,20);
+        loadButton = new SoupButtonWidget(SouperSecretSettingsClient.translate("gui.load"), (buttonWidget) -> load(), x + width/2,0,width/2,20);
 
         updateDataButtons();
 

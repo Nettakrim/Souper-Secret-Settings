@@ -52,11 +52,11 @@ public class ConfigValueWidget extends AbstractWidget {
     }
 
     @Override
-    public void renderWidget(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
+    public void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         if (visible) {
-            renderScrollingStringOverContents(context.textRenderer(), getMessage(), 2);
+            renderScrollingStringOverContents(guiGraphics.textRenderer(), getMessage(), 2);
             for (SuggestionEditBoxWidget textFieldWidget : children) {
-                textFieldWidget.renderWidget(context, mouseX, mouseY, delta);
+                textFieldWidget.renderWidget(guiGraphics, mouseX, mouseY, delta);
             }
         }
     }

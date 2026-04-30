@@ -5,7 +5,6 @@ import dev.dannytaylor.luminance.client.shaders.interfaces.PostPassInterface;
 import com.nettakrim.souper_secret_settings.gui.ListScreen;
 import com.nettakrim.souper_secret_settings.shaders.ChainData;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.PostPass;
 import net.minecraft.network.chat.Component;
@@ -50,22 +49,22 @@ public class PassWidget extends CollapseWidget {
     }
 
     @Override
-    protected void renderWidget(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
+    protected void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         int y = getY();
         Style style = Style.EMPTY.withColor((this.active ? 16777215 : 10526880) | Mth.ceil(this.alpha * 255.0F) << 24);
         if (isFirstCustom) {
-            context.fill(getX(), y, getX() + getWidth(), y+firstCustomHeight, ARGB.colorFromFloat(0.4f, 0, 0, 0));
-            context.textRenderer().acceptScrollingWithDefaultCenter(Component.literal(chain.getPath()).setStyle(style), this.getX()+2, this.getX()+this.getWidth()-2, y, y+firstCustomHeight);
+            guiGraphics.fill(getX(), y, getX() + getWidth(), y+firstCustomHeight, ARGB.colorFromFloat(0.4f, 0, 0, 0));
+            guiGraphics.textRenderer().acceptScrollingWithDefaultCenter(Component.literal(chain.getPath()).setStyle(style), this.getX()+2, this.getX()+this.getWidth()-2, y, y+firstCustomHeight);
             y += firstCustomHeight;
         }
 
-        context.textRenderer().acceptScrollingWithDefaultCenter(this.getMessage().copy().setStyle(style), this.getX()+2, this.getX()+this.getWidth()-2, y, y+20);
+        guiGraphics.textRenderer().acceptScrollingWithDefaultCenter(this.getMessage().copy().setStyle(style), this.getX()+2, this.getX()+this.getWidth()-2, y, y+20);
 
         if (expanded) {
-            context.fill(getX(), getY() + getCollapseHeight(), getX() + getWidth(), y+20, ARGB.colorFromFloat(0.2f, 0, 0, 0));
+            guiGraphics.fill(getX(), getY() + getCollapseHeight(), getX() + getWidth(), y+20, ARGB.colorFromFloat(0.2f, 0, 0, 0));
         }
 
-        super.renderWidget(context, mouseX, mouseY, delta);
+        super.renderWidget(guiGraphics, mouseX, mouseY, delta);
     }
 
     @Override
@@ -81,11 +80,6 @@ public class PassWidget extends CollapseWidget {
         });
 
         if (children.isEmpty()) active = false;
-    }
-
-    @Override
-    protected void updateWidgetNarration(@NotNull NarrationElementOutput builder) {
-
     }
 
     @Override

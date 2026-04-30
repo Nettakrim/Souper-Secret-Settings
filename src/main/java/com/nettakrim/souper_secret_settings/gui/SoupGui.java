@@ -23,7 +23,12 @@ import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.NotNull;
 
 public class SoupGui {
-    public static final WidgetSprites BUTTON_TEXTURES = new WidgetSprites(Identifier.withDefaultNamespace("widget/button"), Identifier.withDefaultNamespace("widget/button_disabled"), Identifier.withDefaultNamespace("widget/button_highlighted"));
+    public static final WidgetSprites BUTTON_TEXTURES = new WidgetSprites(
+            Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "button"),
+            Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "button_disabled"),
+            Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "button_highlighted"),
+            Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "button_disabled_highlighted")
+    );
 
     private final List<AbstractWidget> header;
 
@@ -51,16 +56,16 @@ public class SoupGui {
         int smallWidth = 12;
 
         x = listGap;
-        x += addHeaderButton(Button.builder(Component.empty(),  (widget) -> open(ScreenType.LAYERS, false)).bounds(x, listGap, (mainWidth*3+listGap*2)-(smallWidth*4+listGap*3)-listGap, 20).build());
-        x += addHeaderButton(new HoverButtonWidget(x, listGap, smallWidth, 20, SouperSecretSettingsClient.translate("gui.undo"), null, (widget) -> undo()));
-        x += addHeaderButton(new HoverButtonWidget(x, listGap, smallWidth, 20, SouperSecretSettingsClient.translate("gui.redo"), null, (widget) -> redo()));
-        x += addHeaderButton(Button.builder(SouperSecretSettingsClient.soupRenderer.getRenderLocationText(), SouperSecretSettingsClient.soupRenderer::cycleRenderLocation).bounds(x, listGap, smallWidth, 20).build());
-             addHeaderButton(Button.builder(SouperSecretSettingsClient.translate("gui.config"), (widget) -> open(ScreenType.OPTION, false)).bounds(x, listGap, smallWidth, 20).build());
+        x += addHeaderButton(new SoupButtonWidget(Component.empty(),  (widget) -> open(ScreenType.LAYERS, false), x, listGap, (mainWidth*3+listGap*2)-(smallWidth*4+listGap*3)-listGap, 20));
+        x += addHeaderButton(new HoverButtonWidget(SouperSecretSettingsClient.translate("gui.undo"), null, (widget) -> undo(), x, listGap, smallWidth, 20));
+        x += addHeaderButton(new HoverButtonWidget(SouperSecretSettingsClient.translate("gui.redo"), null, (widget) -> redo(), x, listGap, smallWidth, 20));
+        x += addHeaderButton(new SoupButtonWidget(SouperSecretSettingsClient.soupRenderer.getRenderLocationText(), SouperSecretSettingsClient.soupRenderer::cycleRenderLocation, x, listGap, smallWidth, 20));
+             addHeaderButton(new SoupButtonWidget(SouperSecretSettingsClient.translate("gui.config"), (widget) -> open(ScreenType.OPTION, false), x, listGap, smallWidth, 20));
 
         x = listGap;
-        x += addHeaderButton(Button.builder(SouperSecretSettingsClient.translate("gui.shaders"),    (widget) -> open(ScreenType.SHADERS   , false)).bounds(x, listGap*2 + 20, mainWidth, 20).build());
-        x += addHeaderButton(Button.builder(SouperSecretSettingsClient.translate("gui.modifiers"),  (widget) -> open(ScreenType.MODIFIERS , false)).bounds(x, listGap*2 + 20, mainWidth, 20).build());
-             addHeaderButton(Button.builder(SouperSecretSettingsClient.translate("gui.parameters"), (widget) -> open(ScreenType.PARAMETERS, false)).bounds(x, listGap*2 + 20, mainWidth, 20).build());
+        x += addHeaderButton(new SoupButtonWidget(SouperSecretSettingsClient.translate("gui.shaders"),    (widget) -> open(ScreenType.SHADERS   , false), x, listGap*2 + 20, mainWidth, 20));
+        x += addHeaderButton(new SoupButtonWidget(SouperSecretSettingsClient.translate("gui.modifiers"),  (widget) -> open(ScreenType.MODIFIERS , false), x, listGap*2 + 20, mainWidth, 20));
+             addHeaderButton(new SoupButtonWidget(SouperSecretSettingsClient.translate("gui.parameters"), (widget) -> open(ScreenType.PARAMETERS, false), x, listGap*2 + 20, mainWidth, 20));
 
         currentScroll = new int[ScreenType.values().length];
     }
@@ -158,13 +163,13 @@ public class SoupGui {
         currentHoverText = text;
     }
 
-    public void drawCurrentHoverText(GuiGraphics context, int mouseX, int mouseY) {
+    public void drawCurrentHoverText(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         if (currentHoverText == null) {
             return;
         }
-        int offset = (mouseY > 30 && context.containsPointInScissor(mouseX, mouseY-17)) ? -13 : 13;
-        context.fill(mouseX-2, mouseY+offset-2, mouseX + ClientData.minecraft.font.width(currentHoverText)+2, mouseY+offset+10, 128 << 24);
-        context.drawString(ClientData.minecraft.font, currentHoverText, mouseX,  mouseY+offset, -1, true);
+        int offset = (mouseY > 30 && guiGraphics.containsPointInScissor(mouseX, mouseY-17)) ? -13 : 13;
+        guiGraphics.fill(mouseX-2, mouseY+offset-2, mouseX + ClientData.minecraft.font.width(currentHoverText)+2, mouseY+offset+10, 128 << 24);
+        guiGraphics.drawString(ClientData.minecraft.font, currentHoverText, mouseX,  mouseY+offset, -1, true);
         currentHoverText = null;
     }
 

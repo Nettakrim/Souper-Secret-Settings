@@ -21,17 +21,17 @@ public abstract class ScrollScreen extends Screen {
     public abstract void setScroll(int scroll);
 
     @Override
-    public void render(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
-        super.render(context, mouseX, mouseY, delta);
+    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        super.render(guiGraphics, mouseX, mouseY, delta);
 
-        context.enableScissor(SoupGui.listX, scrollWidget.getY(), width, height);
-        renderScrollables(context, mouseX, mouseY, delta);
-        context.disableScissor();
+        guiGraphics.enableScissor(SoupGui.listX, scrollWidget.getY(), width, height);
+        renderScrollables(guiGraphics, mouseX, mouseY, delta);
+        guiGraphics.disableScissor();
 
-        SouperSecretSettingsClient.soupGui.drawCurrentHoverText(context, mouseX, mouseY);
+        SouperSecretSettingsClient.soupGui.drawCurrentHoverText(guiGraphics, mouseX, mouseY);
     }
 
-    protected abstract void renderScrollables(GuiGraphics context, int mouseX, int mouseY, float delta);
+    protected abstract void renderScrollables(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta);
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
@@ -40,10 +40,10 @@ public abstract class ScrollScreen extends Screen {
     }
 
     @Override
-    protected void renderBlurredBackground(@NotNull GuiGraphics context) {}
+    protected void renderBlurredBackground(@NotNull GuiGraphics guiGraphics) {}
 
     @Override
-    protected void renderMenuBackground(@NotNull GuiGraphics context, int x, int y, int width, int height) {}
+    protected void renderMenuBackground(@NotNull GuiGraphics guiGraphics, int x, int y, int width, int height) {}
 
     @Override
     public boolean isPauseScreen() {return false;}

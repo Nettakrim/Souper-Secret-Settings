@@ -291,10 +291,10 @@ public class GraphScreen extends Screen {
     }
 
     @Override
-    protected void renderBlurredBackground(@NotNull GuiGraphics context) {}
+    protected void renderBlurredBackground(@NotNull GuiGraphics guiGraphics) {}
 
     @Override
-    protected void renderMenuBackground(@NotNull GuiGraphics context, int x, int y, int width, int height) {}
+    protected void renderMenuBackground(@NotNull GuiGraphics guiGraphics, int x, int y, int width, int height) {}
 
     @Override
     public boolean isPauseScreen() {return false;}

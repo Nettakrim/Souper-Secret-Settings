@@ -28,14 +28,14 @@ public class ScrollWidget extends AbstractWidget {
     }
 
     @Override
-    protected void renderWidget(GuiGraphics context, int mouseX, int mouseY, float delta) {
-        context.blitSprite(RenderPipelines.GUI_TEXTURED, SCROLLER_BACKGROUND_TEXTURE, getX(), getY(), getWidth(), getHeight(), ARGB.white(alpha));
+    protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SCROLLER_BACKGROUND_TEXTURE, getX(), getY(), getWidth(), getHeight(), ARGB.white(alpha));
 
         int barHeight = (int)(getBarHeight()*getHeight());
         int y = scrollHeight > 0 ? (int)Math.round(scrollY/scrollHeight * (getHeight()-barHeight)) : 0;
 
-        context.blitSprite(RenderPipelines.GUI_TEXTURED, SCROLLER_TEXTURE, getX(), y + getY(), getWidth(), barHeight, ARGB.white(alpha));
-        context.blitSprite(RenderPipelines.GUI_TEXTURED, SCROLLER_TEXTURE, getX(), y + getY() + Mth.floor(barHeight/2f), getWidth(), 1, ARGB.color(255, 128, 128, 128));
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SCROLLER_TEXTURE, getX(), y + getY(), getWidth(), barHeight, ARGB.white(alpha));
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SCROLLER_TEXTURE, getX(), y + getY() + Mth.floor(barHeight/2f), getWidth(), 1, ARGB.color(255, 128, 128, 128));
     }
 
     @Override

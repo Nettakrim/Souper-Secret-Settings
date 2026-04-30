@@ -22,8 +22,8 @@ public class GroupEntryWidget extends ListWidget {
     }
 
     @Override
-    protected void renderWidget(@NotNull GuiGraphics context, int mouseX, int mouseY, float tickDelta) {
-        super.renderWidget(context, mouseX, mouseY, tickDelta);
+    protected void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float tickDelta) {
+        super.renderWidget(guiGraphics, mouseX, mouseY, tickDelta);
         if (isHovered) {
             SouperSecretSettingsClient.soupGui.setHoverText(this.delta == null ? SouperSecretSettingsClient.translate("gui.group_loop") : SouperSecretSettingsClient.translate("gui.group_delta", this.delta >= 0 ? "+"+this.delta : this.delta));
         }

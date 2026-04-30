@@ -92,10 +92,10 @@ public class ShaderScreen extends ListScreen<ShaderData> {
     }
 
     @Override
-    public void render(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
+    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         OverrideManager.currentShaderIndex = 0;
         ShaderTime.currentRenderLocation = SouperSecretSettingsClient.soupRenderer.getRenderLocation();
-        super.render(context, mouseX, mouseY, delta);
+        super.render(guiGraphics, mouseX, mouseY, delta);
         ShaderTime.currentRenderLocation = RenderLocations.UI;
     }
 

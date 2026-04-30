@@ -2,15 +2,15 @@ package com.nettakrim.souper_secret_settings.gui;
 
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
+import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class HoverButtonWidget extends Button {
+public class HoverButtonWidget extends SoupButtonWidget {
     protected @Nullable net.minecraft.network.chat.Component hoverText;
 
-    protected HoverButtonWidget(int x, int y, int width, int height, net.minecraft.network.chat.Component message, @Nullable net.minecraft.network.chat.Component hoverText, OnPress onPress) {
-        super(x, y, width, height, message, onPress, Button.DEFAULT_NARRATION);
+    protected HoverButtonWidget(Component message, @Nullable Component hoverText, OnPress onPress, int x, int y, int width, int height) {
+        super(message, onPress, x, y, width, height);
         this.hoverText = hoverText;
     }
 
@@ -19,17 +19,17 @@ public class HoverButtonWidget extends Button {
     }
 
     @Override
-    protected void renderContents(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
-        renderDefaultSprite(context);
-        renderText(context);
+    protected void renderContents(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float tickProgress) {
+        renderSoupSprite(guiGraphics);
+        renderText(guiGraphics);
 
         if (isHovered && hoverText != null && passesRangeCheck(mouseX, mouseY)) {
             SouperSecretSettingsClient.soupGui.setHoverText(hoverText);
         }
     }
 
-    protected void renderText(@NotNull GuiGraphics context) {
-        context.textRenderer().acceptScrollingWithDefaultCenter(getMessage(), getX(), getX()+getWidth(), getY(), getY()+getHeight());
+    protected void renderText(@NotNull GuiGraphics guiGraphics) {
+        guiGraphics.textRenderer().acceptScrollingWithDefaultCenter(getMessage(), getX(), getX()+getWidth(), getY(), getY()+getHeight());
     }
 
     protected boolean passesRangeCheck(int mouseX, int mouseY) {

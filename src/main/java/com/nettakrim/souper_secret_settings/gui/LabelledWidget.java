@@ -17,10 +17,10 @@ public class LabelledWidget extends AbstractWidget {
     }
 
     @Override
-    protected void renderWidget(GuiGraphics context, int mouseX, int mouseY, float delta) {
-        context.blitSprite(RenderPipelines.GUI_TEXTURED, SoupGui.BUTTON_TEXTURES.get(true, false), getX(), getY(), getWidth()*2, getHeight(), -1);
-        renderScrollingStringOverContents(context.textRenderer(), getMessage(), 2);
-        widget.render(context, mouseX, mouseY, delta);
+    protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SoupGui.BUTTON_TEXTURES.get(true, false), getX(), getY(), getWidth()*2, getHeight(), -1);
+        renderScrollingStringOverContents(guiGraphics.textRenderer(), getMessage(), 2);
+        widget.render(guiGraphics, mouseX, mouseY, delta);
     }
 
     @Override

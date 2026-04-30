@@ -52,7 +52,7 @@ public abstract class ListScreen<V> extends ScrollScreen {
         suggestionTextFieldWidget.setListeners(this::getAdditions, this::addAddition, matchIdentifiers());
         addRenderableWidget(suggestionTextFieldWidget);
 
-        suggestionScreenButton = Button.builder(SouperSecretSettingsClient.translate("gui.addition"), (widget) -> enterAdditionScreen()).bounds(SoupGui.listX+SoupGui.listWidth-20, 0, 20, 20).build();
+        suggestionScreenButton = new SoupButtonWidget(SouperSecretSettingsClient.translate("gui.addition"), (widget) -> enterAdditionScreen(), SoupGui.listX+SoupGui.listWidth-20, 0, 20, 20);
         addRenderableWidget(suggestionScreenButton);
 
         updateSpacing();
@@ -62,9 +62,9 @@ public abstract class ListScreen<V> extends ScrollScreen {
     }
 
     @Override
-    public void renderScrollables(GuiGraphics context, int mouseX, int mouseY, float delta) {
+    public void renderScrollables(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         for (Renderable drawable : listWidgets) {
-            drawable.render(context, mouseX, mouseY, delta);
+            drawable.render(guiGraphics, mouseX, mouseY, delta);
         }
     }
 

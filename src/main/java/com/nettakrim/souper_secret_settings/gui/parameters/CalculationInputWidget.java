@@ -17,8 +17,8 @@ public class CalculationInputWidget extends ParameterTextWidget {
     }
 
     @Override
-    public void renderWidget(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
-        super.renderWidget(context, mouseX, mouseY, delta);
-        context.textRenderer().acceptScrollingWithDefaultCenter(getMessage().copy().setStyle(Style.EMPTY.withColor((this.active ? 16777215 : 10526880) | Mth.ceil(this.alpha * 255.0F) << 24)), this.getX()-textWidth, this.getX(), this.getY(), this.getY()+20);
+    public void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        super.renderWidget(guiGraphics, mouseX, mouseY, delta);
+        guiGraphics.textRenderer().acceptScrollingWithDefaultCenter(getMessage().copy().setStyle(Style.EMPTY.withColor((this.active ? 16777215 : 10526880) | Mth.ceil(this.alpha * 255.0F) << 24)), this.getX()-textWidth, this.getX(), this.getY(), this.getY()+20);
     }
 }

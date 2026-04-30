@@ -4,16 +4,16 @@ package com.nettakrim.souper_secret_settings.gui;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.input.InputWithModifiers;
+import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 
-public class CycleButton extends Button {
+public class CycleButton extends SoupButtonWidget {
     protected final Consumer<Integer> advance;
     protected final Supplier<net.minecraft.network.chat.Component> getText;
 
-    public CycleButton(int x, int width, Consumer<Integer> advance, Supplier<net.minecraft.network.chat.Component> getText) {
-        super(x, 0, width, 20, getText.get(), (button) -> {}, Button.DEFAULT_NARRATION);
+    public CycleButton(Supplier<Component> getText, Consumer<Integer> advance, int width, int x) {
+        super(getText.get(), (button) -> {}, x, 0, width, 20);
         this.advance = advance;
         this.getText = getText;
     }
@@ -25,9 +25,9 @@ public class CycleButton extends Button {
     }
 
     @Override
-    protected void renderContents(@NotNull GuiGraphics context, int mouseX, int mouseY, float deltaTicks) {
-        renderDefaultSprite(context);
-        renderDefaultLabel(context.textRenderer());
+    protected void renderContents(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float tickProgress) {
+        renderSoupSprite(guiGraphics);
+        renderDefaultLabel(guiGraphics.textRenderer());
     }
 
     public static int cycleInt(int value, int max) {

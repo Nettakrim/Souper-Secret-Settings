@@ -6,6 +6,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
@@ -33,10 +34,10 @@ public abstract class CollapseWidget extends AbstractWidget implements ListChild
     }
 
     @Override
-    protected void renderWidget(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
+    protected void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         if (expanded) {
             for (AbstractWidget clickableWidget : children) {
-                ((Renderable)clickableWidget).render(context, mouseX, mouseY, delta);
+                ((Renderable)clickableWidget).render(guiGraphics, mouseX, mouseY, delta);
             }
         }
     }
@@ -148,4 +149,9 @@ public abstract class CollapseWidget extends AbstractWidget implements ListChild
     protected abstract boolean getStoredExpanded();
 
     protected abstract void setStoredExpanded(boolean to);
+
+    @Override
+    protected void updateWidgetNarration(@NotNull NarrationElementOutput narrationElementOutput) {
+
+    }
 }

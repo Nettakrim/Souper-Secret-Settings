@@ -50,12 +50,12 @@ public class CalculationWidget extends DisplayWidget {
     }
 
     @Override
-    protected void renderWidget(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
+    protected void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         for (ParameterTextWidget parameterTextWidget : outputs) {
-            parameterTextWidget.renderWidget(context, mouseX, mouseY, delta);
+            parameterTextWidget.renderWidget(guiGraphics, mouseX, mouseY, delta);
         }
 
-        super.renderWidget(context, mouseX, mouseY, delta);
+        super.renderWidget(guiGraphics, mouseX, mouseY, delta);
     }
 
     protected AbstractWidget createChildWidget(OverrideSource data, int i) {

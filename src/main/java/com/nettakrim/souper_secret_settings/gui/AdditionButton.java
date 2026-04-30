@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 
 public class AdditionButton extends HoverButtonWidget {
@@ -14,8 +15,8 @@ public class AdditionButton extends HoverButtonWidget {
 
     protected int dragState;
 
-    public AdditionButton(String addition, Couple<net.minecraft.network.chat.Component, net.minecraft.network.chat.Component> message, int x, int width, int height, Consumer<String> onPress) {
-        super(x, 0, width, height, message.getFirst(), message.getSecond(), (widget) -> onPress.accept(addition));
+    public AdditionButton(String addition, Couple<Component, Component> message, Consumer<String> onPress, int width, int height, int x) {
+        super(message.getFirst(), message.getSecond(), (widget) -> onPress.accept(addition), x, 0, width, height);
         this.addition = addition;
         this.onRemove = null;
         this.onEdit = null;
@@ -30,23 +31,23 @@ public class AdditionButton extends HoverButtonWidget {
     }
 
     @Override
-    protected void renderContents(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
-        super.renderContents(context, mouseX, mouseY, delta);
+    protected void renderContents(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float tickProgress) {
+        super.renderContents(guiGraphics, mouseX, mouseY, tickProgress);
 
         if (onRemove != null) {
-            context.blit(RenderPipelines.GUI_TEXTURED, ListWidget.ICON_TEXTURE, getX(), getY(), 0, 0, 10, 20, 40, 20, dragState < 0 ? ListWidget.texColWhite : ListWidget.texColBlack);
+            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ListWidget.ICON_TEXTURE, getX(), getY(), 0, 0, 10, 20, 40, 20, dragState < 0 ? ListWidget.texColWhite : ListWidget.texColBlack);
         }
 
         if (onEdit != null) {
-            context.blit(RenderPipelines.GUI_TEXTURED, ListWidget.ICON_TEXTURE, getX()+getWidth()-12, getY(), 20, 0, 10, 20, 40, 20, dragState > 0 ? ListWidget.texColWhite : ListWidget.texColBlack);
+            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ListWidget.ICON_TEXTURE, getX()+getWidth()-12, getY(), 20, 0, 10, 20, 40, 20, dragState > 0 ? ListWidget.texColWhite : ListWidget.texColBlack);
         }
     }
 
     @Override
-    protected void renderText(@NotNull GuiGraphics context) {
+    protected void renderText(@NotNull GuiGraphics guiGraphics) {
         int i = this.getX() + (onRemove == null ? 4 : 12);
         int j = this.getX() + this.getWidth() - 2;
-        context.textRenderer().acceptScrollingWithDefaultCenter(this.getMessage(), i, j, getY(), this.getY() + this.getHeight());
+        guiGraphics.textRenderer().acceptScrollingWithDefaultCenter(this.getMessage(), i, j, getY(), this.getY() + this.getHeight());
     }
 
     @Override

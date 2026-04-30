@@ -4,7 +4,6 @@ import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.actions.ToggleAction;
 import com.nettakrim.souper_secret_settings.shaders.Toggleable;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -28,21 +27,19 @@ public abstract class ListWidget extends CollapseWidget {
     }
 
     @Override
-    protected void renderWidget(@NotNull GuiGraphics context, int mouseX, int mouseY, float delta) {
-        float buttonColor = getToggleable().isActive() ? 1f : 0.5f;
+    protected void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SoupGui.BUTTON_TEXTURES.get(this.active && getToggleable().isActive(), this.isHovered()), this.getX(), this.getY(), this.getWidth(), getCollapseHeight(), -1);
 
-        context.blitSprite(RenderPipelines.GUI_TEXTURED, SoupGui.BUTTON_TEXTURES.get(this.active, this.isHoveredOrFocused()), this.getX(), this.getY(), this.getWidth(), getCollapseHeight(), ARGB.colorFromFloat(this.alpha, buttonColor, buttonColor, buttonColor));
-
-        renderScrollingStringOverContents(context.textRenderer(), getMessage().copy().setStyle(Style.EMPTY.withColor((this.active ? 16777215 : 10526880) | Mth.ceil(this.alpha * 255.0F) << 24)), 2);
-        context.blit(RenderPipelines.GUI_TEXTURED, ICON_TEXTURE, getX(), getY(), 0, 0, 10, 20, 40, 20, dragState < 0 ? texColWhite : texColBlack);
-        context.blit(RenderPipelines.GUI_TEXTURED, ICON_TEXTURE, getX()+getWidth()-10, getY(), 10, 0, 10, 20, 40, 20, dragState > 0 ? texColWhite : texColBlack);
+        renderScrollingStringOverContents(guiGraphics.textRenderer(), getMessage().copy().setStyle(Style.EMPTY.withColor((this.active ? 16777215 : 10526880) | Mth.ceil(this.alpha * 255.0F) << 24)), 2);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ICON_TEXTURE, getX(), getY(), 0, 0, 10, 20, 40, 20, dragState < 0 ? texColWhite : texColBlack);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ICON_TEXTURE, getX()+getWidth()-10, getY(), 10, 0, 10, 20, 40, 20, dragState > 0 ? texColWhite : texColBlack);
 
         int editState = getEditState();
         if (editState > 0) {
-            context.blit(RenderPipelines.GUI_TEXTURED, ICON_TEXTURE, getX()+getWidth()-20, getY(), 10 + 10*editState, 0, 10, 20, 40, 20, texColBlack);
+            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ICON_TEXTURE, getX()+getWidth()-20, getY(), 10 + 10*editState, 0, 10, 20, 40, 20, texColBlack);
         }
 
-        super.renderWidget(context, mouseX, mouseY, delta);
+        super.renderWidget(guiGraphics, mouseX, mouseY, delta);
     }
 
     @Override
@@ -86,11 +83,6 @@ public abstract class ListWidget extends CollapseWidget {
             listScreen.swapEntry(this, 1);
             dragState = 2;
         }
-    }
-
-    @Override
-    protected void updateWidgetNarration(@NotNull NarrationElementOutput builder) {
-
     }
 
     protected abstract Toggleable getToggleable();

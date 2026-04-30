@@ -1,5 +1,6 @@
 package com.nettakrim.souper_secret_settings.gui.shaders;
 
+import com.nettakrim.souper_secret_settings.gui.SoupButtonWidget;
 import dev.dannytaylor.luminance.client.data.ClientData;
 import dev.dannytaylor.luminance.client.events.Events;
 import dev.dannytaylor.luminance.client.shaders.ShaderRegistryEntry;
@@ -36,11 +37,11 @@ public class ShaderAdditionScreen extends ListAdditionScreen<ShaderData> {
 
     @Override
     protected int createHeader() {
-        addRenderableWidget(Button.builder(Component.translatable("gui.back"), (widget) -> onClose()).bounds(SoupGui.listGap, SoupGui.listGap, SoupGui.headerWidthSmall, 20).build());
+        addRenderableWidget(new SoupButtonWidget(Component.translatable("gui.back"), (widget) -> onClose(), SoupGui.listGap, SoupGui.listGap, SoupGui.headerWidthSmall, 20));
 
         int halfWidth = (SoupGui.headerWidthSmall-SoupGui.listGap)/2;
-        addRenderableWidget(Button.builder(SouperSecretSettingsClient.translate(isGroups ? "gui.groups" : (shaderScreen.registry == SoupRenderer.modifierRegistry ? "gui.modifiers" : "gui.shaders")), (widget) -> toggleMode()).bounds(SoupGui.listGap, SoupGui.listGap*2 + 20, halfWidth, 20).build());
-        addRenderableWidget(Button.builder(SouperSecretSettingsClient.translate(isGroups ? "gui.groups.create" : "gui.shader.create"), this::create).bounds(SoupGui.listGap*2+halfWidth, SoupGui.listGap*2 + 20, halfWidth, 20).build());
+        addRenderableWidget(new SoupButtonWidget(SouperSecretSettingsClient.translate(isGroups ? "gui.groups" : (shaderScreen.registry == SoupRenderer.modifierRegistry ? "gui.modifiers" : "gui.shaders")), (widget) -> toggleMode(), SoupGui.listGap, SoupGui.listGap*2 + 20, halfWidth, 20));
+        addRenderableWidget(new SoupButtonWidget(SouperSecretSettingsClient.translate(isGroups ? "gui.groups.create" : "gui.shader.create"), this::create, SoupGui.listGap*2+halfWidth, SoupGui.listGap*2 + 20, halfWidth, 20));
 
         return SoupGui.listStart;
     }
@@ -74,7 +75,7 @@ public class ShaderAdditionScreen extends ListAdditionScreen<ShaderData> {
             text = new Couple<>(Component.literal(title), SouperSecretSettingsClient.translate("shader.group_suggestion", size));
         }
 
-        AdditionButton groupButton = new AdditionButton("random_"+name, text, SoupGui.listX, SoupGui.listWidth, 20, this::add);
+        AdditionButton groupButton = new AdditionButton("random_"+name, text, this::add, SoupGui.listWidth, 20, SoupGui.listX);
 
         if (name.startsWith("user/")) {
             groupButton.addRemoveListener(this::removeGroup);
