@@ -21,8 +21,6 @@ public class DraggableEditBoxWidget extends EditBox implements ListChild {
         }
 
         try {
-            deltaX = CursorWrap.applyWrap(click, deltaX, deltaY, this);
-
             float f;
             if (dragValue == null) {
                 f = Float.parseFloat(getValue());
@@ -30,6 +28,9 @@ public class DraggableEditBoxWidget extends EditBox implements ListChild {
                 f = dragValue;
                 dragValue = null;
             }
+
+            deltaX = CursorWrap.applyWrap(click, deltaX, deltaY, this);
+
             float prev = f;
             f += (float)(deltaX/50.0 * Math.max(Math.abs(f), 0.5f));
             if (!Float.isFinite(f)) {
