@@ -78,7 +78,16 @@ public abstract class ValueNode extends Node {
     @Override
     public void onDock(HashMap<InputPort, Wire> wires) {
         super.onDock(wires);
+        removeWidgets();
+    }
 
+    @Override
+    public void clearUICaches() {
+        super.clearUICaches();
+        removeWidgets();
+    }
+
+    private void removeWidgets() {
         GraphScreen instance = GraphScreen.getInstance();
         if (instance != null) {
             for (DraggableEditBoxWidget widget : widgets) {
@@ -86,12 +95,6 @@ public abstract class ValueNode extends Node {
             }
         }
 
-        widgets.clear();
-    }
-
-    @Override
-    public void clearUICaches() {
-        super.clearUICaches();
         widgets.clear();
     }
 }

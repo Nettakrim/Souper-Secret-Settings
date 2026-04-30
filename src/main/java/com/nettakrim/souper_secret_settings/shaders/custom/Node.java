@@ -131,25 +131,6 @@ public abstract class Node {
         return position.x < Math.max(x1, x2) && position.x + width > Math.min(x1, x2) && position.y < Math.max(y1, y2) && position.y + height > Math.min(y1, y2);
     }
 
-    public Port hoveredPort(float mouseX, float mouseY, HashMap<InputPort, Wire> wires) {
-        for (InputPort inputPort : inputPorts) {
-            Port port = inputPort.hoveredPort(mouseX, mouseY, wires);
-            if (port != null) {
-                return port;
-            }
-        }
-
-        for (OutputPort outputPort : outputPorts) {
-            Port port = outputPort.hoveredPort(mouseX, mouseY, wires);
-            if (port != null) {
-                return port;
-            }
-        }
-
-        return null;
-    }
-
-
     protected abstract void initialisePorts();
 
     public abstract void putOutputData(Graph.OrganisedNode organisedNode, Supplier<String> uuid);
@@ -177,6 +158,24 @@ public abstract class Node {
         }
     }
 
+    public Port hoveredPort(float mouseX, float mouseY, HashMap<InputPort, Wire> wires) {
+        for (InputPort inputPort : inputPorts) {
+            Port port = inputPort.hoveredPort(mouseX, mouseY, wires);
+            if (port != null) {
+                return port;
+            }
+        }
+
+        for (OutputPort outputPort : outputPorts) {
+            Port port = outputPort.hoveredPort(mouseX, mouseY, wires);
+            if (port != null) {
+                return port;
+            }
+        }
+
+        return null;
+    }
+
     public Node getHoveredNode(float mouseX, float mouseY) {
         if (outside(mouseX, mouseY)) {
             return null;
@@ -192,6 +191,17 @@ public abstract class Node {
         }
 
         return this;
+    }
+
+    public void detachWires(HashMap<InputPort, Wire> wires) {
+        for (InputPort inputPort : inputPorts) {
+            wires.remove(inputPort);
+            if (inputPort.docked != null) {
+                inputPort.docked.detachWires(wires);
+            }
+        }
+
+        wires.values().removeIf(wire -> wire.source.node == this);
     }
 
     public void clearUICaches() {

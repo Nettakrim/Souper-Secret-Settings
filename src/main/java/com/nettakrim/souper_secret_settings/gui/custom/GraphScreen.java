@@ -8,6 +8,7 @@ import net.minecraft.client.gui.TextAlignment;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
@@ -159,8 +160,7 @@ public class GraphScreen extends Screen {
             return true;
         }
 
-        if (selected.size() == 1) {
-            drop((float)mouseButtonEvent.x(), (float)mouseButtonEvent.y(), selected.getFirst());
+        if (selected.size() == 1 && drop((float)mouseButtonEvent.x(), (float)mouseButtonEvent.y(), selected.getFirst())) {
             selected.getFirst().selected = false; // docked nodes wont get their selectedness cleared by updateSelectedNodes()
             selected.clear();
             updateSelectedNodes();
@@ -236,6 +236,22 @@ public class GraphScreen extends Screen {
         return panning.mouseScrolled((float)verticalAmount);
     }
 
+    @Override
+    public boolean keyPressed(@NotNull KeyEvent keyEvent) {
+        // delete or backspace
+        if (!selected.isEmpty() && (keyEvent.key() == 259 || keyEvent.key() == 261)) {
+            for (Node node : selected) {
+                node.detachWires(graph.wires);
+                node.clearUICaches();
+            }
+            graph.nodes.removeAll(selected);
+            selected.clear();
+            topologyChanged();
+            return true;
+        }
+        return super.keyPressed(keyEvent);
+    }
+
     private MouseButtonEvent scaleMouseButtonEvent(MouseButtonEvent mouseButtonEvent) {
         Vector2f scaledPos = panning.getScaledMousePos((float) mouseButtonEvent.x(), (float) mouseButtonEvent.y());
         return new MouseButtonEvent(scaledPos.x, scaledPos.y, mouseButtonEvent.buttonInfo());
@@ -254,9 +270,9 @@ public class GraphScreen extends Screen {
         return null;
     }
 
-    private void drop(float x, float y, Node node) {
+    private boolean drop(float x, float y, Node node) {
         if (node.outputPorts.size() != 1) {
-            return;
+            return false;
         }
 
         for (Node other : graph.nodes.reversed()) {
@@ -268,9 +284,11 @@ public class GraphScreen extends Screen {
                 // node was dropped into a dock
                 graph.nodes.remove(node);
                 topologyChanged();
-                return;
+                return true;
             }
         }
+
+        return false;
     }
 
     private void snapDrawing(float x, float y) {
