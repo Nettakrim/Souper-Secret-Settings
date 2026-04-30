@@ -90,7 +90,7 @@ public record LayerCodecs(Optional<List<Shader>> shaders, Optional<List<Shader>>
                     passes.put(identifier == null ? "default" : identifier.toString(), pass);
                 }
             });
-            return new Shader(shader.shader.getShaderId().toString(), passes.isEmpty() ? Optional.empty() : Optional.of(passes), shader.active);
+            return new Shader(shader.shaderID.toString(), passes.isEmpty() ? Optional.empty() : Optional.of(passes), shader.active);
         }
 
         public void apply(ShaderLayer layer, Identifier registry) {

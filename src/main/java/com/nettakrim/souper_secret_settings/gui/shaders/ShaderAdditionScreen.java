@@ -2,9 +2,6 @@ package com.nettakrim.souper_secret_settings.gui.shaders;
 
 import com.nettakrim.souper_secret_settings.gui.SoupButtonWidget;
 import dev.dannytaylor.luminance.client.data.ClientData;
-import dev.dannytaylor.luminance.client.events.Events;
-import dev.dannytaylor.luminance.client.shaders.ShaderRegistryEntry;
-import dev.dannytaylor.luminance.client.shaders.Shaders;
 import dev.dannytaylor.luminance.common.util.Couple;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.gui.AdditionButton;
@@ -20,7 +17,6 @@ import com.nettakrim.souper_secret_settings.shaders.custom.chain.CustomPostChain
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.Identifier;
 
 public class ShaderAdditionScreen extends ListAdditionScreen<ShaderData> {
     protected final ShaderScreen shaderScreen;
@@ -127,16 +123,10 @@ public class ShaderAdditionScreen extends ListAdditionScreen<ShaderData> {
     }
 
     protected void createShader() {
-        Identifier identifier = Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "test");
-        if (Shaders.getRegistry().stream().noneMatch((shaderRegistryEntry -> shaderRegistryEntry.getID().equals(identifier)))) {
-            Shaders.getRegistry().add(ShaderRegistryEntry.builder(identifier).build());
-        }
-        CustomPostChain customPostChain = (CustomPostChain)Events.CustomPostChains.registry.computeIfAbsent(identifier, (id) -> new CustomPostChain());
-
         onClose();
-        listScreen.addAddition(identifier.toString());
-
-        minecraft.setScreen(new GraphScreen(customPostChain.chainGraph, minecraft.screen));
+        CustomPostChain customPostChain = new CustomPostChain();
+        listScreen.addAdditionInstance(new ShaderData(customPostChain, customPostChain.chainGraph.uuid, null, customPostChain.chainGraph));
+        minecraft.setScreen(new GraphScreen(customPostChain.chainGraph, listScreen));
     }
 
     protected void removeGroup(AdditionButton button) {

@@ -2,7 +2,6 @@ package com.nettakrim.souper_secret_settings.commands;
 
 import dev.dannytaylor.luminance.client.shaders.ShaderRegistryEntry;
 import dev.dannytaylor.luminance.client.shaders.Shaders;
-import dev.dannytaylor.luminance.client.shaders.interfaces.PostChainInterface;
 import dev.dannytaylor.luminance.client.shaders.interfaces.PostPassInterface;
 import dev.dannytaylor.luminance.client.shaders.overrides.OverrideSource;
 import dev.dannytaylor.luminance.client.shaders.uniforms.config.MapConfig;
@@ -353,7 +352,7 @@ public class ShaderListCommand extends ListCommand<ShaderData> {
                 search = i != shaders.size()-1;
                 if (search) next = shaders.get(i+1);
 
-                if (!search || !shaderData.shader.getShaderId().equals(next.shader.getShaderId())) {
+                if (!search || !shaderData.shaderID.equals(next.shaderID)) {
                     String s = shaderData.getTranslatedName().getString();
                     if (count == 1) {
                         text.append(Component.translatable(key, s));
@@ -435,8 +434,7 @@ public class ShaderListCommand extends ListCommand<ShaderData> {
 
             int total = 0;
             for (Identifier identifier : SouperSecretSettingsClient.soupRenderer.getRegistryChains(getRegistry())) {
-                PostChainInterface processor = shader.shader.getPostChain();
-                List<PostPass> passes = processor.luminance$getPasses(identifier);
+                List<PostPass> passes = shader.postChainInterface.luminance$getPasses(identifier);
                 if (passes != null) {
                     for (PostPass pass : passes) {
                         builder.suggest(total, Component.literal(ChainData.getName((PostPassInterface)pass)));
@@ -642,7 +640,7 @@ public class ShaderListCommand extends ListCommand<ShaderData> {
 
     @Override
     String getID(ShaderData value) {
-        return value.shader.getShaderId().toString();
+        return value.shaderID.toString();
     }
 
     @Override

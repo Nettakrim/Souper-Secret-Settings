@@ -1,10 +1,12 @@
 package com.nettakrim.souper_secret_settings.shaders;
 
+import com.nettakrim.souper_secret_settings.shaders.custom.chain.ChainGraph;
 import dev.dannytaylor.luminance.client.events.Runnables;
 import dev.dannytaylor.luminance.client.shaders.Shader;
-import dev.dannytaylor.luminance.client.shaders.Shaders;
+import dev.dannytaylor.luminance.client.shaders.ShaderRegistryEntry;
 import dev.dannytaylor.luminance.client.shaders.interfaces.PostChainInterface;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -13,9 +15,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 
 public class ShaderData implements Toggleable {
-    public Shader shader;
+    public final @NotNull PostChainInterface postChainInterface;
+    public final @NotNull Identifier shaderID;
+    public final @Nullable ShaderRegistryEntry registryEntry;
+    public final @Nullable ChainGraph chainGraph;
 
-    public Map<Identifier, ChainData> chainDatas;
+    public final Map<Identifier, ChainData> chainDatas;
 
     public boolean active = true;
     public boolean expanded = false;
@@ -23,16 +28,26 @@ public class ShaderData implements Toggleable {
     static long uuidCounter = 0;
     private final Identifier uuid;
 
-    public ShaderData(Shader shader) {
-        this.shader = shader;
-        if (this.shader.getPostChain() == null) {
-            this.shader.loadPostChain();
+    public ShaderData(@NotNull Shader shader) {
+        this(get(shader), shader.getShaderId(), shader.getShaderData(), null);
+    }
+
+    private static @NotNull PostChainInterface get(Shader shader) {
+        if (shader.getPostChain() == null) {
+            shader.loadPostChain();
         }
+        return shader.getPostChain();
+    }
 
-        PostChainInterface processor = this.shader.getPostChain();
-        Set<Identifier> customChains = processor.luminance$getCustomChainNames();
+    public ShaderData(@NotNull PostChainInterface postChainInterface, @NotNull Identifier shaderID, @Nullable ShaderRegistryEntry registryEntry, @Nullable ChainGraph chainGraph) {
+        this.postChainInterface = postChainInterface;
+        this.shaderID = shaderID;
+        this.registryEntry = registryEntry;
+        this.chainGraph = chainGraph;
 
-        List<PostPass> defaultPasses = processor.luminance$getPasses(null);
+        Set<Identifier> customChains = postChainInterface.luminance$getCustomChainNames();
+
+        List<PostPass> defaultPasses = postChainInterface.luminance$getPasses(null);
 
         if (defaultPasses.isEmpty()) {
             chainDatas = new HashMap<>(customChains.size());
@@ -42,7 +57,7 @@ public class ShaderData implements Toggleable {
         }
 
         for (Identifier customChain : customChains) {
-            List<PostPass> passes = processor.luminance$getPasses(customChain);
+            List<PostPass> passes = postChainInterface.luminance$getPasses(customChain);
             assert passes != null;
             chainDatas.put(customChain, new ChainData(passes));
         }
@@ -52,14 +67,13 @@ public class ShaderData implements Toggleable {
 
     public boolean render(Runnables.LevelRender.Data data, @Nullable Identifier chain) {
         if (!active) return false;
-        PostChainInterface processor = shader.getPostChain();
-        if (chain != null && !processor.luminance$getCustomChainNames().contains(chain)) {
+        if (chain != null && !postChainInterface.luminance$getCustomChainNames().contains(chain)) {
             return false;
         }
 
-        processor.luminance$setPersistentBufferSource(uuid);
-        Shaders.renderShaderFromLevelData(shader, data, chain);
-        processor.luminance$setPersistentBufferSource(null);
+        postChainInterface.luminance$setPersistentBufferSource(uuid);
+        postChainInterface.luminance$render(data.builder(), data.textureWidth(), data.textureHeight(), data.targetBundle(), chain);
+        postChainInterface.luminance$setPersistentBufferSource(null);
         return true;
     }
 
@@ -77,7 +91,7 @@ public class ShaderData implements Toggleable {
     }
 
     public Component getTranslatedName() {
-        String s = shader.getShaderId().toString();
+        String s = shaderID.toString();
         return Component.translatableWithFallback("gui.luminance.shader."+s.replace(':','.'), s);
     }
 

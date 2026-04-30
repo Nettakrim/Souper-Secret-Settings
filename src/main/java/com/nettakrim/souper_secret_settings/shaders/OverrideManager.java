@@ -36,7 +36,7 @@ public class OverrideManager {
             }
 
             if (shaderData.getFirst().active) {
-                List<PostPass> currentPasses = shaderData.getFirst().shader.getPostChain().luminance$getPasses(shaderData.getSecond());
+                List<PostPass> currentPasses = shaderData.getFirst().postChainInterface.luminance$getPasses(shaderData.getSecond());
                 // render queue is only added to when the passes *do* exist
                 assert currentPasses != null;
 

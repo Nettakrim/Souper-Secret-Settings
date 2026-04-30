@@ -5,6 +5,7 @@ import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.actions.ListAddAction;
 import com.nettakrim.souper_secret_settings.actions.ListRemoveAction;
 import com.nettakrim.souper_secret_settings.actions.ListShiftAction;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -115,18 +116,22 @@ public abstract class ListScreen<V> extends ScrollScreen {
     public V addAddition(String addition) {
         V entry = tryGetAddition(addition);
         if (entry != null) {
-            List<V> list = getListValues();
-            int position = list.size();
-            if (useHistory()) {
-                new ListAddAction<>(list, entry, position).addToHistory();
-            }
-            ListWidget listWidget = createListWidget(entry);
-            addEntry(position, entry, listWidget);
-            addSelectable(listWidget);
-            updateSpacing();
+            addAdditionInstance(entry);
         }
         suggestionTextFieldWidget.setValue("");
         return entry;
+    }
+
+    public void addAdditionInstance(@NotNull V entry) {
+        List<V> list = getListValues();
+        int position = list.size();
+        if (useHistory()) {
+            new ListAddAction<>(list, entry, position).addToHistory();
+        }
+        ListWidget listWidget = createListWidget(entry);
+        addEntry(position, entry, listWidget);
+        addSelectable(listWidget);
+        updateSpacing();
     }
 
     public List<String> getAdditions() {

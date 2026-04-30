@@ -3,11 +3,14 @@ package com.nettakrim.souper_secret_settings.gui.shaders;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.gui.ListScreen;
 import com.nettakrim.souper_secret_settings.gui.ListWidget;
+import com.nettakrim.souper_secret_settings.gui.custom.GraphScreen;
 import com.nettakrim.souper_secret_settings.shaders.OverrideManager;
 import com.nettakrim.souper_secret_settings.shaders.ShaderData;
 import com.nettakrim.souper_secret_settings.shaders.ShaderLayer;
 import com.nettakrim.souper_secret_settings.shaders.Toggleable;
 import java.util.List;
+
+import dev.dannytaylor.luminance.client.data.ClientData;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.PostPass;
 import net.minecraft.network.chat.Component;
@@ -19,7 +22,7 @@ public class ShaderWidget extends ListWidget {
     public ShaderData shaderData;
 
     public ShaderWidget(ShaderLayer layer, ShaderData shaderData, ListScreen<?> listScreen, int x, int width) {
-        super(x, width, Component.literal(shaderData.shader.getShaderId().toString()), listScreen);
+        super(x, width, Component.literal(shaderData.shaderID.toString()), listScreen);
 
         this.layer = layer;
         this.shaderData = shaderData;
@@ -33,7 +36,7 @@ public class ShaderWidget extends ListWidget {
     }
 
     protected void addChain(Identifier chain) {
-        List<PostPass> passes = shaderData.shader.getPostChain().luminance$getPasses(chain);
+        List<PostPass> passes = shaderData.postChainInterface.luminance$getPasses(chain);
         if (passes == null) {
             return;
         }
@@ -68,5 +71,14 @@ public class ShaderWidget extends ListWidget {
     @Override
     protected Toggleable getToggleable() {
         return shaderData;
+    }
+
+    @Override
+    protected void setExpanded(boolean to) {
+        if (shaderData.chainGraph != null) {
+            ClientData.minecraft.setScreen(new GraphScreen(shaderData.chainGraph, listScreen));
+            return;
+        }
+        super.setExpanded(to);
     }
 }

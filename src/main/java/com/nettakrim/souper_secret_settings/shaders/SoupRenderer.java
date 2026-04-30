@@ -148,12 +148,12 @@ public class SoupRenderer implements Runnables.LevelRender {
 
         if (layer != null && !layer.shaders.isEmpty()) {
             if (position == 0) {
-                shaderRegistry = layer.shaders.getFirst().shader.getShaderData();
+                shaderRegistry = layer.shaders.getFirst().registryEntry;
             } else {
                 if (position < 0 || position > layer.shaders.size()) {
                     position = layer.shaders.size();
                 }
-                shaderRegistry = layer.shaders.get(position - 1).shader.getShaderData();
+                shaderRegistry = layer.shaders.get(position - 1).registryEntry;
             }
         }
 

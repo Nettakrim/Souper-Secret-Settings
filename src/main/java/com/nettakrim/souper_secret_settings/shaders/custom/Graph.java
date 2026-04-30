@@ -3,6 +3,7 @@ package com.nettakrim.souper_secret_settings.shaders.custom;
 import com.google.common.collect.ImmutableList;
 import com.nettakrim.souper_secret_settings.gui.custom.CreationCategory;
 import net.minecraft.client.renderer.ShaderManager;
+import net.minecraft.resources.Identifier;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -12,6 +13,13 @@ public abstract class Graph {
     public final HashMap<InputPort,Wire> wires = new HashMap<>();
 
     public boolean changed;
+
+    public final Identifier uuid;
+    private static long uuidCounter;
+
+    public Graph() {
+        uuid = Identifier.fromNamespaceAndPath("graph",String.valueOf(uuidCounter++));
+    }
 
     public void addWire(Wire wire) {
         wires.put(wire.destination, wire);
