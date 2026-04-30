@@ -64,6 +64,9 @@ public class GraphScreen extends Screen {
     public boolean mouseClicked(@NotNull MouseButtonEvent mouseButtonEvent, boolean doubleClick) {
         mouseButtonEvent = scaleMouseButtonEvent(mouseButtonEvent);
 
+        // it would be nice if you could pan while drag selecting, but pressing a mouse button stops mouseDragged from firing
+        isDragSelecting = false;
+
         if (mouseButtonEvent.button() == 2) {
             panning.mouseClicked(mouseButtonEvent);
             return true;
@@ -74,12 +77,14 @@ public class GraphScreen extends Screen {
         }
 
         setFocused(null);
+        dragPosition.set((int)Math.round(mouseButtonEvent.x()), (int)Math.round(mouseButtonEvent.y()));
+        creationMenu.setActive(false);
 
         if (mouseButtonEvent.button() == 0) {
             creationMenu.setActive(false);
 
             Port port = getHoveredPort((float)mouseButtonEvent.x(), (float)mouseButtonEvent.y());
-            if (port != null) {
+            if (port != null && selected.isEmpty()) {
                 if (port instanceof InputPort inputPort) {
                     drawingWire = graph.wires.remove(inputPort);
                     if (drawingWire == null) {
@@ -119,7 +124,6 @@ public class GraphScreen extends Screen {
                 updateSelectedNodes();
             }
 
-            dragPosition.set((int)Math.round(mouseButtonEvent.x()), (int)Math.round(mouseButtonEvent.y()));
             return true;
         }
 
@@ -134,6 +138,10 @@ public class GraphScreen extends Screen {
     @Override
     public boolean mouseReleased(@NotNull MouseButtonEvent mouseButtonEvent) {
         mouseButtonEvent = scaleMouseButtonEvent(mouseButtonEvent);
+
+        if (panning.mouseReleased(mouseButtonEvent)) {
+            return true;
+        }
 
         if (isDragSelecting && mouseButtonEvent.button() == 0) {
             isDragSelecting = false;
@@ -159,10 +167,6 @@ public class GraphScreen extends Screen {
             return true;
         }
 
-        if (panning.mouseReleased(mouseButtonEvent)) {
-            return true;
-        }
-
         return super.mouseReleased(mouseButtonEvent);
     }
 
@@ -182,10 +186,10 @@ public class GraphScreen extends Screen {
             snapDrawing((float)mouseButtonEvent.x(), (float)mouseButtonEvent.y());
         }
 
+        Vector2i current = new Vector2i((int) Math.round(mouseButtonEvent.x()), (int) Math.round(mouseButtonEvent.y()));
+
         if (mouseButtonEvent.button() == 0) {
             if (isDragSelecting) {
-                Vector2i current = new Vector2i((int) Math.round(mouseButtonEvent.x()), (int) Math.round(mouseButtonEvent.y()));
-
                 selected.clear();
                 for (Node node : graph.nodes) {
                     if (node.inBounds(dragPosition.x, dragPosition.y, current.x, current.y)) {
@@ -196,7 +200,6 @@ public class GraphScreen extends Screen {
 
                 return true;
             } else if (!selected.isEmpty()) {
-                Vector2i current = new Vector2i((int) Math.round(mouseButtonEvent.x()), (int) Math.round(mouseButtonEvent.y()));
                 current.sub(dragPosition);
 
                 for (Node node : selected) {
@@ -211,7 +214,14 @@ public class GraphScreen extends Screen {
         if (mouseButtonEvent.button() == 1) {
             Vector2i a = new Vector2i((int)Math.round(mouseButtonEvent.x()), (int)Math.round(mouseButtonEvent.y()));
             Vector2i b = new Vector2i((int)Math.round(mouseButtonEvent.x()-deltaX), (int)Math.round(mouseButtonEvent.y()-deltaY));
-            graph.wires.values().removeIf((wire) -> wire.cut(a,b));
+            if (graph.wires.values().removeIf((wire) -> wire.cut(a,b))) {
+                topologyChanged();
+                creationMenu.setActive(false);
+            }
+
+            if (dragPosition.distanceSquared(current) > 100) {
+                creationMenu.setActive(false);
+            }
         }
 
         return panning.mouseDragged(mouseButtonEvent);
