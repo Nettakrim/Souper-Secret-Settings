@@ -87,7 +87,7 @@ public class GraphScreen extends Screen {
             creationMenu.setActive(false);
 
             Port port = getHoveredPort((float)mouseButtonEvent.x(), (float)mouseButtonEvent.y());
-            if (port != null && selected.isEmpty()) {
+            if (port != null && selected.size() <= 1) {
                 if (port instanceof InputPort inputPort) {
                     drawingWire = graph.wires.remove(inputPort);
                     if (drawingWire == null) {
@@ -105,6 +105,8 @@ public class GraphScreen extends Screen {
                 }
 
                 snapDrawing((float)mouseButtonEvent.x(), (float)mouseButtonEvent.y());
+                selected.clear();
+                updateSelectedNodes();
                 return true;
             }
 
