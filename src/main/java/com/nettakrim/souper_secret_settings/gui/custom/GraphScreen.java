@@ -74,6 +74,8 @@ public class GraphScreen extends Screen {
         }
 
         if (super.mouseClicked(mouseButtonEvent, doubleClick)) {
+            selected.clear();
+            updateSelectedNodes();
             return true;
         }
 
