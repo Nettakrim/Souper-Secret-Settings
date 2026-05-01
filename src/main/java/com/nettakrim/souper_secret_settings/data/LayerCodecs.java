@@ -176,7 +176,9 @@ public record LayerCodecs(Optional<List<Shader>> shaders, Optional<List<Shader>>
                     }
                     uniforms.removeLast();
                 }
-                blocks.put(blockName, uniforms);
+                if (!uniforms.isEmpty()) {
+                    blocks.put(blockName, uniforms);
+                }
             });
 
             return blocks;
