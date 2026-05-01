@@ -3,9 +3,6 @@ package com.nettakrim.souper_secret_settings.shaders.custom.chain;
 import com.nettakrim.souper_secret_settings.gui.custom.ChainCategory;
 import com.nettakrim.souper_secret_settings.gui.custom.CreationCategory;
 import dev.dannytaylor.luminance.client.data.ClientData;
-import dev.dannytaylor.luminance.client.shaders.CustomPassData;
-import dev.dannytaylor.luminance.client.shaders.interfaces.PostChainInterface;
-import dev.dannytaylor.luminance.client.shaders.interfaces.PostPassInterface;
 import dev.dannytaylor.luminance.mixin.client.shaders.ShaderManagerAccessor;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
@@ -77,14 +74,6 @@ public class ChainGraph extends Graph {
                 Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "graph"),
                 ((ShaderManagerAccessor)ClientData.minecraft.getShaderManager()).getPostChainProjectionMatrixBuffer()
         );
-
-        PostChainInterface postChainInterface = (PostChainInterface)postChain;
-        postChainInterface.luminance$getPasses(null).forEach(postPass -> ((PostPassInterface)postPass).luminance$putCustomData(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "compiled"), new CustomPassData() {
-            @Override
-            public CustomPassData copy() {
-                return this;
-            }
-        }));
 
         long loaded = System.nanoTime();
 

@@ -6,7 +6,6 @@ import dev.dannytaylor.luminance.client.shaders.interfaces.PostPassInterface;
 import dev.dannytaylor.luminance.common.util.Couple;
 import java.util.*;
 
-import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import net.minecraft.client.renderer.PostPass;
 import net.minecraft.resources.Identifier;
 
@@ -63,26 +62,23 @@ public class OverrideManager {
 
     public static class BeforeShaderRender implements Runnables.Shader {
         @Override
-        public void run(PostPass postEffectPass) {
-            searchFor(postEffectPass);
+        public void run(PostPass postPass) {
+            searchFor(postPass);
             if (currentShaders == null || currentShaders.isEmpty()) {
                 return;
             }
 
-            assert currentShaders.peek() != null;
             Couple<ShaderData, Identifier> shaderData = currentShaders.peek();
 
-            PostPassInterface pass = ((PostPassInterface)postEffectPass);
-
-            // TODO: properly account for shadergraphs
-            if (pass.luminance$getCustomData(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "compiled")).isPresent()) {
+            // ignore modifications for graph shaders
+            if (shaderData.getFirst().chainGraph != null) {
                 return;
             }
 
             Map<String, BlockData> blockDataMap = shaderData.getFirst().getPassData(shaderData.getSecond()).passBlocks.get(currentPassIndex);
 
             // set overrides to current soup values
-            pass.luminance$getUniformBlocks().forEach((blockName, block) -> {
+            ((PostPassInterface)postPass).luminance$getUniformBlocks().forEach((blockName, block) -> {
                 BlockData blockData = blockDataMap.get(blockName);
 
                 for (int i = 0; i < block.uniforms.size(); i++) {
@@ -97,24 +93,22 @@ public class OverrideManager {
 
     public static class AfterShaderRender implements Runnables.Shader {
         @Override
-        public void run(PostPass postEffectPass) {
+        public void run(PostPass postPass) {
             if (currentShaders == null || currentShaders.isEmpty()) {
                 return;
             }
 
             Couple<ShaderData, Identifier> shaderData = currentShaders.peek();
 
-            PostPassInterface pass = ((PostPassInterface)postEffectPass);
-
-            // TODO: properly account for shadergraphs
-            if (pass.luminance$getCustomData(Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "compiled")).isPresent()) {
+            // ignore modifications for graph shaders
+            if (shaderData.getFirst().chainGraph != null) {
                 return;
             }
 
             Map<String, BlockData> blockDataMap = shaderData.getFirst().getPassData(shaderData.getSecond()).passBlocks.get(currentPassIndex);
 
             // return overrides to how soup first found them
-            pass.luminance$getUniformBlocks().forEach((blockName, block) -> {
+            ((PostPassInterface)postPass).luminance$getUniformBlocks().forEach((blockName, block) -> {
                 BlockData blockData = blockDataMap.get(blockName);
 
                 for (int i = 0; i < block.uniforms.size(); i++) {
