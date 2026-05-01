@@ -17,7 +17,7 @@ public abstract class ValueNode extends Node {
 
     @Override
     protected void initialisePorts() {
-        addOutput("value", getType());
+        addOutput("", getType());
     }
 
     protected abstract PortType getType();

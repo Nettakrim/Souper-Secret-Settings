@@ -21,8 +21,8 @@ public class WriteTargetNode extends Node {
 
     @Override
     protected void initialisePorts() {
-        addInput("input", PortType.TARGET);
-        addInput("target", PortType.STRING).docked = new StringNode("minecraft:main");
+        addInput("In", PortType.TARGET);
+        addInput("Target", PortType.STRING).docked = new StringNode("minecraft:main");
     }
 
     @Override

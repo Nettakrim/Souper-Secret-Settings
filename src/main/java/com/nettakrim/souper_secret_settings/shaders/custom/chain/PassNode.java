@@ -56,7 +56,7 @@ public class PassNode extends Node {
             addInput(block, PortType.BLOCK);
         }
 
-        addOutput("output", PortType.TARGET);
+        addOutput("Out", PortType.TARGET);
     }
 
     @Override
