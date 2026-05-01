@@ -35,25 +35,28 @@ public class ChainGraph extends Graph {
         Map<Identifier, PostChainConfig.InternalTarget> internalTargets = new HashMap<>();
 
         for (OrganisedNode organisedNode : organisedGraph.organisedNodes) {
-            // store output data, this doesnt need to be done in a seperate loop because organised nodes are always before their usages
+            // store output data, this doesnt need to be done in a separate loop because organised nodes are always before their usages
             organisedNode.calculateOutputData(uuid);
 
-            if (organisedNode.node instanceof PassNode passNode) {
-                passes.add(passNode.getPass(organisedNode));
-            } else if (organisedNode.node instanceof WriteTargetNode writeTargetNode) {
+            switch (organisedNode.node) {
+                // add proper pass
+                case PassNode passNode -> passes.add(passNode.getPass(organisedNode));
                 // add a blit when storing a target, this will sometimes waste a pass, but often its needed
-                passes.add(writeTargetNode.getPass(organisedNode));
-            } else if (organisedNode.node instanceof ReadTargetNode readTargetNode) {
+                case WriteTargetNode writeTargetNode -> passes.add(writeTargetNode.getPass(organisedNode));
                 // add any used persistent targets to the list
-                Identifier id = Identifier.parse((String) readTargetNode.outputPorts.getFirst().outputData);
-                if (!id.equals(Identifier.withDefaultNamespace("main"))) {
-                    internalTargets.put(id, new PostChainConfig.InternalTarget(
-                            Optional.empty(),
-                            Optional.empty(),
-                            true,
-                            0
-                    ));
+                case ReadTargetNode readTargetNode -> {
+                    Identifier id = Identifier.parse((String) readTargetNode.outputPorts.getFirst().outputData);
+                    if (!id.equals(Identifier.withDefaultNamespace("main"))) {
+                        internalTargets.put(id, new PostChainConfig.InternalTarget(
+                                Optional.empty(),
+                                Optional.empty(),
+                                true,
+                                0
+                        ));
+                    }
                 }
+                // other node types are just needed to calculate their output data
+                default -> {}
             }
         }
 
@@ -71,7 +74,6 @@ public class ChainGraph extends Graph {
 
         long constructed = System.nanoTime();
 
-        // this ends up leaking a small amount of memory
         PostChain postChain = PostChain.load(
                 postChainConfig,
                 ClientData.minecraft.getTextureManager(),
@@ -84,6 +86,7 @@ public class ChainGraph extends Graph {
 
         SouperSecretSettingsClient.log("Compiled post chain in",getElapsedTime(start, loaded),"- Organising:",getElapsedTime(start,organised),"| Constructing:",getElapsedTime(organised,constructed),"| Loading:",getElapsedTime(constructed, loaded));
 
+        // only close on successful recompilation
         if (lastCompiled != null) {
             closeCaches((PostChainInterface)lastCompiled);
             lastCompiled.close();
