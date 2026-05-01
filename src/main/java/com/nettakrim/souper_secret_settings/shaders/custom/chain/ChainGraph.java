@@ -1,13 +1,18 @@
 package com.nettakrim.souper_secret_settings.shaders.custom.chain;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.nettakrim.souper_secret_settings.gui.custom.ChainCategory;
 import com.nettakrim.souper_secret_settings.gui.custom.CreationCategory;
 import dev.dannytaylor.luminance.client.data.ClientData;
-import dev.dannytaylor.luminance.mixin.client.shaders.ShaderManagerAccessor;
+import dev.dannytaylor.luminance.client.shaders.interfaces.PostChainInterface;
+import dev.dannytaylor.luminance.client.shaders.interfaces.PostPassInterface;
+import dev.dannytaylor.luminance.client.shaders.interfaces.internal.InternalGpuDeviceInterface;
+import dev.dannytaylor.luminance.client.shaders.interfaces.internal.InternalShaderManagerInterface;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
 import net.minecraft.client.renderer.PostChain;
 import net.minecraft.client.renderer.PostChainConfig;
+import net.minecraft.client.renderer.PostPass;
 import net.minecraft.client.renderer.ShaderManager;
 import net.minecraft.resources.Identifier;
 
@@ -72,7 +77,7 @@ public class ChainGraph extends Graph {
                 ClientData.minecraft.getTextureManager(),
                 Set.of(Identifier.withDefaultNamespace("main")),
                 Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "graph"),
-                ((ShaderManagerAccessor)ClientData.minecraft.getShaderManager()).getPostChainProjectionMatrixBuffer()
+                ((InternalShaderManagerInterface)ClientData.minecraft.getShaderManager()).luminance$getPostChainProjectionMatrixBuffer()
         );
 
         long loaded = System.nanoTime();
@@ -80,12 +85,28 @@ public class ChainGraph extends Graph {
         SouperSecretSettingsClient.log("Compiled post chain in",getElapsedTime(start, loaded),"- Organising:",getElapsedTime(start,organised),"| Constructing:",getElapsedTime(organised,constructed),"| Loading:",getElapsedTime(constructed, loaded));
 
         if (lastCompiled != null) {
+            closeCaches((PostChainInterface)lastCompiled);
             lastCompiled.close();
         }
         lastCompiled = postChain;
 
         changed = false;
         return postChain;
+    }
+
+    private void closeCaches(PostChainInterface postChainInterface) {
+        closeCaches(postChainInterface.luminance$getPasses(null));
+        for (Identifier identifier : postChainInterface.luminance$getCustomChainNames()) {
+            //noinspection DataFlowIssue
+            closeCaches(postChainInterface.luminance$getPasses(identifier));
+        }
+    }
+
+    private void closeCaches(List<PostPass> passes) {
+        InternalGpuDeviceInterface deviceInterface =((InternalGpuDeviceInterface) RenderSystem.getDevice());
+        for (PostPass postPass : passes) {
+            deviceInterface.luminance$clearPipelineCache(((PostPassInterface)postPass).luminance$getPipeline());
+        }
     }
 
     private String getElapsedTime(long start, long end) {
