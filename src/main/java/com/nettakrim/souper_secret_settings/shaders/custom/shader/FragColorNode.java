@@ -8,31 +8,33 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
-public class SampleNode extends Node {
-    public SampleNode() {
+public class FragColorNode extends Node {
+    public FragColorNode() {
         initialisePorts();
-        inputPorts.get(1).docked = new TexCoordNode();
     }
 
     @Override
     protected void initialisePorts() {
-        addInput("Texture", PortType.TARGET);
-        addInput("Position", PortType.VEC2);
-        addOutput("Color", PortType.VEC4);
+        addInput("Color", PortType.VEC4);
     }
 
     @Override
     public void putOutputData(Graph.OrganisedNode organisedNode, Supplier<String> uuid) {
-        outputPorts.getFirst().outputData = uuid.get();
+
     }
 
     @Override
     protected @Nullable Object getMainObject(Graph.OrganisedNode organisedNode) {
-        return "vec4 "+outputPorts.getFirst().outputData + " = texture2d("+organisedNode.getInputData(0)+","+organisedNode.getVectorInput(1, PortType.VEC2)+")";
+        return "fragColor = "+organisedNode.getVectorInput(0, PortType.VEC4);
     }
 
     @Override
     protected Component getTitle() {
         return null;
+    }
+
+    @Override
+    public boolean isEnd() {
+        return true;
     }
 }

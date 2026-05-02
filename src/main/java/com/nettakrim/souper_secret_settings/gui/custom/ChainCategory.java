@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.nettakrim.souper_secret_settings.shaders.ChainData;
 import com.nettakrim.souper_secret_settings.shaders.custom.chain.PassNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.chain.ReadTargetNode;
+import com.nettakrim.souper_secret_settings.shaders.custom.chain.ShaderNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.chain.WriteTargetNode;
 import dev.dannytaylor.luminance.client.data.ClientData;
 import dev.dannytaylor.luminance.client.shaders.ShaderRegistryEntry;
@@ -23,6 +24,7 @@ public class ChainCategory extends CreationCategory {
     public List<CreationEntry> getChildren() {
         return List.of(
                 new RegistryCategory(Shaders.getMainRegistryId()),
+                new CreationNode(Component.literal("Custom Shader"), ShaderNode::new),
                 new CreationNode(Component.literal("Read Target"), ReadTargetNode::new),
                 new CreationNode(Component.literal("Write Target"), WriteTargetNode::new)
         );

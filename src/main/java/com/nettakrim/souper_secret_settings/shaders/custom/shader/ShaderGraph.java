@@ -2,10 +2,10 @@ package com.nettakrim.souper_secret_settings.shaders.custom.shader;
 
 import com.mojang.blaze3d.shaders.ShaderType;
 import com.nettakrim.souper_secret_settings.gui.custom.CreationCategory;
+import com.nettakrim.souper_secret_settings.gui.custom.ShaderCategory;
 import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
 import dev.dannytaylor.luminance.client.shaders.Shaders;
 import net.minecraft.client.renderer.ShaderManager;
-import net.minecraft.resources.Identifier;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 public class ShaderGraph extends Graph {
     @Override
     public CreationCategory getCreationRoot() {
-        return null;
+        return new ShaderCategory();
     }
 
     public void compile() throws ShaderManager.CompilationException {
@@ -54,6 +54,6 @@ public class ShaderGraph extends Graph {
         shaderBuilder.append(fragmentBuilder);
         shaderBuilder.append("\n}");
 
-        Shaders.registerCustomShader(Identifier.fromNamespaceAndPath("shader", "0"), ShaderType.FRAGMENT, shaderBuilder.toString());
+        Shaders.registerCustomShader(graphId, ShaderType.FRAGMENT, shaderBuilder.toString());
     }
 }

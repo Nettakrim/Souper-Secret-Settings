@@ -15,11 +15,11 @@ public abstract class Graph {
 
     public boolean changed;
 
-    public final Identifier uuid;
-    private static long uuidCounter;
+    public final Identifier graphId;
+    private static long graphIdCounter;
 
     public Graph() {
-        uuid = Identifier.fromNamespaceAndPath("graph",String.valueOf(uuidCounter++));
+        graphId = Identifier.fromNamespaceAndPath("graph",String.valueOf(graphIdCounter++));
     }
 
     public void addWire(Wire wire) {

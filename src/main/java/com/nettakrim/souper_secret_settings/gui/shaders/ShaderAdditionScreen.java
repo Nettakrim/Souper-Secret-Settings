@@ -125,7 +125,7 @@ public class ShaderAdditionScreen extends ListAdditionScreen<ShaderData> {
     protected void createShader() {
         onClose();
         CustomPostChain customPostChain = new CustomPostChain();
-        listScreen.addAdditionInstance(new ShaderData(customPostChain, customPostChain.chainGraph.uuid, null, customPostChain.chainGraph));
+        listScreen.addAdditionInstance(new ShaderData(customPostChain, customPostChain.chainGraph.graphId, null, customPostChain.chainGraph));
         minecraft.setScreen(new GraphScreen(customPostChain.chainGraph, listScreen));
     }
 
