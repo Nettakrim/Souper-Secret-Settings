@@ -56,7 +56,7 @@ public class UniformOverrideNode extends Node {
 
         List<String> values = new ArrayList<>(template.size());
         for (Graph.Source source : organisedNode.inputSources) {
-            values.add((String) source.getPort().outputData);
+            values.add((String)source.getPort().outputData);
         }
 
         uniformValueInterface.luminance$setOverride(values);

@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2i;
 
 import java.util.ArrayList;
@@ -26,6 +27,33 @@ public abstract class Node {
     public boolean includedInLastCompile = false;
     public boolean selected;
     public boolean hovered;
+
+    protected abstract void initialisePorts();
+
+    public abstract void putOutputData(Graph.OrganisedNode organisedNode, Supplier<String> uuid);
+
+    // main entry into the compiled graph for a given node
+    // any dependencies should be handled separately
+    protected @Nullable Object getMainObject(Graph.OrganisedNode organisedNode) {
+        return null;
+    }
+
+    protected InputPort addInput(String name, PortType type) {
+        InputPort port = new InputPort(this, name, type);
+        inputPorts.add(port);
+        return port;
+    }
+
+    protected void addOutput(String name, PortType type) {
+        OutputPort port = new OutputPort(this, name, type);
+        outputPorts.add(port);
+    }
+
+    public boolean isEnd() {
+        return false;
+    }
+
+    protected abstract Component getTitle();
 
     public void updatePositions(HashMap<InputPort, Wire> wires) {
         height = baseHeight;
@@ -130,27 +158,6 @@ public abstract class Node {
     public boolean inBounds(float x1, float y1, float x2, float y2) {
         return position.x < Math.max(x1, x2) && position.x + width > Math.min(x1, x2) && position.y < Math.max(y1, y2) && position.y + height > Math.min(y1, y2);
     }
-
-    protected abstract void initialisePorts();
-
-    public abstract void putOutputData(Graph.OrganisedNode organisedNode, Supplier<String> uuid);
-
-    protected InputPort addInput(String name, PortType type) {
-        InputPort port = new InputPort(this, name, type);
-        inputPorts.add(port);
-        return port;
-    }
-
-    protected void addOutput(String name, PortType type) {
-        OutputPort port = new OutputPort(this, name, type);
-        outputPorts.add(port);
-    }
-
-    public boolean isEnd() {
-        return false;
-    }
-
-    protected abstract Component getTitle();
 
     public void onDock(HashMap<InputPort, Wire> wires) {
         for (InputPort inputPort : inputPorts) {

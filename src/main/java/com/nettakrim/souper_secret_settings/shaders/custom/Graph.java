@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.nettakrim.souper_secret_settings.gui.custom.CreationCategory;
 import net.minecraft.client.renderer.ShaderManager;
 import net.minecraft.resources.Identifier;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -165,6 +166,19 @@ public abstract class Graph {
 
         public void calculateOutputData(Supplier<String> uuid) {
             node.putOutputData(this, uuid);
+        }
+
+        public @Nullable Object getMainObject() {
+            return node.getMainObject(this);
+        }
+
+        public Object getInputData(int index) {
+            return inputSources[index].getPort().outputData;
+        }
+
+        public String getVectorInput(int input, PortType output) {
+            OutputPort outputPort = inputSources[input].getPort();
+            return PortType.getVector((String)outputPort.outputData, outputPort.portType, output);
         }
     }
 

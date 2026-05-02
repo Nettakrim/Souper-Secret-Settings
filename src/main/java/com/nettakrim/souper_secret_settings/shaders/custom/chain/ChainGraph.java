@@ -35,29 +35,29 @@ public class ChainGraph extends Graph {
         Map<Identifier, PostChainConfig.InternalTarget> internalTargets = new HashMap<>();
 
         for (OrganisedNode organisedNode : organisedGraph.organisedNodes) {
-            // store output data, this doesnt need to be done in a separate loop because organised nodes are always before their usages
+            // store output data, this doesn't need to be done in a separate loop because organised nodes are always before their usages
             organisedNode.calculateOutputData(uuid);
 
-            switch (organisedNode.node) {
-                // add proper pass
-                case PassNode passNode -> passes.add(passNode.getPass(organisedNode));
-                // add a blit when storing a target, this will sometimes waste a pass, but often its needed
-                case WriteTargetNode writeTargetNode -> passes.add(writeTargetNode.getPass(organisedNode));
-                // add any used persistent targets to the list
-                case ReadTargetNode readTargetNode -> {
-                    Identifier id = Identifier.parse((String) readTargetNode.outputPorts.getFirst().outputData);
-                    if (!id.equals(Identifier.withDefaultNamespace("main"))) {
-                        internalTargets.put(id, new PostChainConfig.InternalTarget(
-                                Optional.empty(),
-                                Optional.empty(),
-                                true,
-                                0
-                        ));
-                    }
-                }
-                // other node types are just needed to calculate their output data
-                default -> {}
+            Object mainObject = organisedNode.getMainObject();
+            // write target node also uses a pass, which will sometimes waste a pass, but often its needed
+            if (mainObject instanceof PostChainConfig.Pass pass) {
+                passes.add(pass);
             }
+
+            // dependencies are handled separately from main object
+            if (organisedNode.node instanceof ReadTargetNode readTargetNode) {
+                Identifier id = Identifier.parse((String) readTargetNode.outputPorts.getFirst().outputData);
+                if (!id.equals(Identifier.withDefaultNamespace("main"))) {
+                    internalTargets.put(id, new PostChainConfig.InternalTarget(
+                            Optional.empty(),
+                            Optional.empty(),
+                            true,
+                            0
+                    ));
+                }
+            }
+
+            // other node types are just needed to calculate their output data
         }
 
         // add all temporary targets, which take the form "0", "1", "2", etc

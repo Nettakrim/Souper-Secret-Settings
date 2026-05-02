@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.PostPass;
 import net.minecraft.client.renderer.UniformValue;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,14 +65,15 @@ public class PassNode extends Node {
         outputPorts.getFirst().outputData = uuid.get();
     }
 
-    public PostChainConfig.Pass getPass(Graph.OrganisedNode organisedNode) {
+    @Override
+    public @Nullable Object getMainObject(Graph.OrganisedNode organisedNode) {
         List<PostChainConfig.Input> inputs = new ArrayList<>();
 
         // TODO: to support texture sampler, this will need to be changed somewhat, eg by storing instances of PostChainConfig.Input in the output data (minus the sampler name)
         for (int i = 0; i < samplers.size(); i++) {
             inputs.add(new PostChainConfig.TargetInput(
                     inputPorts.get(i).name,
-                    Identifier.parse((String)organisedNode.inputSources[i].getPort().outputData),
+                    Identifier.parse((String)organisedNode.getInputData(i)),
                     false,
                     false
             ));
@@ -81,7 +83,7 @@ public class PassNode extends Node {
 
         for (int i = 0; i < blocks.size(); i++) {
             //noinspection unchecked
-            uniforms.put(inputPorts.get(i + samplers.size()).name, (List<UniformValue>)organisedNode.inputSources[i + samplers.size()].getPort().outputData);
+            uniforms.put(inputPorts.get(i + samplers.size()).name, (List<UniformValue>)organisedNode.getInputData(i + samplers.size()));
         }
 
         return new PostChainConfig.Pass(

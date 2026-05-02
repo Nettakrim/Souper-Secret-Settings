@@ -40,11 +40,10 @@ public class UniformBlockNode extends Node {
         List<UniformValue> list = new ArrayList<>();
 
         for (int i = 0; i < organisedNode.inputSources.length; i++) {
-            Graph.Source source = organisedNode.inputSources[i];
-            UniformValue uniformValue = (UniformValue)source.getPort().outputData;
+            UniformValue uniformValue = (UniformValue)organisedNode.getInputData(i);
             // this wont work properly if a uniform value is reused, but thats fine for now
             ((InternalUniformValueInterface)uniformValue).luminance$setName(block.uniforms.get(i).name);
-            list.add((UniformValue)source.getPort().outputData);
+            list.add(uniformValue);
         }
 
         outputPorts.getFirst().outputData = list;

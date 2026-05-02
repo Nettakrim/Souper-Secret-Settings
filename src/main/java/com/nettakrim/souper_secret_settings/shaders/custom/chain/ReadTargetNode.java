@@ -20,7 +20,7 @@ public class ReadTargetNode extends Node {
 
     @Override
     public void putOutputData(Graph.OrganisedNode organisedNode, Supplier<String> uuid) {
-        outputPorts.getFirst().outputData = organisedNode.inputSources[0].getPort().outputData;
+        outputPorts.getFirst().outputData = organisedNode.getInputData(0);
     }
 
     @Override

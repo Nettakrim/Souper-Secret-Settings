@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.PostChainConfig;
 import net.minecraft.client.renderer.UniformValue;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector4f;
 
 import java.util.List;
@@ -35,15 +36,16 @@ public class WriteTargetNode extends Node {
         return true;
     }
 
-    public PostChainConfig.Pass getPass(Graph.OrganisedNode organisedNode) {
+    @Override
+    public @Nullable Object getMainObject(Graph.OrganisedNode organisedNode) {
         UniformValue uniformValue = new UniformValue.Vec4Uniform(new Vector4f(1f, 1f, 1f, 1f));
         ((InternalUniformValueInterface)uniformValue).luminance$setName("ColorModulate");
 
         return new PostChainConfig.Pass(
                 Identifier.parse("core/screenquad"),
                 Identifier.parse("post/blit"),
-                List.of(new PostChainConfig.TargetInput("In", Identifier.parse((String)organisedNode.inputSources[0].getPort().outputData), false, false)),
-                Identifier.parse((String)organisedNode.inputSources[1].getPort().outputData),
+                List.of(new PostChainConfig.TargetInput("In", Identifier.parse((String)organisedNode.getInputData(0)), false, false)),
+                Identifier.parse((String)organisedNode.getInputData(1)),
                 Map.of("BlitConfig", List.of(uniformValue))
         );
     }
