@@ -20,10 +20,19 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
-public class ChainGraph extends Graph {
-    private PostChain lastCompiled = null;
+public class ChainGraph extends Graph<PostChainInterface> {
+    @Override
+    public CreationCategory getCreationRoot() {
+        return new ChainCategory();
+    }
 
-    public PostChain compile() throws ShaderManager.CompilationException {
+    @Override
+    protected String getType() {
+        return "chain";
+    }
+
+    @Override
+    protected PostChainInterface compile() throws ShaderManager.CompilationException {
         long start = System.nanoTime();
         OrganisedGraph organisedGraph = organise();
         long organised = System.nanoTime();
@@ -74,7 +83,7 @@ public class ChainGraph extends Graph {
 
         long constructed = System.nanoTime();
 
-        PostChain postChain = PostChain.load(
+        PostChainInterface postChain = (PostChainInterface)PostChain.load(
                 postChainConfig,
                 ClientData.minecraft.getTextureManager(),
                 Set.of(Identifier.withDefaultNamespace("main")),
@@ -88,21 +97,16 @@ public class ChainGraph extends Graph {
 
         // only close on successful recompilation
         if (lastCompiled != null) {
-            closeCaches((PostChainInterface)lastCompiled);
-            lastCompiled.close();
+            closeCaches(lastCompiled.luminance$getPasses(null));
+            for (Identifier identifier : lastCompiled.luminance$getCustomChainNames()) {
+                //noinspection DataFlowIssue
+                closeCaches(lastCompiled.luminance$getPasses(identifier));
+            }
+            ((PostChain)lastCompiled).close();
         }
-        lastCompiled = postChain;
 
         changed = false;
         return postChain;
-    }
-
-    private void closeCaches(PostChainInterface postChainInterface) {
-        closeCaches(postChainInterface.luminance$getPasses(null));
-        for (Identifier identifier : postChainInterface.luminance$getCustomChainNames()) {
-            //noinspection DataFlowIssue
-            closeCaches(postChainInterface.luminance$getPasses(identifier));
-        }
     }
 
     private void closeCaches(List<PostPass> passes) {
@@ -110,15 +114,5 @@ public class ChainGraph extends Graph {
         for (PostPass postPass : passes) {
             deviceInterface.luminance$clearPipelineCache(((PostPassInterface)postPass).luminance$getPipeline());
         }
-    }
-
-    private String getElapsedTime(long start, long end) {
-        long micros = (end-start)/1000;
-        return (micros / 1000)+"."+String.format("%3d",(micros % 1000)).replace(' ', '0')+"ms";
-    }
-
-    @Override
-    public CreationCategory getCreationRoot() {
-        return new ChainCategory();
     }
 }

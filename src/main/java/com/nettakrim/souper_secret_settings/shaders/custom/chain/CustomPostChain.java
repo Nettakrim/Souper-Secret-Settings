@@ -4,12 +4,10 @@ import dev.dannytaylor.luminance.client.data.ClientData;
 import dev.dannytaylor.luminance.client.shaders.interfaces.PostChainInterface;
 import dev.dannytaylor.luminance.client.shaders.interfaces.PostPassInterface;
 import com.mojang.blaze3d.framegraph.FrameGraphBuilder;
-import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.shaders.custom.Wire;
 import net.minecraft.client.renderer.LevelTargetBundle;
 import net.minecraft.client.renderer.PostChain;
 import net.minecraft.client.renderer.PostPass;
-import net.minecraft.client.renderer.ShaderManager;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2i;
@@ -18,7 +16,6 @@ import java.util.List;
 import java.util.Set;
 
 public class CustomPostChain implements PostChainInterface {
-    private PostChainInterface stored;
     public final ChainGraph chainGraph;
 
     public CustomPostChain() {
@@ -51,49 +48,38 @@ public class CustomPostChain implements PostChainInterface {
         chainGraph.changed = true;
     }
 
-    public PostChainInterface get() {
-        if (stored == null || chainGraph.changed) {
-            try {
-                stored = (PostChainInterface) chainGraph.compile();
-            } catch (ShaderManager.CompilationException compilationException) {
-                SouperSecretSettingsClient.log("Failed to compile:",compilationException.getMessage());
-            }
-        }
-        return stored;
-    }
-
     @Override
     public @Nullable List<PostPass> luminance$getPasses(@Nullable Identifier chain) {
-        return get().luminance$getPasses(chain);
+        return chainGraph.getOrCompile().luminance$getPasses(chain);
     }
 
     @Override
     public void luminance$render(FrameGraphBuilder frameGraphBuilder, int width, int height, PostChain.TargetBundle targetBundle, @Nullable Identifier chain) {
-        get().luminance$render(frameGraphBuilder, width, height, targetBundle, chain);
+        chainGraph.getOrCompile().luminance$render(frameGraphBuilder, width, height, targetBundle, chain);
     }
 
     @Override
     public Set<Identifier> luminance$getCustomChainNames() {
-        return get().luminance$getCustomChainNames();
+        return chainGraph.getOrCompile().luminance$getCustomChainNames();
     }
 
     @Override
     public boolean luminance$usesDepth() {
-        return get().luminance$usesDepth();
+        return chainGraph.getOrCompile().luminance$usesDepth();
     }
 
     @Override
     public boolean luminance$usesImprovedTransparency() {
-        return get().luminance$usesImprovedTransparency();
+        return chainGraph.getOrCompile().luminance$usesImprovedTransparency();
     }
 
     @Override
     public boolean luminance$usesPersistentBuffers() {
-        return get().luminance$usesPersistentBuffers();
+        return chainGraph.getOrCompile().luminance$usesPersistentBuffers();
     }
 
     @Override
     public void luminance$setPersistentBufferSource(@Nullable Identifier source) {
-        get().luminance$setPersistentBufferSource(source);
+        chainGraph.getOrCompile().luminance$setPersistentBufferSource(source);
     }
 }

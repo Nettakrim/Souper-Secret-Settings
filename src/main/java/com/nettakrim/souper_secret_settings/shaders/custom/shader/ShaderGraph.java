@@ -1,23 +1,33 @@
 package com.nettakrim.souper_secret_settings.shaders.custom.shader;
 
 import com.mojang.blaze3d.shaders.ShaderType;
+import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.gui.custom.CreationCategory;
 import com.nettakrim.souper_secret_settings.gui.custom.ShaderCategory;
 import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
 import dev.dannytaylor.luminance.client.shaders.Shaders;
 import net.minecraft.client.renderer.ShaderManager;
+import net.minecraft.resources.Identifier;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
-public class ShaderGraph extends Graph {
+public class ShaderGraph extends Graph<Identifier> {
     @Override
     public CreationCategory getCreationRoot() {
         return new ShaderCategory();
     }
 
-    public void compile() throws ShaderManager.CompilationException {
+    @Override
+    protected String getType() {
+        return "shader";
+    }
+
+    @Override
+    protected Identifier compile() throws ShaderManager.CompilationException {
+        long start = System.nanoTime();
         OrganisedGraph organisedGraph = organise();
+        long organised = System.nanoTime();
 
         AtomicInteger variables = new AtomicInteger();
         Supplier<String> uuid = () -> {
@@ -55,5 +65,10 @@ public class ShaderGraph extends Graph {
         shaderBuilder.append("\n}");
 
         Shaders.registerCustomShader(graphId, ShaderType.FRAGMENT, shaderBuilder.toString());
+
+        long constructed = System.nanoTime();
+        SouperSecretSettingsClient.log("Compiled shader in",getElapsedTime(start, constructed),"- Organising:",getElapsedTime(start,organised),"| Constructing:",getElapsedTime(organised,constructed));
+
+        return graphId;
     }
 }

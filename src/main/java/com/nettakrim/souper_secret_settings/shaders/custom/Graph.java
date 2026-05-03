@@ -1,6 +1,7 @@
 package com.nettakrim.souper_secret_settings.shaders.custom;
 
 import com.google.common.collect.ImmutableList;
+import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.gui.custom.CreationCategory;
 import net.minecraft.client.renderer.ShaderManager;
 import net.minecraft.resources.Identifier;
@@ -9,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.function.Supplier;
 
-public abstract class Graph {
+public abstract class Graph<T> {
     public final List<Node> nodes = new ArrayList<>();
     public final HashMap<InputPort,Wire> wires = new HashMap<>();
 
@@ -18,8 +19,10 @@ public abstract class Graph {
     public final Identifier graphId;
     private static long graphIdCounter;
 
+    protected T lastCompiled = null;
+
     public Graph() {
-        graphId = Identifier.fromNamespaceAndPath("graph",String.valueOf(graphIdCounter++));
+        graphId = Identifier.fromNamespaceAndPath(getType(),String.valueOf(graphIdCounter++));
     }
 
     public void addWire(Wire wire) {
@@ -32,6 +35,26 @@ public abstract class Graph {
 
     public abstract CreationCategory getCreationRoot();
 
+    protected abstract String getType();
+
+    public T getOrCompile() {
+        if (changed || lastCompiled == null) {
+            try {
+                lastCompiled = compile();
+            } catch (ShaderManager.CompilationException compilationException) {
+                SouperSecretSettingsClient.log("Failed to compile",graphId,compilationException.getMessage());
+            }
+        }
+        return lastCompiled;
+    }
+
+    protected abstract T compile() throws ShaderManager.CompilationException;
+
+    protected String getElapsedTime(long start, long end) {
+        long micros = (end-start)/1000;
+        return (micros / 1000)+"."+String.format("%3d",(micros % 1000)).replace(' ', '0')+"ms";
+    }
+
     protected OrganisedGraph organise() throws ShaderManager.CompilationException {
         return new OrganisedGraph(this);
     }
@@ -41,7 +64,7 @@ public abstract class Graph {
     protected static class OrganisedGraph {
         public final ImmutableList<OrganisedNode> organisedNodes;
 
-        private OrganisedGraph(Graph graph) throws ShaderManager.CompilationException {
+        private OrganisedGraph(Graph<?> graph) throws ShaderManager.CompilationException {
             ArrayList<OrganisedNode> backwardsNodes = new ArrayList<>(graph.nodes.size());
 
             for (Node node : graph.nodes) {
