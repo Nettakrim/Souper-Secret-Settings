@@ -4,6 +4,7 @@ import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
 import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
 import com.nettakrim.souper_secret_settings.shaders.custom.ValueNode;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -37,7 +38,7 @@ public class StringNode extends ValueNode {
     }
 
     @Override
-    protected Component getTitle() {
+    protected @NotNull Component getTitle() {
         return Component.literal("String");
     }
 }

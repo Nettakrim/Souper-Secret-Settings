@@ -7,6 +7,7 @@ import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
 import com.nettakrim.souper_secret_settings.shaders.custom.ValueNode;
 import net.minecraft.client.renderer.UniformValue;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.NotNull;
 import org.joml.*;
 
 import java.lang.Math;
@@ -48,7 +49,7 @@ public class UniformValueNode extends ValueNode {
     }
 
     @Override
-    protected Component getTitle() {
+    protected @NotNull Component getTitle() {
         return Component.literal("Uniform");
     }
 

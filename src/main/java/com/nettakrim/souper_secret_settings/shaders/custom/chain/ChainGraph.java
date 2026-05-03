@@ -105,7 +105,6 @@ public class ChainGraph extends Graph<PostChainInterface> {
             ((PostChain)lastCompiled).close();
         }
 
-        changed = false;
         return postChain;
     }
 

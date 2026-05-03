@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.PostChainConfig;
 import net.minecraft.client.renderer.UniformValue;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector4f;
 
@@ -51,7 +52,7 @@ public class WriteTargetNode extends Node {
     }
 
     @Override
-    protected Component getTitle() {
+    protected @NotNull Component getTitle() {
         return Component.literal("Write Target");
     }
 }

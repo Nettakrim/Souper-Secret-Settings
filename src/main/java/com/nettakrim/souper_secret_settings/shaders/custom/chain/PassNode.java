@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.PostPass;
 import net.minecraft.client.renderer.UniformValue;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -96,7 +97,7 @@ public class PassNode extends Node {
     }
 
     @Override
-    protected Component getTitle() {
+    protected @NotNull Component getTitle() {
         return Component.literal(name);
     }
 }

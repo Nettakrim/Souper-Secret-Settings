@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GraphScreen extends Screen {
-    private final Graph graph;
+    private final Graph<?> graph;
     private final Screen parent;
     public final Panning panning;
     private final CreationMenu creationMenu;
@@ -33,7 +33,7 @@ public class GraphScreen extends Screen {
 
     private Node hoveredNode;
 
-    public GraphScreen(Graph graph, Screen parent) {
+    public GraphScreen(Graph<?> graph, Screen parent) {
         super(Component.empty());
         this.graph = graph;
         this.parent = parent;

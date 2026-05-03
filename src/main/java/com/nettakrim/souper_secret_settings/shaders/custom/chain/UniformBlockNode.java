@@ -9,6 +9,7 @@ import com.nettakrim.souper_secret_settings.shaders.custom.Node;
 import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
 import net.minecraft.client.renderer.UniformValue;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +51,7 @@ public class UniformBlockNode extends Node {
     }
 
     @Override
-    protected Component getTitle() {
+    protected @NotNull Component getTitle() {
         return Component.literal("Uniform Block");
     }
 }

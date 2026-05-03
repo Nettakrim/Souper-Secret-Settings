@@ -1,12 +1,16 @@
 package com.nettakrim.souper_secret_settings.shaders.custom.chain;
 
+import com.nettakrim.souper_secret_settings.gui.custom.GraphScreen;
 import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
 import com.nettakrim.souper_secret_settings.shaders.custom.Node;
 import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.ShaderGraph;
+import dev.dannytaylor.luminance.client.data.ClientData;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.PostChainConfig;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -44,7 +48,17 @@ public class ShaderNode extends Node {
     }
 
     @Override
-    protected Component getTitle() {
-        return null;
+    protected @NotNull Component getTitle() {
+        return Component.literal("Shader");
+    }
+
+    @Override
+    protected boolean hasSettings() {
+        return true;
+    }
+
+    @Override
+    protected void openSettings(Button button) {
+        ClientData.minecraft.setScreen(new GraphScreen(shaderGraph, ClientData.minecraft.screen));
     }
 }

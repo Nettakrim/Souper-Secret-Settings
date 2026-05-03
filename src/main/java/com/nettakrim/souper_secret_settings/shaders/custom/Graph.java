@@ -41,6 +41,7 @@ public abstract class Graph<T> {
         if (changed || lastCompiled == null) {
             try {
                 lastCompiled = compile();
+                changed = false;
             } catch (ShaderManager.CompilationException compilationException) {
                 SouperSecretSettingsClient.log("Failed to compile",graphId,compilationException.getMessage());
             }

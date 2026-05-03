@@ -4,6 +4,7 @@ import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
 import com.nettakrim.souper_secret_settings.shaders.custom.Node;
 import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
@@ -28,11 +29,11 @@ public class SampleNode extends Node {
 
     @Override
     protected @Nullable Object getMainObject(Graph.OrganisedNode organisedNode) {
-        return "vec4 "+outputPorts.getFirst().outputData + " = texture2d("+organisedNode.getInputData(0)+","+organisedNode.getVectorInput(1, PortType.VEC2)+")";
+        return "vec4 "+outputPorts.getFirst().outputData + " = texture("+organisedNode.getInputData(0)+","+organisedNode.getVectorInput(1, PortType.VEC2)+")";
     }
 
     @Override
-    protected Component getTitle() {
-        return null;
+    protected @NotNull Component getTitle() {
+        return Component.literal("Sample");
     }
 }

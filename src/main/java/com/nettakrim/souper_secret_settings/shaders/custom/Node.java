@@ -1,7 +1,11 @@
 package com.nettakrim.souper_secret_settings.shaders.custom;
 
+import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
+import com.nettakrim.souper_secret_settings.gui.SoupButtonWidget;
 import com.nettakrim.souper_secret_settings.gui.SoupGui;
+import com.nettakrim.souper_secret_settings.gui.custom.GraphScreen;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
@@ -28,6 +32,8 @@ public abstract class Node {
     public boolean selected;
     public boolean hovered;
 
+    protected SoupButtonWidget settingsButton = null;
+
     protected abstract void initialisePorts();
 
     public abstract void putOutputData(Graph.OrganisedNode organisedNode, Supplier<String> uuid);
@@ -53,7 +59,7 @@ public abstract class Node {
         return false;
     }
 
-    protected abstract Component getTitle();
+    protected abstract @NotNull Component getTitle();
 
     public void updatePositions(HashMap<InputPort, Wire> wires) {
         height = baseHeight;
@@ -80,6 +86,16 @@ public abstract class Node {
             outputHeight += outputPort.updateHeight(wires);
             portPos.y += Port.verticalOffset;
         }
+
+        if (hasSettings()) {
+            if (settingsButton == null) {
+                settingsButton = new SoupButtonWidget(SouperSecretSettingsClient.translate("gui.config"), this::openSettings, 0, 0, 12, 12);
+                assert GraphScreen.getInstance() != null;
+                GraphScreen.getInstance().addActualWidget(settingsButton);
+            }
+            settingsButton.setPosition(position.x + width - settingsButton.getWidth() - 1, position.y + 1);
+
+        }
     }
 
     public void renderNode(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
@@ -89,6 +105,10 @@ public abstract class Node {
 
         for (InputPort inputPort : inputPorts) {
             inputPort.renderDockedNode(guiGraphics, mouseX, mouseY, delta);
+        }
+
+        if (settingsButton != null) {
+            settingsButton.render(guiGraphics, mouseX, mouseY, delta);
         }
     }
 
@@ -217,6 +237,12 @@ public abstract class Node {
                 inputPort.docked.clearUICaches();
             }
         }
+
+        if (settingsButton != null) {
+            assert GraphScreen.getInstance() != null;
+            GraphScreen.getInstance().removeActualWidget(settingsButton);
+            settingsButton = null;
+        }
     }
 
     public void clearCompileCaches() {
@@ -226,5 +252,13 @@ public abstract class Node {
                 inputPort.docked.clearCompileCaches();
             }
         }
+    }
+
+    protected boolean hasSettings() {
+        return false;
+    }
+
+    protected void openSettings(Button button) {
+
     }
 }

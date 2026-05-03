@@ -36,7 +36,7 @@ public class ShaderGraph extends Graph<Identifier> {
 
             StringBuilder s = new StringBuilder();
             while (i > 0) {
-                s.append('a'+((i-1)%26));
+                s.append((char)('a'+((i-1)%26)));
                 i /= 26;
             }
             s.reverse();
@@ -62,12 +62,13 @@ public class ShaderGraph extends Graph<Identifier> {
         shaderBuilder.append("out vec4 fragColor;\n");
         shaderBuilder.append("void main() {\n");
         shaderBuilder.append(fragmentBuilder);
-        shaderBuilder.append("\n}");
+        shaderBuilder.append("}");
 
-        Shaders.registerCustomShader(graphId, ShaderType.FRAGMENT, shaderBuilder.toString());
+        String shader = shaderBuilder.toString();
+        Shaders.registerCustomShader(graphId, ShaderType.FRAGMENT, shader);
 
         long constructed = System.nanoTime();
-        SouperSecretSettingsClient.log("Compiled shader in",getElapsedTime(start, constructed),"- Organising:",getElapsedTime(start,organised),"| Constructing:",getElapsedTime(organised,constructed));
+        SouperSecretSettingsClient.log("Compiled shader in",getElapsedTime(start, constructed),"- Organising:",getElapsedTime(start,organised),"| Constructing:",getElapsedTime(organised,constructed),"\n"+shader);
 
         return graphId;
     }
