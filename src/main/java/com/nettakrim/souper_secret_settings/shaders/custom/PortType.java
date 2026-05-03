@@ -47,7 +47,7 @@ public enum PortType {
             }
         } else {
             // type widening
-            String zeros = ",0.0".repeat(dst.ordinal()-src.ordinal());
+            String zeros = (src == VEC1 ? ","+srcUUID : ",0.0").repeat(dst.ordinal()-src.ordinal());
             if (dst == VEC4) {
                 return "vec4("+srcUUID+zeros+")";
             }
