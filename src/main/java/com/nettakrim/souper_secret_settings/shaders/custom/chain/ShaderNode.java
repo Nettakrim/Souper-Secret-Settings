@@ -4,7 +4,11 @@ import com.nettakrim.souper_secret_settings.gui.custom.GraphScreen;
 import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
 import com.nettakrim.souper_secret_settings.shaders.custom.Node;
 import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
+import com.nettakrim.souper_secret_settings.shaders.custom.Wire;
+import com.nettakrim.souper_secret_settings.shaders.custom.shader.FragColorNode;
+import com.nettakrim.souper_secret_settings.shaders.custom.shader.SampleNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.ShaderGraph;
+import com.nettakrim.souper_secret_settings.shaders.custom.shader.TextureNode;
 import dev.dannytaylor.luminance.client.data.ClientData;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.PostChainConfig;
@@ -12,6 +16,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector2i;
 
 import java.util.List;
 import java.util.Map;
@@ -22,6 +27,30 @@ public class ShaderNode extends Node {
 
     public ShaderNode() {
         shaderGraph = new ShaderGraph();
+
+        TextureNode textureNode = new TextureNode();
+        SampleNode sampleNode = new SampleNode();
+        FragColorNode fragColorNode = new FragColorNode();
+        shaderGraph.nodes.add(textureNode);
+        shaderGraph.nodes.add(sampleNode);
+        shaderGraph.nodes.add(fragColorNode);
+
+        Wire a2b = new Wire();
+        a2b.source = textureNode.outputPorts.getFirst();
+        a2b.destination = sampleNode.inputPorts.getFirst();
+        shaderGraph.addWire(a2b);
+
+        Wire b2c = new Wire();
+        b2c.source = sampleNode.outputPorts.getFirst();
+        b2c.destination = fragColorNode.inputPorts.getFirst();
+        shaderGraph.addWire(b2c);
+
+        textureNode.position = new Vector2i(-170, -40);
+        sampleNode.position = new Vector2i(-50, -40);
+        fragColorNode.position = new Vector2i(70, -40);
+
+        shaderGraph.makeChange();
+
         initialisePorts();
     }
 
