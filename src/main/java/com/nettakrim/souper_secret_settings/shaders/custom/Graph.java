@@ -14,7 +14,7 @@ public abstract class Graph<T> {
     public final List<Node> nodes = new ArrayList<>();
     public final HashMap<InputPort,Wire> wires = new HashMap<>();
 
-    public boolean changed;
+    private boolean changed;
 
     public final Identifier graphId;
     private static long graphIdCounter;

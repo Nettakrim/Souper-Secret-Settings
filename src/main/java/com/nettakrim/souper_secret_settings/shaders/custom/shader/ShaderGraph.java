@@ -72,4 +72,10 @@ public class ShaderGraph extends Graph<Identifier> {
 
         return graphId;
     }
+
+    @Override
+    public void makeChange() {
+        super.makeChange();
+        getOrCompile();
+    }
 }
