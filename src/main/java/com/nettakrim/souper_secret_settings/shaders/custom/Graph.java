@@ -212,7 +212,7 @@ public abstract class Graph<T> {
             node.putOutputData(this, uuid);
         }
 
-        public @Nullable Object getMainObject() {
+        public @Nullable Object getMainObject() throws GraphCompilationException {
             return node.getMainObject(this);
         }
 
@@ -220,8 +220,16 @@ public abstract class Graph<T> {
             return inputSources[index].getPort().outputData;
         }
 
-        public String getVectorInput(int input, PortType output) {
+        public String getVectorInput(int input, PortType output) throws GraphCompilationException {
             OutputPort outputPort = inputSources[input].getPort();
+
+            if (outputPort.portType == PortType.VECN) {
+                throw new GraphCompilationException("Using unknown value", outputPort.node);
+            }
+            if (output == PortType.VECN) {
+                throw new GraphCompilationException("Using unknown value", node);
+            }
+
             return PortType.getVector((String)outputPort.outputData, outputPort.portType, output);
         }
     }

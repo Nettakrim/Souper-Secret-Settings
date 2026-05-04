@@ -28,7 +28,7 @@ public class Addition extends Node {
     }
 
     @Override
-    protected @Nullable Object getMainObject(Graph.OrganisedNode organisedNode) {
+    protected @Nullable Object getMainObject(Graph.OrganisedNode organisedNode) throws GraphCompilationException {
         return outputPorts.getFirst().getGlVariableDeclaration() + " = "+organisedNode.getVectorInput(0, dynamicType)+" + "+organisedNode.getVectorInput(1, dynamicType);
     }
 

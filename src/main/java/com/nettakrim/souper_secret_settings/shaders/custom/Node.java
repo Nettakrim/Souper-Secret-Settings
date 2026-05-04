@@ -40,7 +40,7 @@ public abstract class Node {
 
     // main entry into the compiled graph for a given node
     // any dependencies should be handled separately
-    protected @Nullable Object getMainObject(Graph.OrganisedNode organisedNode) {
+    protected @Nullable Object getMainObject(Graph.OrganisedNode organisedNode) throws GraphCompilationException {
         return null;
     }
 
@@ -73,11 +73,12 @@ public abstract class Node {
             portPos.y += Port.verticalOffset;
         }
 
-        // footer offset
-        height += footerHeight;
-
         int outputHeight = baseHeight;
         for (OutputPort outputPort : outputPorts) {
+            if (outputPort.docker != null) {
+                break;
+            }
+
             Vector2i portPos = outputPort.positionCache;
             portPos.set(position);
             portPos.x += width;
@@ -86,6 +87,14 @@ public abstract class Node {
             outputHeight += outputPort.updateHeight(wires);
             portPos.y += Port.verticalOffset;
         }
+
+        // rarely, outputs will be larger than inputs
+        if (outputHeight > height) {
+            height = outputHeight;
+        }
+
+        // footer offset
+        height += footerHeight;
 
         if (hasSettings()) {
             if (settingsButton == null) {

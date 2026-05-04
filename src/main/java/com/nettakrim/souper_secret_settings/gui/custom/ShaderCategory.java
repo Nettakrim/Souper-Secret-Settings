@@ -5,6 +5,7 @@ import com.nettakrim.souper_secret_settings.shaders.custom.shader.SampleNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.TexCoordNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.TextureNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.maths.Addition;
+import com.nettakrim.souper_secret_settings.shaders.custom.shader.maths.Split;
 import net.minecraft.network.chat.Component;
 
 import java.util.List;
@@ -30,7 +31,8 @@ public class ShaderCategory extends CreationCategory {
         @Override
         public List<CreationEntry> getChildren() {
             return List.of(
-                new CreationNode(Component.literal("Add"), Addition::new)
+                    new CreationNode(Component.literal("Split"), Split::new),
+                    new CreationNode(Component.literal("Add"), Addition::new)
             );
         }
 

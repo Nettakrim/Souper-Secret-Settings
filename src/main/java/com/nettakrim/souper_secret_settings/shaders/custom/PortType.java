@@ -32,15 +32,8 @@ public enum PortType {
     }
 
     public static String getVector(String srcUUID, PortType src, PortType dst) {
-        if (src == VECN || dst == VECN) {
-            SouperSecretSettingsClient.log("VECN found for ",srcUUID,"- these should be turned into proper vector types when wires are connected");
-            if (src == VECN) {
-                src = VEC4;
-            }
-            if (dst == VECN) {
-                dst = VEC4;
-            }
-        }
+        assert src != VECN;
+        assert dst != VECN;
 
         // type matches
         if (src == dst) {

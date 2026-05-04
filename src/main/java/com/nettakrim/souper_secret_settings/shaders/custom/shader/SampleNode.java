@@ -1,6 +1,7 @@
 package com.nettakrim.souper_secret_settings.shaders.custom.shader;
 
 import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
+import com.nettakrim.souper_secret_settings.shaders.custom.GraphCompilationException;
 import com.nettakrim.souper_secret_settings.shaders.custom.Node;
 import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
 import net.minecraft.network.chat.Component;
@@ -28,7 +29,7 @@ public class SampleNode extends Node {
     }
 
     @Override
-    protected @Nullable Object getMainObject(Graph.OrganisedNode organisedNode) {
+    protected @Nullable Object getMainObject(Graph.OrganisedNode organisedNode) throws GraphCompilationException {
         return "vec4 "+outputPorts.getFirst().outputData + " = texture("+organisedNode.getInputData(0)+","+organisedNode.getVectorInput(1, PortType.VEC2)+")";
     }
 

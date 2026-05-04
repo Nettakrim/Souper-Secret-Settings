@@ -39,6 +39,9 @@ public abstract class ValueNode extends Node {
     public void updatePositions(HashMap<InputPort, Wire> wires) {
         super.updatePositions(wires);
 
+        // reset height from outputs
+        height = baseHeight + footerHeight;
+
         if (widgets.isEmpty()) {
             GraphScreen instance = GraphScreen.getInstance();
 
