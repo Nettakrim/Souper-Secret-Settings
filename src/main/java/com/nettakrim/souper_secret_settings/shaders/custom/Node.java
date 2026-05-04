@@ -23,8 +23,8 @@ public abstract class Node {
 
     public Vector2i position = new Vector2i();
     public int height;
+    public final int width = 100;
 
-    public static final int width = 100;
     protected static final int baseHeight = 15;
     protected static final int footerHeight = 2;
 

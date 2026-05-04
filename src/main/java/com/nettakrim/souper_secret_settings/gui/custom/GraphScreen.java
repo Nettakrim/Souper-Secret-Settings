@@ -11,6 +11,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import org.jetbrains.annotations.NotNull;
 import org.joml.*;
 
@@ -386,7 +387,29 @@ public class GraphScreen extends Screen {
 
         super.render(guiGraphics, mouseX, mouseY, delta);
 
-        pose.popMatrix();
+        if (graph.lastError != null) {
+            int color = 0xFFFF3050;
+            if (graph.lastError instanceof GraphCompilationException graphCompilationException) {
+                Node node = graphCompilationException.node;
+                guiGraphics.textRenderer().accept(TextAlignment.CENTER,  node.position.x + node.width/2, node.position.y - 11, Component.literal(graphCompilationException.getBaseMessage()).setStyle(Style.EMPTY.withColor(color)));
+                pose.translate(node.position.x, node.position.y);
+                guiGraphics.fill(-1, -1, node.width + 1, 0, color);
+                guiGraphics.fill(-1, -1, 0, node.height + 1, color);
+                guiGraphics.fill(node.width + 1, node.height + 1, node.width, -1, color);
+                guiGraphics.fill(node.width + 1, node.height + 1, -1, node.height, color);
+                pose.popMatrix();
+            } else {
+                pose.popMatrix();
+                guiGraphics.textRenderer().accept(TextAlignment.CENTER, width / 2, 5, Component.literal(graph.lastError.getMessage()).setStyle(Style.EMPTY.withColor(color)));
+                guiGraphics.fill(0, 0, width, 2, color);
+                guiGraphics.fill(0, 0, 2, height, color);
+                guiGraphics.fill(width - 2, height - 2, width, 0, color);
+                guiGraphics.fill(width - 2, height - 2, 0, height, color);
+            }
+        } else {
+            pose.popMatrix();
+        }
+
 
         long change = panning.changedZoom();
         if (change < 0) {

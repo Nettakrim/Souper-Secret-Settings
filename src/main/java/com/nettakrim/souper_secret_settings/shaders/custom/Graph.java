@@ -21,6 +21,7 @@ public abstract class Graph<T> {
     private static long graphIdCounter;
 
     protected T lastCompiled = null;
+    public ShaderManager.CompilationException lastError = null;
 
     public Graph() {
         graphId = Identifier.fromNamespaceAndPath(getType(),String.valueOf(graphIdCounter++));
@@ -56,11 +57,13 @@ public abstract class Graph<T> {
 
     public T getOrCompile() {
         if (changed || lastCompiled == null) {
+            lastError = null;
             changed = false;
             try {
                 lastCompiled = compile();
             } catch (ShaderManager.CompilationException compilationException) {
                 SouperSecretSettingsClient.log("Failed to compile",graphId,compilationException.getMessage());
+                lastError = compilationException;
             }
         }
         return lastCompiled;
@@ -118,7 +121,7 @@ public abstract class Graph<T> {
         private int AddNode(Node node, HashMap<InputPort,Wire> wires, ArrayList<OrganisedNode> backwardsNodes, List<Node> stack, List<OrganisedNode> block, int depth) throws ShaderManager.CompilationException {
             // dont allow loops
             if (stack.contains(node)) {
-                throw new ShaderManager.CompilationException("Loop in graph");
+                throw new GraphCompilationException("Loop in graph", node);
             }
             stack.add(node);
 
@@ -200,7 +203,7 @@ public abstract class Graph<T> {
                 }
 
                 if (inputSources[i].node == null) {
-                    throw new ShaderManager.CompilationException("null source in input "+i+" of node \""+node+"\"");
+                    throw new GraphCompilationException("Input \""+port.name+"\" is empty", node);
                 }
             }
         }
