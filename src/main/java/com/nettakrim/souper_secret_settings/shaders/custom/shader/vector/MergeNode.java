@@ -1,9 +1,6 @@
 package com.nettakrim.souper_secret_settings.shaders.custom.shader.vector;
 
-import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
-import com.nettakrim.souper_secret_settings.shaders.custom.GraphCompilationException;
-import com.nettakrim.souper_secret_settings.shaders.custom.Node;
-import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
+import com.nettakrim.souper_secret_settings.shaders.custom.*;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,6 +13,10 @@ public class MergeNode extends Node {
     public MergeNode(PortType type) {
         this.type = type;
         initialisePorts();
+
+        for (InputPort inputPort : inputPorts) {
+            inputPort.docked = new FloatNode();
+        }
     }
 
     @Override
