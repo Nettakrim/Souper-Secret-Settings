@@ -151,9 +151,9 @@ public abstract class Graph<T> {
                 }
             }
 
+            node.includedInLastCompile = true;
             OrganisedNode organisedNode = new OrganisedNode(node, wires, depth);
             block.add(organisedNode);
-            node.includedInLastCompile = true;
 
             // recursively add all sources of the node
             // it is desirable that this is depth first, since it means chains are likely to be continuous in memory
