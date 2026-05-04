@@ -8,8 +8,8 @@ import java.util.function.BiPredicate;
 public enum PortType {
     TARGET        (0x00FFFF, Objects::equals, "ERROR"),
     STRING        (0xA050FF, Objects::equals, "ERROR"),
-    BLOCK         (0xFF0000, Objects::equals, "ERROR"),
-    UNIFORM_VALUE (0xFF8000, Objects::equals, "ERROR"),
+    BLOCK         (0xFF6000, Objects::equals, "ERROR"),
+    UNIFORM_VALUE (0xFFB000, Objects::equals, "ERROR"),
     VECN          (0xFFFFFF, PortType::vectorCoercion, "ERROR"),
     VEC1          (0xC0E050, PortType::vectorCoercion, "float"),
     VEC2          (0x80E050, PortType::vectorCoercion, "vec2"),
