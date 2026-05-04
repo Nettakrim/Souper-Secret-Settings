@@ -4,7 +4,10 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.TextAlignment;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+
 public class OutputPort extends Port {
+    public Node docker;
     public Object outputData;
 
     public OutputPort(Node node, String name, PortType portType) {
@@ -28,5 +31,23 @@ public class OutputPort extends Port {
 
     public String getGlVariableDeclaration() {
         return portType.glType + " " + outputData;
+    }
+
+    @Override
+    public boolean setPortType(PortType portType, HashMap<InputPort, Wire> wires) {
+        if (super.setPortType(portType, wires)) {
+            // propagate changes
+            if (docker != null) {
+                docker.updateConnections(wires);
+            } else {
+                for (Wire wire : wires.values()) {
+                    if (wire.source == this) {
+                        wire.destination.node.updateConnections(wires);
+                    }
+                }
+            }
+            return true;
+        }
+        return false;
     }
 }

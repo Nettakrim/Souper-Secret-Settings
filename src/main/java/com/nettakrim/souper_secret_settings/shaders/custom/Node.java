@@ -138,7 +138,7 @@ public abstract class Node {
 
         if (source != null) {
             // undock node
-            source.docked = null;
+            source.setDock(null);
             Wire wire = new Wire();
             wire.source = outputPorts.getFirst();
             wire.destination = source;
@@ -161,9 +161,10 @@ public abstract class Node {
             }
 
             if (node.outputPorts.getFirst().canConnectTo(inputPort) && mouseY >= inputPort.positionCache.y - 3 && mouseY <= inputPort.positionCache.y + 3) {
-                inputPort.docked = node;
+                inputPort.setDock(node);
                 wires.remove(inputPort);
-                wires.values().removeIf((wire -> wire.source.node == node));
+                Graph.removeWiresIf(wires, wire -> wire.source.node == node);
+                node.updateConnections(wires);
                 return true;
             }
         }
@@ -228,7 +229,7 @@ public abstract class Node {
             }
         }
 
-        wires.values().removeIf(wire -> wire.source.node == this);
+        Graph.removeWiresIf(wires, wire -> wire.source.node == this);
     }
 
     public void clearUICaches() {
@@ -264,5 +265,36 @@ public abstract class Node {
 
     public void updateConnections(HashMap<InputPort, Wire> wires) {
 
+    }
+
+    protected PortType setTypeToWidestVector(HashMap<InputPort, Wire> wires) {
+        // set all port types to be the widest input type
+        // this currently relies on the ordinals of the types, so it is fragile
+        PortType dynamicType = PortType.VECN;
+
+        for (InputPort inputPort : inputPorts) {
+            PortType inputType = null;
+            Wire wire = wires.get(inputPort);
+
+            if (wire != null) {
+                inputType = wire.source.portType;
+            } else if (inputPort.docked != null) {
+                inputType = inputPort.docked.outputPorts.getFirst().portType;
+            }
+
+            if (inputType != null && inputType.ordinal() > dynamicType.ordinal()) {
+                dynamicType = inputType;
+            }
+        }
+
+        for (InputPort inputPort : inputPorts) {
+            inputPort.setPortType(dynamicType, wires);
+        }
+
+        for (OutputPort outputPort : outputPorts) {
+            outputPort.setPortType(dynamicType, wires);
+        }
+
+        return dynamicType;
     }
 }

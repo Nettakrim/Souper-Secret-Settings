@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 public class SampleNode extends Node {
     public SampleNode() {
         initialisePorts();
-        inputPorts.get(1).docked = new TexCoordNode();
+        inputPorts.get(1).setDock(new TexCoordNode());
     }
 
     @Override

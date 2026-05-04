@@ -39,26 +39,6 @@ public class Addition extends Node {
 
     @Override
     public void updateConnections(HashMap<InputPort, Wire> wires) {
-        // set all port types to be the widest input type
-        // this currently relies on the ordinals of the types, so it is fragile
-        dynamicType = PortType.VECN;
-
-        for (InputPort inputPort : inputPorts) {
-            Wire wire = wires.get(inputPort);
-            if (wire != null) {
-                PortType inputType = wire.source.portType;
-                if (inputType.ordinal() > dynamicType.ordinal()) {
-                    dynamicType = inputType;
-                }
-            }
-        }
-
-        for (InputPort inputPort : inputPorts) {
-            inputPort.portType = dynamicType;
-        }
-
-        for (OutputPort outputPort : outputPorts) {
-            outputPort.portType = dynamicType;
-        }
+        dynamicType = setTypeToWidestVector(wires);
     }
 }

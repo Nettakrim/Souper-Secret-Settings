@@ -95,6 +95,7 @@ public class GraphScreen extends Screen {
                         drawingWire.destination = inputPort;
                         drawingEnd = drawingWire.source = new OutputPort(null, "", port.portType);
                     } else {
+                        drawingWire.destination.node.updateConnections(graph.wires);
                         drawingEnd = drawingWire.destination = new InputPort(null, "", drawingWire.source.portType);
                     }
                 }
@@ -157,7 +158,6 @@ public class GraphScreen extends Screen {
             if (drawingWire.destination != drawingEnd && drawingWire.source != drawingEnd) {
                 drawingWire.destination.hideDock(graph.wires);
                 graph.addWire(drawingWire);
-                drawingWire.destination.node.updateConnections(graph.wires);
             }
             topologyChanged();
             drawingEnd = null;
@@ -219,7 +219,7 @@ public class GraphScreen extends Screen {
         if (mouseButtonEvent.button() == 1) {
             Vector2i a = new Vector2i((int)Math.round(mouseButtonEvent.x()), (int)Math.round(mouseButtonEvent.y()));
             Vector2i b = new Vector2i((int)Math.round(mouseButtonEvent.x()-deltaX), (int)Math.round(mouseButtonEvent.y()-deltaY));
-            if (graph.wires.values().removeIf((wire) -> wire.cut(a,b))) {
+            if (Graph.removeWiresIf(graph.wires, (wire) -> wire.cut(a,b))) {
                 topologyChanged();
                 creationMenu.setActive(false);
             }
@@ -319,6 +319,7 @@ public class GraphScreen extends Screen {
 
     private void createNode(Node node) {
         graph.nodes.add(node);
+        node.updateConnections(graph.wires);
         creationMenu.setActive(false);
     }
 

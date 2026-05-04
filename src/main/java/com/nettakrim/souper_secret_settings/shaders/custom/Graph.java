@@ -8,6 +8,7 @@ import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public abstract class Graph<T> {
@@ -27,6 +28,22 @@ public abstract class Graph<T> {
 
     public void addWire(Wire wire) {
         wires.put(wire.destination, wire);
+        wire.destination.node.updateConnections(wires);
+    }
+
+    public static boolean removeWiresIf(HashMap<InputPort, Wire> wires, Predicate<Wire> predicate) {
+        boolean cut = false;
+        Iterator<Wire> i = wires.values().iterator();
+        while (i.hasNext()) {
+            Wire wire = i.next();
+            if (predicate.test(wire)) {
+                i.remove();
+                cut = true;
+                wire.destination.node.updateConnections(wires);
+            }
+        }
+
+        return cut;
     }
 
     public void makeChange() {

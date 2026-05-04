@@ -44,4 +44,12 @@ public abstract class Port {
         }
         return null;
     }
+
+    public boolean setPortType(PortType portType, HashMap<InputPort, Wire> wires) {
+        if (this.portType != portType) {
+            this.portType = portType;
+            return true;
+        }
+        return false;
+    }
 }

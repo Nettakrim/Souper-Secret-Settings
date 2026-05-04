@@ -44,7 +44,7 @@ public class PassNode extends Node {
 
         for (int i = 0; i < blocks.size(); i++) {
             InputPort inputPort = inputPorts.get(i + samplers.size());
-            inputPort.docked = new UniformBlockNode(postPassInterface.luminance$getUniformBlocks().get(inputPort.name));
+            inputPort.setDock(new UniformBlockNode(postPassInterface.luminance$getUniformBlocks().get(inputPort.name)));
         }
     }
 

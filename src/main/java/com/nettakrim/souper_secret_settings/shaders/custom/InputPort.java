@@ -71,4 +71,14 @@ public class InputPort extends Port {
             docked.hideDock(wires);
         }
     }
+
+    public void setDock(Node newDock) {
+        if (docked != null) {
+            docked.outputPorts.getFirst().docker = null;
+        }
+        docked = newDock;
+        if (docked != null) {
+            docked.outputPorts.getFirst().docker = node;
+        }
+    }
 }

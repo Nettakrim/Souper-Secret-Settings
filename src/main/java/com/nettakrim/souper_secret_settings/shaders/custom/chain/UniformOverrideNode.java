@@ -34,7 +34,7 @@ public class UniformOverrideNode extends Node {
         }
 
         for (int i = 0; i < template.size(); i++) {
-            inputPorts.get(i).docked = new StringNode(strings.get(i));
+            inputPorts.get(i).setDock(new StringNode(strings.get(i)));
         }
     }
 
