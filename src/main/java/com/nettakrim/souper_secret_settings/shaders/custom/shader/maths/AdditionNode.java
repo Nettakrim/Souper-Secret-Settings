@@ -8,10 +8,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.function.Supplier;
 
-public class Addition extends Node {
+public class AdditionNode extends Node {
     private PortType dynamicType;
 
-    public Addition() {
+    public AdditionNode() {
         initialisePorts();
     }
 
