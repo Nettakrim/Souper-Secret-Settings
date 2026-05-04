@@ -155,8 +155,9 @@ public class GraphScreen extends Screen {
 
         if (drawingWire != null) {
             if (drawingWire.destination != drawingEnd && drawingWire.source != drawingEnd) {
-                drawingWire.destination.onDock(graph.wires);
+                drawingWire.destination.hideDock(graph.wires);
                 graph.addWire(drawingWire);
+                drawingWire.destination.node.updateConnections(graph.wires);
             }
             topologyChanged();
             drawingEnd = null;

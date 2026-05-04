@@ -11,7 +11,7 @@ import java.util.HashMap;
 public abstract class Port {
     public final Node node;
     public final String name;
-    public final PortType portType;
+    public PortType portType;
     protected final Component text;
 
     public static final int baseHeight = 10;

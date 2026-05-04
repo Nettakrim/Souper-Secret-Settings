@@ -179,9 +179,9 @@ public abstract class Node {
         return position.x < Math.max(x1, x2) && position.x + width > Math.min(x1, x2) && position.y < Math.max(y1, y2) && position.y + height > Math.min(y1, y2);
     }
 
-    public void onDock(HashMap<InputPort, Wire> wires) {
+    public void hideDock(HashMap<InputPort, Wire> wires) {
         for (InputPort inputPort : inputPorts) {
-            inputPort.onDock(wires);
+            inputPort.hideDock(wires);
         }
     }
 
@@ -259,6 +259,10 @@ public abstract class Node {
     }
 
     protected void openSettings(Button button) {
+
+    }
+
+    public void updateConnections(HashMap<InputPort, Wire> wires) {
 
     }
 }

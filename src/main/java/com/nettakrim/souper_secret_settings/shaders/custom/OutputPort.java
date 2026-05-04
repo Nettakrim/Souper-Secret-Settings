@@ -25,4 +25,8 @@ public class OutputPort extends Port {
 
         return portType.canConnect.test(portType, inputPort.portType);
     }
+
+    public String getGlVariableDeclaration() {
+        return portType.glType + " " + outputData;
+    }
 }

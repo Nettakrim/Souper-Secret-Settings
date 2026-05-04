@@ -64,11 +64,11 @@ public class InputPort extends Port {
         return null;
     }
 
-    public void onDock(HashMap<InputPort, Wire> wires) {
+    public void hideDock(HashMap<InputPort, Wire> wires) {
         // recursively remove any wires attached to docked nodes
         wires.remove(this);
         if (docked != null) {
-            docked.onDock(wires);
+            docked.hideDock(wires);
         }
     }
 }

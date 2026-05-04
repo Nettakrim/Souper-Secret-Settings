@@ -6,29 +6,42 @@ import java.util.Objects;
 import java.util.function.BiPredicate;
 
 public enum PortType {
-    TARGET        (0x00FFFF, Objects::equals),
-    STRING        (0xA050FF, Objects::equals),
-    BLOCK         (0xFF0000, Objects::equals),
-    UNIFORM_VALUE (0xFF8000, Objects::equals),
-    VEC1          (0xC0E050, PortType::vectorCoercion),
-    VEC2          (0x80E050, PortType::vectorCoercion),
-    VEC3          (0x20D060, PortType::vectorCoercion),
-    VEC4          (0x30D0A0, PortType::vectorCoercion);
+    TARGET        (0x00FFFF, Objects::equals, "ERROR"),
+    STRING        (0xA050FF, Objects::equals, "ERROR"),
+    BLOCK         (0xFF0000, Objects::equals, "ERROR"),
+    UNIFORM_VALUE (0xFF8000, Objects::equals, "ERROR"),
+    VECN          (0xFFFFFF, PortType::vectorCoercion, "ERROR"),
+    VEC1          (0xC0E050, PortType::vectorCoercion, "float"),
+    VEC2          (0x80E050, PortType::vectorCoercion, "vec2"),
+    VEC3          (0x20D060, PortType::vectorCoercion, "vec3"),
+    VEC4          (0x30D0A0, PortType::vectorCoercion, "vec4");
 
     public final int color; // color for line rendering
     public final BiPredicate<PortType, PortType> canConnect; // connection rule, lhs is the source type and rhs is the destination type
+    public final String glType;
 
-    PortType(int color, BiPredicate<PortType, PortType> canConnect) {
+    PortType(int color, BiPredicate<PortType, PortType> canConnect, String glType) {
         this.color = 0xFF000000 | color;
         this.canConnect = canConnect;
+        this.glType = glType;
     }
 
     private static boolean vectorCoercion(PortType src, PortType dst) {
-        return (src == VEC1 || src == VEC2 || src == VEC3 || src == VEC4) &&
-               (dst == VEC1 || dst == VEC2 || dst == VEC3 || dst == VEC4);
+        return (src == VEC1 || src == VEC2 || src == VEC3 || src == VEC4 || src == VECN) &&
+               (dst == VEC1 || dst == VEC2 || dst == VEC3 || dst == VEC4 || dst == VECN);
     }
 
     public static String getVector(String srcUUID, PortType src, PortType dst) {
+        if (src == VECN || dst == VECN) {
+            SouperSecretSettingsClient.log("VECN found for ",srcUUID,"- these should be turned into proper vector types when wires are connected");
+            if (src == VECN) {
+                src = VEC4;
+            }
+            if (dst == VECN) {
+                dst = VEC4;
+            }
+        }
+
         // type matches
         if (src == dst) {
             return srcUUID;

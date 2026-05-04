@@ -76,8 +76,8 @@ public abstract class ValueNode extends Node {
     }
 
     @Override
-    public void onDock(HashMap<InputPort, Wire> wires) {
-        super.onDock(wires);
+    public void hideDock(HashMap<InputPort, Wire> wires) {
+        super.hideDock(wires);
         removeWidgets();
     }
 
