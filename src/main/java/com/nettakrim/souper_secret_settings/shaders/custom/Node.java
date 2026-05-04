@@ -162,8 +162,8 @@ public abstract class Node {
 
             if (node.outputPorts.getFirst().canConnectTo(inputPort) && mouseY >= inputPort.positionCache.y - 3 && mouseY <= inputPort.positionCache.y + 3) {
                 inputPort.setDock(node);
-                wires.remove(inputPort);
-                Graph.removeWiresIf(wires, wire -> wire.source.inSameExpression(node));
+                // remove any nodes connected to the now docked output, or any now looping nodes
+                Graph.removeWiresIf(wires, wire -> (wire.source.node == node || wire.source.inSameExpression(wire.destination.node)));
                 node.updateConnections(wires);
                 updateConnections(wires);
                 return true;
