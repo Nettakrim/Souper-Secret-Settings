@@ -27,6 +27,7 @@ public class Split extends Node {
     @Override
     public void putOutputData(Graph.OrganisedNode organisedNode, Supplier<String> uuid) {
         int count = dynamicType.ordinal() - PortType.VECN.ordinal();
+
         for (int i = 0; i < count; i++) {
             outputPorts.get(i).outputData = uuid.get();
         }
@@ -41,7 +42,10 @@ public class Split extends Node {
             if (!stringBuilder.isEmpty()) {
                 stringBuilder.append(";\n");
             }
-            stringBuilder.append("float ").append(outputPorts.get(i).outputData).append(" = ").append(inputVariable).append('.').append("xyzw".charAt(i));
+            stringBuilder.append("float ").append(outputPorts.get(i).outputData).append(" = ").append(inputVariable);
+            if (count > 1) {
+                stringBuilder.append('.').append("xyzw".charAt(i));
+            }
         }
 
         return stringBuilder.toString();
@@ -67,6 +71,7 @@ public class Split extends Node {
         port.setPortType(dynamicType, wires);
 
         int count = dynamicType.ordinal() - PortType.VECN.ordinal();
+
         for (int i = 0; i < 4; i++) {
             outputPorts.get(i).setPortType(i < count ? PortType.VEC1 : PortType.VECN, wires);
         }
