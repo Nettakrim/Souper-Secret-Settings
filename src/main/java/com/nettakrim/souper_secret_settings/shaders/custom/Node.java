@@ -163,8 +163,9 @@ public abstract class Node {
             if (node.outputPorts.getFirst().canConnectTo(inputPort) && mouseY >= inputPort.positionCache.y - 3 && mouseY <= inputPort.positionCache.y + 3) {
                 inputPort.setDock(node);
                 wires.remove(inputPort);
-                Graph.removeWiresIf(wires, wire -> wire.source.node == node);
+                Graph.removeWiresIf(wires, wire -> wire.source.inSameExpression(node));
                 node.updateConnections(wires);
+                updateConnections(wires);
                 return true;
             }
         }

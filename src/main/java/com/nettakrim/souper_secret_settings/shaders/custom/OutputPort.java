@@ -5,6 +5,7 @@ import net.minecraft.client.gui.TextAlignment;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.Stack;
 
 public class OutputPort extends Port {
     public Node docker;
@@ -22,7 +23,7 @@ public class OutputPort extends Port {
 
     public boolean canConnectTo(InputPort inputPort) {
         // dont allow self connections
-        if (node == inputPort.node) {
+        if (inSameExpression(inputPort.node)) {
             return false;
         }
 
@@ -48,6 +49,40 @@ public class OutputPort extends Port {
             }
             return true;
         }
+        return false;
+    }
+
+    public boolean inSameExpression(Node trial) {
+        // trivial check
+        if (node == trial) {
+            return true;
+        }
+
+        // get top most docked node
+        Node top = node;
+        if (docker != null) {
+            while (top.outputPorts.size() == 1 && top.outputPorts.getFirst().docker != null) {
+                top = top.outputPorts.getFirst().docker;
+            }
+        }
+
+        // then check all children
+        Stack<Node> check = new Stack<>();
+        check.push(top);
+
+        while (!check.isEmpty()) {
+            Node candidate = check.pop();
+            if (candidate == trial) {
+                return true;
+            }
+
+            for (InputPort inputPort : candidate.inputPorts) {
+                if (inputPort.docked != null) {
+                    check.push(inputPort.docked);
+                }
+            }
+        }
+
         return false;
     }
 }
