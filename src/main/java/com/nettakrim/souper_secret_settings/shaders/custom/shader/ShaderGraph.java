@@ -68,7 +68,7 @@ public class ShaderGraph extends Graph<Identifier> {
         Shaders.registerCustomShader(graphId, ShaderType.FRAGMENT, shader);
 
         long constructed = System.nanoTime();
-        SouperSecretSettingsClient.log("Compiled shader in",getElapsedTime(start, constructed),"- Organising:",getElapsedTime(start,organised),"| Constructing:",getElapsedTime(organised,constructed),"\n"+shader);
+        SouperSecretSettingsClient.log("Compiled shader in",getElapsedTime(start, constructed),"- Organising:",getElapsedTime(start,organised),"| Constructing:",getElapsedTime(organised,constructed));
 
         return graphId;
     }

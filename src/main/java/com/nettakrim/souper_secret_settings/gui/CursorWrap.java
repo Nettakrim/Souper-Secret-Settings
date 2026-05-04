@@ -56,7 +56,7 @@ public class CursorWrap {
         }
 
         //noinspection DataFlowIssue
-        GLFW.glfwSetCursorPos(((WindowAccessor)(Object)window).getHandle(), xPos * scale, yPos * scale);
+        GLFW.glfwSetCursorPos(((WindowAccessor)(Object)window).getHandle(), xPos * scale + 0.5, yPos * scale + 0.5);
 
         // modify deltaX, since setting the cursor pos will add that offset to the next frames input
         return deltaX;

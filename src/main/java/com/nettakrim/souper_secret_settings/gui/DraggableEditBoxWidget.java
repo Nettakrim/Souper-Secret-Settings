@@ -64,7 +64,10 @@ public class DraggableEditBoxWidget extends EditBox implements ListChild {
 
     @Override
     public void setValue(@NotNull String text) {
+        // calls value update twice
         super.setValue(text);
-        this.moveCursorToStart(false);
+        // moveCursorToStart calls it once, this doesn't
+        this.setCursorPosition(0);
+        this.setHighlightPos(0);
     }
 }
