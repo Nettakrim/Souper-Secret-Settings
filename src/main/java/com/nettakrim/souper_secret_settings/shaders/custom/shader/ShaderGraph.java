@@ -9,6 +9,7 @@ import dev.dannytaylor.luminance.client.shaders.Shaders;
 import net.minecraft.client.renderer.ShaderManager;
 import net.minecraft.resources.Identifier;
 
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
@@ -44,7 +45,7 @@ public class ShaderGraph extends Graph<Identifier> {
             return s.toString();
         };
 
-        StringBuilder shaderBuilder = new StringBuilder("#version 330\n");
+        HashMap<String, String> functions = new HashMap<>();
         StringBuilder fragmentBuilder = new StringBuilder();
         for (OrganisedNode organisedNode : organisedGraph.organisedNodes) {
             organisedNode.calculateOutputData(uuid);
@@ -54,12 +55,21 @@ public class ShaderGraph extends Graph<Identifier> {
             if (mainObject != null) {
                 fragmentBuilder.append(mainObject).append(";\n");
             }
+
+            if (organisedNode.node instanceof FunctionDependency functionDependency) {
+                functions.putIfAbsent(functionDependency.functionName(), functionDependency.functionImplementation());
+            }
         }
 
-        shaderBuilder.append("// dependencies\n");
+        StringBuilder shaderBuilder = new StringBuilder("#version 330\n");
         shaderBuilder.append("uniform sampler2D InSampler;\n");
         shaderBuilder.append("in vec2 texCoord;\n");
-        shaderBuilder.append("out vec4 fragColor;\n");
+        shaderBuilder.append("out vec4 fragColor;\n\n");
+
+        for (String functionBody : functions.values()) {
+            shaderBuilder.append(functionBody).append("\n");
+        }
+
         shaderBuilder.append("void main() {\n");
         shaderBuilder.append(fragmentBuilder);
         shaderBuilder.append("}");
@@ -69,7 +79,7 @@ public class ShaderGraph extends Graph<Identifier> {
 
         long constructed = System.nanoTime();
         SouperSecretSettingsClient.log("Compiled shader in",getElapsedTime(start, constructed),"- Organising:",getElapsedTime(start,organised),"| Constructing:",getElapsedTime(organised,constructed));
-
+        
         return graphId;
     }
 
