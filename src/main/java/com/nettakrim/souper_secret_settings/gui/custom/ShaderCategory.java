@@ -11,6 +11,7 @@ import com.nettakrim.souper_secret_settings.shaders.custom.shader.maths.DynamicO
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.vector.FloatNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.vector.MergeNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.vector.SplitNode;
+import com.nettakrim.souper_secret_settings.shaders.custom.shader.vector.VectorNode;
 import net.minecraft.network.chat.Component;
 
 import java.util.List;
@@ -39,11 +40,12 @@ public class ShaderCategory extends CreationCategory {
         @Override
         public List<CreationEntry> getChildren() {
             return List.of(
-                    new CreationNode(Component.literal("Value"), FloatNode::new),
+                    new CreationNode(Component.literal("Float"), FloatNode::new),
+                    new CreationNode(Component.literal("Vector 2"), () -> new VectorNode(PortType.VEC2)),
+                    new CreationNode(Component.literal("Vector 3"), () -> new VectorNode(PortType.VEC3)),
+                    new CreationNode(Component.literal("Vector 4"), () -> new VectorNode(PortType.VEC4)),
                     new CreationNode(Component.literal("Split"), SplitNode::new),
-                    new CreationNode(Component.literal("Vec2"), () -> new MergeNode(PortType.VEC2)),
-                    new CreationNode(Component.literal("Vec3"), () -> new MergeNode(PortType.VEC3)),
-                    new CreationNode(Component.literal("Vec4"), () -> new MergeNode(PortType.VEC4)),
+                    new CreationNode(Component.literal("Merge"), MergeNode::new),
 
                     FloatOutputMathsNode.get(Component.literal("Length"), "length(%s)"),
                     FloatOutputMathsNode.get(Component.literal("Distance"), "distance(%s, %s)"),

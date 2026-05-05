@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.function.BiPredicate;
 
 public enum PortType {
+    UNUSED        (0x000000, PortType::vectorCoercion, "ERROR"), // use for inputs that are fine to be empty
     TARGET        (0x00FFFF, Objects::equals, "ERROR"),
     STRING        (0xA050FF, Objects::equals, "ERROR"),
     BLOCK         (0xFF6000, Objects::equals, "ERROR"),
@@ -27,13 +28,15 @@ public enum PortType {
     }
 
     private static boolean vectorCoercion(PortType src, PortType dst) {
-        return (src == VEC1 || src == VEC2 || src == VEC3 || src == VEC4 || src == VECN) &&
-               (dst == VEC1 || dst == VEC2 || dst == VEC3 || dst == VEC4 || dst == VECN);
+        return (src == VEC1 || src == VEC2 || src == VEC3 || src == VEC4 || src == VECN || src == UNUSED) &&
+               (dst == VEC1 || dst == VEC2 || dst == VEC3 || dst == VEC4 || dst == VECN || dst == UNUSED);
     }
 
     public static String getVector(String srcUUID, PortType src, PortType dst) {
         assert src != VECN;
         assert dst != VECN;
+        assert src != UNUSED;
+        assert dst != UNUSED;
 
         // type matches
         if (src == dst) {

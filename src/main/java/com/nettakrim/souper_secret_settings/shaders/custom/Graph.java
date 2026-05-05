@@ -160,7 +160,7 @@ public abstract class Graph<T> {
             // ... however the sort will break this
             int min = Integer.MAX_VALUE;
             for (Source source : organisedNode.inputSources) {
-                if (source == null) {
+                if (source == null || source.node == null) {
                     continue;
                 }
 
@@ -202,7 +202,7 @@ public abstract class Graph<T> {
                     inputSources[i] = new Source(wire.source.node, wire.source.node.outputPorts.indexOf(wire.source));
                 }
 
-                if (inputSources[i].node == null) {
+                if (inputSources[i].node == null && port.portType != PortType.UNUSED) {
                     throw new GraphCompilationException("Input \""+port.name+"\" is empty", node);
                 }
             }
