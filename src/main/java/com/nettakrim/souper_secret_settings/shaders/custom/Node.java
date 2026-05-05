@@ -277,7 +277,7 @@ public abstract class Node {
 
     }
 
-    protected PortType setTypeToWidestVector(HashMap<InputPort, Wire> wires) {
+    protected PortType setInputsToWidestType(HashMap<InputPort, Wire> wires) {
         // set all port types to be the widest input type
         // this currently relies on the ordinals of the types, so it is fragile
         PortType dynamicType = PortType.VECN;
@@ -299,10 +299,6 @@ public abstract class Node {
 
         for (InputPort inputPort : inputPorts) {
             inputPort.setPortType(dynamicType, wires);
-        }
-
-        for (OutputPort outputPort : outputPorts) {
-            outputPort.setPortType(dynamicType, wires);
         }
 
         return dynamicType;
