@@ -6,6 +6,7 @@ import com.nettakrim.souper_secret_settings.shaders.custom.shader.SampleNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.TexCoordNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.TextureNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.color.HueRotateNode;
+import com.nettakrim.souper_secret_settings.shaders.custom.shader.color.SaturationNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.maths.CrossNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.maths.FloatOutputMathsNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.maths.DynamicOutputMathsNode;
@@ -148,7 +149,8 @@ public class ShaderCategory extends CreationCategory {
         @Override
         public List<CreationEntry> getChildren() {
             return List.of(
-                    new CreationNode(Component.literal("Hue Rotate"), HueRotateNode::new)
+                    new CreationNode(Component.literal("Hue Rotate"), HueRotateNode::new),
+                    new CreationNode(Component.literal("Saturation"), SaturationNode::new)
             );
         }
 
