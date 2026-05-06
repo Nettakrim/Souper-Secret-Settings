@@ -139,13 +139,28 @@ public abstract class Graph<T> {
             // since its one sort vs a lot of insertions into an array (that could be batched though)
             // this needs testing
             for (OrganisedNode blockEntry : block) {
-                if (blockEntry.node == node && blockEntry.depth < depth) {
-                    int offset = depth - blockEntry.depth;
-                    Stack<OrganisedNode> propagate = new Stack<>();
-                    propagate.push(blockEntry);
-                    while (!propagate.isEmpty()) {
-                        OrganisedNode increment = propagate.pop();
-                        increment.depth += offset;
+                if (blockEntry.node == node) {
+                    if (blockEntry.depth < depth) {
+                        int offset = depth - blockEntry.depth;
+                        Stack<OrganisedNode> propagate = new Stack<>();
+                        propagate.push(blockEntry);
+
+                        SouperSecretSettingsClient.log("Fixing node depth");
+
+                        while (!propagate.isEmpty()) {
+                            OrganisedNode increment = propagate.pop();
+                            increment.depth += offset;
+                            // incredibly inefficient way to get children, this code really needs to be cleaned up
+                            for (Source source : increment.inputSources) {
+                                if (source.node != null) {
+                                    for (OrganisedNode other : block) {
+                                        if (other.node == source.node) {
+                                            propagate.push(other);
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                     return Integer.MAX_VALUE;
                 }
