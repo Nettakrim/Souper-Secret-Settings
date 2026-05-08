@@ -67,13 +67,13 @@ public class ShaderNode extends Node {
 
     @Override
     protected @Nullable Object getMainObject(Graph.OrganisedNode organisedNode) {
-        return new PostChainConfig.Pass(
+        return List.of(new PostChainConfig.Pass(
                 Identifier.parse("core/screenquad"),
                 shaderGraph.getOrCompile(),
                 List.of(new PostChainConfig.TargetInput("In", Identifier.parse((String)organisedNode.getInputData(0)), false, false)),
                 Identifier.parse((String)outputPorts.getFirst().outputData),
                 Map.of()
-        );
+        ));
     }
 
     @Override

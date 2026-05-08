@@ -106,6 +106,7 @@ public class ShaderCategory extends CreationCategory {
                     DynamicOutputMathsNode.get(Component.literal("Min"), "min(%s, %s)"),
                     DynamicOutputMathsNode.get(Component.literal("Max"), "max(%s, %s)"),
                     DynamicOutputMathsNode.get(Component.literal("Clamp"), "clamp(%s, %s, %s)", "Value", "Min", "Max"),
+                    DynamicOutputMathsNode.get(Component.literal("Clamp01"), "clamp(%s, 0.0, 1.0)", "Value"),
                     DynamicOutputMathsNode.get(Component.literal("Step"), "step(%s, %s)", "Edge", "Value"),
                     DynamicOutputMathsNode.get(Component.literal("Smooth Step"), "smoothstep(%s, %s, %s)", "Edge A", "Edge B", "Value")
             );
