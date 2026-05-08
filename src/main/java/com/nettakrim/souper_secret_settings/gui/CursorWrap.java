@@ -27,18 +27,24 @@ public class CursorWrap {
         int scale = window.getGuiScale();
 
         resetOffset();
+
+        boolean wrapped = false;
         if (deltaX < 0 && click.x() < x + 1) {
             offset.x = w - 2;
+            wrapped = true;
         }
         else if (deltaX > 0 && click.x() > x + w - 1) {
             offset.x = 2 - w;
+            wrapped = true;
         }
 
         if (deltaY < 0 && click.y() < y + 1) {
             offset.y = h - 2;
+            wrapped = true;
         }
         else if (deltaY > 0 && click.y() > y + h - 1) {
             offset.y = 2 - h;
+            wrapped = true;
         }
 
         double xPos = click.x() + offset.x;
@@ -55,8 +61,10 @@ public class CursorWrap {
             deltaX /= graphScreen.panning.getCurrentZoom();
         }
 
-        //noinspection DataFlowIssue
-        GLFW.glfwSetCursorPos(((WindowAccessor)(Object)window).getHandle(), xPos * scale + 0.5, yPos * scale + 0.5);
+        if (wrapped) {
+            //noinspection DataFlowIssue
+            GLFW.glfwSetCursorPos(((WindowAccessor) (Object) window).getHandle(), xPos * scale + 0.5, yPos * scale + 0.5);
+        }
 
         // modify deltaX, since setting the cursor pos will add that offset to the next frames input
         return deltaX;
