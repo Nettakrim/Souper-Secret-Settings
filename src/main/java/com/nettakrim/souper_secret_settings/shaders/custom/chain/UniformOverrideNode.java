@@ -34,7 +34,14 @@ public class UniformOverrideNode extends Node {
         }
 
         for (int i = 0; i < template.size(); i++) {
-            inputPorts.get(i).setDock(new StringNode(strings.get(i)));
+            String string = strings.get(i);
+
+            // disable alpha, since chain graphs add it automatically
+            if (string.equals("luminance:alpha/smooth")) {
+                string = "1.0";
+            }
+
+            inputPorts.get(i).setDock(new StringNode(string));
         }
     }
 

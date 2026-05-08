@@ -87,13 +87,13 @@ public class PassNode extends Node {
             uniforms.put(inputPorts.get(i + samplers.size()).name, (List<UniformValue>)organisedNode.getInputData(i + samplers.size()));
         }
 
-        return new PostChainConfig.Pass(
+        return List.of(new PostChainConfig.Pass(
                 vertexShader,
                 fragmentShader,
                 inputs,
                 Identifier.parse((String)outputPorts.getFirst().outputData),
                 uniforms
-        );
+        ));
     }
 
     @Override

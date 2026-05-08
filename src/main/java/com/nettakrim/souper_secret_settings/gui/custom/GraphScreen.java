@@ -322,6 +322,7 @@ public class GraphScreen extends Screen {
         graph.nodes.add(node);
         node.updateConnections(graph.wires);
         creationMenu.setActive(false);
+        topologyChanged();
     }
 
     private void updateSelectedNodes() {

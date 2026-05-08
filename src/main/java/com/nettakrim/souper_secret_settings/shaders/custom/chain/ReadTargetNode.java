@@ -15,7 +15,7 @@ public class ReadTargetNode extends Node {
 
     @Override
     protected void initialisePorts() {
-        addInput("Target", PortType.STRING).setDock(new StringNode("minecraft:main"));
+        addInput("Target", PortType.STRING).setDock(new StringNode("main"));
         addOutput("Out", PortType.TARGET);
     }
 

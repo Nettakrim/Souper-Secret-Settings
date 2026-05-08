@@ -55,10 +55,6 @@ public abstract class Node {
         outputPorts.add(port);
     }
 
-    public boolean isEnd() {
-        return false;
-    }
-
     protected abstract @NotNull Component getTitle();
 
     public void updatePositions(HashMap<InputPort, Wire> wires) {
@@ -304,5 +300,15 @@ public abstract class Node {
         }
 
         return dynamicType;
+    }
+
+    public RootType rootType(HashMap<InputPort, Wire> wires) {
+        return RootType.NONE;
+    }
+
+    public enum RootType {
+        NONE,
+        MAIN,
+        ALTERNATE
     }
 }

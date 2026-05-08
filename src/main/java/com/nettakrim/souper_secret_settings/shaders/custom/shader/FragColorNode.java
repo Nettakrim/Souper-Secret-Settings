@@ -1,13 +1,11 @@
 package com.nettakrim.souper_secret_settings.shaders.custom.shader;
 
-import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
-import com.nettakrim.souper_secret_settings.shaders.custom.GraphCompilationException;
-import com.nettakrim.souper_secret_settings.shaders.custom.Node;
-import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
+import com.nettakrim.souper_secret_settings.shaders.custom.*;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.function.Supplier;
 
 public class FragColorNode extends Node {
@@ -36,7 +34,7 @@ public class FragColorNode extends Node {
     }
 
     @Override
-    public boolean isEnd() {
-        return true;
+    public RootType rootType(HashMap<InputPort, Wire> wires) {
+        return RootType.MAIN;
     }
 }

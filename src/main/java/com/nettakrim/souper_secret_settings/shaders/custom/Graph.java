@@ -94,10 +94,28 @@ public abstract class Graph<T> {
 
             // find all ends of the graph to make sure every relevant bit is visited, but excess nodes arent
             // this does mean weird fragments with a separate input/output chain will be included, which are probably often incorrect. but thats fine
+            // add the main output first, just so that the resulting code is organised a little more nicely
+            Stack<Node> alternateRoots = new Stack<>();
+            boolean foundMain = false;
             for (Node node : graph.nodes) {
-                if (node.isEnd()) {
+                Node.RootType rootType = node.rootType(graph.wires);
+                if (rootType == Node.RootType.MAIN) {
+                    if (foundMain) {
+                        throw new GraphCompilationException("Only one main output node is allowed", node);
+                    }
                     AddRoot(node, graph.wires, backwardsNodes);
+                    foundMain = true;
+                } else if (rootType == Node.RootType.ALTERNATE) {
+                    alternateRoots.add(node);
                 }
+            }
+
+            if (!foundMain) {
+                throw new ShaderManager.CompilationException("No main output");
+            }
+
+            while (!alternateRoots.isEmpty()) {
+                AddRoot(alternateRoots.pop(), graph.wires, backwardsNodes);
             }
 
             this.organisedNodes = ImmutableList.copyOf(backwardsNodes.reversed());

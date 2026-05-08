@@ -48,9 +48,11 @@ public class ChainGraph extends Graph<PostChainInterface> {
             organisedNode.calculateOutputData(uuid);
 
             Object mainObject = organisedNode.getMainObject();
-            // write target node also uses a pass, which will sometimes waste a pass, but often its needed
-            if (mainObject instanceof PostChainConfig.Pass pass) {
-                passes.add(pass);
+            // write target node sometimes needs to return two passes, for alpha merge
+            if (mainObject instanceof List<?> objectPasses) {
+                for (Object entry : objectPasses) {
+                    passes.add((PostChainConfig.Pass)entry);
+                }
             }
 
             // dependencies are handled separately from main object
