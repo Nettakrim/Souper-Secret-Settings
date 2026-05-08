@@ -310,7 +310,7 @@ public class GraphScreen extends Screen {
 
     private Port getHoveredPort(float mouseX, float mouseY) {
         for (Node node : graph.nodes.reversed()) {
-            Port port = node.hoveredPort(mouseX, mouseY, graph.wires);
+            Port port = node.hoveredPort(mouseX, mouseY, graph.wires, true);
             if (port != null) {
                 return port;
             }

@@ -59,7 +59,7 @@ public class InputPort extends Port {
             return self;
         }
         if (docked != null && !wires.containsKey(this)) {
-            return docked.hoveredPort(mouseX, mouseY, wires);
+            return docked.hoveredPort(mouseX, mouseY, wires, false);
         }
         return null;
     }

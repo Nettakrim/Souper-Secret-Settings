@@ -196,7 +196,7 @@ public abstract class Node {
         }
     }
 
-    public Port hoveredPort(float mouseX, float mouseY, HashMap<InputPort, Wire> wires) {
+    public Port hoveredPort(float mouseX, float mouseY, HashMap<InputPort, Wire> wires, boolean includeOutput) {
         for (InputPort inputPort : inputPorts) {
             Port port = inputPort.hoveredPort(mouseX, mouseY, wires);
             if (port != null) {
@@ -204,10 +204,12 @@ public abstract class Node {
             }
         }
 
-        for (OutputPort outputPort : outputPorts) {
-            Port port = outputPort.hoveredPort(mouseX, mouseY, wires);
-            if (port != null) {
-                return port;
+        if (includeOutput) {
+            for (OutputPort outputPort : outputPorts) {
+                Port port = outputPort.hoveredPort(mouseX, mouseY, wires);
+                if (port != null) {
+                    return port;
+                }
             }
         }
 
