@@ -2,6 +2,7 @@ package com.nettakrim.souper_secret_settings.gui.custom;
 
 import com.google.common.collect.ImmutableList;
 import com.nettakrim.souper_secret_settings.shaders.ChainData;
+import com.nettakrim.souper_secret_settings.shaders.SoupRenderer;
 import com.nettakrim.souper_secret_settings.shaders.custom.chain.PassNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.chain.ReadTargetNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.chain.ShaderNode;
@@ -23,7 +24,8 @@ public class ChainCategory extends CreationCategory {
     @Override
     public List<CreationEntry> getChildren() {
         return List.of(
-                new RegistryCategory(Shaders.getMainRegistryId()),
+                new RegistryCategory(Component.literal("From Shader"), Shaders.getMainRegistryId()),
+                new RegistryCategory(Component.literal("From Modifier"), SoupRenderer.modifierRegistry),
                 new CreationNode(Component.literal("Custom Shader"), ShaderNode::new),
                 new CreationNode(Component.literal("Read Target"), ReadTargetNode::new),
                 new CreationNode(Component.literal("Write Target"), WriteTargetNode::new)
@@ -36,9 +38,11 @@ public class ChainCategory extends CreationCategory {
     }
 
     protected static class RegistryCategory extends CreationCategory {
+        private final Component name;
         private final Identifier registry;
 
-        public RegistryCategory(Identifier registry) {
+        public RegistryCategory(Component name, Identifier registry) {
+            this.name = name;
             this.registry = registry;
         }
 
@@ -57,7 +61,7 @@ public class ChainCategory extends CreationCategory {
 
         @Override
         public Component getText() {
-            return Component.literal("From Shader");
+            return name;
         }
     }
 
