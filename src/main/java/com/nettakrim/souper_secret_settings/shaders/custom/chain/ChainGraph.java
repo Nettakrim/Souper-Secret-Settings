@@ -96,6 +96,7 @@ public class ChainGraph extends Graph<PostChainInterface> {
         long loaded = System.nanoTime();
 
         SouperSecretSettingsClient.log("Compiled post chain in",getElapsedTime(start, loaded),"- Organising:",getElapsedTime(start,organised),"| Constructing:",getElapsedTime(organised,constructed),"| Loading:",getElapsedTime(constructed, loaded));
+        //SouperSecretSettingsClient.log(PostChainConfig.CODEC.encodeStart(JsonOps.INSTANCE, postChainConfig).getOrThrow().toString());
 
         // only close on successful recompilation
         if (lastCompiled != null) {

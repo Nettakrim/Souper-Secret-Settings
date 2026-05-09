@@ -1,6 +1,5 @@
 package com.nettakrim.souper_secret_settings.shaders.custom;
 
-import com.google.common.collect.ImmutableList;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.gui.custom.CreationCategory;
 import net.minecraft.client.renderer.ShaderManager;
@@ -83,146 +82,76 @@ public abstract class Graph<T> {
     // gets all the nodes into a format where they can be traversed easily (since its stored as a loose pile of nodes and wires for editing)
     // the resulting graph is ordered such that a node will *always* be before anything that uses it
     protected static class OrganisedGraph {
-        public final ImmutableList<OrganisedNode> organisedNodes;
+        public final ArrayList<OrganisedNode> organisedNodes;
 
         private OrganisedGraph(Graph<?> graph) throws ShaderManager.CompilationException {
-            ArrayList<OrganisedNode> backwardsNodes = new ArrayList<>(graph.nodes.size());
+            organisedNodes = new ArrayList<>(graph.nodes.size());
 
             for (Node node : graph.nodes) {
                 node.clearCompileCaches();
             }
 
-            // find all ends of the graph to make sure every relevant bit is visited, but excess nodes arent
+            // find all ends of the graph to make sure every relevant bit is visited, but excess nodes aren't
             // this does mean weird fragments with a separate input/output chain will be included, which are probably often incorrect. but thats fine
-            // add the main output first, just so that the resulting code is organised a little more nicely
-            Stack<Node> alternateRoots = new Stack<>();
-            boolean foundMain = false;
+            Node main = null;
             for (Node node : graph.nodes) {
                 Node.RootType rootType = node.rootType(graph.wires);
                 if (rootType == Node.RootType.MAIN) {
-                    if (foundMain) {
+                    if (main != null) {
                         throw new GraphCompilationException("Only one main output node is allowed", node);
                     }
-                    AddRoot(node, graph.wires, backwardsNodes);
-                    foundMain = true;
+                    main = node;
                 } else if (rootType == Node.RootType.ALTERNATE) {
-                    alternateRoots.add(node);
+                    AddNode(node, graph.wires);
                 }
             }
 
-            if (!foundMain) {
+            if (main == null) {
                 throw new ShaderManager.CompilationException("No main output");
             }
 
-            while (!alternateRoots.isEmpty()) {
-                AddRoot(alternateRoots.pop(), graph.wires, backwardsNodes);
-            }
-
-            this.organisedNodes = ImmutableList.copyOf(backwardsNodes.reversed());
+            // add the main output last, so that the resulting code is ordered slightly nicer
+            AddNode(main, graph.wires);
         }
 
-        public void AddRoot(Node node, HashMap<InputPort,Wire> wires, ArrayList<OrganisedNode> backwardsNodes) throws ShaderManager.CompilationException {
-            ArrayList<Node> encountered = new ArrayList<>();
-            ArrayList<OrganisedNode> block = new ArrayList<>();
-            int index = AddNode(node, wires, backwardsNodes, encountered, block, 0);
-
-            // sort block by depth
-            block.sort(Comparator.comparingInt(n -> n.depth));
-
-            // insert block before its earliest source, so that the list *always* places nodes before things they need to use (this is flipped later)
-            if (index == Integer.MAX_VALUE) {
-                index = 0;
+        private void AddNode(Node node, HashMap<InputPort,Wire> wires) throws ShaderManager.CompilationException {
+            // node already added to list
+            if (node.compileState == 2) {
+                return;
             }
-            backwardsNodes.addAll(index, block);
-        }
 
-        private int AddNode(Node node, HashMap<InputPort,Wire> wires, ArrayList<OrganisedNode> backwardsNodes, List<Node> stack, List<OrganisedNode> block, int depth) throws ShaderManager.CompilationException {
-            // dont allow loops
-            if (stack.contains(node)) {
+            // if a node is reached again before it's been added to the list, then that means theres a loop
+            if (node.compileState == 1) {
                 throw new GraphCompilationException("Loop in graph", node);
             }
-            stack.add(node);
 
-            // but allow connections from previous roots
-            for (int i = 0; i < backwardsNodes.size(); i++) {
-                if (backwardsNodes.get(i).node == node) {
-                    return i;
-                }
-            }
-
-            // if a path merges, then propagate the depth values
-            // the sort() could be avoided by insert()ing organised nodes the correct index to begin with
-            // with some effort, this could be calculated here, then incremented along with depth
-            // however that would be a bit complicated, and maybe not even more efficient
-            // since its one sort vs a lot of insertions into an array (that could be batched though)
-            // this needs testing
-            for (OrganisedNode blockEntry : block) {
-                if (blockEntry.node == node) {
-                    if (blockEntry.depth < depth) {
-                        int offset = depth - blockEntry.depth;
-                        Stack<OrganisedNode> propagate = new Stack<>();
-                        propagate.push(blockEntry);
-
-                        SouperSecretSettingsClient.log("Fixing node depth");
-
-                        while (!propagate.isEmpty()) {
-                            OrganisedNode increment = propagate.pop();
-                            increment.depth += offset;
-                            // incredibly inefficient way to get children, this code really needs to be cleaned up
-                            for (Source source : increment.inputSources) {
-                                if (source.node != null) {
-                                    for (OrganisedNode other : block) {
-                                        if (other.node == source.node) {
-                                            propagate.push(other);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    return Integer.MAX_VALUE;
-                }
-            }
-
-            node.includedInLastCompile = true;
-            OrganisedNode organisedNode = new OrganisedNode(node, wires, depth);
-            block.add(organisedNode);
+            node.compileState = 1;
+            OrganisedNode organisedNode = new OrganisedNode(node, wires);
 
             // recursively add all sources of the node
             // it is desirable that this is depth first, since it means chains are likely to be continuous in memory
-            // ... however the sort will break this
-            int min = Integer.MAX_VALUE;
+            // this means any long chains will be able to swap targets back and forth with decent efficiency
             for (Source source : organisedNode.inputSources) {
                 if (source == null || source.node == null) {
                     continue;
                 }
 
-                int count = stack.size();
-                int current = AddNode(source.node, wires, backwardsNodes, stack, block, depth+1);
-                // find the earliest dependency
-                if (current < min) {
-                    min = current;
-                }
-
-                // encountered acts as a stack of the current depth first search
-                while (stack.size() > count) {
-                    stack.removeLast();
-                }
+                AddNode(source.node, wires);
             }
 
-            return min;
+            // adding nodes to the list only after recursively adding their children ensures all their dependencies are before them
+            node.compileState = 2;
+            organisedNodes.add(organisedNode);
         }
     }
 
     public static class OrganisedNode {
         public final Node node;
         public final Source[] inputSources;
-        protected int depth;
 
-        public OrganisedNode(Node node, HashMap<InputPort,Wire> wires, int depth) throws ShaderManager.CompilationException {
+        public OrganisedNode(Node node, HashMap<InputPort,Wire> wires) throws ShaderManager.CompilationException {
             this.node = node;
             this.inputSources = new Source[node.inputPorts.size()];
-            this.depth = depth;
 
             for (int i = 0; i < inputSources.length; i++) {
                 InputPort port = node.inputPorts.get(i);

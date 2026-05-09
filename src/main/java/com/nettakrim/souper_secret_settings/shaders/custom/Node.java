@@ -28,7 +28,7 @@ public abstract class Node {
     protected static final int baseHeight = 15;
     protected static final int footerHeight = 2;
 
-    public boolean includedInLastCompile = false;
+    public int compileState = 0;
     public boolean selected;
     public boolean hovered;
 
@@ -104,7 +104,7 @@ public abstract class Node {
     }
 
     public void renderNode(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SoupGui.BUTTON_TEXTURES.get(includedInLastCompile, selected || hovered), position.x, position.y, width, height, -1);
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SoupGui.BUTTON_TEXTURES.get(compileState != 0, selected || hovered), position.x, position.y, width, height, -1);
 
         guiGraphics.textRenderer().accept(position.x + 3, position.y + 3, getTitle());
 
@@ -255,7 +255,7 @@ public abstract class Node {
     }
 
     public void clearCompileCaches() {
-        includedInLastCompile = false;
+        compileState = 0;
         for (InputPort inputPort : inputPorts) {
             if (inputPort.docked != null) {
                 inputPort.docked.clearCompileCaches();
