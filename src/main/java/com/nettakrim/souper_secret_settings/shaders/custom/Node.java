@@ -25,7 +25,7 @@ public abstract class Node {
     public int height;
     public final int width = 100;
 
-    protected static final int baseHeight = 15;
+    protected static final int baseHeight = 14;
     protected static final int footerHeight = 2;
 
     public int compileState = 0;

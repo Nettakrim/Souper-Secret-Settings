@@ -13,7 +13,7 @@ import java.util.List;
 public abstract class ValueNode extends Node {
     private final List<DraggableEditBoxWidget> widgets = new ArrayList<>();
 
-    private static final int widgetHeight = 10;
+    public static final int widgetHeight = 10;
 
     @Override
     protected void initialisePorts() {
@@ -39,9 +39,6 @@ public abstract class ValueNode extends Node {
     public void updatePositions(HashMap<InputPort, Wire> wires) {
         super.updatePositions(wires);
 
-        // reset height from outputs
-        height = baseHeight + footerHeight;
-
         if (widgets.isEmpty()) {
             GraphScreen instance = GraphScreen.getInstance();
 
@@ -60,8 +57,7 @@ public abstract class ValueNode extends Node {
             }
         }
 
-        // reduce base height padding
-        height -= 3;
+        height = baseHeight;
 
         for (DraggableEditBoxWidget widget : widgets) {
             widget.setPosition(position.x + 1, position.y + height - footerHeight);

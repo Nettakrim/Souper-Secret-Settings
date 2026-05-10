@@ -25,6 +25,6 @@ public class TexCoordNode extends Node {
 
     @Override
     protected @NotNull Component getTitle() {
-        return Component.literal("Texture Coordinate");
+        return Component.literal("Screen Position");
     }
 }

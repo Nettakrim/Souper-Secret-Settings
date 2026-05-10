@@ -106,7 +106,7 @@ public class ShaderNode extends Node {
     }
 
     private void updateInputPorts(HashMap<InputPort, Wire> wires) {
-        Set<String> inputNames = shaderGraph.getInputNames();
+        List<String> inputNames = shaderGraph.getInputNames();
 
         for (Iterator<InputPort> it = inputPorts.iterator(); it.hasNext(); ) {
             InputPort inputPort = it.next();

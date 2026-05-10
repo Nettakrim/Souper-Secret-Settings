@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
 public class ShaderGraph extends Graph<Identifier> {
-    private final Set<String> inputNames = new HashSet<>();
+    private final List<String> inputNames = new ArrayList<>();
 
     @Override
     public CreationCategory getCreationRoot() {
@@ -71,17 +71,31 @@ public class ShaderGraph extends Graph<Identifier> {
 
         StringBuilder shaderBuilder = new StringBuilder("#version 330\n");
 
+        // samplers
+        inputNames.sort(Comparator.naturalOrder());
+
         for (String inputName : inputNames) {
             shaderBuilder.append("uniform sampler2D ").append(inputName).append("Sampler;\n");
         }
+        shaderBuilder.append("layout(std140) uniform SamplerInfo {\nvec2 OutSize;");
+        for (String inputName : inputNames) {
+            shaderBuilder.append("vec2 ").append(inputName).append("Size;\n");
+        }
+        shaderBuilder.append("};");
 
+        // uniforms
+        // TODO
+
+        // in/out
         shaderBuilder.append("in vec2 texCoord;\n");
         shaderBuilder.append("out vec4 fragColor;\n\n");
 
+        // functions
         for (String functionBody : functions.values()) {
             shaderBuilder.append(functionBody).append("\n");
         }
 
+        // main function
         shaderBuilder.append("void main() {\n");
         shaderBuilder.append(fragmentBuilder);
         shaderBuilder.append("}");
@@ -101,7 +115,7 @@ public class ShaderGraph extends Graph<Identifier> {
         getOrCompile();
     }
 
-    public Set<String> getInputNames() {
+    public List<String> getInputNames() {
         return inputNames;
     }
 }
