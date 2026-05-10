@@ -261,6 +261,9 @@ public abstract class Node {
                 inputPort.docked.clearCompileCaches();
             }
         }
+        for (OutputPort outputPort : outputPorts) {
+            outputPort.outputData = null;
+        }
     }
 
     protected boolean hasSettings() {
