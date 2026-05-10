@@ -4,7 +4,6 @@ import java.util.function.BiFunction;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,8 +16,8 @@ public class LabelledWidget extends AbstractWidget {
     }
 
     @Override
-    protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SoupGui.BUTTON_TEXTURES.get(true, false), getX(), getY(), getWidth()*2, getHeight(), -1);
+    protected void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        SoupGui.drawButton(guiGraphics, false, getX(), getY(), getWidth()*2, getHeight(), true, false);
         renderScrollingStringOverContents(guiGraphics.textRenderer(), getMessage(), 2);
         widget.render(guiGraphics, mouseX, mouseY, delta);
     }

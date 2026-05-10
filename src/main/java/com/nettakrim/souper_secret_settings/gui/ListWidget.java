@@ -28,7 +28,7 @@ public abstract class ListWidget extends CollapseWidget {
 
     @Override
     protected void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SoupGui.BUTTON_TEXTURES.get(this.active && getToggleable().isActive(), this.isHovered()), this.getX(), this.getY(), this.getWidth(), getCollapseHeight(), -1);
+        SoupGui.drawButton(guiGraphics, false, getX(), getY(), getWidth(), getCollapseHeight(), this.active && getToggleable().isActive(), this.isHovered());
 
         renderScrollingStringOverContents(guiGraphics.textRenderer(), getMessage().copy().setStyle(Style.EMPTY.withColor((this.active ? 16777215 : 10526880) | Mth.ceil(this.alpha * 255.0F) << 24)), 2);
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ICON_TEXTURE, getX(), getY(), 0, 0, 10, 20, 40, 20, dragState < 0 ? texColWhite : texColBlack);

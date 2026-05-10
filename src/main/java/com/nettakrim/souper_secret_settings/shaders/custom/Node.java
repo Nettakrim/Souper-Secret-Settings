@@ -6,7 +6,6 @@ import com.nettakrim.souper_secret_settings.gui.SoupGui;
 import com.nettakrim.souper_secret_settings.gui.custom.GraphScreen;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -95,6 +94,7 @@ public abstract class Node {
         if (hasSettings()) {
             if (settingsButton == null) {
                 settingsButton = new SoupButtonWidget(SouperSecretSettingsClient.translate("gui.config"), this::openSettings, 0, 0, 12, 12);
+                settingsButton.inNodeScreen();
                 assert GraphScreen.getInstance() != null;
                 GraphScreen.getInstance().addActualWidget(settingsButton);
             }
@@ -104,7 +104,7 @@ public abstract class Node {
     }
 
     public void renderNode(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SoupGui.BUTTON_TEXTURES.get(compileState != 0, selected || hovered), position.x, position.y, width, height, -1);
+        SoupGui.drawButton(guiGraphics, true, position.x, position.y, width, height, compileState != 0, selected || hovered);
 
         guiGraphics.textRenderer().accept(position.x + 3, position.y + 3, getTitle());
 

@@ -16,6 +16,7 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.commands.arguments.StringRepresentableArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -23,13 +24,6 @@ import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.NotNull;
 
 public class SoupGui {
-    public static final WidgetSprites BUTTON_TEXTURES = new WidgetSprites(
-            Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "button"),
-            Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "button_disabled"),
-            Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "button_highlighted"),
-            Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "button_disabled_highlighted")
-    );
-
     private final List<AbstractWidget> header;
 
     public final int[] currentScroll;
@@ -171,6 +165,23 @@ public class SoupGui {
         guiGraphics.fill(mouseX-2, mouseY+offset-2, mouseX + ClientData.minecraft.font.width(currentHoverText)+2, mouseY+offset+10, 128 << 24);
         guiGraphics.drawString(ClientData.minecraft.font, currentHoverText, mouseX,  mouseY+offset, -1, true);
         currentHoverText = null;
+    }
+
+    private static final WidgetSprites soupButtons = new WidgetSprites(
+            Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "button"),
+            Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "button_disabled"),
+            Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "button_highlighted"),
+            Identifier.fromNamespaceAndPath(SouperSecretSettingsClient.MODID, "button_disabled_highlighted")
+    );
+
+    private static final WidgetSprites vanillaButtons = new WidgetSprites(
+            Identifier.withDefaultNamespace("widget/button"),
+            Identifier.withDefaultNamespace("widget/button_disabled"),
+            Identifier.withDefaultNamespace("widget/button_highlighted")
+    );
+
+    public static void drawButton(GuiGraphics guiGraphics, boolean nodeScreen, int x, int y, int width, int height, boolean enabled, boolean focused) {
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, (nodeScreen ? soupButtons : vanillaButtons).get(enabled, focused), x, y, width, height, -1);
     }
 
     public enum ScreenType implements StringRepresentable {
