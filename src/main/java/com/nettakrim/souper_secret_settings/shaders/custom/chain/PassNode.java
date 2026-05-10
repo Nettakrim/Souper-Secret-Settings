@@ -63,21 +63,15 @@ public class PassNode extends Node {
 
     @Override
     public void putOutputData(Graph.OrganisedNode organisedNode, Supplier<String> uuid) {
-        outputPorts.getFirst().outputData = uuid.get();
+        outputPorts.getFirst().outputData = new TargetInputInfo(uuid.get());
     }
 
     @Override
     public @Nullable Object getMainObject(Graph.OrganisedNode organisedNode) {
         List<PostChainConfig.Input> inputs = new ArrayList<>();
 
-        // TODO: to support texture sampler, this will need to be changed somewhat, eg by storing instances of PostChainConfig.Input in the output data (minus the sampler name)
         for (int i = 0; i < samplers.size(); i++) {
-            inputs.add(new PostChainConfig.TargetInput(
-                    inputPorts.get(i).name,
-                    Identifier.parse((String)organisedNode.getInputData(i)),
-                    false,
-                    false
-            ));
+            inputs.add(((InputInfo)organisedNode.getInputData(i)).getInput(inputPorts.get(i).name));
         }
 
         Map<String, List<UniformValue>> uniforms = new HashMap<>();
@@ -91,7 +85,7 @@ public class PassNode extends Node {
                 vertexShader,
                 fragmentShader,
                 inputs,
-                Identifier.parse((String)outputPorts.getFirst().outputData),
+                ((TargetInputInfo)outputPorts.getFirst().outputData).targetId,
                 uniforms
         ));
     }

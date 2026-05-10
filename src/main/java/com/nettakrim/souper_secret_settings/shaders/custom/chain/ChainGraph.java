@@ -57,7 +57,7 @@ public class ChainGraph extends Graph<PostChainInterface> {
 
             // dependencies are handled separately from main object
             if (organisedNode.node instanceof ReadTargetNode readTargetNode) {
-                Identifier id = Identifier.parse((String) readTargetNode.outputPorts.getFirst().outputData);
+                Identifier id = ((TargetInputInfo)readTargetNode.outputPorts.getFirst().outputData).targetId;
                 if (!id.equals(Identifier.withDefaultNamespace("main"))) {
                     internalTargets.put(id, new PostChainConfig.InternalTarget(
                             Optional.empty(),

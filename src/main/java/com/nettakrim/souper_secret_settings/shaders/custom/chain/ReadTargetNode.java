@@ -21,7 +21,7 @@ public class ReadTargetNode extends Node {
 
     @Override
     public void putOutputData(Graph.OrganisedNode organisedNode, Supplier<String> uuid) {
-        outputPorts.getFirst().outputData = organisedNode.getInputData(0);
+        outputPorts.getFirst().outputData = new TargetInputInfo((String)organisedNode.getInputData(0));
     }
 
     @Override

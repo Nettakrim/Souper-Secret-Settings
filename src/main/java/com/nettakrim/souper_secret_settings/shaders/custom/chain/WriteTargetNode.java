@@ -20,7 +20,7 @@ public class WriteTargetNode extends Node {
         initialisePorts();
     }
 
-    private Identifier swapIdentifier;
+    private TargetInputInfo swapIdentifier;
 
     private static final Map<String, List<UniformValue>> blitConfig;
     private static final Map<String, List<UniformValue>> mergeConfig;
@@ -49,7 +49,7 @@ public class WriteTargetNode extends Node {
         Identifier identifier = Identifier.parse((String)organisedNode.getInputData(1));
 
         if (identifier.equals(Identifier.withDefaultNamespace("main"))) {
-            swapIdentifier = Identifier.parse(uuid.get());
+            swapIdentifier = new TargetInputInfo(uuid.get());
         } else {
             swapIdentifier = null;
         }
@@ -64,16 +64,16 @@ public class WriteTargetNode extends Node {
                             Identifier.parse("core/screenquad"),
                             Identifier.parse("luminance:post/merge"),
                             List.of(
-                                    new PostChainConfig.TargetInput("In", Identifier.parse((String)organisedNode.getInputData(0)), false, false),
+                                    ((InputInfo)organisedNode.getInputData(0)).getInput("In"),
                                     new PostChainConfig.TargetInput("Merge", Identifier.withDefaultNamespace("main"), false, false)
                             ),
-                            swapIdentifier,
+                            swapIdentifier.targetId,
                             mergeConfig
                     ),
                     new PostChainConfig.Pass(
                             Identifier.parse("core/screenquad"),
                             Identifier.parse("post/blit"),
-                            List.of(new PostChainConfig.TargetInput("In", swapIdentifier, false, false)),
+                            List.of(swapIdentifier.getInput("In")),
                             Identifier.withDefaultNamespace("main"),
                             blitConfig
                     )
@@ -84,7 +84,7 @@ public class WriteTargetNode extends Node {
         return List.of(new PostChainConfig.Pass(
                 Identifier.parse("core/screenquad"),
                 Identifier.parse("post/blit"),
-                List.of(new PostChainConfig.TargetInput("In", Identifier.parse((String)organisedNode.getInputData(0)), false, false)),
+                List.of(((InputInfo)organisedNode.getInputData(0)).getInput("In")),
                 Identifier.parse((String)organisedNode.getInputData(1)),
                 blitConfig
         ));

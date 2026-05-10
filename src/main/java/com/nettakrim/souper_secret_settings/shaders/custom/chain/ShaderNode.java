@@ -62,7 +62,7 @@ public class ShaderNode extends Node {
 
     @Override
     public void putOutputData(Graph.OrganisedNode organisedNode, Supplier<String> uuid) {
-        outputPorts.getFirst().outputData = uuid.get();
+        outputPorts.getFirst().outputData = new TargetInputInfo(uuid.get());
     }
 
     @Override
@@ -70,8 +70,8 @@ public class ShaderNode extends Node {
         return List.of(new PostChainConfig.Pass(
                 Identifier.parse("core/screenquad"),
                 shaderGraph.getOrCompile(),
-                List.of(new PostChainConfig.TargetInput("In", Identifier.parse((String)organisedNode.getInputData(0)), false, false)),
-                Identifier.parse((String)outputPorts.getFirst().outputData),
+                List.of(((InputInfo)organisedNode.getInputData(0)).getInput("In")),
+                ((TargetInputInfo)outputPorts.getFirst().outputData).targetId,
                 Map.of()
         ));
     }
