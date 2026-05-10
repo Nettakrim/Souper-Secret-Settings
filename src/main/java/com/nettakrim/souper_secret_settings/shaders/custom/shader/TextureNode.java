@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class TextureNode extends ValueNode {
-    private String name;
+    public String name;
 
     public TextureNode() {
         this.name = "In";

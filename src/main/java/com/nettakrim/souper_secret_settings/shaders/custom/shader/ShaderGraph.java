@@ -9,11 +9,13 @@ import dev.dannytaylor.luminance.client.shaders.Shaders;
 import net.minecraft.client.renderer.ShaderManager;
 import net.minecraft.resources.Identifier;
 
-import java.util.HashMap;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
 public class ShaderGraph extends Graph<Identifier> {
+    private final Set<String> inputNames = new HashSet<>();
+
     @Override
     public CreationCategory getCreationRoot() {
         return new ShaderCategory();
@@ -45,6 +47,8 @@ public class ShaderGraph extends Graph<Identifier> {
             return s.toString();
         };
 
+        inputNames.clear();
+
         HashMap<String, String> functions = new HashMap<>();
         StringBuilder fragmentBuilder = new StringBuilder();
         for (OrganisedNode organisedNode : organisedGraph.organisedNodes) {
@@ -59,10 +63,18 @@ public class ShaderGraph extends Graph<Identifier> {
             if (organisedNode.node instanceof FunctionDependency functionDependency) {
                 functions.putIfAbsent(functionDependency.functionName(), functionDependency.functionImplementation());
             }
+
+            if (organisedNode.node instanceof TextureNode textureNode) {
+                inputNames.add(textureNode.name);
+            }
         }
 
         StringBuilder shaderBuilder = new StringBuilder("#version 330\n");
-        shaderBuilder.append("uniform sampler2D InSampler;\n");
+
+        for (String inputName : inputNames) {
+            shaderBuilder.append("uniform sampler2D ").append(inputName).append("Sampler;\n");
+        }
+
         shaderBuilder.append("in vec2 texCoord;\n");
         shaderBuilder.append("out vec4 fragColor;\n\n");
 
@@ -87,5 +99,9 @@ public class ShaderGraph extends Graph<Identifier> {
     public void makeChange() {
         super.makeChange();
         getOrCompile();
+    }
+
+    public Set<String> getInputNames() {
+        return inputNames;
     }
 }

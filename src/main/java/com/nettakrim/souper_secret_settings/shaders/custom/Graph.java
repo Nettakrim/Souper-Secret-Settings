@@ -15,6 +15,7 @@ public abstract class Graph<T> {
     public final HashMap<InputPort,Wire> wires = new HashMap<>();
 
     private boolean changed;
+    private long version;
 
     public final Identifier graphId;
     private static long graphIdCounter;
@@ -50,6 +51,10 @@ public abstract class Graph<T> {
         changed = true;
     }
 
+    public long getVersion() {
+        return version;
+    }
+
     public abstract CreationCategory getCreationRoot();
 
     protected abstract String getType();
@@ -60,6 +65,7 @@ public abstract class Graph<T> {
             changed = false;
             try {
                 lastCompiled = compile();
+                version++;
             } catch (ShaderManager.CompilationException compilationException) {
                 SouperSecretSettingsClient.log("Failed to compile",graphId,compilationException.getMessage());
                 lastError = compilationException;

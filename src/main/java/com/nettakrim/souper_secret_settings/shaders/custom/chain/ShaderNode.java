@@ -1,10 +1,7 @@
 package com.nettakrim.souper_secret_settings.shaders.custom.chain;
 
 import com.nettakrim.souper_secret_settings.gui.custom.GraphScreen;
-import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
-import com.nettakrim.souper_secret_settings.shaders.custom.Node;
-import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
-import com.nettakrim.souper_secret_settings.shaders.custom.Wire;
+import com.nettakrim.souper_secret_settings.shaders.custom.*;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.FragColorNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.SampleNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.ShaderGraph;
@@ -18,12 +15,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2i;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 
 public class ShaderNode extends Node {
     private final ShaderGraph shaderGraph;
+    private long lastVersion = 0;
 
     public ShaderNode() {
         shaderGraph = new ShaderGraph();
@@ -67,10 +64,16 @@ public class ShaderNode extends Node {
 
     @Override
     protected @Nullable Object getMainObject(Graph.OrganisedNode organisedNode) {
+        ArrayList<PostChainConfig.Input> inputs = new ArrayList<>();
+
+        for (int i = 0; i < inputPorts.size(); i++) {
+            inputs.add(((InputInfo)organisedNode.getInputData(i)).getInput(inputPorts.get(i).name));
+        }
+
         return List.of(new PostChainConfig.Pass(
                 Identifier.parse("core/screenquad"),
                 shaderGraph.getOrCompile(),
-                List.of(((InputInfo)organisedNode.getInputData(0)).getInput("In")),
+                inputs,
                 ((TargetInputInfo)outputPorts.getFirst().outputData).targetId,
                 Map.of()
         ));
@@ -89,5 +92,49 @@ public class ShaderNode extends Node {
     @Override
     protected void openSettings(Button button) {
         ClientData.minecraft.setScreen(new GraphScreen(shaderGraph, ClientData.minecraft.screen));
+    }
+
+    @Override
+    public void updatePositions(HashMap<InputPort, Wire> wires) {
+        long currentVersion = shaderGraph.getVersion();
+        if (currentVersion != lastVersion) {
+            updateInputPorts(wires);
+            lastVersion = currentVersion;
+        }
+
+        super.updatePositions(wires);
+    }
+
+    private void updateInputPorts(HashMap<InputPort, Wire> wires) {
+        Set<String> inputNames = shaderGraph.getInputNames();
+
+        for (Iterator<InputPort> it = inputPorts.iterator(); it.hasNext(); ) {
+            InputPort inputPort = it.next();
+
+            if (!inputNames.contains(inputPort.name)) {
+                wires.remove(inputPort);
+                if (inputPort.docked != null) {
+                    inputPort.docked.detachWires(wires);
+                }
+                it.remove();
+            }
+        }
+
+        for (String inputName : inputNames) {
+            boolean isNew = true;
+            for (InputPort inputPort : inputPorts) {
+                if (inputPort.name.equals(inputName)) {
+                    isNew = false;
+                    break;
+                }
+            }
+
+            if (isNew) {
+                addInput(inputName, PortType.TARGET);
+            }
+        }
+
+        // sort alphabetically
+        inputPorts.sort(Comparator.comparing(port -> port.name));
     }
 }
