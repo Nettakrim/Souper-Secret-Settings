@@ -37,7 +37,7 @@ public class ShaderAdditionScreen extends ListAdditionScreen<ShaderData> {
 
         int halfWidth = (SoupGui.headerWidthSmall-SoupGui.listGap)/2;
         addRenderableWidget(new SoupButtonWidget(SouperSecretSettingsClient.translate(isGroups ? "gui.groups" : (shaderScreen.registry == SoupRenderer.modifierRegistry ? "gui.modifiers" : "gui.shaders")), (widget) -> toggleMode(), SoupGui.listGap, SoupGui.listGap*2 + 20, halfWidth, 20));
-        addRenderableWidget(new SoupButtonWidget(SouperSecretSettingsClient.translate(isGroups ? "gui.groups.create" : "gui.shader.create"), this::create, SoupGui.listGap*2+halfWidth, SoupGui.listGap*2 + 20, halfWidth, 20));
+        addRenderableWidget(new SoupButtonWidget(SouperSecretSettingsClient.translate(isGroups ? "gui.groups.create" : "gui.shader.create"), this::create, SoupGui.listGap*2+halfWidth, SoupGui.listGap*2 + 20, halfWidth, 20)).active = isGroups || shaderScreen.registry != SoupRenderer.modifierRegistry;
 
         return SoupGui.listStart;
     }
