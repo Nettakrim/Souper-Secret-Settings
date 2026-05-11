@@ -96,7 +96,7 @@
                     {
                         "name": "Clipping",
                         "type": "vec2",
-                        "value": [ 0.05, 750 ],
+                        "value": [ 0.05, 2048 ],
                         "override": "luminance:clipping"
                     }
                 ],
