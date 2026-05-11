@@ -53,11 +53,12 @@ void main() {
     float duration = 0;
 
     vec2 coord = ((texCoord-vec2(0.5))*vec2(1.0, InSize.y/InSize.x)/Zoom.r + Zoom.gb);
-    vec2 lastPos = coord;
 
     vec2 z = parameter(coord, ZR, ZI);
     vec2 x = parameter(coord, XR, XI);
     vec2 c = parameter(coord, CR, CI);
+
+    vec2 lastPos = z;
 
     for (int i = 0; i < Iterations; i++) {
         if (z.x*z.x + z.y*z.y <= Radius) {
