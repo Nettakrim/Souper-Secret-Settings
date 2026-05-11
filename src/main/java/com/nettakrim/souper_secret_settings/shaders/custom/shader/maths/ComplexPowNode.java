@@ -1,28 +1,26 @@
-package com.nettakrim.souper_secret_settings.shaders.custom.shader.color;
+package com.nettakrim.souper_secret_settings.shaders.custom.shader.maths;
 
 import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
 import com.nettakrim.souper_secret_settings.shaders.custom.GraphCompilationException;
 import com.nettakrim.souper_secret_settings.shaders.custom.Node;
 import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.FunctionDependency;
-import com.nettakrim.souper_secret_settings.shaders.custom.shader.vector.FloatNode;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
-public class HueRotateNode extends Node implements FunctionDependency {
-    public HueRotateNode() {
+public class ComplexPowNode extends Node implements FunctionDependency {
+    public ComplexPowNode() {
         initialisePorts();
-        inputPorts.get(1).setDock(new FloatNode());
     }
 
     @Override
     protected void initialisePorts() {
-        addInput("Color", PortType.VEC3);
-        addInput("Rotation", PortType.VEC1);
-        addOutput("Out", PortType.VEC3);
+        addInput("Base", PortType.VEC2);
+        addInput("Exponent", PortType.VEC2);
+        addOutput("Out", PortType.VEC2);
     }
 
     @Override
@@ -32,26 +30,28 @@ public class HueRotateNode extends Node implements FunctionDependency {
 
     @Override
     protected @Nullable Object getMainObject(Graph.OrganisedNode organisedNode) throws GraphCompilationException {
-        return outputPorts.getFirst().getGlVariableDeclaration()+" = HueShift("+organisedNode.getVectorInput(0, PortType.VEC3)+","+organisedNode.getVectorInput(1, PortType.VEC1)+")";
+        return outputPorts.getFirst().getGlVariableDeclaration() + " = ComplexPow(" + organisedNode.getVectorInput(0, PortType.VEC2) + "," + organisedNode.getVectorInput(1, PortType.VEC2) + ")";
     }
 
     @Override
     protected @NotNull Component getTitle() {
-        return Component.literal("Hue Rotate");
+        return Component.literal("Complex Pow");
     }
 
     @Override
     public String functionName() {
-        return "HueShift";
+        return "ComplexPow";
     }
 
     @Override
     public String functionImplementation() {
         return """
-vec3 HueShift(vec3 color, float hue) {
-    const vec3 k = vec3(0.57735, 0.57735, 0.57735);
-    float cosAngle = cos(hue);
-    return vec3(color * cosAngle + cross(k, color) * sin(hue) + k * dot(k, color) * (1.0 - cosAngle));
+vec2 ComplexPow(vec2 z, vec2 n) {
+    float r = length(z);
+    float theta = atan(z.y, z.x);
+    float realPart = pow(r, n.x) * cos(n.x * theta) * exp(-n.y * theta);
+    float imagPart = pow(r, n.x) * sin(n.x * theta) * exp(n.y * theta);
+    return vec2(realPart, imagPart);
 }
 """;
     }

@@ -7,6 +7,7 @@ import com.nettakrim.souper_secret_settings.shaders.custom.shader.TexCoordNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.TextureNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.color.HueRotateNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.color.SaturationNode;
+import com.nettakrim.souper_secret_settings.shaders.custom.shader.maths.ComplexPowNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.maths.CrossNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.maths.FloatOutputMathsNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.maths.DynamicOutputMathsNode;
@@ -55,11 +56,11 @@ public class ShaderCategory extends CreationCategory {
 
                     CreationBreak.instance,
 
+                    DynamicOutputMathsNode.get(Component.literal("Normalize"), "normalize(%s)"),
                     FloatOutputMathsNode.get(Component.literal("Length"), "length(%s)"),
                     FloatOutputMathsNode.get(Component.literal("Distance"), "distance(%s, %s)"),
                     FloatOutputMathsNode.get(Component.literal("Dot"), "dot(%s, %s)"),
                     new CreationNode(Component.literal("Cross"), CrossNode::new),
-                    DynamicOutputMathsNode.get(Component.literal("Normalize"), "normalize(%s, %s)"),
                     DynamicOutputMathsNode.get(Component.literal("Reflect"), "reflect(%s, %s)")
             );
         }
@@ -85,6 +86,7 @@ public class ShaderCategory extends CreationCategory {
                     DynamicOutputMathsNode.get(Component.literal("Exp"), "exp(%s)", "Exponent"),
                     DynamicOutputMathsNode.get(Component.literal("Log"), "ln(%s)"),
                     DynamicOutputMathsNode.get(Component.literal("Square Root"), "sqrt(%s)"),
+                    new CreationNode(Component.literal("Complex Pow"), ComplexPowNode::new),
 
                     CreationBreak.instance,
 

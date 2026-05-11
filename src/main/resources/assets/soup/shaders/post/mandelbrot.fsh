@@ -51,9 +51,9 @@ vec2 parameter(vec2 c, vec3 r, vec3 i) {
 
 void main() {
     float duration = 0;
-    vec2 lastPos = vec2(0);
 
     vec2 coord = ((texCoord-vec2(0.5))*vec2(1.0, InSize.y/InSize.x)/Zoom.r + Zoom.gb);
+    vec2 lastPos = coord;
 
     vec2 z = parameter(coord, ZR, ZI);
     vec2 x = parameter(coord, XR, XI);

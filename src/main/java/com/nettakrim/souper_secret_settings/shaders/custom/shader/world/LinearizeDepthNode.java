@@ -39,7 +39,7 @@ public class LinearizeDepthNode extends Node implements FunctionDependency {
 
     @Override
     public String functionName() {
-        return "hueShift";
+        return "LinearizeDepth";
     }
 
     @Override
