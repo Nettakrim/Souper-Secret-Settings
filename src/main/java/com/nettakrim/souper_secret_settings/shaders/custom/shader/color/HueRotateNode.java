@@ -32,7 +32,7 @@ public class HueRotateNode extends Node implements FunctionDependency {
 
     @Override
     protected @Nullable Object getMainObject(Graph.OrganisedNode organisedNode) throws GraphCompilationException {
-        return outputPorts.getFirst().getGlVariableDeclaration()+" = hueShift("+organisedNode.getVectorInput(0, PortType.VEC3)+","+organisedNode.getVectorInput(1, PortType.VEC1)+")";
+        return outputPorts.getFirst().getGlVariableDeclaration()+" = HueShift("+organisedNode.getVectorInput(0, PortType.VEC3)+","+organisedNode.getVectorInput(1, PortType.VEC1)+")";
     }
 
     @Override
@@ -48,7 +48,7 @@ public class HueRotateNode extends Node implements FunctionDependency {
     @Override
     public String functionImplementation() {
         return """
-vec3 hueShift(vec3 color, float hue) {
+vec3 HueShift(vec3 color, float hue) {
     const vec3 k = vec3(0.57735, 0.57735, 0.57735);
     float cosAngle = cos(hue);
     return vec3(color * cosAngle + cross(k, color) * sin(hue) + k * dot(k, color) * (1.0 - cosAngle));

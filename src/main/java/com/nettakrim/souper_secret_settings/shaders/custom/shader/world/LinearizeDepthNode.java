@@ -1,28 +1,25 @@
-package com.nettakrim.souper_secret_settings.shaders.custom.shader.color;
+package com.nettakrim.souper_secret_settings.shaders.custom.shader.world;
 
 import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
 import com.nettakrim.souper_secret_settings.shaders.custom.GraphCompilationException;
 import com.nettakrim.souper_secret_settings.shaders.custom.Node;
 import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.FunctionDependency;
-import com.nettakrim.souper_secret_settings.shaders.custom.shader.vector.FloatNode;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
-public class SaturationNode extends Node implements FunctionDependency {
-    public SaturationNode() {
+public class LinearizeDepthNode extends Node implements FunctionDependency {
+    public LinearizeDepthNode() {
         initialisePorts();
-        inputPorts.get(1).setDock(new FloatNode());
     }
-    
+
     @Override
     protected void initialisePorts() {
-        addInput("Color", PortType.VEC3);
-        addInput("Saturation", PortType.VEC1);
-        addOutput("Out", PortType.VEC3);
+        addInput("Depth", PortType.VEC1);
+        addOutput("Distance", PortType.VEC1);
     }
 
     @Override
@@ -32,26 +29,25 @@ public class SaturationNode extends Node implements FunctionDependency {
 
     @Override
     protected @Nullable Object getMainObject(Graph.OrganisedNode organisedNode) throws GraphCompilationException {
-        return outputPorts.getFirst().getGlVariableDeclaration()+" = Saturation("+organisedNode.getVectorInput(0, PortType.VEC3)+","+organisedNode.getVectorInput(1, PortType.VEC1)+")";
+        return outputPorts.getFirst().getGlVariableDeclaration()+" = LinearizeDepth("+organisedNode.getVectorInput(0, PortType.VEC1)+")";
     }
 
     @Override
     protected @NotNull Component getTitle() {
-        return Component.literal("Saturation");
+        return Component.literal("Linearize Depth");
     }
 
     @Override
     public String functionName() {
-        return "saturation";
+        return "hueShift";
     }
 
     @Override
     public String functionImplementation() {
+        // TODO: needs to use clipping variable
         return """
-vec3 Saturation(vec3 color, float saturation) {
-    float luma = dot(color, vec3(0.3, 0.59, 0.11));
-    vec3 chroma = color - luma;
-    return (chroma * saturation) + luma;
+float LinearizeDepth(float depth) {
+    return (0.05*2048.0) / (depth * (0.05 - 2048.0) + 2048.0);
 }
 """;
     }

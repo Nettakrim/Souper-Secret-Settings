@@ -27,6 +27,7 @@ public class ChainCategory extends CreationCategory {
                 new RegistryCategory(Component.literal("From Shader"), Shaders.getMainRegistryId()),
                 new RegistryCategory(Component.literal("From Modifier"), SoupRenderer.modifierRegistry),
                 new CreationNode(Component.literal("Custom Shader"), ShaderNode::new),
+                CreationBreak.instance,
                 new CreationNode(Component.literal("Read Target"), ReadTargetNode::new),
                 new CreationNode(Component.literal("Write Target"), WriteTargetNode::new)
         );
