@@ -118,6 +118,6 @@ public class Panning {
     }
 
     public void setSize(int width, int height) {
-        offset = new Vector2f(width/2f, height/2f);
+        offset = new Vector2f((float)(width/2), (float)(height/2));
     }
 }

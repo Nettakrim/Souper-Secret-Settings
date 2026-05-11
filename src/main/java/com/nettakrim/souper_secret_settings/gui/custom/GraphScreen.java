@@ -69,8 +69,7 @@ public class GraphScreen extends Screen {
         // it would be nice if you could pan while drag selecting, but pressing a mouse button stops mouseDragged from firing
         isDragSelecting = false;
 
-        if (mouseButtonEvent.button() == 2) {
-            panning.mouseClicked(mouseButtonEvent);
+        if (panning.mouseClicked(mouseButtonEvent)) {
             return true;
         }
 
