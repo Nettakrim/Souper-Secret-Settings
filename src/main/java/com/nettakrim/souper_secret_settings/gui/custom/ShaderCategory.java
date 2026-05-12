@@ -5,7 +5,9 @@ import com.nettakrim.souper_secret_settings.shaders.custom.shader.FragColorNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.SampleNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.TexCoordNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.TextureNode;
+import com.nettakrim.souper_secret_settings.shaders.custom.shader.color.HSVtoRGBNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.color.HueRotateNode;
+import com.nettakrim.souper_secret_settings.shaders.custom.shader.color.RGBtoHSVNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.color.SaturationNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.maths.ComplexPowNode;
 import com.nettakrim.souper_secret_settings.shaders.custom.shader.maths.CrossNode;
@@ -171,7 +173,9 @@ public class ShaderCategory extends CreationCategory {
         public List<CreationEntry> getChildren() {
             return List.of(
                     new CreationNode(Component.literal("Hue Rotate"), HueRotateNode::new),
-                    new CreationNode(Component.literal("Saturation"), SaturationNode::new)
+                    new CreationNode(Component.literal("Saturation"), SaturationNode::new),
+                    new CreationNode(Component.literal("RGB to HSV"), RGBtoHSVNode::new),
+                    new CreationNode(Component.literal("HSV to RGB"), HSVtoRGBNode::new)
             );
         }
 

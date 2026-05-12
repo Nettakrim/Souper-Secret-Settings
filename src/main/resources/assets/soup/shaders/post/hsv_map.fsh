@@ -31,8 +31,8 @@ vec3 HSVtoRGB(vec3 hsv) {
 vec3 RGBtoHSV(vec3 rgb) {
     vec3 hsv = vec3(0.0);
     hsv.z = max(rgb.r, max(rgb.g, rgb.b));
-    float min = min(rgb.r, min(rgb.g, rgb.b));
-    float c = hsv.z - min;
+    float m = min(rgb.r, min(rgb.g, rgb.b));
+    float c = hsv.z - m;
 
     if (c != 0.0)
     {
