@@ -33,7 +33,7 @@ public class UniformBlockNode extends Node {
                 inputPort.setDock(new UniformOverrideNode(uniformInstance.defaultValue, uniformInstance.override, uniformInstance.config));
             }
         }
-        addOutput("block", PortType.BLOCK);
+        addOutput("", PortType.BLOCK);
     }
 
     @Override
