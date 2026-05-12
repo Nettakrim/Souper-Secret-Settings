@@ -95,14 +95,14 @@ public class ShaderNode extends Node {
     }
 
     @Override
-    public void updatePositions(HashMap<InputPort, Wire> wires) {
+    public void updatePositions(HashMap<InputPort, Wire> wires, int depth) {
         long currentVersion = shaderGraph.getVersion();
         if (currentVersion != lastVersion) {
             updateInputPorts(wires);
             lastVersion = currentVersion;
         }
 
-        super.updatePositions(wires);
+        super.updatePositions(wires, depth);
     }
 
     private void updateInputPorts(HashMap<InputPort, Wire> wires) {

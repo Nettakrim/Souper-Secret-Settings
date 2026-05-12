@@ -22,9 +22,10 @@ public abstract class Node {
 
     public Vector2i position = new Vector2i();
     public int height;
-    public final int width = 100;
+    public int width;
 
     protected static final int baseHeight = 14;
+    protected static final int baseWidth = 100;
     protected static final int footerHeight = 2;
 
     public int compileState = 0;
@@ -56,15 +57,16 @@ public abstract class Node {
 
     protected abstract @NotNull Component getTitle();
 
-    public void updatePositions(HashMap<InputPort, Wire> wires) {
+    public void updatePositions(HashMap<InputPort, Wire> wires, int depth) {
         height = baseHeight;
+        width = baseWidth - depth * 4;
 
         for (InputPort inputPort : inputPorts) {
             Vector2i portPos = inputPort.positionCache;
             portPos.set(position);
 
             portPos.y += height;
-            height += inputPort.updateHeight(wires);
+            height += inputPort.updateHeight(wires, depth);
             portPos.y += Port.verticalOffset;
         }
 
@@ -79,7 +81,7 @@ public abstract class Node {
             portPos.x += width;
 
             portPos.y += outputHeight;
-            outputHeight += outputPort.updateHeight(wires);
+            outputHeight += outputPort.updateHeight(wires, depth);
             portPos.y += Port.verticalOffset;
         }
 
@@ -89,7 +91,9 @@ public abstract class Node {
         }
 
         // footer offset
-        height += footerHeight;
+        if (inputPorts.isEmpty() || wires.get(inputPorts.getLast()) != null || inputPorts.getLast().docked == null) {
+            height += footerHeight;
+        }
 
         if (hasSettings()) {
             if (settingsButton == null) {

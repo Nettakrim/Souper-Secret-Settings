@@ -9,6 +9,7 @@ import java.util.HashMap;
 public class InputPort extends Port {
     public Node docked;
     private boolean dockEnabled;
+    private int depthMargin = 0;
 
     public InputPort(Node node, String name, PortType portType) {
         super(node, name, portType);
@@ -17,7 +18,7 @@ public class InputPort extends Port {
     @Override
     public void renderPort(@NotNull GuiGraphics guiGraphics) {
         super.renderPort(guiGraphics);
-        guiGraphics.textRenderer().accept(TextAlignment.LEFT, positionCache.x + Port.textMargin, positionCache.y - verticalOffset, text);
+        guiGraphics.textRenderer().accept(TextAlignment.LEFT, positionCache.x + Port.textMargin + depthMargin, positionCache.y - verticalOffset, text);
 
         if (dockEnabled) {
             docked.renderPorts(guiGraphics, false);
@@ -31,17 +32,21 @@ public class InputPort extends Port {
     }
 
     @Override
-    public int updateHeight(HashMap<InputPort, Wire> wires) {
+    public int updateHeight(HashMap<InputPort, Wire> wires, int depth) {
         int height = baseHeight;
         if (docked != null && !wires.containsKey(this)) {
             docked.position.set(positionCache);
-            docked.position.y += height;
-            docked.updatePositions(wires);
-            height += docked.height;
+            docked.position.add(2, height - 1);
+            docked.updatePositions(wires, depth + 1);
+            height += docked.height + 1;
             dockEnabled = true;
         } else {
             dockEnabled = false;
         }
+
+        depthMargin = depth * 2;
+        positionCache.x -= depthMargin;
+
         return height;
     }
 

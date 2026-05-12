@@ -345,7 +345,7 @@ public class GraphScreen extends Screen {
 
         Node currentHovered = null;
         for (Node node : graph.nodes.reversed()) {
-            node.updatePositions(graph.wires);
+            node.updatePositions(graph.wires, 0);
             if (currentHovered == null && !isDragSelecting) {
                 currentHovered = node.getHoveredNode(scaledPos.x, scaledPos.y);
             }

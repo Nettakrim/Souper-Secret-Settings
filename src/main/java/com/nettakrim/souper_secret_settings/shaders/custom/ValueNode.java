@@ -36,15 +36,15 @@ public abstract class ValueNode extends Node {
     }
 
     @Override
-    public void updatePositions(HashMap<InputPort, Wire> wires) {
-        super.updatePositions(wires);
+    public void updatePositions(HashMap<InputPort, Wire> wires, int depth) {
+        super.updatePositions(wires, depth);
 
         if (widgets.isEmpty()) {
             GraphScreen instance = GraphScreen.getInstance();
 
             int i = 0;
             for (String value : getValues()) {
-                DraggableEditBoxWidget widget = new DraggableEditBoxWidget(1, width - 2, widgetHeight, Component.empty());
+                DraggableEditBoxWidget widget = new DraggableEditBoxWidget(1, 1, widgetHeight, Component.empty());
                 widget.setValue(value);
 
                 int finalI = i++;
@@ -61,6 +61,7 @@ public abstract class ValueNode extends Node {
 
         for (DraggableEditBoxWidget widget : widgets) {
             widget.setPosition(position.x + 1, position.y + height - footerHeight);
+            widget.setWidth(width - 2);
             height += widgetHeight;
         }
     }

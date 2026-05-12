@@ -37,11 +37,11 @@ public class TextureNode extends Node {
     }
 
     @Override
-    public void updatePositions(HashMap<InputPort, Wire> wires) {
-        super.updatePositions(wires);
+    public void updatePositions(HashMap<InputPort, Wire> wires, int depth) {
+        super.updatePositions(wires, depth);
 
         if (widget == null) {
-            widget = new DraggableEditBoxWidget(1, width - 2, ValueNode.widgetHeight, Component.empty());
+            widget = new DraggableEditBoxWidget(1, 1, ValueNode.widgetHeight, Component.empty());
             widget.setValue(name);
             widget.setResponder(value -> name = value);
 
@@ -52,6 +52,7 @@ public class TextureNode extends Node {
         }
 
         widget.setPosition(position.x + 1, position.y + 12);
+        widget.setWidth(width - 2);
     }
 
     @Override

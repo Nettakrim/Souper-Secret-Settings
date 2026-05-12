@@ -28,7 +28,7 @@ public abstract class Port {
         this.text = Component.literal(name).setStyle(Style.EMPTY.withColor(0xFFCCCCCC));
     }
 
-    public int updateHeight(HashMap<InputPort, Wire> wires) {
+    public int updateHeight(HashMap<InputPort, Wire> wires, int depth) {
         return baseHeight;
     }
 
