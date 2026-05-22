@@ -36,8 +36,8 @@ public class InputPort extends Port {
         int height = baseHeight;
         if (docked != null && !wires.containsKey(this)) {
             docked.position.set(positionCache);
-            docked.position.add(2, height - 1);
-            docked.updatePositions(wires, depth + 1);
+            docked.position.add(depth > 8 ? 0 : 2, height - 1);
+            docked.updatePositions(wires, Math.min(depth + 1,9));
             height += docked.height + 1;
             dockEnabled = true;
         } else {
