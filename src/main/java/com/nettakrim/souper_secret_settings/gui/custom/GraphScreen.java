@@ -50,6 +50,9 @@ public class GraphScreen extends Screen {
         for (Node node : graph.nodes) {
             node.clearUICaches();
         }
+        for (Node node : graph.nodes) {
+            node.updateAllPositions(graph.wires);
+        }
     }
 
     @Override
@@ -209,6 +212,7 @@ public class GraphScreen extends Screen {
 
                 for (Node node : selected) {
                     node.position.add(current.x, current.y);
+                    node.updateAllPositions(graph.wires);
                 }
 
                 dragPosition.add(current);
@@ -320,6 +324,7 @@ public class GraphScreen extends Screen {
     private void createNode(Node node) {
         graph.nodes.add(node);
         node.updateConnections(graph.wires);
+        node.updateAllPositions(graph.wires);
         creationMenu.setActive(false);
         topologyChanged();
     }
@@ -345,7 +350,6 @@ public class GraphScreen extends Screen {
 
         Node currentHovered = null;
         for (Node node : graph.nodes.reversed()) {
-            node.updatePositions(graph.wires, 0);
             if (currentHovered == null && !isDragSelecting) {
                 currentHovered = node.getHoveredNode(scaledPos.x, scaledPos.y);
             }

@@ -59,12 +59,7 @@ public class OutputPort extends Port {
         }
 
         // get top most docked node
-        Node top = node;
-        if (docker != null) {
-            while (top.outputPorts.size() == 1 && top.outputPorts.getFirst().docker != null) {
-                top = top.outputPorts.getFirst().docker;
-            }
-        }
+        Node top = getTop();
 
         // then check all children
         Stack<Node> check = new Stack<>();
@@ -84,5 +79,16 @@ public class OutputPort extends Port {
         }
 
         return false;
+    }
+
+    public Node getTop() {
+        Node top = node;
+        if (docker != null) {
+            while (top.outputPorts.size() == 1 && top.outputPorts.getFirst().docker != null) {
+                top = top.outputPorts.getFirst().docker;
+            }
+        }
+
+        return top;
     }
 }

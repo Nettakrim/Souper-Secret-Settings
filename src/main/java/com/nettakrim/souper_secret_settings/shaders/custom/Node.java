@@ -57,7 +57,18 @@ public abstract class Node {
 
     protected abstract @NotNull Component getTitle();
 
-    public void updatePositions(HashMap<InputPort, Wire> wires, int depth) {
+    public void updateAllPositions(HashMap<InputPort, Wire> wires) {
+        getTop().updatePositions(wires, 0);
+    }
+
+    protected Node getTop() {
+        if (outputPorts.isEmpty()) {
+            return this;
+        }
+        return outputPorts.getFirst().getTop();
+    }
+
+    protected void updatePositions(HashMap<InputPort, Wire> wires, int depth) {
         height = baseHeight;
         width = baseWidth - depth * 4;
 
@@ -152,6 +163,9 @@ public abstract class Node {
             wire.source = outputPorts.getFirst();
             wire.destination = source;
             wires.put(source, wire);
+
+            source.node.updateAllPositions(wires);
+            updateAllPositions(wires);
         }
 
         return this;
@@ -175,6 +189,8 @@ public abstract class Node {
                 Graph.removeWiresIf(wires, wire -> (wire.source.node == node || wire.source.inSameExpression(wire.destination.node)));
                 node.updateConnections(wires);
                 updateConnections(wires);
+
+                updateAllPositions(wires);
                 return true;
             }
         }
