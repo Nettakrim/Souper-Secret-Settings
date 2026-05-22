@@ -136,5 +136,10 @@ public class ShaderNode extends Node {
 
         // sort alphabetically
         inputPorts.sort(Comparator.comparing(port -> port.name));
+
+        GraphScreen instance = GraphScreen.getInstance();
+        if (instance != null) {
+            instance.topologyChanged();
+        }
     }
 }

@@ -36,6 +36,15 @@ public class TextureNode extends Node {
         return Component.literal("Texture");
     }
 
+    private void setValue(String value) {
+        name = value;
+
+        GraphScreen instance = GraphScreen.getInstance();
+        if (instance != null) {
+            instance.valueChanged();
+        }
+    }
+
     @Override
     public void updatePositions(HashMap<InputPort, Wire> wires, int depth) {
         super.updatePositions(wires, depth);
@@ -43,7 +52,7 @@ public class TextureNode extends Node {
         if (widget == null) {
             widget = new DraggableEditBoxWidget(1, 1, ValueNode.widgetHeight, Component.empty());
             widget.setValue(name);
-            widget.setResponder(value -> name = value);
+            widget.setResponder(this::setValue);
 
             GraphScreen instance = GraphScreen.getInstance();
             if (instance != null) {
