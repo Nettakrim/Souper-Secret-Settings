@@ -3,13 +3,17 @@ package com.nettakrim.souper_secret_settings.shaders.custom.chain;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.nettakrim.souper_secret_settings.gui.custom.ChainCategory;
 import com.nettakrim.souper_secret_settings.gui.custom.CreationCategory;
+import com.nettakrim.souper_secret_settings.shaders.ParameterOverrideSource;
 import dev.dannytaylor.luminance.client.data.ClientData;
+import dev.dannytaylor.luminance.client.shaders.UniformBlock;
+import dev.dannytaylor.luminance.client.shaders.UniformInstance;
 import dev.dannytaylor.luminance.client.shaders.interfaces.PostChainInterface;
 import dev.dannytaylor.luminance.client.shaders.interfaces.PostPassInterface;
 import dev.dannytaylor.luminance.client.shaders.interfaces.internal.InternalGpuDeviceInterface;
 import dev.dannytaylor.luminance.client.shaders.interfaces.internal.InternalShaderManagerInterface;
 import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
 import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
+import dev.dannytaylor.luminance.client.shaders.overrides.PerValueOverride;
 import net.minecraft.client.renderer.PostChain;
 import net.minecraft.client.renderer.PostChainConfig;
 import net.minecraft.client.renderer.PostPass;
@@ -93,6 +97,12 @@ public class ChainGraph extends Graph<PostChainInterface> {
                 ((InternalShaderManagerInterface)ClientData.minecraft.getShaderManager()).luminance$getPostChainProjectionMatrixBuffer()
         );
 
+        setOverrides(postChain.luminance$getPasses(null));
+        for (Identifier identifier : postChain.luminance$getCustomChainNames()) {
+            //noinspection DataFlowIssue
+            setOverrides(postChain.luminance$getPasses(identifier));
+        }
+
         long loaded = System.nanoTime();
 
         SouperSecretSettingsClient.log("Compiled post chain in",getElapsedTime(start, loaded),"- Organising:",getElapsedTime(start,organised),"| Constructing:",getElapsedTime(organised,constructed),"| Loading:",getElapsedTime(constructed, loaded));
@@ -111,8 +121,21 @@ public class ChainGraph extends Graph<PostChainInterface> {
         return postChain;
     }
 
+    private void setOverrides(List<PostPass> passes) {
+        for (PostPass postPass : passes) {
+            PostPassInterface postPassInterface = (PostPassInterface)postPass;
+            for (UniformBlock uniformBlock : postPassInterface.luminance$getUniformBlocks().values()) {
+                for (UniformInstance uniformInstance : uniformBlock.uniforms) {
+                    if (uniformInstance.override instanceof PerValueOverride perValueOverride) {
+                        perValueOverride.overrideSources.replaceAll(overrideSource -> ParameterOverrideSource.parameterSourceFromString(overrideSource.getString()));
+                    }
+                }
+            }
+        }
+    }
+
     private void closeCaches(List<PostPass> passes) {
-        InternalGpuDeviceInterface deviceInterface =((InternalGpuDeviceInterface) RenderSystem.getDevice());
+        InternalGpuDeviceInterface deviceInterface = ((InternalGpuDeviceInterface)RenderSystem.getDevice());
         for (PostPass postPass : passes) {
             deviceInterface.luminance$clearPipelineCache(((PostPassInterface)postPass).luminance$getPipeline());
         }
