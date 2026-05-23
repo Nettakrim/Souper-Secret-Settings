@@ -107,6 +107,9 @@ public class Panning {
         matrix3x2f.translate(offset);
         matrix3x2f.scale(1f/currentZoom);
         matrix3x2f.translate(-position.x, -position.y);
+        //TODO:
+        // sometimes text gets messed up
+        // rounding matrix3x2f.m20 and matrix3x2f.m21 would probably fix it?
     }
 
     public float getCurrentZoom() {
