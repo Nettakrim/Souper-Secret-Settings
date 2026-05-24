@@ -62,6 +62,7 @@ public class GraphScreen extends Screen {
             node.hovered = false;
             node.selected = false;
         }
+        graph.clearCompileCaches();
         minecraft.setScreen(parent);
     }
 

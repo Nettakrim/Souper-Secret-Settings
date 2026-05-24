@@ -77,6 +77,13 @@ public abstract class Graph<T> {
 
     protected abstract T compile() throws ShaderManager.CompilationException;
 
+    public void clearCompileCaches() {
+        lastOrganised = null;
+        for (Node node : nodes) {
+            node.clearCompileCaches();
+        }
+    }
+
     protected String getElapsedTime(long start, long end) {
         long micros = (end-start)/1000;
         return (micros / 1000)+"."+String.format("%3d",(micros % 1000)).replace(' ', '0')+"ms";
