@@ -36,7 +36,7 @@ public abstract class Node {
 
     protected abstract void initialisePorts();
 
-    public abstract void putOutputData(Graph.OrganisedNode organisedNode, Supplier<String> uuid);
+    public abstract void putOutputData(Graph.OrganisedNode organisedNode, Supplier<String> uuid) throws GraphCompilationException;
 
     // main entry into the compiled graph for a given node
     // any dependencies should be handled separately

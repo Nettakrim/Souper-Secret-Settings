@@ -176,7 +176,7 @@ public abstract class Graph<T> {
             }
         }
 
-        public void calculateOutputData(Supplier<String> uuid) {
+        public void calculateOutputData(Supplier<String> uuid) throws GraphCompilationException {
             node.putOutputData(this, uuid);
         }
 

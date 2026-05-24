@@ -27,11 +27,7 @@ public class UniformBlockNode extends Node {
     protected void initialisePorts() {
         for (UniformInstance uniformInstance : block.uniforms) {
             InputPort inputPort = addInput(uniformInstance.name, PortType.UNIFORM_VALUE);
-            if (uniformInstance.override == null) {
-              inputPort.setDock(new UniformValueNode(uniformInstance.defaultValue));
-            } else {
-                inputPort.setDock(new UniformOverrideNode(uniformInstance.defaultValue, uniformInstance.override, uniformInstance.config));
-            }
+            inputPort.setDock(new UniformValueNode(uniformInstance));
         }
         addOutput("", PortType.BLOCK);
     }

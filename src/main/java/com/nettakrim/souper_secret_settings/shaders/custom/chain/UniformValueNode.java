@@ -1,10 +1,15 @@
 package com.nettakrim.souper_secret_settings.shaders.custom.chain;
 
+import com.google.common.collect.ImmutableList;
+import com.nettakrim.souper_secret_settings.shaders.custom.GraphCompilationException;
 import dev.dannytaylor.luminance.client.shaders.IVec2Uniform;
 import dev.dannytaylor.luminance.client.shaders.IVec4Uniform;
 import com.nettakrim.souper_secret_settings.shaders.custom.Graph;
 import com.nettakrim.souper_secret_settings.shaders.custom.PortType;
 import com.nettakrim.souper_secret_settings.shaders.custom.ValueNode;
+import dev.dannytaylor.luminance.client.shaders.UniformInstance;
+import dev.dannytaylor.luminance.client.shaders.interfaces.internal.InternalUniformValueInterface;
+import dev.dannytaylor.luminance.client.shaders.overrides.PerValueOverride;
 import net.minecraft.client.renderer.UniformValue;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
@@ -17,10 +22,37 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 public class UniformValueNode extends ValueNode {
-    private final List<Number> values;
+    private final ImmutableList<Number> template;
+    private final List<Object> values;
 
-    UniformValueNode(List<Number> template) {
-        this.values = new ArrayList<>(template);
+    UniformValueNode(UniformInstance uniformInstance) {
+        this.template = uniformInstance.defaultValue;
+        values = new ArrayList<>(template.size());
+
+        // TODO: config
+        List<String> strings;
+        if (uniformInstance.override instanceof PerValueOverride perValueOverride) {
+            strings = perValueOverride.getStrings();
+        }
+        else {
+            strings = new ArrayList<>(template.size());
+            for (Number number : template) {
+                strings.add(number.toString());
+            }
+        }
+
+        for (int i = 0; i < template.size(); i++) {
+            String string = strings.get(i);
+
+            // disable alpha, since chain graphs add it automatically
+            if (string.equals("luminance:alpha/smooth")) {
+                string = "1.0";
+            }
+
+            values.add(null);
+            onSetValue(i, string);
+        }
+
         initialisePorts();
     }
 
@@ -38,14 +70,28 @@ public class UniformValueNode extends ValueNode {
     protected void onSetValue(int index, String value) {
         try {
             float f = Float.parseFloat(value);
-            boolean isInt = values.getFirst() instanceof Integer;
+            boolean isInt = template.get(index) instanceof Integer;
             values.set(index, isInt ? Math.round(f) : f);
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+            values.set(index, value);
+        }
     }
 
     @Override
-    public void putOutputData(Graph.OrganisedNode organisedNode, Supplier<String> uuid) {
-        outputPorts.getFirst().outputData = getUniformValue(values);
+    public void putOutputData(Graph.OrganisedNode organisedNode, Supplier<String> uuid) throws GraphCompilationException {
+        UniformValue uniformValue = getUniformValue();
+
+        // add overrides only if needed
+        if (values.stream().anyMatch(object -> object instanceof String)) {
+            List<String> strings = new ArrayList<>(template.size());
+            for (Object object : values) {
+                strings.add(object.toString());
+            }
+
+            ((InternalUniformValueInterface)uniformValue).luminance$setOverride(strings);
+        }
+
+        outputPorts.getFirst().outputData = uniformValue;
     }
 
     @Override
@@ -53,23 +99,42 @@ public class UniformValueNode extends ValueNode {
         return Component.literal("Uniform");
     }
 
-    public static UniformValue getUniformValue(List<Number> values) {
+    private @NotNull UniformValue getUniformValue() throws GraphCompilationException {
         int size = values.size();
         boolean isInt = values.getFirst() instanceof Integer;
 
         if (size == 1) {
-            return isInt ? new UniformValue.IntUniform(values.getFirst().intValue()) : new UniformValue.FloatUniform(values.getFirst().floatValue());
+            return isInt ? new UniformValue.IntUniform(getInt(0))
+                         : new UniformValue.FloatUniform(getFloat(0));
         }
         else if (size == 2) {
-            return isInt ? new IVec2Uniform(new Vector2i(values.get(0).intValue(), values.get(1).intValue())) : new UniformValue.Vec2Uniform(new Vector2f(values.get(0).floatValue(), values.get(1).floatValue()));
+            return isInt ? new              IVec2Uniform(new Vector2i(getInt(0), getInt(1)))
+                         : new UniformValue.Vec2Uniform(new Vector2f(getFloat(0), getFloat(1)));
         }
         else if (size == 3) {
-            return isInt ? new UniformValue.IVec3Uniform(new Vector3i(values.get(0).intValue(), values.get(1).intValue(), values.get(2).intValue())) : new UniformValue.Vec3Uniform(new Vector3f(values.get(0).floatValue(), values.get(1).floatValue(), values.get(2).floatValue()));
+            return isInt ? new UniformValue.IVec3Uniform(new Vector3i(getInt(0), getInt(1), getInt(2)))
+                         : new UniformValue.Vec3Uniform(new Vector3f(getFloat(0), getFloat(1), getFloat(2)));
         }
         else if (size == 4) {
-            return isInt ? new IVec4Uniform(new Vector4i(values.get(0).intValue(), values.get(1).intValue(), values.get(2).intValue(), values.get(3).intValue())) : new UniformValue.Vec4Uniform(new Vector4f(values.get(0).floatValue(), values.get(1).floatValue(), values.get(2).floatValue(), values.get(3).floatValue()));
+            return isInt ? new              IVec4Uniform(new Vector4i(getInt(0), getInt(1), getInt(2), getInt(3)))
+                         : new UniformValue.Vec4Uniform(new Vector4f(getFloat(0), getFloat(1), getFloat(2), getFloat(3)));
         } else {
-            return null;
+            throw new GraphCompilationException("Invalid Uniform Size", this);
         }
+    }
+
+    private int getInt(int index) {
+        return getNumber(index).intValue();
+    }
+
+    private float getFloat(int index) {
+        return getNumber(index).floatValue();
+    }
+
+    private Number getNumber(int index) {
+        if (values.get(index) instanceof Number number) {
+            return number;
+        }
+        return template.get(index);
     }
 }
