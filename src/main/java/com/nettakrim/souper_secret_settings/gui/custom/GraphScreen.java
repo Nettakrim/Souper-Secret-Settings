@@ -449,11 +449,10 @@ public class GraphScreen extends Screen {
     }
 
     public void topologyChanged() {
-        graph.makeChange();
+        graph.makeChange(true);
     }
 
     public void valueChanged() {
-        // this could be optimised, avoiding needing to re-organise the graph
-        graph.makeChange();
+        graph.makeChange(false);
     }
 }

@@ -14,7 +14,7 @@ public abstract class Graph<T> {
     public final List<Node> nodes = new ArrayList<>();
     public final HashMap<InputPort,Wire> wires = new HashMap<>();
 
-    private boolean changed;
+    private int changed;
     private long version;
 
     public final Identifier graphId;
@@ -22,6 +22,7 @@ public abstract class Graph<T> {
 
     protected T lastCompiled = null;
     public ShaderManager.CompilationException lastError = null;
+    private OrganisedGraph lastOrganised;
 
     public Graph() {
         graphId = Identifier.fromNamespaceAndPath(getType(),String.valueOf(graphIdCounter++));
@@ -47,8 +48,8 @@ public abstract class Graph<T> {
         return cut;
     }
 
-    public void makeChange() {
-        changed = true;
+    public void makeChange(boolean topological) {
+        changed = Math.max(changed, topological ? 2 : 1);
     }
 
     public long getVersion() {
@@ -60,9 +61,8 @@ public abstract class Graph<T> {
     protected abstract String getType();
 
     public T getOrCompile() {
-        if (changed || lastCompiled == null) {
+        if (changed > 0 || lastCompiled == null) {
             lastError = null;
-            changed = false;
             try {
                 lastCompiled = compile();
                 version++;
@@ -70,6 +70,7 @@ public abstract class Graph<T> {
                 SouperSecretSettingsClient.log("Failed to compile",graphId,compilationException.getMessage());
                 lastError = compilationException;
             }
+            changed = 0;
         }
         return lastCompiled;
     }
@@ -82,7 +83,10 @@ public abstract class Graph<T> {
     }
 
     protected OrganisedGraph organise() throws ShaderManager.CompilationException {
-        return new OrganisedGraph(this);
+        if (changed > 1 || lastOrganised == null) {
+            lastOrganised = new OrganisedGraph(this);
+        }
+        return lastOrganised;
     }
 
     // gets all the nodes into a format where they can be traversed easily (since its stored as a loose pile of nodes and wires for editing)

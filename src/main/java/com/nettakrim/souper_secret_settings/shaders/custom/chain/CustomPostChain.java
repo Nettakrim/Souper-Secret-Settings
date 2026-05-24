@@ -45,7 +45,7 @@ public class CustomPostChain implements PostChainInterface {
         passNode.position = new Vector2i(-50, -40);
         writeTargetNode.position = new Vector2i(70, -40);
 
-        chainGraph.makeChange();
+        chainGraph.makeChange(true);
     }
 
     @Override

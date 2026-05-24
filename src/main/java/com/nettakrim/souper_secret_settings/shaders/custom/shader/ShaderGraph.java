@@ -110,8 +110,8 @@ public class ShaderGraph extends Graph<Identifier> {
     }
 
     @Override
-    public void makeChange() {
-        super.makeChange();
+    public void makeChange(boolean topological) {
+        super.makeChange(topological);
         getOrCompile();
     }
 

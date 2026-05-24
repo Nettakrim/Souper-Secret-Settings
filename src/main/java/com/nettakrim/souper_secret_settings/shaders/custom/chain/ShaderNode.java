@@ -46,7 +46,7 @@ public class ShaderNode extends Node {
         sampleNode.position = new Vector2i(-50, -40);
         fragColorNode.position = new Vector2i(70, -40);
 
-        shaderGraph.makeChange();
+        shaderGraph.makeChange(true);
 
         initialisePorts();
     }
