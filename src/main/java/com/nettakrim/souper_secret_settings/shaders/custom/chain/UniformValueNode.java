@@ -1,6 +1,9 @@
 package com.nettakrim.souper_secret_settings.shaders.custom.chain;
 
 import com.google.common.collect.ImmutableList;
+import com.nettakrim.souper_secret_settings.SouperSecretSettingsClient;
+import com.nettakrim.souper_secret_settings.gui.DraggableEditBoxWidget;
+import com.nettakrim.souper_secret_settings.gui.ParameterTextWidget;
 import com.nettakrim.souper_secret_settings.shaders.custom.GraphCompilationException;
 import dev.dannytaylor.luminance.client.shaders.IVec2Uniform;
 import dev.dannytaylor.luminance.client.shaders.IVec4Uniform;
@@ -10,6 +13,7 @@ import com.nettakrim.souper_secret_settings.shaders.custom.ValueNode;
 import dev.dannytaylor.luminance.client.shaders.UniformInstance;
 import dev.dannytaylor.luminance.client.shaders.interfaces.internal.InternalUniformValueInterface;
 import dev.dannytaylor.luminance.client.shaders.overrides.PerValueOverride;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.renderer.UniformValue;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
@@ -136,5 +140,12 @@ public class UniformValueNode extends ValueNode {
             return number;
         }
         return template.get(index);
+    }
+
+    @Override
+    protected EditBox createWidget(String value) {
+        DraggableEditBoxWidget widget = new ParameterTextWidget(1, 1, widgetHeight, Component.empty(), SouperSecretSettingsClient.soupRenderer.activeLayer, value);
+        widget.setValue(value);
+        return widget;
     }
 }

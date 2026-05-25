@@ -3,6 +3,8 @@ package com.nettakrim.souper_secret_settings.shaders.custom;
 import com.nettakrim.souper_secret_settings.gui.DraggableEditBoxWidget;
 import com.nettakrim.souper_secret_settings.gui.custom.GraphScreen;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public abstract class ValueNode extends Node {
-    private final List<DraggableEditBoxWidget> widgets = new ArrayList<>();
+    private final List<AbstractWidget> widgets = new ArrayList<>();
 
     public static final int widgetHeight = 10;
 
@@ -44,8 +46,7 @@ public abstract class ValueNode extends Node {
 
             int i = 0;
             for (String value : getValues()) {
-                DraggableEditBoxWidget widget = new DraggableEditBoxWidget(1, 1, widgetHeight, Component.empty());
-                widget.setValue(value);
+                EditBox widget = createWidget(value);
 
                 int finalI = i++;
                 widget.setResponder((s) -> setValue(finalI, s));
@@ -59,7 +60,7 @@ public abstract class ValueNode extends Node {
 
         height = baseHeight;
 
-        for (DraggableEditBoxWidget widget : widgets) {
+        for (AbstractWidget widget : widgets) {
             widget.setPosition(position.x + 1, position.y + height - footerHeight);
             widget.setWidth(width - 2);
             height += widgetHeight;
@@ -70,7 +71,7 @@ public abstract class ValueNode extends Node {
     public void renderNode(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         super.renderNode(guiGraphics, mouseX, mouseY, delta);
 
-        for (DraggableEditBoxWidget widget : widgets) {
+        for (AbstractWidget widget : widgets) {
             widget.render(guiGraphics, mouseX, mouseY, delta);
         }
     }
@@ -90,11 +91,17 @@ public abstract class ValueNode extends Node {
     private void removeWidgets() {
         GraphScreen instance = GraphScreen.getInstance();
         if (instance != null) {
-            for (DraggableEditBoxWidget widget : widgets) {
+            for (AbstractWidget widget : widgets) {
                 instance.removeActualWidget(widget);
             }
         }
 
         widgets.clear();
+    }
+
+    protected EditBox createWidget(String value) {
+        DraggableEditBoxWidget widget = new DraggableEditBoxWidget(1, 1, widgetHeight, Component.empty());
+        widget.setValue(value);
+        return widget;
     }
 }
