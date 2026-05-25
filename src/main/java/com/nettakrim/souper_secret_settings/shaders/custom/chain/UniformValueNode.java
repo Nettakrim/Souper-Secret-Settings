@@ -104,8 +104,8 @@ public class UniformValueNode extends ValueNode {
     }
 
     private @NotNull UniformValue getUniformValue() throws GraphCompilationException {
-        int size = values.size();
-        boolean isInt = values.getFirst() instanceof Integer;
+        int size = template.size();
+        boolean isInt = template.getFirst() instanceof Integer;
 
         if (size == 1) {
             return isInt ? new UniformValue.IntUniform(getInt(0))
