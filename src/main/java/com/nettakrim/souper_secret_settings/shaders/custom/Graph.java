@@ -80,7 +80,7 @@ public abstract class Graph<T> {
     public void clearCompileCaches() {
         lastOrganised = null;
         for (Node node : nodes) {
-            node.clearCompileCaches();
+            node.clearCompileCaches(false);
         }
     }
 
@@ -105,7 +105,7 @@ public abstract class Graph<T> {
             organisedNodes = new ArrayList<>(graph.nodes.size());
 
             for (Node node : graph.nodes) {
-                node.clearCompileCaches();
+                node.clearCompileCaches(true);
             }
 
             // find all ends of the graph to make sure every relevant bit is visited, but excess nodes aren't

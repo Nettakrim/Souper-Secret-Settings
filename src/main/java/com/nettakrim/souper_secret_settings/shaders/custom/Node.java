@@ -274,11 +274,14 @@ public abstract class Node {
         }
     }
 
-    public void clearCompileCaches() {
-        compileState = 0;
+    public void clearCompileCaches(boolean resetInclusion) {
+        if (resetInclusion) {
+            compileState = 0;
+        }
+
         for (InputPort inputPort : inputPorts) {
             if (inputPort.docked != null) {
-                inputPort.docked.clearCompileCaches();
+                inputPort.docked.clearCompileCaches(resetInclusion);
             }
         }
         for (OutputPort outputPort : outputPorts) {
