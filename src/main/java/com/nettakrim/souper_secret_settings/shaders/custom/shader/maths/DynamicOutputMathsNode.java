@@ -33,7 +33,7 @@ public class DynamicOutputMathsNode extends Node {
     protected void initialisePorts() {
         int values = 0;
         for (int i = 0; i < format.length(); i++) {
-            if (format.charAt(i) == '%') {
+            if (format.charAt(i) == '%' && format.charAt(i+1) == 's') {
                 values++;
             }
         }

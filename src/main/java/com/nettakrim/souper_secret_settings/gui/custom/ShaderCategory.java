@@ -110,7 +110,7 @@ public class ShaderCategory extends CreationCategory {
                     DynamicOutputMathsNode.get(Component.literal("Round"), "round(%s)"),
                     DynamicOutputMathsNode.get(Component.literal("Ceil"), "ceil(%s)"),
                     DynamicOutputMathsNode.get(Component.literal("Fract"), "fract(%s)"),
-                    DynamicOutputMathsNode.get(Component.literal("Mod"), "Mod(%s, %s)"),
+                    DynamicOutputMathsNode.get(Component.literal("Mod"), "mod(%s, %s)"), // %% escapes % if ints are ever natively supported
 
                     CreationBreak.instance,
 
