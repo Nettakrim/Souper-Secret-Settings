@@ -1,5 +1,6 @@
 package com.nettakrim.souper_secret_settings.gui.custom;
 
+import dev.dannytaylor.luminance.client.data.ClientData;
 import dev.dannytaylor.luminance.client.shaders.Uniforms;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.util.Mth;
@@ -104,12 +105,13 @@ public class Panning {
     }
 
     public void applyMatrix(Matrix3x2f matrix3x2f) {
+        float factor = 1f / currentZoom;
         matrix3x2f.translate(offset);
-        matrix3x2f.scale(1f/currentZoom);
-        matrix3x2f.translate(-position.x, -position.y);
-        //TODO:
-        // sometimes text gets messed up
-        // rounding matrix3x2f.m20 and matrix3x2f.m21 would probably fix it?
+        matrix3x2f.scale(factor);
+
+        // round camera panning to the nearest pixel, to stop weird aliasing at certain alignments or while panning
+        factor *= ClientData.minecraft.getWindow().getGuiScale();
+        matrix3x2f.translate(Math.round(-position.x * factor) / factor, Math.round(-position.y * factor) / factor);
     }
 
     public float getCurrentZoom() {
