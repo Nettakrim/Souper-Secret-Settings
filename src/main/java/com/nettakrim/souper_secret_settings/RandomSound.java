@@ -149,6 +149,11 @@ public class RandomSound {
             SoundEvents.CREAKING_ACTIVATE,
             SoundEvents.CREAKING_TWITCH,
             SoundEvents.CREAKING_HEART_BREAK,
-            SoundEvents.PALE_HANGING_MOSS_IDLE
+            SoundEvents.PALE_HANGING_MOSS_IDLE,
+            SoundEvents.HAPPY_GHAST_AMBIENT,
+            SoundEvents.HAPPY_GHAST_DEATH,
+            SoundEvents.HAPPY_GHAST_HURT,
+            SoundEvents.DRIED_GHAST_AMBIENT_WATER,
+            SoundEvents.DRIED_GHAST_TRANSITION
     };
 }
